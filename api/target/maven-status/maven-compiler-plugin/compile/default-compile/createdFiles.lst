@@ -1,0 +1,6 @@
+org/openmrs/module/kenyakeypop/KenyakeypopActivator.class
+org/openmrs/module/kenyakeypop/api/dao/KenyakeypopDao.class
+org/openmrs/module/kenyakeypop/KenyakeypopConfig.class
+org/openmrs/module/kenyakeypop/api/KenyakeypopService.class
+org/openmrs/module/kenyakeypop/Item.class
+org/openmrs/module/kenyakeypop/api/impl/KenyakeypopServiceImpl.class
