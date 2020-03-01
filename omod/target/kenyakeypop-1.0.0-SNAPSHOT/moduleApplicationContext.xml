@@ -34,7 +34,14 @@
         </property>
         <property name="target">
             <bean class="org.openmrs.module.kenyakeypop.api.impl.KenyakeypopServiceImpl">
-                <property name="dao" ref="kenyakeypop.KenyakeypopDao" />
+                <property name="dao" >
+                    <bean class="org.openmrs.module.kenyakeypop.api.dao.KenyakeypopDao">
+                        <property name="sessionFactory">
+                            <ref bean="sessionFactory" />
+
+                        </property>
+                    </bean>
+                </property>
             </bean>
         </property>
         <property name="preInterceptors">
