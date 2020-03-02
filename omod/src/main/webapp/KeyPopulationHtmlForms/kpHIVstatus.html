@@ -1,0 +1,266 @@
+<!--
+  ~ The contents of this file are subject to the OpenMRS Public License
+  ~ Version 1.0 (the "License"); you may not use this file except in
+  ~ compliance with the License. You may obtain a copy of the License at
+  ~ http://license.openmrs.org
+  ~
+  ~ Software distributed under the License is distributed on an "AS IS"
+  ~ basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+  ~ License for the specific language governing rights and limitations
+  ~ under the License.
+  ~
+  ~ Copyright (C) OpenMRS, LLC.  All Rights Reserved.
+
+-->
+<htmlform>
+
+    <script type="text/javascript" src="../moduleResources/kenyaemr/scripts/moment.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+              $("#hiv :input").prop("disabled", true);
+              $('#ever_been_tested input').prop("disabled", false);
+
+            $("#ever_been_tested").change(EverBeenTested)
+            $("#testResults").change(TestResults)
+            $("#currentlyincare").change(CurrentlyIncare)
+            $("#referral_id").change(Referral)
+            //console.log("Run  ==> contacted");
+        });
+        var CurrentlyIncare  = function (){
+
+            var incare =  getValue('currentlyincare.value');
+            if (incare == 1066 )
+            {
+
+                $('#referral_id input').prop("disabled", false);
+                $('#referred_to_input input').prop("disabled", false);
+
+
+            }else
+            {
+                $('#referral_id input').prop("disabled", true);
+                $('#referred_to_input input').prop("disabled", true);
+            }
+        }
+        var Referral  = function (){
+
+            var referred =  getValue('referral_id.value');
+            if (referred == 1065 )
+            {
+                $('#referred_to_input input').prop("disabled", false);
+
+            }else
+            {
+                $('#referred_to_input input').prop("disabled", true);
+            }
+        }
+
+        var TestResults  = function (){
+
+            var results =  getValue('testResults.value');
+            if (results == 703 )
+            {
+                $("#hiv :input").prop("disabled", true);
+                $('#ever_been_tested input').prop("disabled", false);
+                $('#testResults input').prop("disabled", false);
+                $('#testing-date input').prop("disabled", false);
+
+
+            }else
+            {
+                $("#hiv :input").prop("disabled", false);
+            }
+        }
+        function EverBeenTested() {
+
+            var everTested =   getValue('ever_been_tested.value');
+            console.log(everTested)
+            if (everTested == 1066 )
+            {
+                $("#hiv :input").prop("disabled", true);
+                $('#ever_been_tested input').prop("disabled", false);
+                //$("#hiv :input").val('');
+
+            }else
+            {
+                $("#hiv :input").prop("disabled", false);
+
+                // $('#testing-date').val('');
+                // setValue("testResults.value", "");
+                // setValue("testing-date.value", "");
+                // setValue("referral_id.value", "");
+                // setValue("referred_to_input.value", "");
+                // setValue("date_started_ART.value", "");
+                //
+                // setValue("currentART_medication.value", "");
+                // setValue("most_resent_VL.value", "");
+                // setValue("vl_test_date.value", "");
+                // setValue("provider.value", "");
+            }
+        }
+    </script>
+    <!--=============Work flow==================-->
+    <ifMode mode="VIEW" include="true">
+        <div>
+            <table style="width: 100%">
+                <tr>
+                    <td align="left">
+                        HIV Screening Date:
+                    </td>
+                    <td>
+                        Results
+                    </td>
+                    <td align="right">
+                        Currently in care:
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        16-Jan-2019
+                    </td>
+                    <td>
+                        Test
+                    </td>
+                    <td align="right">
+                        Test
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+    </ifMode>
+    <!-- ============ end work flow =================-->
+
+
+    <div class="ke-form-header">
+        <table style="width: 100%">
+            <tr>
+                <td>
+                    <ifMode mode="ENTER">
+                        <script type="text/javascript">
+                            jq(function(){
+                                setValue("encounter-date.value", "");
+                            });
+                        </script>
+                    </ifMode>
+                    <ifMode mode="EDIT">
+                        <script type="text/javascript">
+                            jq(function(){
+
+                                //First test
+                                var firstTest = getField("hiv-test1-result.value").val();
+                                //Negative
+                                if(firstTest ==664) {
+
+                                    jq("#hiv-test2-result select").prop("disabled", true);
+                                    jq(".kit-name2 select").prop("disabled", true);
+                                    jq(".lot-number2 input").prop("disabled", true);
+                                    jq("#expiry-date2 input").prop("disabled", true);
+                                    getField('hiv-final-result.value').val(664);
+                                    jq('#ccc-no input').prop("disabled", true);
+                                }
+                            });
+                        </script>
+                    </ifMode>
+
+                </td>
+
+            </tr>
+        </table>
+    </div>
+
+    <div class="ke-form-header">
+        <table width="100%">
+            <tr>
+                <td>Date:
+                    <encounterDate id="encounter-date" showTime="true"/>
+                </td>
+                <td>Location:
+                    <encounterLocation default="GlobalProperty:kenyaemr.defaultLocation" type="autocomplete"/>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="ke-form-content" id="hiv">
+
+        <fieldset>
+            <legend>HIV status Form</legend>
+            <table border="0" width="100%" cellspacing="0" cellpadding="0">
+
+                <tr>
+                    <td width="156" valign="top"><p>Ever been tested for HIV</p></td>
+                    <td width="156" valign="top"><p>  <obs id="ever_been_tested" class="consent" conceptId="164401" required="true"
+                                                           style="radio" answerConceptIds="1065,1066" /></p></td>
+
+
+
+
+                    <td width="156" valign="top" colspan="2"><p>Test results:  <obs id="testResults" class="consent" conceptId="159427"
+                                                           answerConceptIds="703,
+                                                            664"  answerLabels="Positive,Negative"
+                                                           style="radio" rows="2" />
+                    </p></td>
+
+                    <td width="156" valign="top" colspan="2"><p> Date Of test:<obs id="testing-date" conceptId="164400" allowFutureDates="true"
+                    /></p></td>
+
+                </tr>
+
+                <tr>
+                    <td width="156" valign="top"><p>Currently in care</p></td>
+                    <td width="156" valign="top"><p>  <obs id="currentlyincare" class="consent" conceptId="159811"
+                                                           style="radio" answerConceptIds="1065,1066" /></p></td>
+
+
+
+                    <td width="156" valign="top"><p> Referral:  <obs id="referral_id" class="consent" conceptId="164849"
+                                                           style="radio" answerConceptIds="1065,1066" /></p></td>
+
+                    <td width="156" valign="top"><p></p></td>
+
+                    <td width="156" valign="top" colspan="4"><p> Facility where treatment is being offered: <encounterLocation id="referred_to_input" default="GlobalProperty:kenyaemr.defaultLocation" type="autocomplete"/>
+                    </p></td>
+
+                </tr>
+
+                <tr>
+                    <td width="156" valign="top"><p>Current ART medication</p></td>
+                    <td width="156" valign="top" colspan="2"><p>  <obs id="currentART_medication" class="consent" conceptId="162240"
+                                                           style="dropdown" answerConceptIds="84795,164510,164509,104567,162565,164512
+                                    ,104565,162201,164854,164971,162562,164974,164972,161364,164969,164976" /></p></td>
+
+                    <td width="156" valign="top"><p></p></td>
+                    <td width="156" valign="top" colspan="2"><p>Date started on ART: <obs id="date_started_ART" conceptId="159599" allowFutureDates="true"
+                    /></p></td>
+
+
+                    <td width="156" valign="top" colspan="3"><p> Most recent VL Results: <obs id="most_resent_VL" class="remarks" conceptId="163042AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                    /></p></td>
+
+
+
+
+                </tr>
+
+
+                <tr>
+
+                    <td width="156" valign="top" colspan="2"><p>VL test Date: <obs id="vl_test_date" conceptId="162502AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true"
+                    /></p></td>
+
+                    <td width="156" valign="top" colspan="3"><p> Provider: <obs id="provider" class="remarks" conceptId="163042AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+
+                    /></p></td>
+
+                </tr>
+
+            </table>
+
+        </fieldset>
+
+    </div>
+    <div class="ke-form-footer">
+        <submit/>
+    </div>
+
+</htmlform>

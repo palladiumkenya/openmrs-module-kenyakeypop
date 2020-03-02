@@ -1,0 +1,474 @@
+<!--
+  ~ The contents of this file are subject to the OpenMRS Public License
+  ~ Version 1.0 (the "License"); you may not use this file except in
+  ~ compliance with the License. You may obtain a copy of the License at
+  ~ http://license.openmrs.org
+  ~
+  ~ Software distributed under the License is distributed on an "AS IS"
+  ~ basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+  ~ License for the specific language governing rights and limitations
+  ~ under the License.
+  ~
+  ~ Copyright (C) OpenMRS, LLC.  All Rights Reserved.
+-->
+<htmlform>
+
+
+    <script type="text/javascript" src="../moduleResources/kenyaemr/scripts/moment.js"></script>
+
+    <style>
+        .simple-table {
+            border: solid 1px #DDEEEE;
+            border-collapse: collapse;
+            border-spacing: 0;
+            font: normal 13px Arial, sans-serif;
+        }
+
+        .simple-table thead th {
+            background-color: #DDEFEF;
+            border: solid 1px #DDEEEE;
+            color: #336B6B;
+            padding: 10px;
+            text-align: left;
+            text-shadow: 1px 1px 1px #fff;
+        }
+
+        .simple-table td {
+            border: solid 1px #DDEEEE;
+            color: #333;
+            padding: 10px;
+            text-shadow: 1px 1px 1px #fff;
+        }
+    </style>
+    <script type="text/javascript">
+        var pgender = "<lookup expression="patient.gender" />";
+        var PATIENT_HAS_UPN = <lookup expression="kenyaemr.hasHivUniquePatientNumber()" />;
+        function onHistoricalStatusDateChange() {
+
+            var today = new Date()//.getTime();        //get current date
+            var patientId = <lookup expression="patient.patientId"/>;
+
+            /*this data should not be in Future */
+            if (ENC_DATE &gt; today) {
+                getField('encounter-date.error').html('Should not be greater than the Current date').show();
+            }
+            else if(ENC_DATE &lt; bithYear)
+            {
+                /* Encounter Date should be greater than the Patients's date of Birth    */
+                getField('encounter-date.error').html('Should not be less than the date of Birth').show();
+            }
+            else
+            {
+                getField('encounter-date.error').hide();
+            }
+
+            jq.getJSON('/' + OPENMRS_CONTEXT_PATH + '/kenyaemr/patient/patientUtils/age.action', { patientId: patientId, now: encDate })
+                .done(function(data) {
+                    onPatientAgeUpdate(data.age);
+                });
+
+
+        }
+
+        $(document).ready(function () {
+            $("#date").datepicker({
+                changeMonth: false,
+                changeYear: true,
+                dateFormat: 'dd/mm/yy',
+                duration: 'fast',
+                stepMonths: 0
+            });
+            jq("#other-hotspots-specify").hide();
+            jq('#hotspot-type select').click(onOtherHotspotSelected);
+            jq("#mobile input").change(validateContactNumber);
+            jq("#kp-id input").change(validateUpnNumber);
+
+
+
+
+
+            jq('#upnError').hide();
+            jq("#hiv-id input[type=text]").blur(checkForExistingPatientIdentifiers);
+
+            //Gender validations
+            if (pgender == 'F') {
+                jq("#key_pop_type input[value=160578]").prop("checked", false);
+                jq("#key_pop_type input[value=165084]").prop("checked", false);
+                jq("#key_pop_type input[value=160578]").prop("disabled", true);
+                jq("#key_pop_type input[value=165084]").prop("disabled", true);
+                jq("#key_pop_type input[value=165108]").prop("disabled", false);
+                jq("#key_pop_type input[value=165107]").prop("disabled", true);
+
+
+            }
+            if (pgender == 'M') {
+                jq("#key_pop_type input[value=165083]").prop("checked", false);
+                jq("#key_pop_type input[value=165083]").prop("disabled", true);
+                jq("#key_pop_type input[value=165108]").prop("disabled", true);
+                jq("#key_pop_type input[value=165107]").prop("disabled", false);
+            }
+
+            $('input').on('click',function () {
+
+                var year_startSex_work = getField('startSex.value').val();
+                var year_start_having_sex_with_men = getField('sexWithMen.value').val();
+                var year_stared_using_drugs = getField('usingDrugs.value').val();
+                var number_of_sex_act = getField('sex_act.value').val();
+                var number_of_anal_act = getField('anal_act.value').val();
+                var number_of_drugs = getField('number_of_Drugs.value').val();
+
+                yearValidation(year_startSex_work, 'startSex')
+                yearValidation(year_start_having_sex_with_men,  'sexWithMen')
+                yearValidation(year_stared_using_drugs, 'usingDrugs')
+                sexAct(number_of_sex_act, 'sex_act')
+                sexAct(number_of_anal_act, 'anal_act')
+                sexAct(number_of_drugs, 'number_of_Drugs')
+
+
+            });
+
+            $("input[type='radio']").click(function(){
+                var keypop_msm = $("input[name='w8']:checked").val();
+                if(keypop_msm ==160578){
+                    jq("#msm").show();
+                }else {
+                    jq("#msm").hide();
+                }
+
+                if (keypop_msm ==105) {
+                    jq("#people_inject_drugs").show();
+                }else {
+                    jq("#people_inject_drugs").hide();
+                }
+
+            });
+
+            $("input[type='radio']").click(function(){
+                var peer_educator = $("input[name='w13']:checked").val();
+                if(peer_educator ==1065){
+                    jq("#program_name").show();
+                }else {
+                    jq("#program_name").hide();
+                }
+
+            });
+
+            function sexAct(number, textfield) {
+                if(!number==""){
+                    if (Number(number) > Number(0) &amp;&amp; Number(number) &lt; Number(200))
+                    {
+                        getField(textfield+'.error').html('Please enter valid number. can not be zero and more than 200.').hide();
+                    }
+                    else{
+                        getField(textfield+'.value').val("");
+                        getField(textfield+'.error').html('Please enter valid number. can not be zero and more than 200.').show();
+                    }
+                }
+
+
+            }
+
+            function yearValidation(year, textfield) {
+
+
+                if (year != 0) {
+                    var test=year;
+                    if (year.length != 4) {
+                        getField(textfield+'.error').html('Please enter valid year.').show();
+                        getField(textfield+'.value').val('');
+                        return false;
+                    }
+
+                    var birthDate= ('(<lookup expression="patient.birthdate"/>)');
+                    var bithYear = birthDate.substring(8);
+                    if(year &lt; bithYear)
+                    {
+                        /* Encounter Date should be greater than the Patients's date of Birth    */
+                        getField(textfield+'.error').html('Should not be less than the date of Birth').show();
+                        getField(textfield+'.value').val('');
+                        return false;
+                    }
+                    else
+                    {
+                        getField(textfield+'.error').hide();
+                    }
+
+                    var current_year = new Date().getFullYear();
+                    if ((year > current_year)) {
+                        getField(textfield+'.error').html('Year should not be greater than current year.').show();
+                        getField(textfield+'.value').val('');
+                        return false;
+                    }
+                    getField(textfield+'.error').html('Please enter valid year.').hide();
+                }
+            }
+        });
+        function onOtherHotspotSelected() {
+            var val = jq(this).val();
+            if(val == 5622 ){
+                jq("#other-hotspots-specify").show();
+            }
+            else{
+                jq("#other-hotspots-specify").hide();
+            }
+        }
+        function validateContactNumber() {
+            var mobile_number = getField('mobile.value').val();
+            var regex = /^(?:\+254|0|254)(\d{9})$/
+            if(!regex.test(mobile_number)){
+                getField('mobile.value').val('');
+                getField('mobile.error').html('Please enter valid phone number.').show();
+            }
+            else{
+                getField('mobile.error').html('Please enter valid phone number.').hide();
+            }
+        }
+
+
+        function validateUpnNumber() {
+
+            var upn = jq('#kp-id input[type=text]').val();
+            if (upn != "") {
+                if(upn.length  &gt; 28 &amp;&amp;  upn.length &lt; 33) {
+                    jq("#upnError").text("Invalid Unique Identifier Code(accepts between 29 and 33 characters for existing UIC)").hide();
+
+                }
+                else{
+                    jq("#upnError").text("Invalid Unique Identifier Code(accepts between 29 and 33 characters for existing UIC)").show();
+                    jq('#kp-id input[type=text]').val('');
+                }
+            }
+
+        }
+
+
+        beforeSubmit.push(function() {
+            var hotspot_frequented = getField('hotspot_frequented.value').val();
+            var start_sex = getField("startSex.value").val();
+            var sex_with_men = getField("sexWithMen.value").val();
+            var using_drugs = getField("usingDrugs.value").val();
+            var number_of_drugs = getField('number_of_Drugs.value').val();
+            var upn = jq('#kp-id input[type=text]').val();
+
+
+            if(number_of_drugs!=""){
+                if (Number(number_of_drugs) > Number(0) &amp;&amp; Number(number_of_drugs) &lt; Number(200))
+                {
+                    getField('number_of_Drugs.error').html('Please enter valid number. can not be zero and more than 200.').hide();
+                }
+                else{
+
+                    getField('number_of_Drugs.error').html('Please enter valid number. can not be zero and more than 200.').show();
+                    return false;
+                }
+            }
+
+            if (!$("input[name=w8]:checked").val()) {
+                getField('key_pop_type.error').html('Please provide key population type.').show();
+                return false;
+            }else {
+                getField('key_pop_type.error').html('Please provide key population type.').hide();
+            }
+
+            if (hotspot_frequented == "") {
+                getField('hotspot_frequented.error').html('Please provide hot spot name mostly frequented.').show();
+                return false;
+            }else{
+                getField('hotspot_frequented.error').html('Please provide hot spot name mostly frequented.').hide();
+            }
+        });
+
+        function checkForExistingPatientIdentifiers() {
+            var upnEntered = jq('#kp-id input[type=text]').val();
+            jq.getJSON('/' + ctxPath + '/kenyaemr/emrUtils/identifierExists.action', { upn: upnEntered }, function(data) {
+                jq('#upnError').hide();
+                if (data.upnExists === true) {
+
+                    jq('#upnError').text("A patient with similar UPN already exists. Please correct before proceeding");
+                    jq('#upnError').show();
+                    jq('#kp-id input[type=text]').focus();
+                }
+            });
+        }
+
+
+
+    </script>
+    <div class="ke-form-header">
+        <table width="100%">
+            <tr>
+                <td align="left">Date of first contact:
+                    <encounterDate id="encounter-date" showTime="true"/>
+                </td>
+                <td align="right">Location:
+                    <encounterLocation default="GlobalProperty:kenyaemr.defaultLocation" type="autocomplete"/>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="ke-form-content">
+        <fieldset>
+            <legend>Contact Form</legend>
+            <table class="simple-table">
+
+                <tr>
+                    <td>Key Population Type</td>
+                    <td colspan="3">
+                        <obs id="key_pop_type" conceptId="164929"
+                             answerConceptIds="165083,160578,165084,105,165085,165108,165107"
+                             answerLabels="FSW,MSM,MSW,PWID,PWUD,Transman,Transwoman"
+                             style="radio" />
+                    </td>
+
+                </tr>
+                <tr>
+                <td>Unique Identifier code</td>
+                <td>
+                    <span id="kp-id"><patient id="upn" field="identifier" identifierTypeId="b7bfefd0-239b-11e9-ab14-d663bd873d93" /></span>
+                    <span id="upnError" class="error"></span>
+
+                </td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Alternative Contact Person</td>
+                    <td>
+                    Name :
+                        <obs id="altname" conceptId="160638"/>
+                    </td>
+                    <td>
+                    Telephone number :
+                    </td>
+                    <td>
+                    <obs id="mobile" conceptId="160642"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td >Have you been contacted by a peer educator?</td>
+                    <td colspan="3">
+                        <obs id="peer-educator" conceptId="165004"
+                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabels="Yes,No"
+                             style="radio" />
+                    </td>
+
+                </tr>
+                <tr id="program_name">
+
+                        <td width="400" valign="top">If yes, which programme do you receive service from?</td>
+                    <td colspan="3">
+                            <obs id="program" conceptId="165137"/>
+
+                        </td>
+                </tr>
+                <tr>
+                        <td >Hot spot mostly frequented</td>
+                        <td >
+                            <obs conceptId="165006" id="hotspot_frequented"/>
+
+                        </td>
+                        <td >Type of Hotspot</td>
+                        <td >
+                            <obs conceptId="165005"
+                                 answerConceptIds="165011,
+                                                   165012,
+                                                   165013,
+                                                   165014,
+                                                   1536AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                   165015,
+                                                   165016,
+                                                   165017,
+                                                   165018,
+                                                   165019,
+                                                   165020,
+                                                   165021,
+                                                   165022,
+                                                   165023,
+                                                   165024,
+                                                   165025,
+                                                   165026,
+                                                   165297,
+                                                   5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                 answerLabels="Street,
+                                              Injecting den,
+                                              Uninhabitable building,
+                                              Park,
+                                              Homes,
+                                              Beach,
+                                              Casino,
+                                              Bar with lodging,
+                                              Bar without lodging,
+                                              Sex den,
+                                              Strip club,
+                                              Highways,
+                                              Brothel,
+                                              Guest house/Hotels/Lodgings,
+                                              Massage parlor,
+                                              Chang’aa den,
+                                              Barbershop/Salon,
+                                              Virtual Space,
+                                              Other (Specify)"
+                                 id="hotspot-type"
+                                 style="dropdown" />
+                           <br/><br/>
+                            <obs conceptId="165298" id="other-hotspots-specify"/>
+                            <br />
+                        </td>
+                </tr>
+                <tr id="year_started_sex">
+                    <td width="550" valign="top">Which year did you start sex work?</td>
+                    <td width="550" valign="top">
+                        <obs id="startSex" conceptId="165030"/>
+                    </td>
+                </tr>
+                <tr id="msm">
+
+                    <td width="550" valign="top">Which year did you start having sex with men?(MSM only)</td>
+                    <td width="550" valign="top">
+                        <obs id="sexWithMen" conceptId="165031"/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td width="550" valign="top">Which Year Did You Start Using Drugs (Injecting Or Smoking)?</td>
+                    <td width="550" valign="top">
+                        <obs id="usingDrugs" conceptId="165032"/>
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <td width="550" valign="top">On average, how many sex acts do you have per week</td>
+                    <td width="550" valign="top">
+                        <obs id="sex_act" conceptId="165007"/>
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <td width="550" valign="top">On average, how many anal sex acts do you have per week</td>
+                    <td width="550" valign="top">
+                        <obs id="anal_act" conceptId="165008"/>
+
+                    </td>
+                </tr>
+
+                <tr id="people_inject_drugs">
+                    <td width="550" valign="top">On average, how many times do you inject drugs per day(only PWID)</td>
+                    <td width="550" valign="top">
+                        <obs id="number_of_Drugs" conceptId="165009"/>
+
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+
+    </div>
+
+    <div class="ke-form-footer">
+        <submit/>
+    </div>
+
+</htmlform>

@@ -1,0 +1,15 @@
+org\openmrs\module\kenyakeypop\metadata\KpMetadata$_RelationshipType.class
+org\openmrs\module\kenyakeypop\metadata\KpMetadata$_PatientIdentifierType.class
+org\openmrs\module\kenyakeypop\api\KenyakeypopService.class
+org\openmrs\module\kenyakeypop\metadata\KeypopSecurityMetadata$_Privilege.class
+org\openmrs\module\kenyakeypop\KenyakeypopConfig.class
+org\openmrs\module\kenyakeypop\api\impl\KenyakeypopServiceImpl.class
+org\openmrs\module\kenyakeypop\KenyakeypopActivator.class
+org\openmrs\module\kenyakeypop\Item.class
+org\openmrs\module\kenyakeypop\metadata\KpMetadata.class
+org\openmrs\module\kenyakeypop\api\dao\KenyakeypopDao.class
+org\openmrs\module\kenyakeypop\metadata\KeypopSecurityMetadata.class
+org\openmrs\module\kenyakeypop\metadata\KpMetadata$_Program.class
+org\openmrs\module\kenyakeypop\metadata\KpMetadata$_Form.class
+org\openmrs\module\kenyakeypop\metadata\KeypopSecurityMetadata$_Role.class
+org\openmrs\module\kenyakeypop\metadata\KpMetadata$_EncounterType.class
