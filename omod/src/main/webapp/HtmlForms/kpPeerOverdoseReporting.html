@@ -1,0 +1,279 @@
+<!--
+  ~ The contents of this file are subject to the OpenMRS Public License
+  ~ Version 1.0 (the "License"); you may not use this file except in
+  ~ compliance with the License. You may obtain a copy of the License at
+  ~ http://license.openmrs.org
+  ~
+  ~ Software distributed under the License is distributed on an "AS IS"
+  ~ basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+  ~ License for the specific language governing rights and limitations
+  ~ under the License.
+  ~
+  ~ Copyright (C) OpenMRS, LLC.  All Rights Reserved.
+  -->
+<htmlform>
+    <script type="text/javascript" src="../moduleResources/kenyaemr/scripts/moment.js"></script>
+    <style>
+        .simple-table {
+            border: solid 1px #DDEEEE;
+            border-collapse: collapse;
+            border-spacing: 0;
+            font: normal 13px Arial, sans-serif;
+        }
+
+        .simple-table thead th {
+            background-color: #DDEFEF;
+            border: solid 1px #DDEEEE;
+            color: #336B6B;
+            padding: 10px;
+            text-align: left;
+            text-shadow: 1px 1px 1px #fff;
+        }
+
+        .simple-table td {
+            border: solid 1px #DDEEEE;
+            color: #333;
+            padding: 10px;
+            text-shadow: 1px 1px 1px #fff;
+        }
+    </style>
+    <script type="text/javascript" src="../moduleResources/kenyaemr/scripts/moment.js"></script>
+    <script type="text/javascript">
+        jQuery(function ($) {
+            jq("#other-drugs-specify").hide();
+            jq("#referred-specify").hide();
+            onReferredSelected;
+
+            jq('#other-drugs :input[type=checkbox]').click(onOtherDrugsSelected);
+            jq('#referred :input[type=radio]').change(onReferredSelected);
+
+        })
+
+
+        function onOtherDrugsSelected() {
+            var val = jq(this).val();
+            var otherDrugsChecked = jq("#other-drugs input:checkbox:checked");
+            if(val == 5622 &amp;&amp; otherDrugsChecked.length &gt; 0 ){
+                jq("#other-drugs-specify").show();
+            }
+            else{
+
+                jq("#other-drugs-specify").hide();
+            }
+        }
+        function onReferredSelected() {
+            var val = jq(this).val();
+           if(val == 1272){
+                jq("#referred-specify").show();
+            }
+            else{
+                jq("#referred-specify").hide();
+               jq('#referred-specify input').val('');
+
+            }
+        }
+
+        beforeSubmit.push(function() {
+
+            var incident_date = getValue('incident_date.value');
+            var Reported_date = getValue('reported_date.value');
+            var Witness_date= getValue('witness_date.value');
+
+            console.log("Reported Date  ==>"+Reported_date);
+            console.log("Witness Date ==>"+Witness_date);
+
+            var WitnessReported= moment(moment(moment(Witness_date, 'YYYY-MM-DD').toDate()).format('YYYY-MM-DD')).isBefore(moment(moment(incident_date, 'YYYY-MM-DD').toDate()).format('YYYY-MM-DD'));
+            var ReportedDate= moment(moment(moment(Reported_date, 'YYYY-MM-DD').toDate()).format('YYYY-MM-DD')).isBefore(moment(moment(incident_date, 'YYYY-MM-DD').toDate()).format('YYYY-MM-DD'));
+            if (ReportedDate==true) {
+                getField('reported_date.error').html('Reported date can not be earlier than incident date.').show();
+                return false;
+            }
+            else if(WitnessReported == true){
+                getField('witness_date.error').html('Reported date can not be earlier than incident date.').show();
+                return false;
+            }
+            else{
+                getField('reported_date.error').html('First response date should not be earlier than incident date.').hide();
+                getField('witness_date.error').html('First response date should not be earlier than incident date.').hide();
+            }
+
+            return true;
+        });
+
+    </script>
+
+    <div class="ke-form-header">
+        <table width="100%">
+            <tr>
+                <td>Date:
+                    <encounterDate id="encounter-date" showTime="true"/>
+                </td>
+                <td>Location:
+                    <encounterLocation default="GlobalProperty:kenyaemr.defaultLocation" type="autocomplete"/>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="ke-form-content">
+        <ifMode mode="EDIT">
+            <script type="text/javascript">
+                jq(function(){
+                    var val = getValue('referred.value');
+                    if(val == 1272){
+                        jq("#referred-specify").show();
+                    }
+                    else{
+                        jq("#referred-specify").hide();
+                        jq('#referred-specify input').val('');
+                    }
+                });
+
+            </script>
+        </ifMode>
+        <!--Peer Educator/ORW Overdose Encounter Reporting Tool-->
+            <fieldset id="overdose-reporting-tab">
+                <legend>
+                    Peer Educator/ORW Overdose Encounter Reporting Tool
+                </legend>
+                <table class="simple-table" id="overdose-reporting-tool">
+                         <tr>
+                            <td><b>1. Physical address where overdose happened?</b></td>
+                            <td>
+                                <obs conceptId="162725AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="20" />
+                                &#160;&#160;&#160;&#160;&#160;
+                                <b>Date </b>
+                                <obs id="incident_date" conceptId="165146" allowFutureDates="false" required="true" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b>2. Incident type?</b>
+                            </td>
+                            <td>
+                                <obs conceptId="165133" labelText=" "
+                                     answerConceptIds="165134,165135"
+                                     style="radio"
+                                     answerLabels="New,Recurrent"
+                                     answerSeparator="&lt;br /&gt;" required="true"/>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b>3. Name of the incident site (Hotspot)</b>
+                            </td>
+                            <td>
+                                <obs conceptId="165006"  size="20"/>
+
+                            </td>
+                        </tr>
+                    <tr>
+                        <td>
+                            <b>4. Type of the site </b>
+                        </td>
+                        <td>
+                            <obs conceptId="165005" id="hotspot_type"/>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>5. Naloxone provided</b>
+                        </td>
+                        <td>
+                            <obs conceptId="165136"
+                                 answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                 answerLabel="Yes,No"
+                                 style="radio"/>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>6. Specific drug use</b>
+                        </td>
+                        <td>
+                            <obs conceptId="1193AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                 answerConceptId="79661AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                 answerLabel="Methadone" style="checkbox"
+                            />
+                            <br />
+                            <obs conceptId="1193AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                 answerConceptId="121725AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                 answerLabel="Alcohol" style="checkbox"/>
+                            <br />
+                            <obs conceptId="1193AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                 answerConceptId="146504AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                 answerLabel="Cannabis" style="checkbox"/>
+                            <br />
+                            <obs conceptId="1193AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                 answerConceptId="73650AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                 answerLabel="Cocaine" style="checkbox"/>
+                            <br />
+                            <obs conceptId="1193AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                 answerConceptId="76511AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                 answerLabel="Flunitrazepam (Tap tap, Bugizi)" style="checkbox"/>
+                            <br />
+                            <obs conceptId="1193AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                 answerConceptId="77443AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                 answerLabel="Heroine" style="checkbox"/>
+                            <br />
+                            <obs conceptId="1193AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="other-drugs"
+                                 answerConceptId="5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                 answerLabel="Others (Specify)" style="checkbox"/>
+                            &#160;&#160;&#160;&#160;&#160;
+                            <obs conceptId="163101AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="other-drugs-specify"/>
+                            <br />
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>7. Remarks</b>
+                        </td>
+                        <td>
+                            <obs conceptId="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" cols="20" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>8. Outcome</b>
+                        </td>
+                        <td>
+                            <obs conceptId="165141" id="referred"
+                                 answerConceptIds="160034AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1272AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                 answerLabels="Died,Referred (Specify)" style="radio" required="true"/>
+                            <obs conceptId="161562AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="referred-specify"  />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>9. Reported by: </b>
+                        </td>
+                        <td>
+                            <obs conceptId="1473AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+                            &#160;&#160;&#160;&#160;&#160;
+                            <b>Date </b>
+                            <obs id="reported_date" conceptId="165144" allowFutureDates="false" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>10. Witnessed by: </b>
+                        </td>
+                        <td>
+                            <obs conceptId="165143" />
+                            &#160;&#160;&#160;&#160;&#160;
+                            <b>Date </b>
+                            <obs id="witness_date" conceptId="160753" allowFutureDates="false"  />
+                        </td>
+                    </tr>
+                </table>
+        </fieldset>
+    </div>
+    <div class="ke-form-footer">
+        <submit/>
+    </div>
+
+</htmlform>

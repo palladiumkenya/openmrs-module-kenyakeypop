@@ -1,0 +1,218 @@
+<!--
+  ~ The contents of this file are subject to the OpenMRS Public License
+  ~ Version 1.0 (the "License"); you may not use this file except in
+  ~ compliance with the License. You may obtain a copy of the License at
+  ~ http://license.openmrs.org
+  ~
+  ~ Software distributed under the License is distributed on an "AS IS"
+  ~ basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+  ~ License for the specific language governing rights and limitations
+  ~ under the License.
+  ~
+  ~ Copyright (C) OpenMRS, LLC.  All Rights Reserved.
+  -->
+<htmlform>
+    <script type="text/javascript" src="../moduleResources/kenyaemr/scripts/moment.js"></script>
+    <style>
+        .simple-table {
+            border: solid 1px #DDEEEE;
+            border-collapse: collapse;
+            border-spacing: 0;
+            font: normal 13px Arial, sans-serif;
+        }
+
+        .simple-table thead th {
+            background-color: #DDEFEF;
+            border: solid 1px #DDEEEE;
+            color: #336B6B;
+            padding: 10px;
+            text-align: left;
+            text-shadow: 1px 1px 1px #fff;
+        }
+
+        .simple-table td {
+            border: solid 1px #DDEEEE;
+            color: #333;
+            padding: 10px;
+            text-shadow: 1px 1px 1px #fff;
+        }
+    </style>
+
+    <script type="text/javascript">
+        jQuery(function ($) {
+            jq("#referral-date").prop('disabled', true);
+            jq("#facility-referred").prop('disabled', true);
+            jq("#service-referred select").prop('disabled', true);
+            jq("#contact-person").prop('disabled', true);
+            jq("#referral-outcome select").prop('disabled', true);
+            jq("#other_specify").hide();
+            jq('#referrals-ordered :input[type=radio]').change(referralsOrderedSelected);
+
+            jq("#referral-date input").change(DateReffered);
+            jq("#service-referred select").change(OtherSelected);
+
+            beforeSubmit.push(function () {
+                var datereferred = getField('referral-date.value').val();
+                var reffer = getValue('referrals-ordered.value');
+
+                if (reffer==1065 &amp;&amp;datereferred =="") {
+                    getField('referral-date.error').html('Select referral date .').show();
+                    return false;
+                }
+            });
+
+        })
+
+        function OtherSelected() {
+            var val = getValue("service-referred.value");
+            if(val == 5622){
+                jq("#other_specify").show();
+
+            }
+            else{
+                jq("#other_specify").hide();
+            }
+        }
+
+
+        function DateReffered() {
+
+            var Referred_date = getValue('referral-date.value');
+            var Encounter_date= getValue('encounter-date.value')
+            var DateReferred= moment(moment(moment(Referred_date, 'YYYY-MM-DD').toDate()).format('YYYY-MM-DD')).isBefore(moment(moment(Encounter_date, 'YYYY-MM-DD').toDate()).format('YYYY-MM-DD'));
+            if (DateReferred==true) {
+                getField('referral-date.error').html('Referral date can not be before encounter date .').show();
+                jq("#referral-date input").val('');
+                return false;
+            }
+
+            else{
+                getField('referral-date.error').html('Referral date can not be before encounter date .').hide();
+            }
+        }
+
+        function referralsOrderedSelected() {
+            var val = jq(this).val();
+            if(val == 1065){
+                jq("#referral-date").prop('disabled', false);
+                jq("#facility-referred").prop('disabled', false);
+                jq("#service-referred select").prop('disabled', false);
+                jq("#contact-person").prop('disabled', false);
+                jq("#referral-outcome select").prop('disabled', false);
+            }
+            else{
+                jq("#referral-date").prop('disabled', true);
+                jq("#facility-referred").prop('disabled', true);
+                jq("#service-referred select").prop('disabled', true);
+                jq("#contact-person").prop('disabled', true);
+                jq("#referral-outcome select").prop('disabled', true);
+            }
+        }
+    </script>
+
+    <div class="ke-form-header">
+        <table width="100%">
+            <tr>
+                <td>Date:
+                    <encounterDate id="encounter-date" showTime="true"/>
+                </td>
+                <td>Location:
+                    <encounterLocation default="GlobalProperty:kenyaemr.defaultLocation" type="autocomplete"/>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="ke-form-content">
+        <!--Referrals Ordered-->
+        <fieldset>
+            <legend>
+                Referrals
+            </legend>
+            <table class="simple-table" id="referral">
+                <tr>
+                    <td><b>1. Referrals ordered </b></td>
+                    <td>
+                        <!-- REFERRED -->
+                        <obs conceptId="1272AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="referrals-ordered"
+                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Yes,No"
+                             style="radio"/>
+                           &#160;&#160;&#160;&#160;&#160;
+                        <b>Date </b>
+                        <obs conceptId="161561AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false" id="referral-date" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b>2. Institution referred</b>
+                    </td>
+                    <td>
+                        <!-- INSTITUTION REFERRED -->
+                        <obs conceptId="162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="facility-referred" size="30" />
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b>3. Services referred for</b>
+                    </td>
+                    <td>
+                        <!-- INSTITUTION REFERRED -->
+                        <obs conceptId="160478AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="service-referred"
+                             answerConceptIds="164849AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160546AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622"
+                             answerLabels="Care and treatment,STI treatment,Other"
+                             style="dropdown"/>
+
+
+
+                    </td>
+                </tr>
+
+                <tr id="other_specify">
+                <td>
+                 <b>Other specify</b>
+                </td>
+                    <td>
+                 <obs conceptId="161011"  size="30" id="other"/>
+                </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <b>4. Contact person at referral service</b>
+                    </td>
+                    <td>
+                        <obs conceptId="1473AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  size="30" id="contact-person"/>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b>5. Referral outcome</b>
+                    </td>
+                    <td>
+                        <obs conceptId="165152"  id="referral-outcome"
+                             answerConceptIds="163766AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162978AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabels="Linked to care,OB number provided"
+                             style="dropdown"/>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b>3. Remarks</b>
+                    </td>
+                    <td>
+                        <obs conceptId="160632"  cols="20"/>
+
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+    </div>
+    <div class="ke-form-footer">
+        <submit/>
+    </div>
+
+</htmlform>
