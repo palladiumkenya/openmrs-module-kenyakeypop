@@ -25,6 +25,13 @@
 
     <context:component-scan base-package="org.openmrs.module.kenyakeypop" />
 
+    <bean id="kenyakeypop.app.keypopulation" factory-bean="kenyacore.appFactoryBean" factory-method="createInstance">
+        <constructor-arg value="kenyakeypop.keypopulation" />
+        <constructor-arg value="Key Population" />
+        <constructor-arg value="kenyakeypop/kenyakeypopulationHome.page" />
+        <constructor-arg value="kenyaui:apps/registration.png" />
+        <constructor-arg value="1000" />
+    </bean>
     <!-- Wraps KenyakeypopService methods in DB transactions and OpenMRS interceptors,
     which set audit info like dateCreated, changedBy, etc.-->
     <bean id="kenyakeypop.KenyakeypopService"
