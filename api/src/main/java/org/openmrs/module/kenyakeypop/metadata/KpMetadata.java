@@ -10,12 +10,14 @@
 package org.openmrs.module.kenyakeypop.metadata;
 
 import org.openmrs.PatientIdentifierType;
-import org.openmrs.module.kenyaemr.metadata.KpMetadata;
-import org.openmrs.module.kenyaemr.metadata.KpMetadata;
 import org.openmrs.module.metadatadeploy.bundle.AbstractMetadataBundle;
 import org.springframework.stereotype.Component;
 
-import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.*;
+import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.encounterType;
+import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.form;
+import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.patientIdentifierType;
+import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.program;
+import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.relationshipType;
 
 /**
  * KP metadata bundle
