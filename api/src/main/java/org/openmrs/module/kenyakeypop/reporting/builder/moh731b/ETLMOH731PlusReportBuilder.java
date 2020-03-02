@@ -15,7 +15,7 @@ import org.openmrs.module.kenyacore.report.builder.AbstractReportBuilder;
 import org.openmrs.module.kenyacore.report.builder.Builds;
 import org.openmrs.module.kenyaemr.reporting.ColumnParameters;
 import org.openmrs.module.kenyaemr.reporting.EmrReportingUtils;
-import org.openmrs.module.kenyakeypop.reporting.library.ETLReports.moh731B.ETLMoh731BIndicatorLibrary;
+import org.openmrs.module.kenyakeypop.reporting.library.ETLReports.moh731B.ETLMoh731PlusIndicatorLibrary;
 import org.openmrs.module.kenyakeypop.reporting.library.shared.common.CommonKpDimensionLibrary;
 import org.openmrs.module.reporting.dataset.definition.CohortIndicatorDataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
@@ -34,13 +34,13 @@ import java.util.List;
  */
 @Component
 @Builds({ "kenyaemr.etl.common.report.moh731b" })
-public class ETLMOH731BReportBuilder extends AbstractReportBuilder {
+public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 	
 	@Autowired
 	private CommonKpDimensionLibrary commonDimensions;
 	
 	@Autowired
-	private ETLMoh731BIndicatorLibrary moh731bIndicators;
+	private ETLMoh731PlusIndicatorLibrary moh731bIndicators;
 	
 	public static final String DATE_FORMAT = "yyyy-MM-dd";
 	

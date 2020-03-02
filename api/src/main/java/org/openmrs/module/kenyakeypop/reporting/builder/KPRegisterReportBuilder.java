@@ -9,7 +9,6 @@
  */
 package org.openmrs.module.kenyakeypop.reporting.builder;
 
-import org.openmrs.PatientIdentifierType;
 import org.openmrs.module.kenyacore.report.HybridReportDescriptor;
 import org.openmrs.module.kenyacore.report.ReportDescriptor;
 import org.openmrs.module.kenyacore.report.ReportUtils;
@@ -18,14 +17,11 @@ import org.openmrs.module.kenyacore.report.builder.Builds;
 //import org.openmrs.module.kenyakeypop.metadata.CommonMetadata;
 import org.openmrs.module.kenyakeypop.reporting.cohort.definition.KPRegisterCohortDefinition;
 import org.openmrs.module.kenyakeypop.reporting.data.converter.definition.kp.*;
-import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.common.SortCriteria;
 import org.openmrs.module.reporting.data.DataDefinition;
 import org.openmrs.module.reporting.data.converter.DataConverter;
 import org.openmrs.module.reporting.data.converter.ObjectFormatter;
-import org.openmrs.module.reporting.data.patient.definition.ConvertedPatientDataDefinition;
-import org.openmrs.module.reporting.data.patient.definition.PatientIdentifierDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.*;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.PatientDataSetDefinition;
@@ -90,7 +86,7 @@ public class KPRegisterReportBuilder extends AbstractHybridReportBuilder {
 		DataConverter nameFormatter = new ObjectFormatter("{familyName}, {givenName}");
 		DataDefinition nameDef = new ConvertedPersonDataDefinition("name", new PreferredNameDataDefinition(), nameFormatter);
 		dsd.addColumn("id", new PersonIdDataDefinition(), "");
-		dsd.addColumn("Serial Number", new SerialNumberDataDefinition(), "");
+		dsd.addColumn("Serial Number", new KpSerialNumberDataDefinition(), "");
 		dsd.addColumn("Name", nameDef, "");
 		dsd.addColumn("Hotspot", new HotspotDataDefinition(), "");
 		dsd.addColumn("Hotspot Typology", new HotspotTypologyDataDefinition(), "");

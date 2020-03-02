@@ -10,7 +10,7 @@
 package org.openmrs.module.kenyakeypop.reporting.data.converter.definition.evaluator.kp;
 
 import org.openmrs.annotation.Handler;
-import org.openmrs.module.kenyakeypop.reporting.data.converter.definition.kp.SerialNumberDataDefinition;
+import org.openmrs.module.kenyakeypop.reporting.data.converter.definition.kp.KpSerialNumberDataDefinition;
 import org.openmrs.module.reporting.data.person.EvaluatedPersonData;
 import org.openmrs.module.reporting.data.person.definition.PersonDataDefinition;
 import org.openmrs.module.reporting.data.person.evaluator.PersonDataEvaluator;
@@ -26,8 +26,8 @@ import java.util.Map;
 /**
  * Evaluates a PersonDataDefinition
  */
-@Handler(supports = SerialNumberDataDefinition.class, order = 50)
-public class SerialNumberDataEvaluator implements PersonDataEvaluator {
+@Handler(supports = KpSerialNumberDataDefinition.class, order = 50)
+public class KpSerialNumberDataEvaluator implements PersonDataEvaluator {
 	
 	@Autowired
 	private EvaluationService evaluationService;

@@ -26,7 +26,7 @@ import java.util.Date;
  */
 @Component
 //activeFsw
-public class ETLMoh731BCohortLibrary {
+public class ETLMoh731PlusCohortLibrary {
 	
 	public CohortDefinition activeFsw() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();

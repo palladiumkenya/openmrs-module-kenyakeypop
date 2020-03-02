@@ -26,10 +26,10 @@ import static org.openmrs.module.kenyaemr.reporting.EmrReportingUtils.cohortIndi
  * ${endDate}
  */
 @Component
-public class ETLMoh731BIndicatorLibrary {
+public class ETLMoh731PlusIndicatorLibrary {
 	
 	@Autowired
-	private ETLMoh731BCohortLibrary moh731BCohorts;
+	private ETLMoh731PlusCohortLibrary moh731BCohorts;
 	
 	public CohortIndicator activeFsw() {
 		return cohortIndicator("", ReportUtils.map(moh731BCohorts.activeFsw(), "startDate=${startDate},endDate=${endDate}"));
