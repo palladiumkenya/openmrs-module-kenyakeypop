@@ -11,9 +11,9 @@ package org.openmrs.module.Kenyakeypop.page.controller;
 
 import org.openmrs.ui.framework.page.PageModel;
 
-public KenyaKeyPopulationHomePageController {
-
-    public void controller(PageModel model){
-
-        }
+public class KenyaKeyPopulationHomePageController {
+	
+	public void controller(PageModel model) {
+		
+	}
 }
