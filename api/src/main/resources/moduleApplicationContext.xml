@@ -36,7 +36,7 @@
     <bean id="kenyakeypop.app.keypopulation.calendar" factory-bean="kenyacore.appFactoryBean" factory-method="createInstance">
         <constructor-arg value="kenyakeypop.keypopulation.calendar" />
         <constructor-arg value="KP Calendar" />
-        <constructor-arg value="kenyakeypop/kenyakeypopulationHome.page" />
+        <constructor-arg value="kenyakeypop/kenyakeypopulationPeerCalendarHome.page" />
         <constructor-arg value="kenyakeypop:apps/peerCalendar.png" />
         <constructor-arg value="2001" />
     </bean>
