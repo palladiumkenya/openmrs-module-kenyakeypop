@@ -2,7 +2,7 @@
     ui.decorateWith("kenyaemr", "standardPage", [ layout: "sidebar" ])
 
     def menuItemsNew = [
-            [ label: "Seen Clients", iconProvider: "kenyaui", icon: "buttons/patients.png", href: ui.pageLink("kenyaemr", "clinician/clinicianSearchSeen") ]
+            [ label: "Peer Calendar", iconProvider: "kenyakeypop", icon: "buttons/kpcalendar.png", href: ui.pageLink("kenyakeypop", "kenyakeypopulationPeerCalendarHome") ]
     ]
 %>
 
