@@ -12,7 +12,7 @@
 </div>
 
 <div class="ke-page-content">
-    ${ ui.includeFragment("kenyaemr", "patient/patientSearchResults", [ pageProvider: "kenyaemr", page: "clinician/clinicianViewPatient" ]) }
+    ${ ui.includeFragment("kenyaemr", "patient/patientSearchResults", [ pageProvider: "kenyakeypop", page: "patientProfile" ]) }
 </div>
 
 <script type="text/javascript">
