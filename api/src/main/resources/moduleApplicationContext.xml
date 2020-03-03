@@ -37,7 +37,7 @@
 
     <bean id="kenyakeypop.app.keypopulation.calendar" factory-bean="kenyacore.appFactoryBean" factory-method="createInstance">
         <constructor-arg value="kenyakeypop.keypopulation.calendar" />
-        <constructor-arg value="KP Calendar" />
+        <constructor-arg value="Peer Calendar" />
         <constructor-arg value="kenyakeypop/kenyakeypopulationPeerCalendarHome.page" />
         <constructor-arg value="kenyakeypop:apps/peerCalendar.png" />
         <constructor-arg value="2001" />
@@ -102,6 +102,18 @@
         </property>
         <property name="icon" value="kenyaui:forms/completion.png" />
         <property name="htmlform" value="kenyakeypop:kpDiscontinuation.html" />
+    </bean>
+
+    <!-- kp peer calendar -->
+    <bean id="kenyakeypop.form.kpPeerCalendar" class="org.openmrs.module.kenyacore.form.FormDescriptor">
+        <property name="targetUuid" value="7492cffe-5874-4144-a1e6-c9e455472a35" />
+        <property name="apps">
+            <set>
+                <ref bean="kenyaemr.app.clinician" />
+            </set>
+        </property>
+        <property name="icon" value="kenyaui:forms/generic.png" />
+        <property name="htmlform" value="kenyakeypop:kpPeerCalendar.html" />
     </bean>
 
     <!-- Wraps KenyakeypopService methods in DB transactions and OpenMRS interceptors,
