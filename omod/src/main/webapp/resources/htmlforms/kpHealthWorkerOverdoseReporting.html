@@ -1,0 +1,217 @@
+<!--
+  ~ The contents of this file are subject to the OpenMRS Public License
+  ~ Version 1.0 (the "License"); you may not use this file except in
+  ~ compliance with the License. You may obtain a copy of the License at
+  ~ http://license.openmrs.org
+  ~
+  ~ Software distributed under the License is distributed on an "AS IS"
+  ~ basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+  ~ License for the specific language governing rights and limitations
+  ~ under the License.
+  ~
+  ~ Copyright (C) OpenMRS, LLC.  All Rights Reserved.
+  -->
+<htmlform>
+    <script type="text/javascript" src="../moduleResources/kenyaemr/scripts/moment.js"></script>
+    <style>
+        .simple-table {
+            border: solid 1px #DDEEEE;
+            border-collapse: collapse;
+            border-spacing: 0;
+            font: normal 13px Arial, sans-serif;
+        }
+
+        .simple-table thead th {
+            background-color: #DDEFEF;
+            border: solid 1px #DDEEEE;
+            color: #336B6B;
+            padding: 10px;
+            text-align: left;
+            text-shadow: 1px 1px 1px #fff;
+        }
+
+        .simple-table td {
+            border: solid 1px #DDEEEE;
+            color: #333;
+            padding: 10px;
+            text-shadow: 1px 1px 1px #fff;
+        }
+    </style>
+
+    <script type="text/javascript">
+        jQuery(function ($) {
+            jq("#risk-factors-specify").hide();
+            jq("#other-drugs-specify").hide();
+
+            jq('#other-risk-factors :input[type=checkbox]').click(onOtherRiskFactorsSelected);
+            jq('#other-drugs :input[type=checkbox]').click(onOtherDrugsSelected);
+            beforeSubmit.push(function () {
+            });
+
+        })
+
+   function onOtherRiskFactorsSelected() {
+          var val = jq(this).val();
+       var otherRiskFactorsChecked = jq("#other-risk-factors input:checkbox:checked");
+            if(val == 5622 &amp;&amp; otherRiskFactorsChecked.length &gt; 0 ){
+                jq("#risk-factors-specify").show();
+            }
+            else{
+                jq("#risk-factors-specify").hide();
+            }
+        }
+        function onOtherDrugsSelected() {
+            var val = jq(this).val();
+            var otherDrugsChecked = jq("#other-drugs input:checkbox:checked");
+            if(val == 5622 &amp;&amp; otherDrugsChecked.length &gt; 0 ){
+                jq("#other-drugs-specify").show();
+            }
+            else{
+
+                jq("#other-drugs-specify").hide();
+            }
+        }
+    </script>
+
+    <div class="ke-form-header">
+        <table width="100%">
+            <tr>
+                <td>Date:
+                    <encounterDate id="encounter-date" showTime="true"/>
+                </td>
+                <td>Location:
+                    <encounterLocation default="GlobalProperty:kenyaemr.defaultLocation" type="autocomplete"/>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="ke-form-content">
+                <!--Health Care  Worker Overdose Encounter Reporting Tool-->
+            <fieldset id="overdose-reporting-tab">
+                <legend>
+                    Health Care  Worker  Overdose  Encounter  Reporting  Tool
+
+                </legend>
+                <table class="simple-table" id="overdose-reporting-tool">
+                         <tr>
+                            <td><b>1. Physical address where overdose happened?</b></td>
+                            <td>
+                                <obs conceptId="162725AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="20" />
+                                &#160;&#160;&#160;&#160;&#160;
+                                <b>Date </b>
+                                <obs conceptId="165146" allowFutureDates="false" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b>2. Incident type?</b>
+                            </td>
+                            <td>
+                                <obs conceptId="165133" labelText=" "
+                                     answerConceptIds="165134,165135"
+                                     style="radio"
+                                     answerLabels="New,Recurrent"
+                                     answerSeparator="&lt;br /&gt;"/>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b>3. Name of the incident site (Hotspot)</b>
+                            </td>
+                            <td>
+                                <obs conceptId="165006"  size="20"/>
+
+                            </td>
+                        </tr>
+                    <tr>
+                        <td>
+                            <b>4. Type of the site </b>
+                        </td>
+                        <td>
+                            <obs conceptId="165005" id="hotspot_type"/>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>5. Naloxone provided</b>
+                        </td>
+                        <td>
+                            <obs conceptId="165136"
+                                 answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                 answerLabel="Yes,No"
+                                 style="radio"/>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>6. Risk factors</b>
+                        </td>
+                        <td>
+                            <obs conceptId="165140"
+                                 answerConceptId="989AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                 answerLabel="Age" style="checkbox"/>
+                            <br />
+                            <obs conceptId="165140"
+                                 answerConceptId="162747AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                 answerLabel="Comorbidity" style="checkbox"/>
+                            <br />
+                            <obs conceptId="165140"
+                                 answerConceptId="131779AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                 answerLabel="Abstinence from opioid use" style="checkbox"/>
+                            <br />
+                            <obs conceptId="165140"
+                                 answerConceptId="129754AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                 answerLabel="Mixing    " style="checkbox"/>
+                            <br />
+                            <obs conceptId="165140"
+                                 answerConceptId="134236AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                 answerLabel="MAT induction/Re-induction " style="checkbox"/>
+                            <br />
+                            <obs conceptId="165140" id="other-risk-factors"
+                                 answerConceptId="5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                 answerLabel="Others (Specify)" style="checkbox"/>
+                            &#160;&#160;&#160;&#160;&#160;
+                            <obs conceptId="165145" id="risk-factors-specify" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>7. Outcome</b>
+                        </td>
+                        <td>
+                            <obs conceptId="165141"
+                                 answerConceptIds="1898AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160034AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1272AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                 answerLabels="Recovered,Died,Referred" style="checkbox"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>8. Remarks</b>
+                        </td>
+                        <td>
+                            <obs conceptId="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" cols="20" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>9. Attendee name: </b>
+                        </td>
+                        <td>
+                            <obs conceptId="1473AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+                            &#160;&#160;&#160;&#160;&#160;
+                            <b>Date </b>
+                            <obs conceptId="165144" allowFutureDates="false" />
+                        </td>
+                    </tr>
+                </table>
+        </fieldset>
+    </div>
+    <div class="ke-form-footer">
+        <submit/>
+    </div>
+
+</htmlform>

@@ -1,0 +1,763 @@
+<!--
+  ~ The contents of this file are subject to the OpenMRS Public License
+  ~ Version 1.0 (the "License"); you may not use this file except in
+  ~ compliance with the License. You may obtain a copy of the License at
+  ~ http://license.openmrs.org
+  ~
+  ~ Software distributed under the License is distributed on an "AS IS"
+  ~ basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+  ~ License for the specific language governing rights and limitations
+  ~ under the License.
+  ~
+  ~ Copyright (C) OpenMRS, LLC.  All Rights Reserved.
+-->
+<htmlform>
+
+
+    <script type="text/javascript" src="../moduleResources/kenyaemr/scripts/moment.js"></script>
+    <script type="text/javascript">
+
+        var KEY_POP_TYPE = "<lookup expression="fn.latestObs(164929).getValueCoded()"/>";
+        var gender = "<lookup expression="patient.gender" />";
+        function onHistoricalStatusDateChange() {
+
+            var today = new Date()//.getTime();        //get current date
+            var patientId = <lookup expression="patient.patientId"/>;
+
+            /*this data should not be in Future */
+            if (ENC_DATE &gt; today) {
+                getField('encounter-date.error').html('Should not be greater than the Current date').show();
+            }
+            else if(ENC_DATE &lt; bithYear)
+            {
+                /* Encounter Date should be greater than the Patients's date of Birth    */
+                getField('encounter-date.error').html('Should not be less than the date of Birth').show();
+            }
+            else
+            {
+                getField('encounter-date.error').hide();
+            }
+
+            jq.getJSON('/' + OPENMRS_CONTEXT_PATH + '/kenyaemr/patient/patientUtils/age.action', { patientId: patientId, now: encDate })
+                .done(function(data) {
+                    onPatientAgeUpdate(data.age);
+                });
+
+        }
+        function everTestedSelected() {
+            var everTestedVal = jq(this).val();
+
+            if(everTestedVal == 1065){
+                jq("#test-type-tr").show();
+                jq("#share-test-tr").show();
+                jq('#decline-reason').val('');
+                jq('#test-decline-reason').hide();
+                jq("#willing-to-test").hide();
+                clearHiddenSections(jq('#willing-tester'));
+
+            }
+            else{
+                jq("#willing-to-test").show();
+                jq("#test-type-tr").hide();
+                jq("#share-test-tr").hide();
+                jq("#tbl-receiving-care").hide();
+                jq("#hiv-care").hide();
+                jq("#tbl-vl-status").hide();
+                jq("#test-type input").prop('checked', false);
+                jq("#share-test input").prop('checked', false);
+                jq("#vl-test-done input").prop('checked', false);
+                getField('vl-date.value').val("");
+                getField('ccc-number.value').val("");
+                getField('care_provided_txt.value').val("");
+                getField('receiving-care.value').val("");
+            }
+        }
+        function receivingCareSelected() {
+            var val = jq(this).val();
+            if(val == 1065){
+                jq("#ccc-number :input").prop('disabled', false);
+                jq("#care_provided_txt :input").prop('disabled', false);
+                jq("#care_provided :input").prop('disabled', false);
+            }
+            if(val == 1066){
+                getField('ccc-number.value').val("");
+                getField('care_provided_txt.value').val("");
+                jq("#ccc-number :input").prop('disabled', true);
+                jq("#care_provided_txt :input").prop('disabled', true);
+                jq('#care_provided :input').prop('checked', false);
+                jq("#care_provided :input").prop('disabled', true);
+
+
+            }
+        }
+        function vlTestDoneSelected() {
+            var val = jq(this).val();
+            if(val == 1065){
+                jq("#vl-date :input").prop('disabled', false);
+            }
+            if(val == 1066){
+                getField('vl-date.value').val("");
+                jq("#vl-date :input").prop('disabled', true);
+            }
+        }
+
+        function contactMethod() {
+            var val = jq(this).val();
+            if(val == 1065){
+                jq("#contact-method").show();
+            }
+            if(val == 1066){
+                jq("#contact-method").hide();
+                //clearHiddenSections(jq('#cContacted'));
+            }
+        }
+
+        function willingToTest() {
+            var val = jq(this).val();
+            if(val == 1065){
+                jq("#test-decline-reason").hide();
+            }
+            if(val == 1066){
+                jq("#test-decline-reason").show();
+                clearHiddenSections(jq('#decline-reason'));
+            }
+        }
+
+        function hivStatusDisclosure() {
+            var val = jq(this).val();
+            if(val == 664){
+                jq("#tbl-vl-status").hide();
+                jq("#tbl-receiving-care").hide();
+                jq("#hiv-care").hide();
+                jq("#willing-to-test").show();
+                clearHiddenSections(jq('#willing-to-test'));
+            }
+            else if(val == 703) {
+                jq("#tbl-vl-status").show();
+                jq("#hiv-care").show();
+                jq("#tbl-receiving-care").show();
+                jq("#willing-to-test").hide();
+                clearHiddenSections(jq('#tbl-receiving-care'));
+                clearHiddenSections(jq('#tbl-vl-status'));
+                clearHiddenSections(jq('#willing-to-test'));
+            }
+            else {
+                jq("#tbl-vl-status").hide();
+                jq("#tbl-receiving-care").hide();
+                jq("#hiv-care").hide();
+                jq("#willing-to-test").show();
+                clearHiddenSections(jq('#tbl-receiving-care'));
+                clearHiddenSections(jq('#tbl-vl-status'));
+            }
+        }
+
+        var providedElseWhere  = function () {
+            var careProvided = getValue("care_provided.value");
+            if(careProvided==162723){
+                jq("#care_provided_txt input").val('');
+                jq("#care_provided_txt input").prop("disabled", false);
+            }
+            else if(careProvided==163266){
+                var default_location = "<lookup expression="kenyaemr.location()" />";
+                jq("#care_provided_txt input").val(default_location);
+                jq("#care_provided_txt input").prop("disabled", true);
+
+            }
+
+        }
+        $(document).ready(function () {
+
+            $("#date").datepicker({
+                changeMonth: false,
+                changeYear: true,
+                dateFormat: 'dd/mm/yy',
+                duration: 'fast',
+                stepMonths: 0
+            });
+
+            jq("#NonePayingSex").hide();
+            jq("#clientphysiaclViolence").hide();
+            jq("#historicalPhysicalViolence").hide();
+            jq("#sexuaViolence").hide();
+            jq("#peer_work_name").hide();
+            jq("#year_started_sex").hide();
+            jq("#yearStartedSexWithMen").hide();
+            jq("#yearStartedDrugs").hide();
+            jq("#test-type-tr").hide();
+            jq("#share-test-tr").hide();
+            jq("#tbl-receiving-care").hide();
+            jq("#hiv-care").hide();
+            jq("#tbl-vl-status").hide();
+            jq("#willing-to-test").hide();
+            jq("#contact-method").hide();
+            jq("#test-decline-reason").hide();
+
+            jq('#ever-tested :input[type=radio]').change(everTestedSelected);
+            jq('#receiving-care :input[type=radio]').change(receivingCareSelected);
+            jq('#vl-test-done :input[type=radio]').change(vlTestDoneSelected);
+            jq('#contacted-incase-of-appointment :input[type=radio]').change(contactMethod);
+            jq('#willing-tester :input[type=radio]').change(willingToTest);
+            jq('#share-test-tr :input[type=radio]').change(hivStatusDisclosure);
+            jq("#care_provided input").change(providedElseWhere);
+            if(KEY_POP_TYPE == 105 || KEY_POP_TYPE == 165085){
+                jq("#yearStartedDrugs").show();
+            }
+            else if(KEY_POP_TYPE == 160578 ){
+                jq("#yearStartedSexWithMen").show();
+            }
+
+            else if(KEY_POP_TYPE == 165083 || KEY_POP_TYPE == 165084 ){
+                jq("#year_started_sex").show();
+            }
+            else {
+                jq("#year_started_sex").show();
+                jq("#yearStartedSexWithMen").show();
+                jq("#yearStartedDrugs").show();
+            }
+            if (gender == 'F') {
+                jq("#yearStartedSexWithMen").hide();
+
+            }
+            if (gender == 'M') {
+                jq("#yearStartedSexWithMen").show();
+
+            }
+            $('input').on('click',function () {
+
+                var year_startSex_work = getField('startSex.value').val();
+                var year_start_having_sex_with_men = getField('sexWithMen.value').val();
+                var year_stared_using_drugs = getField('usingDrugs.value').val();
+
+                yearValidation(year_startSex_work, 'startSex')
+                yearValidation(year_start_having_sex_with_men,  'sexWithMen')
+                yearValidation(year_stared_using_drugs, 'usingDrugs')
+
+            });
+
+            function yearValidation(year, textfield) {
+
+
+                if (year != 0) {
+
+                    if (year.length != 4) {
+                        getField(textfield+'.error').html('Please enter valid year.').show();
+                        getField(textfield+'.value').val('');
+                        return false;
+                    }
+
+                    var birthDate= ('(<lookup expression="patient.birthdate"/>)');
+                    var bithYear = birthDate.substring(8);
+                    if(year &lt; bithYear)
+                    {
+                        /* Encounter Date should be greater than the Patients's date of Birth    */
+                        getField(textfield+'.error').html('Should not be less than the date of Birth').show();
+                        getField(textfield+'.value').val('');
+                        return false;
+                    }
+                    else
+                    {
+                        getField(textfield+'.error').hide();
+                    }
+
+                    var current_year = new Date().getFullYear();
+                    if ((year > current_year)) {
+                        getField(textfield+'.error').html('Year should not be greater than current year.').show();
+                        getField(textfield+'.value').val('');
+                        return false;
+                    }
+                    getField(textfield+'.error').html('Please enter valid year.').hide();
+                }
+            }
+        });
+
+        beforeSubmit.push(function() {
+
+            var contactedByPeerEducator = getValue('peer-educator.value');
+            var nonepaying_ckbox = getValue('regular-sex-partner.value');
+            var yearStartedSexWork = getField('startSex.value').val();
+            var yearStartedSexWithMen = getField('sexWithMen.value').val();
+            var yearStartedDrugs = getField('usingDrugs.value').val();
+            var sexViolenceckbox = getValue('exprienced-sex-violence.value');
+            var physicalViolenceckbox = getValue('exprienced-physical-violence.value');
+            var everTested = getValue('ever-tested.value');
+            var testType = getValue('test-type.value');
+            var shareTestResults = getValue('share-test.value');
+            var willingToTest = getValue('willing-tester.value');
+            var testDeclineReason = getField('decline-reason.value').val();
+            var receivingCare = getValue('receiving-care.value');
+            var contactForAppointment = getValue('contacted-incase-of-appointment.value');
+            //var contactMethod = getField('Contacted.value').val();
+            var partner_number = getField('mobile.value').val();
+            var ccc_number = getField('ccc-number.value').val();
+
+            if (contactedByPeerEducator =="") {
+                getField('peer-educator.error').html('Answer required').show();
+                return false;
+            }
+
+            if (nonepaying_ckbox =="") {
+                getField('regular-sex-partner.error').html('Answer required').show();
+                return false;
+            }
+
+            if (nonepaying_ckbox =="") {
+                getField('regular-sex-partner.error').html('Answer required').show();
+                return false;
+            }
+
+            if((KEY_POP_TYPE == 105 || KEY_POP_TYPE == 165085) &amp;&amp; yearStartedDrugs=="" ) {
+                getField('usingDrugs.error').html('Year started drugs is required').show();
+                return false;
+            }
+            if(KEY_POP_TYPE == 160578  &amp;&amp; yearStartedSexWithMen =="" ){
+                getField('sexWithMen.error').html('Year started sex with men is required').show();
+                return false;
+            }
+
+            if((KEY_POP_TYPE == 165083 || KEY_POP_TYPE == 165084 ) &amp;&amp; yearStartedSexWork=="") {
+                getField('startSex.error').html('Year started sex work is required').show();
+                return false;
+            }
+
+            if (sexViolenceckbox =="") {
+                getField('exprienced-sex-violence.error').html('Sexual violence answer is required').show();
+                return false;
+            }
+
+            if (physicalViolenceckbox =="") {
+                getField('exprienced-physical-violence.error').html('Physical violence answer is required').show();
+                return false;
+            }
+
+            if (everTested =="") {
+                getField('ever-tested.error').html('Ever tested answer required').show();
+                return false;
+            }
+
+            if(everTested==1066 &amp;&amp; willingToTest =="" ) {
+                getField('willing-tester.error').html('Indicate whether client is willing to test').show();
+                return false;
+            }
+
+            if (willingToTest ==1066 &amp;&amp; testDeclineReason =="") {
+                getField('decline-reason.error').html('Please select reason for declining test').show();
+                return false;
+            }
+
+            if(everTested==1065 &amp;&amp; testType =="" ) {
+                getField('test-type.error').html('Test type is required').show();
+                return false;
+            }
+
+            if(everTested==1065 &amp;&amp; shareTestResults =="" ) {
+                getField('share-test.error').html('Answer required').show();
+                return false;
+            }
+
+            if ((shareTestResults == 664 || shareTestResults == 1066) &amp;&amp; willingToTest =="") {
+                getField('willing-tester.error').html('Indicate whether client is willing to test').show();
+                return false;
+            }
+
+            if (shareTestResults == 703 &amp;&amp; receivingCare =="") {
+                getField('receiving-care.error').html('Indicate whether client is under care').show();
+                return false;
+            }
+
+            if (contactForAppointment =="") {
+                getField('contacted-incase-of-appointment.error').html('Indicate whether to contact for appointment').show();
+                return false;
+            }
+
+            if (contactForAppointment == 1065 &amp;&amp; contactMethod =="" ) {
+                getField('contacted-incase-of-appointment.error').html('Select contact method').show();
+                return false;
+            }
+
+
+            if (partner_number != "") {
+
+                var regex = /^(?:\+254|0|254)(\d{9})$/
+                if(!regex.test(partner_number)){
+                    getField('mobile.error').html('Please enter valid phone number.').show();
+                    return false;
+                }
+
+            }
+            if (ccc_number != "") {
+
+              //  var regex = /^(?:\+254|0|254)(\d{9})$/
+                if(/^[0-9]{10}$/.test(ccc_number) === false) {
+                    getField('ccc-number.value').val('');
+                    getField('ccc-number.error').html('CCC number can not be less than 10 digits.').show();
+                    return false;
+                }
+
+            }
+
+        });
+
+        //Clear hidden sections
+        clearHiddenSections = function(parentObj) {
+            parentObj.find('input[type=radio]').each(function() {
+                this.checked = false;
+            });
+            parentObj.find('input[type=checkbox]').each(function() {
+                this.checked = false;
+            });
+            parentObj.find('input[type=text]').each(function() {
+                jq(this).val("");
+            });
+            parentObj.find('select').each(function() {
+                this.selectedIndex =0;
+            });
+        }
+
+
+    </script>
+
+    <style>
+        .simple-table {
+            border: solid 1px #DDEEEE;
+            border-collapse: collapse;
+            border-spacing: 0;
+            font: normal 13px Arial, sans-serif;
+        }
+
+        .simple-table thead th {
+            background-color: #DDEFEF;
+            border: solid 1px #DDEEEE;
+            color: #336B6B;
+            padding: 10px;
+            text-align: left;
+            text-shadow: 1px 1px 1px #fff;
+        }
+
+        .simple-table td {
+            border: solid 1px #DDEEEE;
+            color: #333;
+            padding: 10px;
+            text-shadow: 1px 1px 1px #fff;
+        }
+    </style>
+
+    <div class="ke-form-header">
+        <table style="width: 100%">
+            <tr>
+                <td align="left">Enrolment Date:
+                    <encounterDate id="encounter-date" showTime="true"/>
+                </td>
+                <td align="right">Location:
+                    <encounterLocation default="GlobalProperty:kenyaemr.defaultLocation" type="autocomplete"/>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="ke-form-content">
+        <ifMode mode="EDIT">
+            <script type="text/javascript">
+                jq(function(){
+
+                    var everTested = getValue('ever-tested.value');
+                    var shareTestResults = getValue('share-test.value');
+                    var willingToTest = getValue('willing-tester.value');
+                    var contactForAppointment = getValue('contacted-incase-of-appointment.value');
+
+
+                    if(everTested == 1065){
+                        jq("#test-type-tr").show();
+                        jq("#share-test-tr").show();
+                        jq('#willing-tester').val('');
+                        jq("#willing-to-test").hide();
+
+
+                    }
+                    else{
+                        jq("#test-type-tr").hide();
+                        jq("#share-test-tr").hide();
+                        jq("#willing-to-test").show();
+                        jq('#share-test').val('');
+                        jq('#test-type').val('');
+
+                    }
+                    ;
+
+                    if(shareTestResults == 703){
+                        jq("#hiv-care").show();
+                        jq("#tbl-vl-status").show();
+                        jq("#tbl-receiving-care").show();
+                        jq('#decline-reason').val('');
+                        jq('#willing-tester').val('');
+                    }
+                    else{
+                        jq("#hiv-care").hide();
+                        jq("#tbl-vl-status").hide();
+                        jq("#tbl-receiving-care").hide();
+                        jq("#willing-to-test").show();
+                        jq('#vl-date').val('');
+                        jq('#vl-test-done').val('');
+                        jq('#ccc-number').val('');
+                        jq('#care_provided_txt').val('');
+                        jq('#receiving-care').val('');
+                    }
+
+                    if(willingToTest == 1066) {
+                        jq("#test-decline-reason").show();
+                        jq('#decline-reason').show();
+                    }
+                    else{
+                        jq("#test-decline-reason").hide();
+                        jq('#decline-reason').val('');
+
+                    }
+
+                    if(contactForAppointment == 1065){
+                        jq("#contacted-incase-of-appointment").show();
+                        jq("#client-support").show();
+                        jq("#contact-method").show();
+                    }
+                    else{
+
+                        //jq('#cContacted').val('');
+                        jq('#contacted-incase-of-appointment').val('');
+
+
+                    }
+                });
+
+            </script>
+        </ifMode>
+
+        <fieldset>
+            <legend>Client Enrolment Social Status</legend>
+
+            <table class ="simple-table" id="social-status-table">
+                <tr>
+                    <td>Have you been contacted by a peer educator for health services?</td>
+                    <td>
+                        <obs id="peer-educator" conceptId="165004"
+                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabels="Yes,No"
+                             style="radio" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Do you have a regular(Non-Paying) sexual partner?</td>
+                    <td>
+                        <obs id="regular-sex-partner" conceptId="165027"
+                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabels="Yes,No"
+                             style="radio" />
+                    </td>
+                </tr>
+
+            </table>
+        </fieldset>
+
+        <fieldset>
+            <legend>Historical Status</legend>
+
+            <table class="simple-table" id="historical-status">
+                <tr id="year_started_sex">
+                    <td>Which year did you start sex work?</td>
+                    <td>
+                        <obs id="startSex" conceptId="165030"/>
+                    </td>
+                </tr>
+                <tr id="yearStartedSexWithMen">
+                    <td>Which year did you start having sex with men?</td>
+                    <td>
+                        <obs id="sexWithMen" conceptId="165031"/>
+                    </td>
+                </tr>
+                <tr id="yearStartedDrugs">
+                    <td>Which Year Did You Start Using Drugs (Injecting Or Smoking)?</td>
+                    <td>
+                        <obs id="usingDrugs" conceptId="165032"/>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Ever experienced sexual violence?</td>
+                    <td>
+
+                        <obs id="exprienced-sex-violence" conceptId="123160"
+                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabels="Yes,No"
+                             style="radio" />
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>Ever experienced physical violence?</td>
+                    <td>
+                        <obs id="exprienced-physical-violence" conceptId="165034"
+                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabels="Yes,No"
+                             style="radio" />
+                    </td>
+
+                </tr>
+            </table>
+        </fieldset>
+
+        <fieldset>
+            <legend>HIV History</legend>
+            <table class="simple-table" id="hiv-history">
+                <tr>
+                    <td>
+                        Have you ever been tested for HIV?
+                    </td>
+                    <td>
+                        <obs id="ever-tested" conceptId="164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Yes,No"
+                             style="radio" />
+                    </td>
+                </tr>
+                <tr id="test-type-tr">
+                    <td>
+                        The last time you received HIV testing, how did you test?
+                    </td>
+                    <td>
+                        <obs id="test-type" conceptId="164956"
+                             answerConceptIds="163722,164952"
+                             answerLabels="Rapid HIV Testing,Hiv Self Test"
+                             style="radio" />
+                    </td>
+                </tr>
+                <tr id="share-test-tr" >
+                    <td>
+                        Would you like to share your LAST test result with me?  (circle the number)
+                    </td>
+                    <td>
+                        <obs id="share-test" conceptId="165153"
+                             answerConceptIds="703AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,664AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabels="Yes I tested positive,
+                                           Yes I tested negative,
+                                           No I do not want to share"
+                             style="radio" />
+                    </td>
+                </tr>
+                <tr id="willing-to-test">
+                    <td>
+                        Are you willing to be tested for HIV?&#160;&#160;&#160;</td>
+                    <td>
+                        <obs id="willing-tester" conceptId="165154"
+                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Yes,No"
+                             style="radio" />
+                    </td>
+                </tr>
+                <tr id ="test-decline-reason">
+                    <td>
+                        Reason:&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                    </td>
+                    <td>
+                        <obs id="decline-reason" conceptId="160632"/>
+
+                    </td>
+                </tr>
+            </table>
+
+        </fieldset>
+        <fieldset id="hiv-care" >
+            <legend>HIV Care</legend>
+            <table class="simple-table" id="tbl-receiving-care">
+                <tr>
+                    <td>
+                        Are you receiving HIV care? &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                        <obs id="receiving-care" conceptId="159811AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Yes,No"
+                             style="radio" />
+
+
+                    </td>
+                    <td  colspan="7"> Facility where care is provided:
+                        <obs id="care_provided" conceptId="165239" style="radio" answerConceptIds="163266,162723" answerLabels="Here, Elsewhere"/>
+                        &#160;&#160;&#160;&#160;&#160;&#160;&#160;If elsewhere Specify: <obs id="care_provided_txt" class="remarks" conceptId="162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+                    </td>
+                    <td colspan="2" >CCC Number
+                        <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/>
+                    </td>
+
+                </tr>
+            </table>
+
+            <table class ="simple-table" id="tbl-vl-status">
+                <tr>
+                    <td>
+
+                        Viral Load Test done? &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                        <obs id="vl-test-done" conceptId="164437AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Yes,No"
+                             style="radio" />
+                    </td>
+
+                    <td>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                        VL results date:&#160;&#160;&#160;&#160;
+                        <obs id ="vl-date" conceptId="163281AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+                    </td>
+                </tr>
+            </table>
+
+        </fieldset>
+        <fieldset>
+            <legend>Client Support</legend>
+
+            <table class="simple-table" id="client-support">
+                <tr>
+                    <td>In case you are due for clinical services, could we contact you?</td>
+                    <td>
+                        <obs id="contacted-incase-of-appointment" conceptId="165036"
+                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabels="Yes,No"
+                             style="radio" />
+                    </td>
+                </tr>
+                <tr id ="contact-method">
+                    <td>How would you like to be contacted?</td>
+                    <td>
+                        <obs conceptId="164966" answerConceptId="161642" answerLabel="Treatment supporter" id="ts-checked" style="checkbox" /> <br />
+                        <obs conceptId="164966" answerConceptId="165037" answerLabel="Peer educator" id="pe-checked" style="checkbox"/> <br />
+                        <obs conceptId="164966" answerConceptId="1555" answerLabel="Outreach worker" style="checkbox"/> <br />
+                        <obs conceptId="164966" answerConceptId="159635" answerLabel="Phone number" id="visited-clinic" style="checkbox"/> <br />
+                        <obs conceptId="164966" answerConceptId="5619" answerLabel="Clinician/HTS Counsellor" id="visited-clinic" style="checkbox"/> <br />
+
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+
+        <fieldset>
+            <legend>Buddy Contact Information</legend>
+
+            <table class="simple-table" id="buddy-tbl">
+                <tr>
+                    <td>Buddy Name</td>
+                    <td>
+                        <obs id="fname" conceptId="160638"/>
+                    </td>
+
+                    <td>Buddy Mobile Number</td>
+                    <td>
+                        <obs id="mobile" conceptId="160642"/>
+                    </td>
+
+                </tr>
+            </table>
+        </fieldset>
+
+        <enrollInProgram programId="7447305a-18a7-11e9-ab14-d663bd873d93"/>
+    </div>
+
+    <div class="ke-form-footer">
+        <submit/>
+    </div>
+
+</htmlform>

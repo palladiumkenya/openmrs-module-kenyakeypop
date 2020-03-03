@@ -1,0 +1,359 @@
+<!--
+  ~ The contents of this file are subject to the OpenMRS Public License
+  ~ Version 1.0 (the "License"); you may not use this file except in
+  ~ compliance with the License. You may obtain a copy of the License at
+  ~ http://license.openmrs.org
+  ~
+  ~ Software distributed under the License is distributed on an "AS IS"
+  ~ basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+  ~ License for the specific language governing rights and limitations
+  ~ under the License.
+  ~
+  ~ Copyright (C) OpenMRS, LLC.  All Rights Reserved.
+  -->
+<htmlform>
+    <script type="text/javascript" src="../moduleResources/kenyaemr/scripts/moment.js"></script>
+    <style>
+        .simple-table {
+            border: solid 1px #DDEEEE;
+            border-collapse: collapse;
+            border-spacing: 0;
+            font: normal 13px Arial, sans-serif;
+        }
+
+        .simple-table thead th {
+            background-color: #DDEFEF;
+            border: solid 1px #DDEEEE;
+            color: #336B6B;
+            padding: 10px;
+            text-align: left;
+            text-shadow: 1px 1px 1px #fff;
+        }
+
+        .simple-table td {
+            border: solid 1px #DDEEEE;
+            color: #333;
+            padding: 10px;
+            text-shadow: 1px 1px 1px #fff;
+        }
+    </style>
+    <script>
+
+        $(document).ready(function () {
+
+            $('#results input').prop('disabled', true);
+            $('input[type=radio]').change( function()  {
+
+                var oftendrink =  getValue('oftendrink.value');
+                var alcoholDrink = getValue('alcoholDrink.value');
+                var sixdrinks = getValue('sixdrinks.value');
+                var canNotStop = getValue('canNotStop.value');
+                var failedduetoalcohol = getValue('failedduetoalcohol.value');
+                var neededfirstdrink = getValue('neededfirstdrink.value');
+                var feelingOfguilt = getValue('feelingOfguilt.value');
+                var unableToremeber = getValue('unableToremeber.value');
+                var injuredDueToalcohol = getValue('injured.value');
+                var concerned = getValue('concerned.value');
+
+                var often= 0;
+                var drinks=0;
+                var six=0;
+                var cantstop=0;
+                var failed= 0;
+                var need=0;
+                var feel=0;
+                var unable=0;
+                var injured=0;
+                var concern=0;
+
+
+                if (oftendrink == 1090){
+                    often =0;
+                    $("INPUT[type=radio]").attr("disabled", "disabled");
+                    jq("#oftendrink :input").prop("disabled", false);
+                   }
+                else if (oftendrink == 1091){
+                    jq("#alcoholDrink :input").prop("disabled", false);
+                    jq("#sixdrinks :input").prop("disabled", false);
+                    jq("#canNotStop :input").prop("disabled", false);
+                    jq("#failedduetoalcohol :input").prop("disabled", false);
+                    jq("#neededfirstdrink :input").prop("disabled", false);
+                    jq("#feelingOfguilt :input").prop("disabled", false);
+                    jq("#unableToremeber :input").prop("disabled", false);
+                    jq("#injured :input").prop("disabled", false);
+                    jq("#concerned :input").prop("disabled", false);
+                    often =1
+                }
+                else if (oftendrink == 1092){
+                    jq("#alcoholDrink :input").prop("disabled", false);
+                    jq("#sixdrinks :input").prop("disabled", false);
+                    jq("#canNotStop :input").prop("disabled", false);
+                    jq("#failedduetoalcohol :input").prop("disabled", false);
+                    jq("#neededfirstdrink :input").prop("disabled", false);
+                    jq("#feelingOfguilt :input").prop("disabled", false);
+                    jq("#unableToremeber :input").prop("disabled", false);
+                    jq("#injured :input").prop("disabled", false);
+                    jq("#concerned :input").prop("disabled", false);
+                    often =2
+                }
+                else if (oftendrink == 1093){
+                    jq("#alcoholDrink :input").prop("disabled", false);
+                    jq("#sixdrinks :input").prop("disabled", false);
+                    jq("#canNotStop :input").prop("disabled", false);
+                    jq("#failedduetoalcohol :input").prop("disabled", false);
+                    jq("#neededfirstdrink :input").prop("disabled", false);
+                    jq("#feelingOfguilt :input").prop("disabled", false);
+                    jq("#unableToremeber :input").prop("disabled", false);
+                    jq("#injured :input").prop("disabled", false);
+                    jq("#concerned :input").prop("disabled", false);
+                    often =3
+                }
+                else if (oftendrink == 1094){
+                    jq("#alcoholDrink :input").prop("disabled", false);
+                    jq("#sixdrinks :input").prop("disabled", false);
+                    jq("#canNotStop :input").prop("disabled", false);
+                    jq("#failedduetoalcohol :input").prop("disabled", false);
+                    jq("#neededfirstdrink :input").prop("disabled", false);
+                    jq("#feelingOfguilt :input").prop("disabled", false);
+                    jq("#unableToremeber :input").prop("disabled", false);
+                    jq("#injured :input").prop("disabled", false);
+                    jq("#concerned :input").prop("disabled", false);
+                    often =4
+                }
+
+                if (alcoholDrink == 165111){drinks =0;}
+                else if (alcoholDrink == 165112){drinks =1}
+                else if (alcoholDrink == 165113){drinks =2}
+                else if (alcoholDrink == 165114){drinks =3}
+                else if (alcoholDrink == 165115){drinks =4}
+
+
+                if (sixdrinks == 1090){six =0;}
+                else if (sixdrinks == 1097){six =1}
+                else if (sixdrinks == 1098){six =2}
+                else if (sixdrinks == 1099){six =3}
+                else if (sixdrinks == 1100){six =4}
+
+                if (canNotStop == 1090){cantstop =0;}
+                else if (canNotStop == 1097){cantstop =1}
+                else if (canNotStop == 1098){cantstop =2}
+                else if (canNotStop == 1099){cantstop =3}
+                else if (canNotStop == 1100){cantstop =4}
+
+                if (failedduetoalcohol == 1090){failed =0;}
+                else if (failedduetoalcohol == 1097){failed =1}
+                else if (failedduetoalcohol == 1098){failed =2}
+                else if (failedduetoalcohol == 1099){failed =3}
+                else if (failedduetoalcohol == 1100){failed =4}
+
+                if (neededfirstdrink == 1090){need =0;}
+                else if (neededfirstdrink == 1097){need =1}
+                else if (neededfirstdrink == 1098){need =2}
+                else if (neededfirstdrink == 1099){need =3}
+                else if (neededfirstdrink == 1100){need =4}
+
+                if (feelingOfguilt == 1090){feel =0;}
+                else if (feelingOfguilt == 1097){feel =1}
+                else if (feelingOfguilt == 1098){feel =2}
+                else if (feelingOfguilt == 1099){feel =3}
+                else if (feelingOfguilt == 1100){feel =4}
+
+                if (unableToremeber == 1090){unable =0;}
+                else if (unableToremeber == 1097){unable =1}
+                else if (unableToremeber == 1098){unable =2}
+                else if (unableToremeber == 1099){unable =3}
+                else if (unableToremeber == 1100){unable =4}
+
+                if (injuredDueToalcohol == 1066){injured =0;}
+                else if (injuredDueToalcohol == 165116){injured =1}
+                else if (injuredDueToalcohol == 165117){injured =2}
+
+
+
+                if (concerned == 1066){concerned =0;}
+                else if (concerned == 165116){concern =1}
+                else if (concerned == 165117){concern =2}
+                var computed=0;
+                computed= +often + +drinks + +six+cantstop + +failed + +need + +unable + +feel + +injured + +concern;
+
+                $('#results input').val(computed);
+                console.log(computed)
+
+
+            });
+        });
+    </script>
+    <div class="ke-form-header">
+        <table width="100%">
+            <tr>
+                <td>Date: <encounterDate id="encounter-date" showTime="true" /></td>
+                <td>Location: <encounterLocation default="GlobalProperty:kenyaemr.defaultLocation" type="autocomplete" /></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="ke-form-content">
+        <fieldset class="gbv-scree">
+            <!--Gender based violence screening-->
+            <fieldset id="psychosocial-preparation-tab">
+                <legend>
+                    Alcohol Abuse Screening Tool
+                </legend>
+                <table class="simple-table" id="alcohol-screening-questions">
+                    <obsgroup groupingConceptId="158728AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
+                        <tr>
+                            <td><b>1. How often do you have a drink containing alcohol?</b></td>
+                            <td colspan="4">
+                                <obs conceptId="159449AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="oftendrink"
+                                     answerConceptIds="1090,
+									                   1091,
+									                   1092,
+									                   1093,
+									                   1094"
+                                     answerLabels="Never,
+									     Monthly or less,
+									               2 to 4 times a month,
+									               2 to 3 times a week,
+									               4 or More Times a Week"
+                                     style="radio" answerSeparator="&lt;br /&gt;"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>2. How many drinks containing alcohol do you have on a typical day when you are drinking?</b></td>
+                            <td colspan="4">
+                                <obs conceptId="165118" id="alcoholDrink"
+                                     answerConceptIds="165111,
+									                   165112,
+									                   165113,
+									                   165114,
+									                   165115"
+                                     answerLabels="1 or 2,
+									     3 or 4,
+									               5 or 6,
+									         7 to 8 or 9  ,
+									               10 or more"
+                                     style="radio" answerSeparator="&lt;br /&gt;"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>3. How often do you have six or more drinks on one occasion? Skip to Q 9 and 10 if total Score for 2 and 3 = 0?</b></td>
+                            <td colspan="4">
+                                <obs conceptId="165119" id="sixdrinks"
+                                     answerConceptIds="1090,
+									                   1097,
+									                   1098,
+									                   1099,
+									                   1100"
+
+                                     style="radio" answerSeparator="&lt;br /&gt;"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>4. How often during the last year have you found that you were not able to stop drinking once you had started?</b></td>
+                            <td colspan="4">
+                                <obs conceptId="165120" id="canNotStop"
+                                     answerConceptIds="1090,
+									                   1097,
+									                   1098,
+									                   1099,
+									                   1100"
+
+                                     style="radio" answerSeparator="&lt;br /&gt;"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>5. How often during the last year have you failed to do what was normally expected from you because of drinking?</b></td>
+                            <td colspan="4">
+                                <obs conceptId="165121" id="failedduetoalcohol"
+                                     answerConceptIds="1090,
+									                   1097,
+									                   1098,
+									                   1099,
+									                   1100"
+                                     style="radio" answerSeparator="&lt;br /&gt;"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>6. How often during the last year have you needed a first drink in the morning to get yourself going after a heavy drinking session?</b></td>
+                            <td colspan="4">
+                                <obs conceptId="165122" id="neededfirstdrink"
+                                     answerConceptIds="1090,
+									                   1097,
+									                   1098,
+									                   1099,
+									                   1100"
+                                     style="radio" answerSeparator="&lt;br /&gt;"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>7. How often during the last year have you had a feeling of guilt or remorse after drinking?</b></td>
+                            <td colspan="4">
+                                <obs conceptId="165123" id="feelingOfguilt"
+                                     answerConceptIds="1090,
+									                   1097,
+									                   1098,
+									                   1099,
+									                   1100"
+                                     style="radio" answerSeparator="&lt;br /&gt;"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>8. How often during the last year have you been unable to remember what happened the night before because you had been drinking?</b></td>
+                            <td colspan="4">
+                                <obs conceptId="165124" id="unableToremeber"
+                                     answerConceptIds="1090,
+									                   1097,
+									                   1098,
+									                   1099,
+									                   1100"
+                                     style="radio" answerSeparator="&lt;br /&gt;"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>9. Have you or someone else been injured as a result of your drinking?</b></td>
+                            <td colspan="4">
+                                <obs conceptId="165125" id="injured"
+                                     answerConceptIds="1066,
+									                   165116,
+									                   165117
+									                  "
+                                     style="radio" answerSeparator="&lt;br /&gt;"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>10. Has a relative or friend or a doctor or another health worker been concerned about your drinking or suggested you cut down?</b></td>
+                            <td>
+                                <obs conceptId="165126" id="concerned"
+                                     answerConceptIds="1066,
+									                   165116,
+									                   165117
+									                  "
+                                     style="radio" answerSeparator="&lt;br /&gt;"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>11. Record total of specific items here
+                                If total over 8, alcohol use disorder likely.  Please refer to alcohol disorder treatment programs.</b></td>
+
+                            <td width="156" valign="top"><p>  <obs id="results" conceptId="160632"
+                            /></p></td>
+                        </tr>
+
+                        <tr>
+                            <td><b>Remarks.</b></td>
+
+
+                            <td width="156" valign="top"><p>  <obs class="remarks" conceptId="163042AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  rows="5" cols="50"
+                            /></p></td>
+                        </tr>
+
+                    </obsgroup>
+                </table>
+            </fieldset>
+        </fieldset>
+    </div>
+    <div class="ke-form-footer">
+        <submit/>
+    </div>
+
+</htmlform>

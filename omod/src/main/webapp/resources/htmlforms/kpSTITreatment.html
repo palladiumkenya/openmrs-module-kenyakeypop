@@ -1,0 +1,734 @@
+<!--
+  ~ The contents of this file are subject to the OpenMRS Public License
+  ~ Version 1.0 (the "License"); you may not use this file except in
+  ~ compliance with the License. You may obtain a copy of the License at
+  ~ http://license.openmrs.org
+  ~
+  ~ Software distributed under the License is distributed on an "AS IS"
+  ~ basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+  ~ License for the specific language governing rights and limitations
+  ~ under the License.
+  ~
+  ~ Copyright (C) OpenMRS, LLC.  All Rights Reserved.
+
+-->
+<htmlform>
+    <script type="text/javascript" src="../moduleResources/kenyaemr/scripts/moment.js"></script>
+    <script type="text/javascript">
+
+        var pgender = "<lookup expression="patient.gender" />";
+        jQuery(function ($) {
+            jq(".other-syndrome").hide();
+            jq(".other-drug").hide();
+            jq("#facility-name").hide();
+            jq("#form-no").hide();
+            jq("#condoms-no").hide();
+            jq("#condoms-number").hide();
+            jq("#lubes-no").hide();
+            jq("#lubricants-number").hide();
+
+            jq("#hidden-summary").hide();
+            jq('#other-syndrome-selected :input[type=checkbox]').click(onOtherSyndromeSelected);
+            jq('#other-drug-selected :input[type=checkbox]').click(onOtherDrugSelected);
+
+            jq('#referred-facility :input[type=radio]').change(onFacilityReferral);
+            jq('#referred-lab :input[type=radio]').change(onLabReferral);
+            jq('#given-condoms :input[type=radio]').change(condomsGiven);
+            jq('#given-lubricants :input[type=radio]').change(lubesGiven);
+            jq("#returnVisitDate input").change(nextAppointmentDate);
+
+
+            if (pgender == 'F') {
+                jq('#orchitis input').prop('disabled', true).addClass('disabled');
+                jq('#virginitis input').prop('disabled', false).removeClass('disabled');
+                jq('#cervicitis input').prop('disabled', false).removeClass('disabled');
+                jq('#pelvic input').prop('disabled', false).removeClass('disabled');
+
+            }
+            if (pgender == 'M') {
+                jq('#orchitis input').prop('disabled', false).removeClass('disabled');
+                jq('#virginitis input').prop('disabled', true).addClass('disabled');
+                jq('#cervicitis input').prop('disabled', true).addClass('disabled');
+                jq('#pelvic input').prop('disabled', true).addClass('disabled');
+
+            }
+
+            $('input').on('click',function () {
+                $('#infected').find(':checkbox').each(function(){
+
+                    if($(this).is(":checked")){
+                        $('#infection_exists input').val(['1065']);
+                        return false;
+                    }
+                    else{
+                        $('#infection_exists input').val(['1066']);
+                    }
+
+                });
+
+                $('#on_treatment').find(':checkbox').each(function(){
+
+                    if($(this).is(":checked")){
+                        $('#drug_prescribed input').val(['1065']);
+                        return false;
+                    }
+                    else{
+                        $('#drug_prescribed input').val(['1066']);
+                    }
+
+                });
+
+            });
+
+        })
+        var nextAppointmentDate  = function () {
+            var today = moment().format('YYYY-MM-DD');
+            var nextAppointment = getValue('returnVisitDate.value');
+            var appointment = moment(moment(moment(nextAppointment, 'YYYY-MM-DD').toDate()).format('YYYY-MM-DD')).isBefore(moment(moment(today, 'YYYY-MM-DD').toDate()).format('YYYY-MM-DD'));
+            if (appointment) {
+                getField('returnVisitDate.error').html('Next appointment date should be in the future').show();
+                jq("#returnVisitDate input").val('');
+            }
+            else{
+                getField('returnVisitDate.error').html('Next appointment date should be in the future').hide();
+            }
+
+
+        }
+
+        function onOtherSyndromeSelected() {
+            var val = jq(this).val();
+            var otherSyndromeChecked = jq("#other-syndrome-selected input:checkbox:checked");
+            if(val == 5622 &amp;&amp; otherSyndromeChecked.length >0 ){
+                jq(".other-syndrome").show();
+            }
+            else{
+                jq(".other-syndrome").hide();
+            }
+        }
+        function onOtherDrugSelected() {
+            var val = jq(this).val();
+            var otherDrugChecked = jq("#other-drug-selected input:checkbox:checked");
+            if(val == 165139 &amp;&amp; otherDrugChecked.length >0 ){
+                jq(".other-drug").show();
+            }
+            else{
+
+                jq(".other-drug").hide();
+            }
+        }
+
+        function onLabReferral() {
+            var val = jq(this).val();
+            var labReferred = jq("#referred-lab input:radio:checked");
+            if(val == 1065 ){
+                jq("#form-no").show();
+            }
+            else{
+
+                jq("#form-no").hide();
+                clearHiddenSections(jq('#form-no'));
+            }
+        }
+        function onFacilityReferral() {
+            var val = jq(this).val();
+            var facilityReferred = jq("#referred-facility input:radio:checked");
+            if(val == 1065 ){
+                jq("#facility-name").show();
+                jq("#referred-facility-name").show();
+            }
+            else{
+
+                jq("#facility-name").hide();
+                clearHiddenSections(jq('#facility-name'));
+            }
+        }
+
+        function condomsGiven() {
+            var val = jq(this).val();
+            var condoms = jq("#given-condoms input:radio:checked");
+            if(val == 1065 ){
+                jq("#condoms-no").show();
+                jq("#condoms-number").show();
+            }
+            else{
+
+                jq("#condoms-no").hide();
+                jq("#condoms-number").hide();
+                clearHiddenSections(jq('#condoms-no'));
+                clearHiddenSections(jq('#condoms-number'));
+            }
+        }
+        function lubesGiven() {
+            var val = jq(this).val();
+            var lubes = jq("#given-lubricants input:radio:checked");
+            if(val == 1065 ){
+                jq("#lubes-no").show();
+                jq("#lubricants-number").show();
+            }
+            else{
+
+                jq("#lubes-no").hide();
+                jq("#lubricants-number").hide();
+                clearHiddenSections(jq('#lubes-no'));
+                clearHiddenSections(jq('#lubricants-number'));
+            }
+        }
+
+        //Clear hidden sections
+        clearHiddenSections = function(parentObj) {
+            parentObj.find('input[type=radio]').each(function() {
+                this.checked = false;
+            });
+            parentObj.find('input[type=checkbox]').each(function() {
+                this.checked = false;
+            });
+            parentObj.find('input[type=text]').each(function() {
+                jq(this).val("");
+            });
+            parentObj.find('select').each(function() {
+                this.selectedIndex =0;
+            });
+        }
+
+        beforeSubmit.push(function () {
+            var validated = /^([1-9]|[1-9][0-9]|[1-9][0-9][0-9])$/;
+            var nameOfReferredFacility = getField('referred-facility-name.value').val();
+            var numberOfLubesGiven = getField('lubricants-number.value').val();
+            var numberOfCondomsGiven = getField('condoms-number.value').val();
+            var referredToFacility = getValue('referred-facility.value');
+            var lubesGiven = getValue('given-lubricants.value');
+            var condomsGiven = getValue('given-condoms.value');
+            var NumberOfCondomsGiven = getField('condoms-number.value').val();
+            var NumberOfLubesGiven = getField('lubricants-number.value').val();
+
+
+            if (referredToFacility == 1065 &amp;&amp; nameOfReferredFacility == "") {
+                getField('referred-facility-name.error').html('Referred facility name is required').show();
+                return false;
+            }
+
+            if (lubesGiven ==1065 &amp;&amp; numberOfLubesGiven == "" ) {
+                getField('lubricants-number.error').html('Number of lubricants given is required').show();
+                return false;
+            }
+
+            if (condomsGiven ==1065 &amp;&amp; numberOfCondomsGiven == "") {
+                getField('condoms-number.error').html('Number of condoms given is required').show();
+                return false;
+            }
+
+            if (lubesGiven ==1065 &amp;&amp; !NumberOfLubesGiven.match(validated)) {
+                getField('lubricants-number.error').html('Should be between 1 and 200.').show();
+                return false;
+            }
+
+            if (condomsGiven ==1065 &amp;&amp;  !NumberOfCondomsGiven.match(validated)) {
+                    getField('condoms-number.error').html('Should be between 1 and 200.').show();
+                return false;
+            }
+
+
+
+
+        });
+
+    </script>
+
+    <style>
+        .simple-table {
+            border: solid 1px #DDEEEE;
+            border-collapse: collapse;
+            border-spacing: 0;
+            font: normal 13px Arial, sans-serif;
+        }
+
+        .simple-table thead th {
+            background-color: #DDEFEF;
+            border: solid 1px #DDEEEE;
+            color: #336B6B;
+            padding: 10px;
+            text-align: left;
+            text-shadow: 1px 1px 1px #fff;
+        }
+
+        .simple-table td {
+            border: solid 1px #DDEEEE;
+            color: #333;
+            padding: 10px;
+            text-shadow: 1px 1px 1px #fff;
+        }
+    </style>
+
+    <div class="ke-form-header">
+        <table width="100%">
+            <tr>
+                <td>Date:
+                    <encounterDate id="encounter-date" showTime="true"/>
+                </td>
+                <td>Location:
+                    <encounterLocation default="GlobalProperty:kenyaemr.defaultLocation" type="autocomplete"/>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="ke-form-content">
+
+        <ifMode mode="EDIT">
+            <script type="text/javascript">
+                jq(function(){
+                    var labRef = getValue('referred-lab.value');
+                    var facilityRef = getValue('referred-facility.value');
+                    var lubes = getValue('given-lubricants.value');
+                    var condoms = getValue('given-condoms.value');
+                    if(labRef == 1065){
+                        jq("#form-no").show();
+                        jq(".form-number").show();
+                    }
+                    else{
+                        jq("#form-no").hide();
+                        jq("#form-number").hide();
+                        jq('#form-number').val('');
+
+                    }
+
+                    if(facilityRef == 1065){
+                        jq("#facility-name").show();
+                        jq("#referred-facility-name").show();
+                    }
+                    else{
+                        jq("#facility-name").hide();
+                        jq("#referred-facility-name").hide();
+                        jq('#referred-facility-name').val('');
+
+                    }
+
+                    if(lubes == 1065){
+                        jq("#lubes-no").show();
+                        jq("#lubricants-number").show();
+                    }
+                    else{
+                        jq("#lubes-no").hide();
+                        jq("#lubricants-number").hide();
+                        jq('#lubricants-number').val('');
+
+                    }
+
+                    if(condoms == 1065){
+                        jq("#condoms-no").show();
+                        jq("#condoms-number").show();
+                    }
+                    else{
+                        jq("#condoms-no").hide();
+                        jq("#condoms-number").hide();
+                        jq('#condoms-number').val('');
+
+                    }
+                });
+
+            </script>
+        </ifMode>
+        <fieldset>
+            <legend>Visit Information</legend>
+            <table class="simple-table" id="visit-table">
+                Reason for Visit :
+                <obs id ="visit_reason" conceptId="164082AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                     answerConceptIds="1068AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                5006AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                163139AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                160523AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                     answerLabels="Symptomatic,Asymptomatic,Quartely Screening,Follow up"
+                     style="radio"/>
+                <p>
+                    New client in programme? : <obs id ="new_client" conceptId="164144"
+
+                         style="radio"/>
+                </p>
+
+            </table>
+        </fieldset>
+
+        <fieldset id="infected">
+            <legend>Type of Syndrome/Infections</legend>
+            <table class="simple-table" id="syndrome-table">
+                <tr>
+                    <td>Type of Syndrome/Infection (Tick as appropriate)</td>
+                    <td id="syndrome">
+
+                        <obs conceptId="165098"
+                             answerConceptId="145762AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Genital Ulcer Disease" style="checkbox"
+                        />
+                        <br />
+                        <obs conceptId="165098" id="pelvic"
+                             answerConceptId="130644AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Pelvic Inflammation Disease" style="checkbox"/>
+                        <br />
+                        <obs conceptId="165098"
+                             answerConceptId="120939AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Candidiasis" style="checkbox"/>
+                        <br />
+                        <obs conceptId="165098"
+                             answerConceptId="123529AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Urethral Discharge/Urethritis" style="checkbox"/>
+                        <br />
+                        <obs conceptId="165098"
+                             answerConceptId="139505AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Genital Warts" style="checkbox"/>
+                        <br />
+                        <obs conceptId="165098" id="cervicitis"
+                             answerConceptId="116995AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Cervicitis" style="checkbox"/>
+                        <br />
+
+
+                        <obs conceptId="165098"
+                             answerConceptId="112493AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Syphilis" style="checkbox"/>
+                        <br />
+                        <obs conceptId="165098"
+                             answerConceptId="117829AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Herpes Genitalia"
+                             style="checkbox"/>
+                        <br />
+                    </td><td>
+                    <obs conceptId="165098"
+                         answerConceptId="130309AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                         answerLabel="Pharyngeal Discharge" style="checkbox"/>
+                    <br />
+                    <obs conceptId="165098" id="virginitis"
+                         answerConceptId="121809AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                         answerLabel="Vaginitis" style="checkbox"/>
+                    <br />
+                    <obs conceptId="165098"
+                         answerConceptId="155080AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                         answerLabel="Anal Warts" style="checkbox"/>
+                    <br />
+                    <obs conceptId="165098"
+                         answerConceptId="148895AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                         answerLabel="Anal Discharge" style="checkbox"/>
+                    <br />
+                    <obs conceptId="165098"
+                         answerConceptId="148902AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                         answerLabel="Anal Rectal Ulcer" style="checkbox"/>
+                    <br />
+                    <obs conceptId="165098"
+                         answerConceptId="110172AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                         answerLabel="Pharyngeal Ulcer" style="checkbox"/>
+                    <br />
+                    <obs conceptId="165098" id="orchitis"
+                         answerConceptId="114732AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                         answerLabel="Orchitis" style="checkbox"/>
+                    <br />
+
+                    <obs conceptId="165098"
+                         answerConceptId="5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                         answerLabel="Other(Specify)" style="checkbox"  id="other-syndrome-selected"/>
+                    <br />&#160;
+
+                    <obs
+                            class="other-syndrome"
+                            conceptId="165138"
+                    />
+
+                </td>
+                </tr>
+
+            </table>
+        </fieldset>
+
+        <fieldset id="on_treatment">
+            <legend>Drug prescription </legend>
+            <table class ="simple-table" id = "drug-table">
+
+                <tr>
+                    <td>Drug prescription (tick as appropriate)&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</td>
+
+                    <td id="drug">
+
+                        <obs conceptId="1282AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerConceptId="75842AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Erythromycin" style="checkbox"
+                        />
+                        <br />
+                        <obs conceptId="1282AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerConceptId="73041AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Ceftriaxone" style="checkbox"/>
+                        <br />
+                        <obs conceptId="1282AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerConceptId="82228AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Podophyllin" style="checkbox"/>
+                        <br />
+                        <obs conceptId="1282AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerConceptId="73449AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Ciprofloxacin" style="checkbox"/>
+                        <br />
+                        <obs conceptId="1282AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerConceptId="70245AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Acyclovir Tablets" style="checkbox"/>
+                        <br />
+                        <obs conceptId="1282AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerConceptId="70116AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Paracetamol" style="checkbox"/>
+                        <br />
+
+
+                        <obs conceptId="1282AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerConceptId="72039AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Benzathine" style="checkbox"/>
+                        <br />
+                        <obs conceptId="1282AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerConceptId="84221AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Spectinomycin"
+                             style="checkbox"/>
+                        <br />
+                        <obs conceptId="1282AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerConceptId="77897AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Brufen" style="checkbox"/>
+                        <br />
+                        <obs conceptId="1282AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerConceptId="73006AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Cefixime" style="checkbox"/>
+                        <br />
+                        <obs conceptId="1282AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerConceptId="100AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Inj. Gentamycin" style="checkbox"/>
+                        <br />
+                        <obs conceptId="1282AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerConceptId="71160AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Amoxycillin" style="checkbox"/>
+                        <br />
+                        <obs conceptId="1282AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerConceptId="75222AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Doxycycline" style="checkbox"/>
+                        <br />
+                    </td> <td>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                    <obs conceptId="1282AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                         answerConceptId="73624AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                         answerLabel="Clotrimazole Pessaries" style="checkbox"/>
+                    <br />
+                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<obs conceptId="1282AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                                                                                                                     answerConceptId="71780AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                                                                                                                     answerLabel="Azithromycin" style="checkbox"/>
+                    <br/>
+                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<obs conceptId="1282AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                                                                                                                     answerConceptId="165129"
+                                                                                                                                     answerLabel="Avirax Cream" style="checkbox"/>
+                    <br />
+                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<obs conceptId="1282AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                                                                                                                     answerConceptId="84297AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                                                                                                                     answerLabel="Anusol Suppositories" style="checkbox"/>
+                    <br />
+                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<obs conceptId="1282AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                                                                                                                     answerConceptId="294AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                                                                                                                     answerLabel="Amplicox" style="checkbox"/>
+                    <br />
+                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<obs conceptId="1282AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                                                                                                                     answerConceptId="79782AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                                                                                                                     answerLabel="Metronidazole" style="checkbox"/>
+                    <br />
+                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<obs conceptId="1282AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                                                                                                                     answerConceptId="76488AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                                                                                                                     answerLabel="Fluconazole" style="checkbox"/>
+                    <br />
+                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<obs conceptId="1282AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                                                                                                                     answerConceptId="431AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                                                                                                                     answerLabel="Buscopan" style="checkbox"/>
+                    <br />
+                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<obs conceptId="1282AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                                                                                                                     answerConceptId="165130"
+                                                                                                                                     answerLabel="avirax tablets" style="checkbox"/>
+                    <br />
+                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<obs conceptId="1282AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                                                                                                                     answerConceptId="165131"
+                                                                                                                                     answerLabel="Acyclovir Cream" style="checkbox"/>
+                    <br />
+                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<obs conceptId="1282AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                                                                                                                     answerConceptId="165132"
+                                                                                                                                     answerLabel="Clozole cream" style="checkbox"/>
+                    <br />
+
+                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<obs conceptId="1282AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                                                                                                                     answerConceptId="165139"
+                                                                                                                                     answerLabel="Other (Specify)" style="checkbox"  id="other-drug-selected"/>
+                    <br />
+
+                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                    <obs
+                            class="other-drug"
+                            conceptId="163101AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                    />
+
+                </td>
+                </tr>
+
+            </table>
+
+        </fieldset>
+
+        <fieldset>
+            <legend>Examinations and Referrals</legend>
+            <table class ="simple-table" id ="tbl-examinations">
+                <tr>
+                    <td>
+                        Was genital Examination done? &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</td>
+                    <td>
+                        <obs id="genital-exam" conceptId="163743AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Yes,No"
+                             style="radio" />
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        Client referred for Lab investigation? &#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                    </td>
+                    <td>
+                        <obs id="referred-lab" conceptId="1272AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Yes,No"
+                             style="radio" />
+                    </td>
+                    <td id ="form-no">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Lab investigation form number: &#160;&#160;&#160;&#160;
+                        <obs
+                                class="form-number"
+                                conceptId="163042AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                        />
+
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>
+                        Client referred to other health facility? &#160;&#160;&#160;&#160;&#160;
+                    </td>
+                    <td>
+                        <obs id="referred-facility" conceptId="1788AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             style="radio" answerLabels="Yes,No" />
+                    </td>
+                    <td id = "facility-name">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Health Facility name:&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;                        <obs
+                            id="referred-facility-name"
+                            conceptId="162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                    />
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Partner referral done? &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</td>
+                    <td>
+                        <obs id="partner-referral" conceptId="165128"
+                             answerConceptIds="1065,1066"
+                             style="radio" answerLabels="Yes,No" />
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+
+        <fieldset>
+            <legend>Commodities</legend>
+            <table class="simple-table" id="commodities">
+                <tr>
+                    <td>
+                        Given Lubricants? &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                    </td>
+                    <td>
+                        <obs id="given-lubricants" conceptId="165127"
+                             answerConceptIds="1065,1066"
+                             style="radio" answerLabels="Yes,No" />
+                    </td>
+                    <td id ="lubes-no">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Number of Lubricants:&#160;&#160;&#160;&#160;
+
+                        <obs
+                                id="lubricants-number"
+                                conceptId="163169AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Given Condoms? &#160;&#160;&#160;&#160;&#160;&#160;
+                    </td>
+                    <td>
+                        <obs id="given-condoms" conceptId="159777AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             style="radio" answerLabels="Yes,No" />
+                    </td>
+                    <td id ="condoms-no">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Number of condoms:&#160;&#160;&#160;&#160;
+
+                        <obs
+                                id="condoms-number"
+                                conceptId="165055"/>
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+
+        <fieldset>
+            <legend>Clinical comments</legend>
+            <table id ="clinical-comments">
+                <tr>
+                    <td>
+                        Clinical Provider Comments &#160;&#160;&#160;&#160;&#160;
+                        <obs class="remarks" conceptId="162749AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  cols="80"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Clinical provider's name: &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+
+                        <obs conceptId="1473AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>Date of next visit:&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+
+                        <obs conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true"  id="returnVisitDate" />
+                        <span style="color:red;"><strong>*</strong></span>
+                    </td>
+                </tr>
+            </table>
+
+        </fieldset>
+
+        <fieldset disabled="true" id="hidden-summary" >
+            <legend>This section is purely for reporting not part of form</legend>
+            <table id="reportSection">
+                <tr>
+                    <td>
+                        Syndrome/Infection exists?
+                    </td>
+                    <td>
+                        <obs id="infection_exists" conceptId="1169"
+                             answerConceptIds="1065,1066"
+                             style="radio" answerLabels="Yes,No" />
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        Drug prescribed?
+                    </td>
+                    <td>
+                        <obs id="drug_prescribed" conceptId="165200"
+                             answerConceptIds="1065,1066"
+                             style="radio" answerLabels="Yes,No" />
+                    </td>
+
+                </tr>
+            </table>
+
+        </fieldset>
+
+    </div>
+
+    <div class="ke-form-footer">
+        <submit/>
+    </div>
+
+</htmlform>

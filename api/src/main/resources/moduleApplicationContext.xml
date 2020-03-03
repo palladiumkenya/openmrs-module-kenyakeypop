@@ -25,10 +25,89 @@
 
     <context:component-scan base-package="org.openmrs.module.kenyakeypop" />
 
+
+
+    <bean id="kenyakeypop.app.keypopulation.provider" factory-bean="kenyacore.appFactoryBean" factory-method="createInstance">
+        <constructor-arg value="kenyakeypop.keypopulation.provider" />
+        <constructor-arg value="KP Provider" />
+        <constructor-arg value="kenyakeypop/kpProviderHome.page" />
+        <constructor-arg value="kenyakeypop:apps/clinician.png" />
+        <constructor-arg value="2000" />
+    </bean>
+
+    <bean id="kenyakeypop.app.keypopulation.calendar" factory-bean="kenyacore.appFactoryBean" factory-method="createInstance">
+        <constructor-arg value="kenyakeypop.keypopulation.calendar" />
+        <constructor-arg value="KP Calendar" />
+        <constructor-arg value="kenyakeypop/kenyakeypopulationPeerCalendarHome.page" />
+        <constructor-arg value="kenyakeypop:apps/peerCalendar.png" />
+        <constructor-arg value="2001" />
+    </bean>
+
+    <bean id="kenyakeypop.program" class="org.openmrs.module.kenyacore.program.ProgramDescriptor">
+        <property name="targetUuid" value="7447305a-18a7-11e9-ab14-d663bd873d93" />
+        <property name="eligibilityCalculation" value="org.openmrs.module.kenyakeypop.calculation.library.kp.EligibleForKPProgramCalculation" />
+        <property name="defaultEnrollmentForm" ref="kenyakeypop.form.kpClientEnrollment"  />
+        <property name="defaultCompletionForm" ref="kenyakeypop.form.completion" />
+        <property name="patientForms">
+            <set>
+            </set>
+        </property>
+        <property name="visitForms">
+            <set>
+
+            </set>
+        </property>
+        <property name="reports">
+            <set>
+
+            </set>
+        </property>
+        <property name="fragments">
+            <map>
+
+            </map>
+        </property>
+        <property name="order" value="590" />
+
+    </bean>
+
+
+
+    <!-- kp  enrollment -->
+    <bean id="kenyakeypop.form.kpClientEnrollment" class="org.openmrs.module.kenyacore.form.FormDescriptor">
+        <property name="targetUuid" value="c7f47cea-207b-11e9-ab14-d663bd873d93" />
+        <property name="apps">
+            <set>
+                <ref bean="kenyaemr.app.registration" />
+                <ref bean="kenyaemr.app.intake" />
+                <ref bean="kenyaemr.app.clinician" />
+                <ref bean="kenyaemr.app.chart" />
+            </set>
+        </property>
+        <property name="icon" value="kenyaui:forms/generic.png" />
+        <property name="htmlform" value="kenyakeypop:kpClientEnrollment.html" />
+
+    </bean>
+
+    <!--KP Completion -->
+    <bean id="kenyakeypop.form.completion" class="org.openmrs.module.kenyacore.form.FormDescriptor">
+        <property name="targetUuid" value="1f76643e-2495-11e9-ab14-d663bd873d93" />
+        <property name="apps">
+            <set>
+                <ref bean="kenyaemr.app.registration" />
+                <ref bean="kenyaemr.app.intake" />
+                <ref bean="kenyaemr.app.clinician" />
+                <ref bean="kenyaemr.app.chart" />
+            </set>
+        </property>
+        <property name="icon" value="kenyaui:forms/completion.png" />
+        <property name="htmlform" value="kenyakeypop:kpDiscontinuation.html" />
+    </bean>
+
     <!-- Wraps KenyakeypopService methods in DB transactions and OpenMRS interceptors,
     which set audit info like dateCreated, changedBy, etc.-->
     <bean id="kenyakeypop.KenyakeypopService"
-            class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+          class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
         <property name="transactionManager">
             <ref bean="transactionManager" />
         </property>

@@ -1,0 +1,546 @@
+<!--
+  ~ The contents of this file are subject to the OpenMRS Public License
+  ~ Version 1.0 (the "License"); you may not use this file except in
+  ~ compliance with the License. You may obtain a copy of the License at
+  ~ http://license.openmrs.org
+  ~
+  ~ Software distributed under the License is distributed on an "AS IS"
+  ~ basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+  ~ License for the specific language governing rights and limitations
+  ~ under the License.
+  ~
+  ~ Copyright (C) OpenMRS, LLC.  All Rights Reserved.
+
+-->
+<htmlform>
+
+    <script type="text/javascript" src="../moduleResources/kenyaemr/scripts/moment.js"></script>
+    <script type="text/javascript">
+        $.fn.noText = function() {/*use the jquery prototype technology to make a chainable clear field method*/
+            if(this.is('clinicVisit_form')){ /*check to c if you the element type is an input*/
+                this.val('');/*clear the input field*/
+            }return this;/*means it is chainable*/
+        };
+        $('input').noText();
+
+        jQuery(function() {
+            jQuery('.date-picker').datepicker( {
+                changeMonth: true,
+                changeYear: true,
+                showButtonPanel: true,
+                dateFormat: 'MM-yy',
+                onClose: function(dateText, inst) {
+                    jQuery(this).datepicker('setDate', new Date(inst.selectedYear, inst.selectedMonth, 1));
+                }
+            });
+        });
+
+        //On Ready
+        $(document).ready(function () {
+            // sti forms
+            var pgender = "<lookup expression="patient.gender" />";
+            if(pgender=="M"){jq("#cervical_cancer").hide();
+                jq("#post_abortal").hide();
+            }else{jq("#cervical_cancer").show();
+                jq("#post_abortal").show();}
+            jq('#sti_screened').click(StiScreened);
+            jq('#sti_results').click(StiResults);
+            jq('#sti_referred').click(StiReferred);
+            // tb form
+            jq('#tb_screened').click(tbScreened);
+            jq('#tb_results').click(tbResults);
+            jq('#tb_referred').click(tbReferred);
+            // hepatitis c
+            jq('#hepc_screened').click(HepatitiscScreened);
+            jq('#hepc_results').click(HepatitiscResults);
+            jq('#hepc_referred').click(HepatiriscReferred);
+            //hep b
+            jq('#hepb_screened').click(HepatitisbScreened);
+            jq('#hepb_results').click(HepatitisbResults);
+            jq('#hepb_referred').click(HepatitisbReferred);
+            //Overdose validations
+            jq('#overdose_screened').click(OverdoseScreenedSelected);
+            jq('#overdose_treated').click(OverdoseTtreateddSelected);
+            jq('#overdose_results').click(OverdoseResultsSelected);
+            jq('#overdose_referred').click(OverdoseRefferredSelected);
+
+            //Alcohol validations
+            jq('#alcohol_screened').click(AlcoholScreenedSelected);
+            jq('#alcohol_results').click(AlcoholResultsSelected);
+            jq('#alcohol_referred').click(AlcoholReferredSelected);
+
+            //Abscess validations
+            jq('#abscess_screened').click(AbscessScreenedSelected);
+            jq('#abscess_results').click(AbscessResultsSelected);
+            jq('#abscess_referred').click(AbscessReferredSelected);
+
+            //Prep validations
+            jq('#prep_screened').click(prepScreened);
+            jq('#prep_results').click(prepResults);
+            jq('#prep_referred').click(prepReferred);
+
+            //Cervical validations selected
+            jq('#cerv_screened').click(CervicalScreeningSelected);
+            jq('#cerv_results').click(CervicalResulltsSelected);
+            jq('#cerv_referred').click(CervicalReferredSelected);
+
+            //Violence validations
+            jq('#vio_screened').click(vilenceScreened);
+            jq('#vio_exists').click(vilenceExists);
+
+            jq('#vio_results').click(violenceResults);
+            jq('#vio_referred').click(violenceReferred);
+
+            //Risk validations
+            jq('#risk_screened').click(riskScreened);
+            jq('#risk_results').click(riskResults);
+            jq('#risk_referred').click(riskReferred);
+
+            //Family validations
+            jq('#fam_screened').click(familyScreened);
+            jq('#fam_results').click(familyResults);
+            jq('#fam_treated').click(familyTreated);
+            jq('#fam_referred').click(familyReferred);
+
+            //Mental validations
+            jq('#men_screened').click(menScreened);
+            jq('#men_results').click(menResults);
+            jq('#men_referred').click(menReferred);
+            jq("#hiv_selfreported input").change(hivTesting);
+            jq("#hiv_tested input").change(hivTested);
+            //jq("#hiv_selftest input").change(numberOfSelfTest);
+            jq("#self_tested input").change(SelfTested);
+            jq("#selftestResults input").change(selfTestedResults);
+            jq("#confirm_test input").change(confirmTest);
+            jq("#facility input").change(confirmFacility);
+            jq("#linktoart input").change(linkToart);
+            jq("#care_provided input").change(providedElseWhere);
+            jq("#pep_selected input").change(onPEPSelected);
+            jq("#exposure_other input").change(onOtherExposureTypeSelected);
+            jq("#test_results input").change(test_resultsChanged);
+            jq("#linked_to_art input").change(linkTo_ART);
+            jq("#eligible_for_viral input").change(eligible_for_viral_load);
+
+
+            $("INPUT[type=text],TEXTAREA").attr("disabled", "disabled");
+            jq("#vio_results input").prop("disabled", true);
+            jq("#Client_visit input:radio").attr('disabled',true);
+            jq("#malecondoms input").prop("disabled", false);
+            jq("#femalecondoms input").prop("disabled", false);
+            jq("#lubes input").prop("disabled", false);
+            jq("#needles input").prop("disabled", false);
+            jq("#clinical input").prop("disabled", false);
+            jq("#lmp_date input").prop("disabled", false);
+            jq("#apointment input").prop("disabled", false);
+            jq("#edd input").prop("disabled", false);
+            jq("#encounter-date input").prop("disabled", false);
+            jq("#ConName input").prop("disabled", false);
+            jq("#ConDate input").prop("disabled", false);
+            jq("#sti_screened input").prop("disabled", false);
+            jq("#tb_screened input").prop("disabled", false);
+            jq("#hepb_screened input").prop("disabled", false);
+            jq("#hepc_screened input").prop("disabled", false);
+            jq("#overdose_screened input").prop("disabled", false);
+            jq("#abscess_screened input").prop("disabled", false);
+            jq("#alcohol_screened input").prop("disabled", false);
+            jq("#cerv_screened input").prop("disabled", false);
+            jq("#prep_screened input").prop("disabled", false);
+            jq("#vio_screened input").prop("disabled", false);
+            jq("#risk_screened input").prop("disabled", false);
+            jq("#fam_screened input").prop("disabled", false);
+            jq("#men_screened input").prop("disabled", false);
+            jq("#clinical textarea").prop("disabled", false);
+            jq("#tca input").prop("disabled", false);
+            jq("#selftxt input").prop("disabled", false);
+            jq("#disttxt input").prop("disabled", false);
+            jq("#partner input").prop("disabled", false);
+            jq("#care_provided input").prop("disabled", false);
+            jq("#famMethod select").attr('disabled', 'disabled');
+
+
+            jq("#self-test-demo input").prop("disabled" ,false);
+
+        });
+        //Before Submit
+        beforeSubmit.push(function() {
+            var validated = /^([1-9]|[1-9][0-9]|[1-9][0-9][0-9])$/;
+            var sti_screened = getValue('sti_screened.value');
+            var tb_screened = getValue('tb_screened.value');
+            var hepb_screened = getValue('hepb_screened.value');
+            var hepc_screened = getValue('hepc_screened.value');
+            var overdose = getValue('overdose_screened.value');
+            var absces = getValue('abscess_screened.value');
+            var alcohol = getValue('alcohol_screened.value');
+            var cerv = getValue('cerv_screened.value');
+            var prep = getValue('prep_screened.value');
+            var violence = getValue('vio_screened.value');
+            var risk_reduction = getValue('risk_screened.value');
+            var family_planning = getValue('fam_screened.value');
+            var mental = getValue('men_screened.value');
+
+            var sti_results = getValue('sti_results.value');
+            var sti_results2 = getValue('sti_results.value');
+            var tb_results= getValue('tb_results.value');
+            var hepb_results = getValue('hepb_results.value');
+            var hepc_results = getValue('hepc_results.value');
+            var overdose_results = getValue('overdose_results.value');
+            var absces_results = getValue('abscess_results.value');
+            var alcohol_results = getValue('alcohol_results.value');
+            var cerv_results = getValue('cerv_results.value');
+            var prep_results = getValue('prep_results.value');
+
+            var NumberOfMaleCondomGiven = getField('malecondoms.value').val();
+            var NumberOfFemaleCondomsGiven = getField('femalecondoms.value').val();
+            var NumberOfSyringesGiven = getField('needles.value').val();
+            var NumberOfLubesGiven = getField('lubes.value').val();
+
+           // var violence_results  = getField('violence_results.value').val();
+            var risk_reduction_results = getValue('risk_results.value');
+            var family_planning_results = getValue('fam_results.value');
+            var mental_results = getValue('men_results.value');
+
+            if(sti_screened==1065 &amp;&amp;  sti_results ==false){
+                getField('sti_results.error').html('Results required').show();
+                return false;
+            }
+            if(tb_screened==1065 &amp;&amp;  tb_results ==false){
+                getField('tb_results.error').html('Results required').show();
+                return false;
+            }
+            if(hepb_screened==1065 &amp;&amp;  hepb_results ==false){
+                getField('hepb_results.error').html('Results required').show();
+                return false;
+            }
+            if(hepc_screened==1065 &amp;&amp;  hepc_results ==false){
+                getField('hepc_results.error').html('Results required').show();
+                return false;
+            }
+            if(overdose==1065 &amp;&amp;  overdose_results ==false){
+                getField('overdose_results.error').html('Results required').show();
+                return false;
+            }
+            if(absces==1065 &amp;&amp;  absces_results ==false){
+                getField('abscess_results.error').html('Results required').show();
+                return false;
+            }
+            if(alcohol==1065 &amp;&amp;  alcohol_results ==false){
+                getField('alcohol_results.error').html('Results required').show();
+                return false;
+            }
+            if(cerv==1065 &amp;&amp;  cerv_results ==false){
+                getField('cerv_results.error').html('Results required').show();
+                return false;
+            }
+            if(prep==1065 &amp;&amp;  prep_results ==false){
+                getField('prep_results.error').html('Results required').show();
+                return false;
+            }
+
+            if(risk_reduction==1065 &amp;&amp;  risk_reduction_results ==false){
+                getField('risk_results.error').html('Results required').show();
+                return false;
+            }
+            if(family_planning==1065 &amp;&amp;  family_planning_results ==false){
+                getField('fam_results.error').html('Results required').show();
+                return false;
+            }
+            if(mental==1065 &amp;&amp;  mental_results ==false){
+                getField('men_results.error').html('Results required').show();
+                return false;
+            }
+
+            if (NumberOfMaleCondomGiven != "" &amp;&amp; !NumberOfMaleCondomGiven.match(validated)) {
+                getField('malecondoms.error').html('Should be between 1 and 200.').show();
+                return false;
+            }
+
+            if (NumberOfFemaleCondomsGiven != "" &amp;&amp; !NumberOfFemaleCondomsGiven.match(validated)) {
+                getField('femalecondoms.error').html('Should be between 1 and 200.').show();
+                return false;
+            }
+            if (NumberOfLubesGiven != "" &amp;&amp; !NumberOfLubesGiven.match(validated)) {
+                getField('lubes.error').html('Should be between 1 and 200.').show();
+                return false;
+            }
+            if (NumberOfSyringesGiven!= "" &amp;&amp; !NumberOfSyringesGiven.match(validated)) {
+                getField('needles.error').html('Should be between 1 and 200.').show();
+                return false;
+            }
+        });
+        clearHiddenSections = function(parentObj) {
+
+
+
+            for(var i=0; i &lt; parentObj.length; i++){
+                parentObj[i].find('input[type=radio]').each(function() {
+                    this.checked = false;
+                });
+                parentObj[i].find('input[type=checkbox]').each(function() {
+                    this.checked = false;
+                });
+                parentObj[i].find('input[type=text]').each(function() {
+                    this.val("");
+                });
+                parentObj[i].find('select').each(function() {
+                    this.selectedIndex =0;
+                });
+            }
+        }
+    </script>
+    <style>
+        .simple-table {
+            border: solid 1px #DDEEEE;
+            border-collapse: collapse;
+            border-spacing: 0;
+            font: normal 13px Arial, sans-serif;
+        }
+
+        .simple-table thead th {
+            background-color: #DDEFEF;
+            border: solid 1px #DDEEEE;
+            color: #336B6B;
+            padding: 10px;
+            text-align: left;
+            text-shadow: 1px 1px 1px #fff;
+        }
+
+        .simple-table td {
+            border: solid 1px #DDEEEE;
+            color: #333;
+            padding: 10px;
+            text-shadow: 1px 1px 1px #fff;
+        }
+        .disabled {
+            color: #ebebe4;
+    </style>
+
+    <div class="ke-form-header">
+        <table width="100%">
+            <tr>
+                <td>Date:
+                    <encounterDate id="encounter-date" showTime="true" />
+                </td>
+                <td>Location:
+                    <encounterLocation default="GlobalProperty:kenyaemr.defaultLocation" type="autocomplete"/>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <!--=============Work flow==================-->
+    <ifMode mode="VIEW" include="true">
+        <div>
+            <table style="width: 100%">
+                <tr>
+                    <td align="left">
+                        Observation Date:
+                    </td>
+                    <td>
+                        Unique Client Number
+                    </td>
+                    <td align="right">
+                        Gender Identity:
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        16-Jan-2019
+                    </td>
+                    <td>
+                        Test
+                    </td>
+                    <td align="right">
+                        Test
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+    </ifMode>
+    <!-- ============ end work flow =================-->
+    <div class="ke-form-content">
+
+
+        <fieldset>
+            <legend>Client details</legend>
+            <table>
+                <tr>
+                    <td><p><b>CCC Number:</b></p></td>
+                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
+                    <td colspan="2"></td>
+                    <td><p><b>&#160;&#160;&#160;&#160; Typology:</b></p></td>
+                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
+                    <td></td>
+                    <td><p><b> &#160;&#160;&#160;&#160; Age:</b></p></td>
+                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
+                    <td></td>
+                    <td><p><b> &#160;&#160;&#160;&#160; Name of peer educator:</b></p></td>
+                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
+
+                </tr>
+
+            </table>
+
+        </fieldset>
+
+
+        <fieldset>
+            <legend>ART /HIV History</legend>
+            <table>
+                <tr>
+                    <td><p>Date diagonised HIV positive</p></td>
+                    <td> <obs  conceptId="159948" size="17"/></td>
+
+                    <td><p>&#160;&#160;&#160;&#160; verification source:</p></td>
+                    <td> <obs  conceptId="162568" style="dropdown" /></td>
+                </tr>
+                <tr>
+                    <td><p> Disclosed status:</p></td>
+                    <td> <obs conceptId="163524" style="radio" /></td>
+
+                    <td><p> &#160;&#160;&#160;&#160; If yes, to who:</p></td>
+                    <td> <obs  conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17" /></td>
+
+                    <td><p> &#160;&#160;&#160;&#160; Name of health facility:</p></td>
+                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
+                </tr>
+                <tr>
+                    <td><p>Date Initiated on ART</p></td>
+                    <td> <obs  conceptId="159599" size="17"/></td>
+
+                    <td><p>&#160;&#160;&#160;&#160; Current regimen:</p></td>
+                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
+                </tr>
+            </table>
+
+        </fieldset>
+
+
+        <fieldset>
+            <legend>CD4 at enrollment</legend>
+            <table>
+                <tr>
+                    <td><p>1. Month and year test done:</p></td>
+                    <td> <obs conceptId="159376" size="17"/></td>
+
+                    <td><p>&#160;&#160;&#160;&#160; Levels:</p></td>
+                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
+                </tr>
+                <tr>
+                    <td><p>2. Month and year test done:</p></td>
+                    <td> <obs conceptId="159376" size="17"/></td>
+
+                    <td><p>&#160;&#160;&#160;&#160; Levels:</p></td>
+                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
+                </tr>
+                <tr>
+                    <td><p>3. Month and year test done:</p></td>
+                    <td> <obs conceptId="159376" size="17"/></td>
+
+                    <td><p>&#160;&#160;&#160;&#160; Levels:</p></td>
+                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
+                </tr>
+            </table>
+
+        </fieldset>
+
+        <fieldset>
+            <legend>Viral load</legend>
+            <table>
+
+                <tr>
+                    <td><p>1. Date:</p></td>
+                    <td> <obs conceptId="163281" size="17"/></td>
+
+                    <td><p> &#160;&#160;&#160;&#160; Levels:</p></td>
+                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
+
+                    <td><p> &#160;&#160;&#160;&#160; Justification:</p></td>
+                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
+                </tr>
+                <tr>
+                    <td><p>2. Date:</p></td>
+                    <td> <obs conceptId="163281" size="17"/></td>
+
+
+                    <td><p> &#160;&#160;&#160;&#160; Levels:</p></td>
+                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
+
+                    <td><p> &#160;&#160;&#160;&#160; Justification:</p></td>
+                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
+                </tr>
+                <tr>
+                    <td><p>3. Date:</p></td>
+                    <td> <obs conceptId="163281" size="17"/></td>
+
+                    <td><p> &#160;&#160;&#160;&#160; Levels:</p></td>
+                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
+
+                    <td><p> &#160;&#160;&#160;&#160; Justification:</p></td>
+                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
+                </tr>
+            </table>
+
+        </fieldset>
+
+        <fieldset>
+            <legend>IPT</legend>
+            <table>
+                <tr>
+                    <td><p>Date started:</p></td>
+                    <td> <obs id="ipt" conceptId="162320" size="17"/></td>
+
+                    <td><p>&#160;&#160;&#160;&#160; Date completed:</p></td>
+                    <td> <obs id="ipt_complete" conceptId="162279" size="17"/></td>
+                </tr>
+            </table>
+
+        </fieldset>
+
+
+        <fieldset>
+            <legend>Opportunistic infections (Specify OI)</legend>
+            <table class="simple-table">
+                <tr>
+                    <td ><p><b>Opportunistic infection</b></p></td>
+                    <td ><p><b>Date diagnosed</b></p></td>
+                    <td ><p><b>Date initiated on OI treatment</b></p></td>
+                    <td ><p><b>Date completed treatment</b></p></td>
+
+
+                </tr>
+                <tr>
+                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
+                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
+                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
+                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
+                </tr>
+                <tr>
+                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
+                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
+                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
+                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
+                </tr>
+
+                <tr>
+                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
+                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
+                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
+                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
+                </tr>
+                <tr>
+                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
+                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
+                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
+                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
+                </tr>
+
+            </table>
+
+        </fieldset>
+
+    </div>
+    <div class="ke-form-footer">
+        <submit/>
+    </div>
+
+</htmlform>

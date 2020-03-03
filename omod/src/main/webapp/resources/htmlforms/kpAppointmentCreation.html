@@ -1,0 +1,122 @@
+<!--
+  ~ The contents of this file are subject to the OpenMRS Public License
+  ~ Version 1.0 (the "License"); you may not use this file except in
+  ~ compliance with the License. You may obtain a copy of the License at
+  ~ http://license.openmrs.org
+  ~
+  ~ Software distributed under the License is distributed on an "AS IS"
+  ~ basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+  ~ License for the specific language governing rights and limitations
+  ~ under the License.
+  ~
+  ~ Copyright (C) OpenMRS, LLC.  All Rights Reserved.
+
+-->
+<htmlform>
+
+	<script type="text/javascript" src="../moduleResources/kenyaemr/scripts/moment.js"></script>
+	<script type="text/javascript">
+
+		var tetenus_selected  = function () {
+			var testingOption = getValue("tetenus_selected.value");
+			if(testingOption ==164957) {
+
+				jq("#couple-discordant input[value=1065]").prop("disabled", true);
+			}
+			if(testingOption ==164958){
+				jq("#couple-discordant input[value=1065]").prop("disabled", false);
+
+			}
+		}
+
+
+		//On Ready
+		$(document).ready(function () {
+
+
+			//Consent validation
+			jq('#tetenus_selected input').prop("disabled", true);
+			jq("#couple-teexam_sting input").change(tetenus_selected);
+
+		});
+		//Before Submit
+		beforeSubmit.push(function() {
+
+
+		});
+	</script>
+
+	<div class="ke-form-header">
+		<table style="width: 100%">
+			<tr>
+				<td>
+					<ifMode mode="ENTER">
+						<script type="text/javascript">
+							jq(function(){
+								setValue("encounter-date.value", "");
+							});
+						</script>
+					</ifMode>
+					<ifMode mode="EDIT">
+						<script type="text/javascript">
+							jq(function(){
+
+								//First test
+								var firstTest = getField("hiv-test1-result.value").val();
+								//Negative
+								if(firstTest ==664) {
+
+									jq("#hiv-test2-result select").prop("disabled", true);
+									jq(".kit-name2 select").prop("disabled", true);
+									jq(".lot-number2 input").prop("disabled", true);
+									jq("#expiry-date2 input").prop("disabled", true);
+									getField('hiv-final-result.value').val(664);
+									jq('#ccc-no input').prop("disabled", true);
+								}
+
+							});
+						</script>
+					</ifMode>
+					Encounter date: <encounterDate id="encounter-date" showTime="true" required="true"/>
+				</td>
+				<td>Encounter Provider : <encounterProvider default="currentUser" /></td>
+				<td>Location: <encounterLocation default="GlobalProperty:kenyaemr.defaultLocation" /></td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="ke-form-content">
+
+		<fieldset>
+			<legend>Appointment Creation</legend>
+			<table border="0" width="100%" cellspacing="0" cellpadding="0">
+				<tr>
+					<td width="156" valign="top"><p>Appointment date</p></td>
+					<td width="156" valign="top"><p> <obs id="tca-date" conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true"
+					/></p></td>
+					<td width="156" valign="top"><p>Specify Appointment type:</p></td>
+					<td width="156" valign="top"><p>
+						<obs id="hiv-test1-result" conceptId="160288"
+							 answerConceptIds="160523AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1283AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,159382AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160521AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerLabels="Follow up,Lab tests,Counseling,Pharmacy Refill,Other,"
+							 style="dropdown" />
+					</p></td>
+				</tr>
+
+				<tr>
+					<td width="156" valign="top"><p>Apointment Notes</p></td>
+					<td width="156" valign="top"><p>  <obs class="remarks" conceptId="163042AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  rows="5" cols="80"
+					/></p></td>
+
+				</tr>
+
+			</table>
+
+		</fieldset>
+
+	</div>
+	<div class="ke-form-footer">
+		<submit/>
+	</div>
+
+</htmlform>
