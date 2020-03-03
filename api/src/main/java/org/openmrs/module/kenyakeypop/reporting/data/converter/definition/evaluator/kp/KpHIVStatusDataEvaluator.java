@@ -10,8 +10,8 @@
 package org.openmrs.module.kenyakeypop.reporting.data.converter.definition.evaluator.kp;
 
 import org.openmrs.annotation.Handler;
-import org.openmrs.module.kenyakeypop.reporting.data.converter.definition.kp.PhoneNumberDataDefinition;
-import org.openmrs.module.kenyakeypop.reporting.data.converter.definition.kp.WardDataDefinition;
+import org.openmrs.module.kenyakeypop.reporting.data.converter.definition.kp.KpHIVStatusDataDefinition;
+import org.openmrs.module.kenyakeypop.reporting.data.converter.definition.kp.HIVTestFrequencyDataDefinition;
 import org.openmrs.module.reporting.data.person.EvaluatedPersonData;
 import org.openmrs.module.reporting.data.person.definition.PersonDataDefinition;
 import org.openmrs.module.reporting.data.person.evaluator.PersonDataEvaluator;
@@ -27,8 +27,8 @@ import java.util.Map;
 /**
  * Evaluates a PersonDataDefinition
  */
-@Handler(supports = PhoneNumberDataDefinition.class, order = 50)
-public class PhoneNumberDataEvaluator implements PersonDataEvaluator {
+@Handler(supports = KpHIVStatusDataDefinition.class, order = 50)
+public class KpHIVStatusDataEvaluator implements PersonDataEvaluator {
 	
 	@Autowired
 	private EvaluationService evaluationService;
@@ -37,7 +37,7 @@ public class PhoneNumberDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select r.client_id,r.phone_number from kenyaemr_etl.etl_client_registration r group by r.client_id;";
+		String qry = "select v.client_id,v.prep_treated from kenyaemr_etl.etl_clinical_visit v;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");

@@ -18,21 +18,21 @@ import org.openmrs.module.reporting.evaluation.caching.Caching;
  * Serial No. Column
  */
 @Caching(strategy = ConfigurationPropertyCachingStrategy.class)
-public class PhoneNumberDataDefinition extends BaseDataDefinition implements PersonDataDefinition {
+public class KpStartedARTDataDefinition extends BaseDataDefinition implements PersonDataDefinition {
 	
 	public static final long serialVersionUID = 1L;
 	
 	/**
 	 * Default Constructor
 	 */
-	public PhoneNumberDataDefinition() {
+	public KpStartedARTDataDefinition() {
 		super();
 	}
 	
 	/**
 	 * Constructor to populate name only
 	 */
-	public PhoneNumberDataDefinition(String name) {
+	public KpStartedARTDataDefinition(String name) {
 		super(name);
 	}
 	
