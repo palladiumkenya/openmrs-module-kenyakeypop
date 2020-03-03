@@ -5,9 +5,6 @@
     ui.includeCss("kenyaemrorderentry", "font-awesome.min.css")
     ui.includeCss("kenyaemrorderentry", "font-awesome.css.map")
     ui.includeCss("kenyaemrorderentry", "../fontawesome-webfont.svg")
-
-    def editContactInfoLink =  ui.pageLink("registrationapp", "editSection", [ patientId: patient.id,sectionId: "contactInfo", appId:"referenceapplication.registrationapp.registerPatient", returnUrl: ui.thisUrl() ])
-    def editAliasLink = ui.pageLink("registrationapp", "editSection", [ patientId: patient.id,sectionId: "alias", appId:"referenceapplication.registrationapp.registerPatient", returnUrl: ui.thisUrl() ])
     def addTriageFormLink = ui.pageLink("htmlformentryui", "htmlform/enterHtmlFormWithSimpleUi", [patientId: currentPatient.patientId, definitionUiResource: "kenyaemr:simpleuiforms/triage.xml", returnUrl: ui.thisUrl()])
 
 %>
@@ -29,17 +26,6 @@
     <div class="container">
         <div class="dashboard clear">
             <div class="info-container column">
-
-                <div class="info-section">
-                    <div class="info-header">
-                        <i class="icon-diagnosis"></i>
-                        <h3>Registration Info</h3>
-                        <span class="right"><i class="fa fa-pencil" style="font-size:20px;color: steelblue;"></i> &nbsp;<a href="${editAliasLink}">Edit Client Alias</a> &nbsp;&nbsp;&nbsp; <i class="fa fa-pencil" style="font-size:20px;color: steelblue">&nbsp;</i> <a href="${editContactInfoLink}">Edit Contact Info</a> </span>
-                    </div>
-                    <div class="info-body">
-                        ${ ui.includeFragment("kenyaemr", "kpClient/patientSummary", [ patient: currentPatient ]) }
-                    </div>
-                </div>
 
                 <div class="info-section">
                     <div class="info-header">
