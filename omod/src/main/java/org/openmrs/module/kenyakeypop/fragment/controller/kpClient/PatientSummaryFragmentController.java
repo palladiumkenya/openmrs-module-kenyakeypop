@@ -35,28 +35,25 @@ import java.util.List;
  */
 public class PatientSummaryFragmentController {
 	
-	public void controller(@FragmentParam("patient") Patient patient,
-						   @SpringBean FormManager formManager,
-						   @SpringBean KenyaUiUtils kenyaUi,
-						   PageRequest pageRequest,
-						   UiUtils ui,
-						   FragmentModel model) {
-
+	public void controller(@FragmentParam("patient") Patient patient, @SpringBean FormManager formManager,
+	        @SpringBean KenyaUiUtils kenyaUi, PageRequest pageRequest, UiUtils ui, FragmentModel model) {
+		
 		AppDescriptor currentApp = kenyaUi.getCurrentApp(pageRequest);
-
+		
 		// Get all common per-patient forms as simple objects
 		List<SimpleObject> forms = new ArrayList<SimpleObject>();
 		for (FormDescriptor formDescriptor : formManager.getCommonFormsForPatient(currentApp, patient)) {
 			forms.add(ui.simplifyObject(formDescriptor.getTarget()));
 		}
-
+		
 		model.addAttribute("patient", patient);
 		model.addAttribute("recordedAsDeceased", hasBeenRecordedAsDeceased(patient));
 		model.addAttribute("forms", forms);
 	}
-
+	
 	/**
 	 * Checks if a patient has been recorded as deceased by a program
+	 * 
 	 * @param patient the patient
 	 * @return true if patient was recorded as deceased
 	 */

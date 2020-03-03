@@ -18,13 +18,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 /**
  * Controller for relationship edit page
  */
-@SharedPage({EmrConstants.APP_REGISTRATION, EmrConstants.APP_INTAKE, EmrConstants.APP_CLINICIAN})
+@SharedPage({ EmrConstants.APP_REGISTRATION, EmrConstants.APP_INTAKE, EmrConstants.APP_CLINICIAN })
 public class EditRelationshipPageController {
-
+	
 	public void controller(@RequestParam(value = "relationshipId", required = false) Relationship relationship,
-						   @RequestParam("returnUrl") String returnUrl,
-						   PageModel model) {
-
+	        @RequestParam("returnUrl") String returnUrl, PageModel model) {
+		
 		model.addAttribute("relationship", relationship);
 		model.addAttribute("returnUrl", returnUrl);
 	}

@@ -32,55 +32,45 @@ import java.util.Map;
  * Controller for patient relationships panel
  */
 public class PatientRelationshipsFragmentController {
-
-	public void controller(@FragmentParam(value="patient") Patient patient,
-						   @SpringBean KenyaUiUtils kenyaUi,
-						   PageRequest pageRequest,
-						   UiUtils ui,
-						   FragmentModel model) {
-
+	
+	public void controller(@FragmentParam(value = "patient") Patient patient, @SpringBean KenyaUiUtils kenyaUi,
+	        PageRequest pageRequest, UiUtils ui, FragmentModel model) {
+		
 		// Get all relationships as simple objects
 		List<SimpleObject> relationships = new ArrayList<SimpleObject>();
 		for (Relationship relationship : Context.getPersonService().getRelationshipsByPerson(patient)) {
 			Person person = null;
 			String type = null;
-
+			
 			if (patient.equals(relationship.getPersonA())) {
 				person = relationship.getPersonB();
 				type = relationship.getRelationshipType().getbIsToA();
-			}
-			else if (patient.equals(relationship.getPersonB())) {
+			} else if (patient.equals(relationship.getPersonB())) {
 				person = relationship.getPersonA();
 				type = relationship.getRelationshipType().getaIsToB();
 			}
-
+			
 			String genderCode = person.getGender().toLowerCase();
 			String linkUrl, linkIcon;
-
+			
 			if (person.isPatient()) {
 				Map<String, Object> params = new HashMap<String, Object>();
 				params.put("patientId", person.getId());
 				linkUrl = ui.pageLink(pageRequest.getProviderName(), pageRequest.getPageName(), params);
 				linkIcon = ui.resourceLink("kenyaui", "images/glyphs/patient_" + genderCode + ".png");
-			}
-			else {
+			} else {
 				Map<String, Object> params = new HashMap<String, Object>();
 				params.put("personId", person.getId());
 				linkUrl = ui.pageLink(EmrConstants.MODULE_ID, "admin/editAccount", params);
 				linkIcon = ui.resourceLink("kenyaui", "images/glyphs/person_" + genderCode + ".png");
 			}
-
+			
 			Link link = new Link(kenyaUi.formatPersonName(person), linkUrl, linkIcon);
-
-			relationships.add(SimpleObject.create(
-					"relationshipId", relationship.getId(),
-					"type", type,
-					"personLink", link,
-					"startDate", relationship.getStartDate(),
-					"endDate", relationship.getEndDate()
-			));
+			
+			relationships.add(SimpleObject.create("relationshipId", relationship.getId(), "type", type, "personLink", link,
+			    "startDate", relationship.getStartDate(), "endDate", relationship.getEndDate()));
 		}
-
+		
 		model.addAttribute("patient", patient);
 		model.addAttribute("relationships", relationships);
 	}

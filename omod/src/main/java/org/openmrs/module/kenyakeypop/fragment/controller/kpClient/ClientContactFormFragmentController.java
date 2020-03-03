@@ -32,19 +32,15 @@ import java.util.Set;
  * Patient summary fragment
  */
 public class ClientContactFormFragmentController {
+	
 	static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
-
-	public void controller(@FragmentParam("patient") Patient patient,
-						   @SpringBean FormManager formManager,
-						   @SpringBean KenyaUiUtils kenyaUi,
-						   PageRequest pageRequest,
-						   UiUtils ui,
-						   FragmentModel model) {
-
-
+	
+	public void controller(@FragmentParam("patient") Patient patient, @SpringBean FormManager formManager,
+	        @SpringBean KenyaUiUtils kenyaUi, PageRequest pageRequest, UiUtils ui, FragmentModel model) {
+		
 		EncounterType encSocialStatus = MetadataUtils.existing(EncounterType.class, KpMetadata._EncounterType.KP_CONTACT);
 		Form formSocialStatus = MetadataUtils.existing(Form.class, KpMetadata._Form.KP_CONTACT_FORM);
-
+		
 		List<Encounter> encs = EmrUtils.AllEncounters(patient, encSocialStatus, formSocialStatus);
 		List<SimpleObject> simplifiedEncData = new ArrayList<SimpleObject>();
 		for (Encounter e : encs) {
@@ -54,28 +50,27 @@ public class ClientContactFormFragmentController {
 		model.addAttribute("patient", patient);
 		model.addAttribute("encounters", simplifiedEncData);
 	}
-
+	
 	public static SimpleObject buildEncounterData(Set<Obs> obsList, Encounter e) {
-
+		
 		int KPTYPE = 164929;
 		int HOTSPOT = 165005;
 		int SEX_ACTS_PER_WEEK = 165007;
 		int ANAL_SEX_ACTS_PER_WEEK = 165008;
 		int DAILY_DRUG_INJECTIONS = 165009;
 		int WEEKLY_DRUG_INJECTIONS = 165010;
-
-
+		
 		String kpType = null;
 		String frequentedHotspot = null;
 		Integer weeklySexActs = null;
 		Integer weeklyAnalSexActs = null;
 		Integer dailyDrugInjections = null;
 		Integer weeklyDrugInjections = null;
-		String encDate = e != null? DATE_FORMAT.format(e.getEncounterDatetime()) : "";
-
-		for(Obs obs:obsList) {
-
-			if (obs.getConcept().getConceptId().equals(KPTYPE) ) {
+		String encDate = e != null ? DATE_FORMAT.format(e.getEncounterDatetime()) : "";
+		
+		for (Obs obs : obsList) {
+			
+			if (obs.getConcept().getConceptId().equals(KPTYPE)) {
 				if (obs.getValueCoded().getConceptId().equals(165083)) {
 					kpType = "FSW";
 				} else if (obs.getValueCoded().getConceptId().equals(160578)) {
@@ -92,10 +87,10 @@ public class ClientContactFormFragmentController {
 					kpType = "Transwoman";
 				}
 			} else if (obs.getConcept().getConceptId().equals(HOTSPOT)) {
-				frequentedHotspot = obs.getValueCoded() != null ?  obs.getValueCoded().getName().getName() : "";
+				frequentedHotspot = obs.getValueCoded() != null ? obs.getValueCoded().getName().getName() : "";
 			} else if (obs.getConcept().getConceptId().equals(SEX_ACTS_PER_WEEK)) {
 				weeklySexActs = obs.getValueNumeric().intValue();
-			}  else if (obs.getConcept().getConceptId().equals(ANAL_SEX_ACTS_PER_WEEK)) {
+			} else if (obs.getConcept().getConceptId().equals(ANAL_SEX_ACTS_PER_WEEK)) {
 				weeklyAnalSexActs = obs.getValueNumeric().intValue();
 			} else if (obs.getConcept().getConceptId().equals(DAILY_DRUG_INJECTIONS)) {
 				dailyDrugInjections = obs.getValueNumeric().intValue();
@@ -103,18 +98,14 @@ public class ClientContactFormFragmentController {
 				weeklyDrugInjections = obs.getValueNumeric().intValue();
 			}
 		}
-
-		return SimpleObject.create(
-				"encDate", encDate,
-				"encId", e.getEncounterId(),
-				"kpType", kpType != null? kpType : "",
-				"hotspot", frequentedHotspot != null ? frequentedHotspot : "",
-				"weeklySexActs", weeklySexActs != null ? weeklySexActs : "",
-				"weeklyAnalSexActs", weeklyAnalSexActs != null ? weeklyAnalSexActs : "",
-				"dailyDrugInjections", dailyDrugInjections != null ? dailyDrugInjections : "",
-				"weeklyDrugInjections",weeklyDrugInjections != null ? weeklyDrugInjections : ""
-
+		
+		return SimpleObject.create("encDate", encDate, "encId", e.getEncounterId(), "kpType", kpType != null ? kpType : "",
+		    "hotspot", frequentedHotspot != null ? frequentedHotspot : "", "weeklySexActs",
+		    weeklySexActs != null ? weeklySexActs : "", "weeklyAnalSexActs", weeklyAnalSexActs != null ? weeklyAnalSexActs
+		            : "", "dailyDrugInjections", dailyDrugInjections != null ? dailyDrugInjections : "",
+		    "weeklyDrugInjections", weeklyDrugInjections != null ? weeklyDrugInjections : ""
+		
 		);
 	}
-
+	
 }

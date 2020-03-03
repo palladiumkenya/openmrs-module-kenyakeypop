@@ -7,7 +7,7 @@
 
 		<% if (enrollment.dateCompleted) { %>
 		<div class="ke-stack-item">
-			${ ui.includeFragment("prep", "program/programCompletion", [ patientProgram: enrollment, showClinicalData: config.showClinicalData ]) }
+			${ ui.includeFragment("kenyakeypop", "program/programCompletion", [ patientProgram: enrollment, showClinicalData: config.showClinicalData ]) }
 		</div>
 		<% } else if (patientForms) { %>
 		<div class="ke-stack-item">
@@ -17,7 +17,7 @@
 						icon: form.icon,
 						label: form.name,
 						extra: "Edit form",
-						href: ui.pageLink("prep", "editProgramForm", [
+						href: ui.pageLink("kenyakeypop", "editProgramForm", [
 								appId: currentApp.id,
 								patientProgramId: enrollment.id,
 								formUuid: form.formUuid,
@@ -29,7 +29,7 @@
 		<% } %>
 
 		<div class="ke-stack-item">
-			${ ui.includeFragment("prep", "program/programEnrollment", [ patientProgram: enrollment, showClinicalData: config.showClinicalData ]) }
+			${ ui.includeFragment("kenyakeypop", "program/programEnrollment", [ patientProgram: enrollment, showClinicalData: config.showClinicalData ]) }
 		</div>
 	<% } %>
 </div>
