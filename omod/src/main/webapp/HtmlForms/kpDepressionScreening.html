@@ -1,0 +1,252 @@
+<!--
+  ~ The contents of this file are subject to the OpenMRS Public License
+  ~ Version 1.0 (the "License"); you may not use this file except in
+  ~ compliance with the License. You may obtain a copy of the License at
+  ~ http://license.openmrs.org
+  ~
+  ~ Software distributed under the License is distributed on an "AS IS"
+  ~ basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+  ~ License for the specific language governing rights and limitations
+  ~ under the License.
+  ~
+  ~ Copyright (C) OpenMRS, LLC.  All Rights Reserved.
+  -->
+<htmlform>
+    <script type="text/javascript" src="../moduleResources/kenyaemr/scripts/moment.js"></script>
+    <script type="text/javascript">
+         jQuery(function($) {
+            //Defaults
+            var phq_answers=jq('#phq-table');
+//            clearHiddenSections([phq_answers]);
+             jq('#assessment-outcome input[type=radio]').attr("style", "pointer-events:none;");
+            jq("#phq-table").change(depressionAssessment);
+
+            beforeSubmit.push(function() {
+            });
+        });
+        //Morisky assessment
+        var depressionAssessment  = function () {
+            var val = jq(this).val();
+            const NOT_AT_ALL_CONCEPT_ID = 163733;
+            const SEVERAL_DAYS_CONCEPT_ID = 163734;
+            const MORE_THAN_HALF_CONCEPT_ID = 163735;
+            const NEARLY_EVERYDAY_CONCEPT_ID = 163736;
+
+            var assessmentRadios = jq('#phq-table').find('input[type=radio]');
+            var assessmentResponses = [];
+
+            //Fetch responses for the assessment questions
+            jq.each(assessmentRadios, function(){
+                //Push any responses to the respective assessmentResponses array
+                if (this.value == NOT_AT_ALL_CONCEPT_ID &amp;&amp; this.checked == true) {
+                    assessmentResponses.push(0);
+                }
+                if (this.value == SEVERAL_DAYS_CONCEPT_ID &amp;&amp; this.checked == true) {
+                    assessmentResponses.push(1);
+                }
+                if (this.value == MORE_THAN_HALF_CONCEPT_ID &amp;&amp; this.checked == true) {
+                    assessmentResponses.push(2);
+                }
+                if (this.value == NEARLY_EVERYDAY_CONCEPT_ID &amp;&amp; this.checked == true) {
+                    assessmentResponses.push(3);
+                }
+            });
+            //Compute total score
+            var totalScore = 0;
+            for(var i = 0; i &lt; assessmentResponses.length; i++){
+                totalScore += assessmentResponses[i]
+            }
+           // console.log("Total score ==>"+totalScore);
+            //If no responses have been recorded then prompt since this assessment is mandatory
+            if(totalScore &lt; 5) {
+                    jq("#assessment-outcome input[value=1115]").prop("checked", true);
+
+                }
+                if(totalScore &gt; 4 &amp;&amp; totalScore &lt; 10) {
+                    jq("#assessment-outcome input[value=157790]").prop("checked", true);
+
+                }
+                if(totalScore &gt; 9 &amp;&amp; totalScore &lt; 15) {
+                    jq("#assessment-outcome input[value=134011]").prop("checked", true);
+
+                }
+                if(totalScore &gt; 14 &amp;&amp; totalScore &lt; 20) {
+                    jq("#assessment-outcome input[value=134017]").prop("checked", true);
+
+                }
+                if(totalScore &gt; 19 &amp;&amp; totalScore &lt; 28) {
+                    jq("#assessment-outcome input[value=126627]").prop("checked", true);
+
+                }
+
+        }
+
+        clearHiddenSections = function(parentObj) {
+            for(var i=0; i &lt; parentObj.length; i++){
+                parentObj[i].find('input[type=radio]').each(function() {
+                    this.checked = false;
+                });
+                parentObj[i].find('input[type=radio]').each(function() {
+                    this.checked = false;
+                });
+                parentObj[i].find('input[type=text]').each(function() {
+                    this.val("");
+                });
+                parentObj[i].find('select').each(function() {
+                    this.selectedIndex =0;
+                });
+            }
+        }
+    </script>
+    <style>
+        .simple-table {
+            border: solid 1px #DDEEEE;
+            border-collapse: collapse;
+            border-spacing: 0;
+            font: normal 13px Arial, sans-serif;
+        }
+
+        .simple-table thead th {
+            background-color: #DDEFEF;
+            border: solid 1px #DDEEEE;
+            color: #336B6B;
+            padding: 10px;
+            text-align: left;
+            text-shadow: 1px 1px 1px #fff;
+        }
+
+        .simple-table td {
+            border: solid 1px #DDEEEE;
+            color: #333;
+            padding: 10px;
+            text-shadow: 1px 1px 1px #fff;
+        }
+    </style>
+
+    <div class="ke-form-header">
+        <table width="100%">
+            <tr>
+                <td>Date: <encounterDate id="encounter-date" showTime="true" /></td>
+                <td>Location: <encounterLocation default="GlobalProperty:kenyaemr.defaultLocation" type="autocomplete" /></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="ke-form-content">
+        <fieldset class="phq-screening">
+            <!-- Patient Health Questionnaire-9 (PHQ-9) for Depression Screening -->
+            <fieldset id="phq-assessment-tab">
+                <legend>
+                    <strong> Patient Health Questionnaire-9 (PHQ-9) for Depression Screening
+                    </strong>
+                </legend>
+                <table class="simple-table" id="phq-table">
+                    <tr>
+                        <th  style="color: #888" ></th>
+                        <th  style="color: #888" > Question:<br/> “Over the last 2 weeks, how often have you been bothered by any of the following problems?” </th>
+                        <th  style="color: #888" > Not at all </th>
+                        <th  style="color: #888" > Several days </th>
+                        <th  style="color: #888" > More than half the day </th>
+                        <th  style="color: #888" > Nearly every day </th>
+
+                  </tr>
+                  <tr>
+                        <td>1.</td>
+                        <td> Little interest or pleasure in doing things </td>
+                        <td><input type="radio" name="question-1" class="question-1" value="163733"/></td>
+                        <td><input type="radio" name="question-1" class="question-1" value="163734"/></td>
+                        <td><input type="radio" name="question-1" class="question-1" value="163735"/></td>
+                        <td><input type="radio" name="question-1" class="question-1" value="163736"/></td>
+                    </tr>
+                    <tr>
+                        <td>2.</td>
+                        <td> Feeling down, depressed, or hopeless </td>
+                        <td><input type="radio" name="question-2" class="question-2" value="163733"/></td>
+                        <td><input type="radio" name="question-2" class="question-2" value="163734"/></td>
+                        <td><input type="radio" name="question-2" class="question-2" value="163735"/></td>
+                        <td><input type="radio" name="question-2" class="question-2" value="163736"/></td>
+                    </tr>
+                    <tr>
+                        <td>3.</td>
+                        <td> Trouble falling or staying asleep, or sleeping too much </td>
+                        <td><input type="radio" name="question-3" class="question-3" value="163733"/></td>
+                        <td><input type="radio" name="question-3" class="question-3" value="163734"/></td>
+                        <td><input type="radio" name="question-3" class="question-3" value="163735"/></td>
+                        <td><input type="radio" name="question-3" class="question-3" value="163736"/></td>
+                    </tr>
+                    <tr>
+                        <td>4.</td>
+                        <td> Feeling tired or having little energy </td>
+                        <td><input type="radio" name="question-4" class="question-4" value="163733"/></td>
+                        <td><input type="radio" name="question-4" class="question-4" value="163734"/></td>
+                        <td><input type="radio" name="question-4" class="question-4" value="163735"/></td>
+                        <td><input type="radio" name="question-4" class="question-4" value="163736"/></td>
+                    </tr>
+                    <tr>
+                        <td>5.</td>
+                        <td> Poor appetite or overeating </td>
+                        <td><input type="radio" name="question-5" class="question-5" value="163733"/></td>
+                        <td><input type="radio" name="question-5" class="question-5" value="163734"/></td>
+                        <td><input type="radio" name="question-5" class="question-5" value="163735"/></td>
+                        <td><input type="radio" name="question-5" class="question-5" value="163736"/></td>
+                    </tr>
+                    <tr>
+                        <td>6.</td>
+                        <td> Feeling bad about yourself, or that you are a failure, <br/> or that you have let yourself or your family down </td>
+                        <td><input type="radio" name="question-6" class="question-6" value="163733"/></td>
+                        <td><input type="radio" name="question-6" class="question-6" value="163734"/></td>
+                        <td><input type="radio" name="question-6" class="question-6" value="163735"/></td>
+                        <td><input type="radio" name="question-6" class="question-6" value="163736"/></td>
+                    </tr>
+                    <tr>
+                        <td>7.</td>
+                        <td> Trouble concentrating on things (linked with patient’s usual activities, <br/> such as reading the newspaper or listening to a radio programme)</td>
+                        <td><input type="radio" name="question-7" class="question-7" value="163733"/></td>
+                        <td><input type="radio" name="question-7" class="question-7" value="163734"/></td>
+                        <td><input type="radio" name="question-7" class="question-7" value="163735"/></td>
+                        <td><input type="radio" name="question-7" class="question-7" value="163736"/></td>
+                    </tr>
+                    <tr>
+                        <td>8.</td>
+                        <td> Moving or speaking so slowly that other people could have noticed.  <br/> Or the opposite, being so fidgety or restless that you have been moving around a lot more than usual</td>
+                        <td><input type="radio" name="question-8" class="question-8" value="163733"/></td>
+                        <td><input type="radio" name="question-8" class="question-8" value="163734"/></td>
+                        <td><input type="radio" name="question-8" class="question-8" value="163735"/></td>
+                        <td><input type="radio" name="question-8" class="question-8" value="163736"/></td>
+                    </tr>
+                    <tr>
+                        <td>9.</td>
+                        <td> Thoughts that you would be better off dead or of hurting yourself in some way </td>
+                        <td><input type="radio" name="question-9" class="question-9" value="163733"/></td>
+                        <td><input type="radio" name="question-9" class="question-9" value="163734"/></td>
+                        <td><input type="radio" name="question-9" class="question-9" value="163735"/></td>
+                        <td><input type="radio" name="question-9" class="question-9" value="163736"/></td>
+                    </tr>
+                </table>
+                <br /><hr/><br />
+            </fieldset>
+            <fieldset id="phq-assessment-outcome">
+                <legend>
+                    <strong> Depression Assessment Score </strong>
+                </legend>
+                <table class="simple-table">
+                    <tr>
+                        <td>PHQ-9 rating</td>
+                        <td>
+                            <obs
+                                    conceptId="165110"
+                                    answerConceptIds="1115AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,157790AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,134011AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,134017AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,126627AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                    answerLabels="Depression unlikely,Mild depression,Moderate depression,Moderate severe depression,Severe depression"
+                                    style="radio" id="assessment-outcome"
+                            />
+                        </td>
+                    </tr>
+                </table>
+            </fieldset>
+        </fieldset>
+    </div>
+    <div class="ke-form-footer">
+        <submit />
+    </div>
+
+</htmlform>

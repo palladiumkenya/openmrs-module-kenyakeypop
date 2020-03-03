@@ -1,0 +1,477 @@
+<!--
+  ~ The contents of this file are subject to the OpenMRS Public License
+  ~ Version 1.0 (the "License"); you may not use this file except in
+  ~ compliance with the License. You may obtain a copy of the License at
+  ~ http://license.openmrs.org
+  ~
+  ~ Software distributed under the License is distributed on an "AS IS"
+  ~ basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+  ~ License for the specific language governing rights and limitations
+  ~ under the License.
+  ~
+  ~ Copyright (C) OpenMRS, LLC.  All Rights Reserved.
+
+-->
+<htmlform>
+
+	<script type="text/javascript" src="../moduleResources/kenyaemr/scripts/moment.js"></script>    <style>
+	.simple-table {
+		border: solid 1px #DDEEEE;
+		border-collapse: collapse;
+		border-spacing: 0;
+		font: normal 13px Arial, sans-serif;
+	}
+
+	.simple-table thead th {
+		background-color: #DDEFEF;
+		border: solid 1px #DDEEEE;
+		color: #336B6B;
+		padding: 10px;
+		text-align: left;
+		text-shadow: 1px 1px 1px #fff;
+	}
+
+	.simple-table td {
+		border: solid 1px #DDEEEE;
+		color: #333;
+		padding: 10px;
+		text-shadow: 1px 1px 1px #fff;
+	}
+</style>
+
+	<script type="text/javascript">
+
+		var tetenus_selected  = function () {
+			var testingOption = getValue("tetenus_selected.value");
+			if(testingOption ==164957) {
+
+				jq("#couple-discordant input[value=1065]").prop("disabled", true);
+			}
+			if(testingOption ==164958){
+				jq("#couple-discordant input[value=1065]").prop("disabled", false);
+
+			}
+		}
+
+		var KEY_POP_TYPE = "<lookup expression="fn.latestObs(164929).getValueCoded()"/>";
+		var gender = "<lookup expression="patient.gender" />";
+
+		jQuery(function ($) {
+			jq("#true-status-other").hide();
+			jq("#other-informant").hide();
+			jq('#tracing-outcome-status :input[type=radio]').click(onVoluntaryExitSelected);
+			jq('#tracking-attempted :input[type=radio]').click(onTrackingAttemptedSelected);
+			jq('#tracking-not-attempted :input[type=radio]').click(onStatusOtherSelected);
+			jq('#source-information :input[type=radio]').click(onOtherInfomatSelected);
+			beforeSubmit.push(function () {
+			});
+
+		})
+
+		function onVoluntaryExitSelected() {
+			var val = jq(this).val();
+			var voluntaryExit = jq("#tracing-outcome-status input:radio:checked");
+			if(val == 165219 &amp;&amp; voluntaryExit.length >0 ){
+				jq("#comment-voluntary").show();
+			}
+			else{
+				jq("#comment-voluntary").hide();
+			}
+		}
+
+		function onTrackingAttemptedSelected() {
+			var val = jq(this).val();
+			var trackingAttempted = jq("#tracking-attempted input:radio:checked");
+			if(val == 1065 &amp;&amp; trackingAttempted.length >0 ){
+				jq("#not-attempted").hide();
+				jq("#attempted-first").show();
+				jq("#attempted-second").show();
+				jq("#attempted-third").show();
+				jq("#outcome-field").show();
+			}
+			else{
+				jq("#not-attempted").show();
+				jq("#attempted-first").hide();
+				jq("#attempted-second").hide();
+				jq("#attempted-third").hide();
+				jq("#outcome-field").hide();
+			}
+		}
+
+		function onStatusOtherSelected() {
+			var val = jq(this).val();
+			var otherStatus = jq("#tracking-not-attempted input:radio:checked");
+			if(val == 5622 &amp;&amp; otherStatus.length >0 ){
+				jq("#true-status-other").show();
+			}else {
+				jq("#true-status-other").hide();
+			}
+		}
+
+		function onOtherInfomatSelected() {
+			var val = jq(this).val();
+			var otherStatus = jq("#source-information input:radio:checked");
+			if(val == 5622 &amp;&amp; otherStatus.length >0 ){
+				jq("#other-informant").show();
+			}else {
+				jq("#other-informant").hide();
+			}
+		}
+		function kpReached() {
+			var reached = getValue("first_tracing-outcome.value");
+			if(reached == 1065){
+				jq("#attempted-second").hide();
+				jq("#attempted-third").hide();
+				jq("#attempted-first input").prop("disabled", false);
+				jq("#attempted-second input").prop("disabled", true);
+				jq("#attempted-third input").prop("disabled", true);
+			}else {
+				jq("#attempted-second").show();
+				jq("#attempted-third").show();
+				jq("#attempted-second input").prop("disabled", false);
+				jq("#attempted-third input").prop("disabled", true);
+				jq("#attempted-first input").prop("disabled", true);
+				jq("#first_tracing-outcome input").prop("disabled", false);
+
+			}
+		}
+		function Seecond_atempt_kpReached() {
+			var reached = getValue("second_tracing_outcome.value");
+			if(reached == 1065){
+
+				jq("#attempted-third").hide();
+				jq("#attempted-second input").prop("disabled", false);
+				jq("#attempted-first input").prop("disabled", true);
+				jq("#attempted-third input").prop("disabled", true);
+			}else {
+				jq("#attempted-third").show();
+				jq("#attempted-second input").prop("disabled", true);
+				jq("#attempted-third input").prop("disabled", false);
+				jq("#attempted-first input").prop("disabled", true);
+				jq("#second_tracing_outcome input").prop("disabled", false);
+			}
+		}
+
+
+		function kpNotReached() {
+			var val = jq(this).val();
+			var otherStatus = jq("#source-information input:radio:checked");
+			if(val == 1065 &amp;&amp; otherStatus.length >0 ){
+				jq("#other-informant").show();
+			}else {
+				jq("#other-informant").hide();
+			}
+		}
+
+		var dateValidations  = function () {
+			var encounter = getValue('encounter-date.value');
+			var first_attempt_date = getValue('first_attempt.value');
+			var second_attempt_date = getValue('second_attempt.value');
+			var third_attempt_date = getValue('third_attempt.value');
+
+
+			var isFirstAttemptBeforeEncounter= moment(moment(moment(first_attempt_date, 'YYYY-MM-DD').toDate()).format('YYYY-MM-DD')).isBefore(moment(moment(encounter, 'YYYY-MM-DD').toDate()).format('YYYY-MM-DD'));
+			var iaSecondBeforeFirst= moment(moment(moment(second_attempt_date, 'YYYY-MM-DD').toDate()).format('YYYY-MM-DD')).isBefore(moment(moment(first_attempt_date, 'YYYY-MM-DD').toDate()).format('YYYY-MM-DD'));
+			var isThirdBeforeSecond= moment(moment(moment(third_attempt_date, 'YYYY-MM-DD').toDate()).format('YYYY-MM-DD')).isBefore(moment(moment(second_attempt_date, 'YYYY-MM-DD').toDate()).format('YYYY-MM-DD'));
+
+			if (encounter !=null &amp;&amp; isFirstAttemptBeforeEncounter) {
+				getField('first_attempt.error').html('First tracing date should not be earlier than encounter date.').show();
+				jq("#first_attempt input").val('');
+			}
+			else{
+				getField('first_attempt.error').html('First tracing date should not be earlier than encounter date.').hide();
+			}
+			if(iaSecondBeforeFirst || isFirstAttemptBeforeEncounter &amp;&amp; isFirstAttemptBeforeEncounter!=null){
+				getField('second_attempt.error').html('Second tracing date should not be earlier than first tracing date.').show();
+				jq("#second_attempt input").val('');
+			}
+			else{
+				getField('second_attempt.error').html('Second tracing date should not be earlier than first tracing date.').hide();
+			}
+			if(isThirdBeforeSecond || iaSecondBeforeFirst || isFirstAttemptBeforeEncounter &amp;&amp; iaSecondBeforeFirst!=null){
+				getField('third_attempt.error').html('Third tracing date should not be earlier than second tracing  date.').show();
+				jq("#third_attempt input").val('');
+			}
+			else{
+				getField('third_attempt.error').html('Third tracing date should not be earlier than second tracing  date.').hide();
+			}
+		}
+		$(document).ready(function () {
+
+			jq("#attempted-second input").prop("disabled", true);
+			jq("#attempted-third input").prop("disabled", true);
+
+			jq('#first_tracing-outcome').click(kpReached);
+			jq('#second_tracing_outcome').click(Seecond_atempt_kpReached);
+
+			jq("#first_attempt input").change(dateValidations());
+			jq("#second_attempt input").change(dateValidations);
+			jq("#third_attempt input").change(dateValidations);
+			jq("#encounter-date input").change(dateValidations);
+
+
+			if(KEY_POP_TYPE == 105 ){
+				$('#w34_3').prop("disabled", true);
+
+			}
+			else {
+				jq("#134236 input").prop("disabled", false);
+			}
+
+
+
+		});
+
+	</script>
+
+	<div class="ke-form-header">
+		<table style="width: 100%">
+			<tr>
+				<td>
+					<ifMode mode="ENTER">
+						<script type="text/javascript">
+							jq(function(){
+								setValue("encounter-date.value", "");
+							});
+						</script>
+					</ifMode>
+					<ifMode mode="EDIT">
+						<script type="text/javascript">
+							jq(function(){
+
+								//First test
+								var firstTest = getField("hiv-test1-result.value").val();
+								//Negative
+								if(firstTest ==664) {
+
+									jq("#hiv-test2-result select").prop("disabled", true);
+									jq(".kit-name2 select").prop("disabled", true);
+									jq(".lot-number2 input").prop("disabled", true);
+									jq("#expiry-date2 input").prop("disabled", true);
+									getField('hiv-final-result.value').val(664);
+									jq('#ccc-no input').prop("disabled", true);
+								}
+
+							});
+						</script>
+					</ifMode>
+					Encounter date: <encounterDate id="encounter-date" showTime="true" required="true"/>
+				</td>
+				<td>Provider : <encounterProvider default="currentUser" /></td>
+				<td>Location: <encounterLocation default="GlobalProperty:kenyaemr.defaultLocation" /></td>
+			</tr>
+		</table>
+	</div>
+
+	<ifMode mode="VIEW" include="true">
+		<div>
+			<table style="width: 100%">
+				<tr>
+					<td align="left">
+						Tracing Date:
+					</td>
+					<td>
+						Tracing Outcome
+					</td>
+					<td align="right">
+						Schedule Next  Appointment:
+					</td>
+				</tr>
+				<tr>
+					<td>
+						16-Jan-2019
+					</td>
+					<td>
+						Test
+					</td>
+					<td align="right">
+						Test
+					</td>
+				</tr>
+			</table>
+		</div>
+
+	</ifMode>
+	<div class="ke-form-content">
+
+		<fieldset>
+			<legend>Client Follow Up Tracking</legend>
+			<table class="simple-table">
+				<tr>
+					<td>Tracking attempted?</td>
+					<td>
+						<obs id="tracking-attempted" conceptId="165004"
+							 answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerLabels="Yes,No"
+							 style="radio" />
+					</td>
+
+				</tr>
+				<tr id="not-attempted">
+					<td>Why was tracking not attempted?</td>
+		<td>
+						<obs id="tracking-not-attempted" conceptId="165071"
+							 answerConceptIds="165078,165073,165072,163777,5622"
+							 answerLabels="Contact information illegible,Location listed too general to make tracking possible,Contact information missing,
+Cohort register/ peer outreach calendar reviewed and client not lost to follow up,Other -specify"
+							 answerSeparator="&lt;br /&gt;" style="radio"/>
+						<obs id="true-status-other" conceptId="161011AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+					</td>
+				</tr>
+			</table>
+
+		</fieldset>
+
+		<fieldset id="attempted-first">
+			<legend>First attempt of tracing by PE/Health care worker</legend>
+			<table class="simple-table">
+				<obsgroup groupingConceptId="165068">
+				<tr>
+					<td>Date</td>
+					<td>
+						<obs id="first_attempt" conceptId="160753" allowFutureDates="false"/>
+
+					</td>
+				</tr>
+				<tr>
+					<td>Tracing type</td>
+					<td>
+						<obs id="first_tracing-type" conceptId="164966"
+							 answerConceptIds="1650,164965"
+							 answerLabels="Phone,Physical"
+							 style="radio" />
+					</td>
+				</tr>
+				<tr>
+					<td>Tracing outcome</td>
+					<td>
+						<obs id="first_tracing-outcome" conceptId="164929"
+							 answerConceptIds="1065,5622,1066"
+							 answerLabels="KP reached,KP not reached but other informant reached,KP not reached"
+							 style="radio" />
+					</td>
+				</tr>
+				</obsgroup>
+
+			</table>
+		</fieldset>
+
+		<fieldset id="attempted-second">
+			<legend>Second attempt of tracing by PE/Health care worker</legend>
+			<table class="simple-table">
+				<obsgroup groupingConceptId="165068">
+				<tr>
+					<td>Date</td>
+					<td>
+						<obs id="second_attempt" conceptId="160753" allowFutureDates="false"/>
+
+					</td>
+				</tr>
+				<tr>
+					<td>Tracing type</td>
+					<td>
+						<obs id="second_tracing-type" conceptId="164966"
+							 answerConceptIds="1650,164965"
+							 answerLabels="Phone,Physical"
+							 style="radio" />
+					</td>
+				</tr>
+				<tr>
+					<td>Tracing outcome</td>
+					<td>
+						<obs id="second_tracing_outcome" conceptId="164929"
+							 answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerLabels="KP reached,KP not reached but other informant reached,KP not reached"
+							 style="radio" />
+					</td>
+				</tr>
+				</obsgroup>
+			</table>
+		</fieldset>
+		<fieldset id="attempted-third">
+			<legend>Third attempt of tracing by PE/Health care worker</legend>
+			<table class="simple-table">
+				<obsgroup groupingConceptId="165068">
+				<tr>
+					<td>Date</td>
+					<td>
+						<obs id="third_attempt" conceptId="160753" allowFutureDates="false"/>
+
+					</td>
+				</tr>
+				<tr>
+					<td>Tracing type</td>
+					<td>
+						<obs id="third_tracing-type" conceptId="164966"
+							 answerConceptIds="1650,164965"
+							 answerLabels="Phone,Physical"
+							 style="radio" />
+					</td>
+				</tr>
+				<tr>
+					<td>Tracing outcome</td>
+					<td>
+						<obs id="third_tracing-outcome" conceptId="164929"
+							 answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerLabels="KP reached,KP not reached but other informant reached,KP not reached"
+							 style="radio" />
+					</td>
+				</tr>
+				</obsgroup>
+			</table>
+		</fieldset>
+
+		<fieldset id="outcome-field">
+			<legend>Tracing outcome status</legend>
+			<table class="simple-table">
+				<tr>
+					<td>Outcome Status</td>
+					<td>
+						<obs id="tracing-outcome-status" conceptId="160433"
+							 answerConceptIds="160432,160415,165219,134236,165067,162752,156761,162632"
+							 answerLabels="Dead,Relocated,Voluntary exit,Enrolled in MAT (applicable to PWIDS only),
+Untraceable,Bedridden,Imprisoned,Found" answerSeparator="&lt;br /&gt;"
+							 style="radio" />
+					</td>
+					<td>Source of information</td>
+					<td>
+						<obs id="source-information" conceptId="162568"
+							 answerConceptIds="164929,165037,5622"
+							 answerLabels="KP,PE,Other informant-specify (friend/neighbor/spouse/ etc)"
+							 style="radio"
+
+						/>
+						<obs id="other-informant" conceptId="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+
+
+					</td>
+				</tr>
+				<tr>
+					<td>Status in the programme</td>
+					<td>
+						<obs id="status-in-programme" conceptId="161641"
+							 answerConceptIds="5240,160031,161636,160432"
+							 answerLabels="Lost to follow up,Defaulted,Active,Dead"
+							 style="radio"
+
+						/>
+					</td>
+				</tr>
+				<tr id="comment-voluntary">
+					<td>Comments explaining the reason(s) for voluntary exit</td>
+					<td>
+						<obs id="comment-voluntary-exit" conceptId="160716" rows="3" cols="80"/>
+					</td>
+				</tr>
+
+			</table>
+		</fieldset>
+
+
+
+	</div>
+	<div class="ke-form-footer">
+		<submit/>
+	</div>
+
+</htmlform>
