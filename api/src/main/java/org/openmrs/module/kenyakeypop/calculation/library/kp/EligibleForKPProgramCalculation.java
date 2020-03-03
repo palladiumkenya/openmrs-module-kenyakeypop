@@ -45,7 +45,7 @@ public class EligibleForKPProgramCalculation extends AbstractPatientCalculation 
 				eligible = true;
 			}
 			
-			log.info("Eligible for KP ==> " + eligible);
+			//log.info("Eligible for KP ==> " + eligible);
 			ret.put(ptId, new BooleanResult(eligible, this));
 			
 		}
