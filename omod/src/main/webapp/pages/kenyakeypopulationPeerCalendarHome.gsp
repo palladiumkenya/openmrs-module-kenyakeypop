@@ -1,13 +1,14 @@
 <%
     ui.decorateWith("kenyaemr", "standardPage", [ layout: "sidebar" ])
 
-    def menuItemsNew = [
-            [ label: "Seen Clients", iconProvider: "kenyaui", icon: "buttons/patients.png", href: ui.pageLink("kenyaemr", "clinician/clinicianSearchSeen") ]
+    def menuItems = [
+            [ label: "Back KP Provider", iconProvider: "kenyaui", icon: "buttons/back.png", label: "Back KP Provider", href: ui.pageLink("kenyakeypop", "kpProviderHome") ]
     ]
 %>
 
 <div class="ke-page-sidebar">
     ${ ui.includeFragment("kenyaemr", "patient/patientSearchForm", [ defaultWhich: "checked-in" ]) }
+    ${ ui.includeFragment("kenyaui", "widget/panelMenu", [ heading: "", items: menuItems ]) }
 
 </div>
 
