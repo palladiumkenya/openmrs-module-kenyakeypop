@@ -91,7 +91,7 @@ public class KPRegisterReportBuilder extends AbstractHybridReportBuilder {
 		dsd.addColumn("Hotspot", new HotspotDataDefinition(), "");
 		dsd.addColumn("Hotspot Typology", new HotspotTypologyDataDefinition(), "");
 		dsd.addColumn("Ward", new WardDataDefinition(), "");
-		dsd.addColumn("Phone Number", new PhoneNumberDataDefinition(), "");
+		dsd.addColumn("Phone Number", new KpPhoneNumberDataDefinition(), "");
 		//dsd.addColumn("Unique Identifier code", identifierDef, "");
 		dsd.addColumn("Key Population Type", new KeyPopTypeDataDefinition(), "");
 		dsd.addColumn("DOB", new BirthdateDataDefinition(), "");
@@ -106,10 +106,10 @@ public class KPRegisterReportBuilder extends AbstractHybridReportBuilder {
 		dsd.addColumn("Tested for HIV", new TestedForHIVDataDefinition(), "");
 		dsd.addColumn("HTS delivery point", new HTSDeliveryPointDataDefinition(), "");
 		dsd.addColumn("Frequency of HIV Test", new HIVTestFrequencyDataDefinition(), "");
-		dsd.addColumn("HIV Status", new HIVStatusDataDefinition(), "");
+		dsd.addColumn("HIV Status", new KpHIVStatusDataDefinition(), "");
 		dsd.addColumn("HIV Self Test", new HIVSelfTestDataDefinition(), "");
 		dsd.addColumn("Pre-ART", new PreARTDataDefinition(), "");
-		dsd.addColumn("Started ART", new StartedARTDataDefinition(), "");
+		dsd.addColumn("Started ART", new KpStartedARTDataDefinition(), "");
 		dsd.addColumn("Currently on ART", new CurrentlyOnARTDataDefinition(), "");
 		dsd.addColumn("Current care facility", new CurrentCareFacilityDataDefinition(), "");
 		dsd.addColumn("HIV Care Outcome", new HIVCareOutcomeDataDefinition(), "");
