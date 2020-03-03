@@ -1,0 +1,565 @@
+<!--
+  ~ The contents of this file are subject to the OpenMRS Public License
+  ~ Version 1.0 (the "License"); you may not use this file except in
+  ~ compliance with the License. You may obtain a copy of the License at
+  ~ http://license.openmrs.org
+  ~
+  ~ Software distributed under the License is distributed on an "AS IS"
+  ~ basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+  ~ License for the specific language governing rights and limitations
+  ~ under the License.
+  ~
+  ~ Copyright (C) OpenMRS, LLC.  All Rights Reserved.
+
+-->
+<htmlform>
+
+    <script type="text/javascript" src="../moduleResources/kenyaemr/scripts/moment.js"></script>
+    <style>
+        .simple-table {
+            border: solid 1px #DDEEEE;
+            border-collapse: collapse;
+            border-spacing: 0;
+            font: normal 13px Arial, sans-serif;
+        }
+
+        .simple-table thead th {
+            background-color: #DDEFEF;
+            border: solid 1px #DDEEEE;
+            color: #336B6B;
+            padding: 10px;
+            text-align: left;
+            text-shadow: 1px 1px 1px #fff;
+        }
+
+        .simple-table td {
+            border: solid 1px #DDEEEE;
+            color: #333;
+            padding: 10px;
+            text-shadow: 1px 1px 1px #fff;
+        }
+    </style>
+    <script type="text/javascript" src="../moduleResources/kenyaemr/scripts/moment.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+
+            var pgender = "<lookup expression="patient.gender" />";
+            if(pgender=="M"){jq("#cotraceptive").hide();
+
+            }
+            else
+                {jq("#cotraceptive").show();
+
+            }
+            $("#sexual_related :input").attr("disabled", true);
+            $('#sexual_related').find("select").prop("selectedIndex",0).addClass('disabled');
+
+            jq('#other-perpetrator-specify :input').prop('disabled', true);
+            jq('#other-perpetrator :input[type=checkbox]').click(onOtherPerpetratorSelected);
+            jq("#incident-date input").change(dateValidations);
+            jq("#first-response-date input").change(dateValidations);
+            jq("#final_date input").change(dateValidations);
+            jq("#sexual_abuse input").change(SexualAbuse);
+
+        });
+
+
+        var dateValidations  = function () {
+            var incident_date = getValue('incident-date.value');
+            var first_response_date = getValue('first-response-date.value');
+            var  finally_resolved_date= getValue('final_date.value');
+            var today = moment().format('YYYY-MM-DD');
+
+            var isIncidentInFuture= moment(moment(moment(today, 'YYYY-MM-DD').toDate()).format('YYYY-MM-DD')).isBefore(moment(moment(incident_date, 'YYYY-MM-DD').toDate()).format('YYYY-MM-DD'));
+            var isFirstResponseDateBeforeIncident= moment(moment(moment(first_response_date, 'YYYY-MM-DD').toDate()).format('YYYY-MM-DD')).isBefore(moment(moment(incident_date, 'YYYY-MM-DD').toDate()).format('YYYY-MM-DD'));
+            var isFinalyResolvedDateBeforeIncident= moment(moment(moment(finally_resolved_date, 'YYYY-MM-DD').toDate()).format('YYYY-MM-DD')).isBefore(moment(moment(incident_date, 'YYYY-MM-DD').toDate()).format('YYYY-MM-DD'));
+
+            if (isFirstResponseDateBeforeIncident) {
+                getField('first-response-date.error').html('First response date should not be earlier than incident date.').show();
+                jq("#first-response-date input").val('');
+            }
+            else{
+                getField('first-response-date.error').html('First response date should not be earlier than incident date.').show();
+            }
+            if(isFinalyResolvedDateBeforeIncident){
+                getField('final_date.error').html('Date the issue was resolved can not be earlier than incident date.').show();
+                jq("#final_date input").val('');
+            }
+            else{
+                getField('final_date.error').html('First response date should not be earlier than incident date.').hide();
+            }
+            if(isIncidentInFuture){
+                getField('incident-date.error').html('Incident date can not be in the future.').show();
+                jq("#incident-date input").val('');
+            }
+            else{
+                getField('incident-date.error').html('Incident date can not be in the future.').hide();
+            }
+        }
+        function onOtherPerpetratorSelected() {
+            var val = jq(this).val();
+            var otherPerpetratorSelected = jq("#other-perpetrator input:checkbox:checked");
+            if(val == 5622 &amp;&amp; otherPerpetratorSelected.length >0 ){
+                jq('#other-perpetrator-specify :input').prop('disabled', false);
+            }
+            else{
+                jq('#other-perpetrator-specify :input').prop('disabled', true);
+                jq('#other-perpetrator-specify input').val('');
+            }
+        }
+        function SexualAbuse() {
+            var sexauly_abused = getValue("sexual_abuse.value");
+            if(sexauly_abused==152370){
+
+                $('#sexual_related').find('*').prop('disabled',false);
+                $('#sexual_related').find("select").prop("selectedIndex",0).removeClass('disabled');
+            }
+            else{
+
+                $("#sexual_related :input").attr("disabled", true);
+                $('#sexual_related').find('input:text').val('');
+                $('#sexual_related').find("select").prop("selectedIndex",0).addClass('disabled');
+            }
+        }
+        beforeSubmit.push(function() {
+
+            return true;
+        });
+    </script>
+ <div class="ke-form-header">
+     <table width="100%">
+         <tr>
+             <td>Date: <encounterDate id="encounter-date" showTime="true" /></td>
+             <td>Location: <encounterLocation default="GlobalProperty:kenyaemr.defaultLocation" type="autocomplete" /></td>
+         </tr>
+     </table>
+ </div>
+     <div class="ke-form-content">
+        <ifMode mode="EDIT">
+            <script type="text/javascript">
+                jq(function(){
+                    var otherPerpetratorSelected = jq("#other-perpetrator input:checkbox:checked");
+                    if(otherPerpetratorSelected.length >0 ){
+                        jq('#other-perpetrator-specify :input').prop('disabled', false);
+                    }
+                    else{
+                        jq('#other-perpetrator-specify :input').prop('disabled', true);
+                        jq('#other-perpetrator-specify input').val('');
+                    }
+                });
+                </script>
+        </ifMode>
+        <fieldset>
+            <legend>Violence Reporting Form</legend>
+            <table class="simple-table">
+                <tr>
+                    <td>
+                        Place of incident
+                    </td>
+                    <td>
+                        <obs id="place" conceptId="162725"/>
+                        &#160;&#160;&#160;&#160;&#160;&#160;
+                        Date of incident:
+                        <obs id="incident-date" conceptId="160753" allowFutureDates="false" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Was the abuse against:
+                    </td>
+                    <td>
+                        <obs conceptId="165164"
+                              answerConceptIds="165162,165163"
+                              style="radio"
+                              answerLabels="Individual,Group"
+                              />
+                    </td>
+                </tr>
+                <tr>
+                        <td>
+                        The form of incident:
+                        </td>
+                        <td id="form_of_incident">
+                            <div style="float: left; padding-right: 50px">
+                            <obs conceptId="165228" answerConceptId="123007" answerLabel="Verbal Abuse" style="checkbox" /><br />
+                            <obs conceptId="165228" answerConceptId="152292" answerLabel="Assault/physical abuse" style="checkbox" /><br />
+                            <obs conceptId="165228" answerConceptId="126312" answerLabel="Discrimination" style="checkbox" /><br />
+                            </div>
+
+                          <div style="float: left;padding-right: 50px">
+                            <obs id="sexual_abuse" conceptId="165228" answerConceptId="152370" answerLabel="Rape/Sexual Abuse" style="checkbox" /><br />
+                            <obs conceptId="165228" answerConceptId="156761" answerLabel="Illegal arrest" style="checkbox" /><br />
+                            <obs conceptId="165228" answerConceptId="165161"  answerLabel="Harassment" style="checkbox" /><br />
+
+                        </div>
+                     </td>
+                 </tr>
+                <tr>
+                    <td>
+                        Perpetrator: Kp being discriminated / harassed /abused by:
+                    </td>
+                    <td>
+                        <table class="simple-table" style=" float: left; ">
+                            <tr>
+                                   <td>
+                            Local gang
+                                   </td>
+                                    <td>
+                                       <obs conceptId="165283" answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Yes,No" style="radio" />
+                                   </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                   Police
+                                </td>
+                                <td>
+                                    <obs conceptId="165284" answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Yes,No" style="radio" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                            General public
+                                </td>
+                                <td>
+                                    <obs conceptId="165285" answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Yes,No" style="radio" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                            Client
+                                </td>
+                                <td>
+                                <obs conceptId="165286" answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Yes,No" style="radio" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                            Community member
+                                </td>
+                                <td>
+                                    <obs conceptId="163488" answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Yes,No" style="radio" /><br />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                Local Authority
+                                </td>
+                                <td>
+                                <obs conceptId="165193" answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Yes,No" style="radio" /><br />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Health Care Provider
+                                </td>
+                                <td>
+                                    <obs conceptId="5619AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Yes,No" style="radio" /><br />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Education institution
+                                </td>
+                                <td>
+                                    <obs conceptId="165289" answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Yes,No" style="radio" /><br />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Religious group
+                                </td>
+                                <td>
+                                    <obs conceptId="165290" answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Yes,No" style="radio" /><br />
+                                </td>
+                            </tr>
+                        </table>
+                        <table class="simple-table" style="display: inline-block; ">
+                            <tr>
+                                <td>
+                                    Drug peddler
+                                </td>
+                                <td>
+                                    <obs conceptId="165291" answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Yes,No" style="radio" /><br />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Pimp/Madam
+                                </td>
+                                <td>
+                                    <obs conceptId="165292" answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Yes,No" style="radio" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Bar owners/managers
+                                </td>
+                                <td>
+                                    <obs conceptId="165293" answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Yes,No" style="radio" /><br />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Family
+                                </td>
+                                <td>
+                                    <obs conceptId="1560" answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Yes,No" style="radio" /><br />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Partner
+                                </td>
+                                <td>
+                                    <obs conceptId="165294" answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Yes,No" style="radio" /><br />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Neighbor
+                                </td>
+                                <td>
+                                    <obs conceptId="165295" answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Yes,No" style="radio" /><br />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Employer
+                                </td>
+                                <td>
+                                    <obs conceptId="165296" answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Yes,No" style="radio" /><br />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Other
+                                </td>
+                                <td>
+                                    <obs conceptId="165241" answerConceptId="5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Other"  id="other-perpetrator" style="checkbox" /><br />
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Other KP (specify)
+                                </td>
+                                <td>
+                                    <obs  conceptId="165230" id="other-perpetrator-specify" />
+
+                                </td>
+                            </tr>
+                       </table>
+                    </td>
+                </tr>
+                <tr>
+
+                    <td>
+                        Date and time the crisis response team made <br/> its first attempt to address the incident through staff:
+                        </td>
+                    <td>
+                        <obs id="first-response-date" conceptId="165349" allowFutureDates="false" showTime="true"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Type of post violence support provided
+                    </td>
+                    <td>
+                        <obs class="violence-support" conceptId="165225"  rows="2" cols="50" />
+                    </td>
+                </tr>
+            </table>
+
+        </fieldset>
+        <fieldset>
+            <legend>Services</legend>
+            <table class="simple-table" id="sexual_related">
+                <tr>
+                    <td><b>Select the applicable post rape care service provided:</b></td>
+                </tr>
+                <tr>
+                    <td>
+                        a) HIV testing service
+                    </td>
+                    <td>
+                        Duration of services: <obs id="vl_test_date" conceptId="159368"/>
+                        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                        Provided within 5 days
+                        <obs id="provider"  conceptId="165165" answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Yes,No" style="radio" />
+                     </td>
+                </tr>
+                <tr id="cotraceptive">
+                    <td>
+                        b)  Emergency contraception
+                    </td>
+
+                    <td>
+                        Duration of services: <obs conceptId="165166"/>
+                        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                        Provided within 5 days <obs conceptId="165167" answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Yes,No" style="radio"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        c)  Complaint registration at police station     (provide OB number)
+                    </td>
+                    <td>
+                        Duration of services: <obs conceptId="165179" />
+                        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                        Provided within 5 days <obs conceptId="165180" answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Yes,No" style="radio"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        d) Psychosocial/trauma counselling
+                    </td>
+                    <td>
+                        Duration of services: <obs conceptId="165168"  />
+                        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                        Provided within 5 days <obs conceptId="165169" answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Yes,No"  style="radio" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        e) PEP provided
+                    </td>
+                    <td>Duration of services: <obs conceptId="165170"/>
+                        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                        Provided within 5 days <obs conceptId="165171" answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Yes,No" style="radio"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        f) STI screening and treatment done
+                    </td>
+                    <td>
+                      Duration of services: <obs conceptId="165190"/>
+                        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                      Provided within 5 days <obs id="provider"  answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Yes,No" conceptId="165172" style="radio" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        g) Legal support
+                    </td>
+                    <td>
+                        Duration of services: <obs conceptId="165173" />
+                        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                        Provided within 5 days <obs conceptId="165174" answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Yes,No" style="radio"/>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        h) Medical examination
+                    </td>
+                    <td>
+                        Duration of services: <obs conceptId="165175"  />
+                        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                        Provided within 5 days <obs conceptId="165176" answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Yes,No" style="radio"  />
+                   </td>
+                </tr>
+                <tr>
+                    <td>
+                        i) PRC form file
+                    </td>
+                    <td>
+                        Duration of services: <obs conceptId="165178"/>
+                        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                        Provided within 5 days <obs conceptId="165177" answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Yes,No" style="radio" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                    j) Other services provided: specify:
+                    </td>
+                    <td>
+                        <obs class="other-support-services" conceptId="163108"  rows="2" cols="50"/>
+                    </td>
+                </tr>
+
+            </table>
+            <table class="simple-table">
+
+
+                <tr>
+                    <td width="156" valign="top" colspan="2"><p> <b>Non sexual violence</b>:</p></td>
+                </tr>
+                <tr>
+                    <td>
+                        a) Medical services and care
+                    </td>
+                    <td>
+                          Duration of services: <obs conceptId="165181"/>
+                        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                          Provided within 5 days <obs conceptId="165182" answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Yes,No" style="radio" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        b) Psychosocial /trauma counselling
+                    </td>
+                    <td>
+                        Duration of services: <obs conceptId="165183" />
+                        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                        Provided within 5 days <obs conceptId="165184" answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Yes,No" style="radio" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        c) Complaint registration at police station (Provide OB number)
+                    </td>
+                    <td>
+                        Duration of services: <obs conceptId="165185"/>
+                        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                        Provided within 5 days <obs conceptId="165186" answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Yes,No" style="radio"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        d) Legal Support
+                    </td>
+                    <td>
+                        Duration of services: <obs conceptId="165187" />
+                        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                        Provided within 5 days <obs conceptId="165188" answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Yes,No" style="radio" />
+                     </td>
+                </tr>
+                <tr>
+                    <td>
+                        Where is the person now:
+                    </td>
+                    <td>
+                        <obs conceptId="165189"
+                             style="radio" answerConceptIds="160432,162277,1896,1536,165227"
+                            answerLabels="Dead,Imprisoned,Hospitalized,At home,Safe place"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Follow up action plan
+                    </td>
+                    <td>
+                        <obs class="follow-up-plan" conceptId="164378"  rows="2" cols="50" />
+                    </td>
+                </tr>
+                <tr>
+
+                    <td>
+                        Date issue was completely addressed:
+                    </td>
+                    <td>
+                        <obs id="final_date" conceptId="165224" allowFutureDates="false" />
+                    </td>
+                </tr>
+
+            </table>
+
+        </fieldset>
+    </div>
+    <div class="ke-form-footer">
+        <submit/>
+    </div>
+
+</htmlform>
