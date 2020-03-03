@@ -37,7 +37,7 @@
                         <span class="right"><i class="fa fa-pencil" style="font-size:20px;color: steelblue;"></i> &nbsp;<a href="${editAliasLink}">Edit Client Alias</a> &nbsp;&nbsp;&nbsp; <i class="fa fa-pencil" style="font-size:20px;color: steelblue">&nbsp;</i> <a href="${editContactInfoLink}">Edit Contact Info</a> </span>
                     </div>
                     <div class="info-body">
-                        ${ ui.includeFragment("kenyaemr", "patient/patientSummary", [ patient: currentPatient ]) }
+                        ${ ui.includeFragment("kenyakeypop", "kpClient/patientSummary", [ patient: currentPatient ]) }
                     </div>
                 </div>
 
@@ -47,7 +47,7 @@
                         <h3>Peer - Contact Form</h3>
                     </div>
 
-                    ${ ui.includeFragment("kenyaemr", "program/kp/clientContactForm", [patient: currentPatient]) }
+                    ${ ui.includeFragment("kenyakeypop", "kpClient/clientContactForm", [patient: currentPatient]) }
 
                 </div>
 
@@ -57,7 +57,7 @@
                         <h3>Peer - Peer Educator Relationship</h3>
                     </div>
 
-                    ${ ui.includeFragment("kenyaemr", "patient/patientRelationships", [patient: currentPatient]) }
+                    ${ ui.includeFragment("kenyakeypop", "relationship/patientRelationships", [patient: currentPatient]) }
 
                 </div>
 
@@ -67,22 +67,11 @@
                         <h3>KP Program History</h3>
                     </div>
                     <div class="info-body">
-                        ${ ui.includeFragment("kenyaemr", "program/programHistories", [ patient: currentPatient, showClinicalData: true ]) }
+                        ${ ui.includeFragment("kenyakeypop", "program/programHistories", [ patient: currentPatient, showClinicalData: true ]) }
                     </div>
                 </div>
 
             </div>
-            <div class="info-container column">
-
-                <div class="info-section">
-                    <div class="info-header">
-                        <i class="icon-calendar"></i>
-                        <h3>Recent Visits</h3>
-                    </div>
-                    <div class="info-body">
-                        ${ ui.includeFragment("kenyaemr", "patient/recentVisits", [ patient: currentPatient, showClinicalData: true ]) }
-                    </div>
-                </div>
 
                 <div class="info-section allergies">
                     <div class="info-header">
@@ -91,12 +80,12 @@
                         <i class="fa fa-plus-square right" style="color: steelblue" title="Add vitals" onclick="location.href = '${addTriageFormLink}'"></i>
                     </div>
                     <div class="info-body">
-                        ${ ui.includeFragment("kenyaemr", "patient/currentVitals", [ patient: currentPatient]) }
+                        ${ ui.includeFragment("kenyakeypop", "kpClient/currentVitals", [ patient: currentPatient]) }
                     </div>
                 </div>
             </div>
 
-            ${ ui.includeFragment("kenyaemr", "patient/actionsPanel", [visit: visit]) }
+            ${ ui.includeFragment("kenyakeypop", "kpClient/actionsPanel", [visit: visit]) }
 
         </div>
     </div>
