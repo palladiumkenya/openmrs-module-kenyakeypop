@@ -81,6 +81,11 @@
 
 		<dependency>
 			<groupId>org.openmrs.module</groupId>
+			<artifactId>kenyaemr-omod</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
 			<artifactId>kenyacore-test</artifactId>
 		</dependency>
 

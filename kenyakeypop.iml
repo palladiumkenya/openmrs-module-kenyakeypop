@@ -91,7 +91,8 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.codehaus.jackson:jackson-core-asl:1.9.13" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.codehaus.jackson:jackson-mapper-asl:1.9.13" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.codehaus.groovy:groovy-all:1.7.6" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.openmrs.api:openmrs-api:tests:1.12.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.openmrs.api:openmrs-api:tests:1.11.2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: javassist:javassist:3.12.1.GA" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework:spring-test:3.2.7.RELEASE" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: com.h2database:h2:1.4.187" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.databene:databene-benerator:0.5.9" level="project" />

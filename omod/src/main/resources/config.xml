@@ -24,6 +24,9 @@
 		<point>org.openmrs.admin.list</point>
 		<class>org.openmrs.module.kenyakeypop.extension.html.AdminList</class>
 	</extension>
+	<require_modules>
+		<require_module version="${kenyaemrVersion}">org.openmrs.module.kenyaemr</require_module>
+	</require_modules>
 
 	<aware_of_modules>
 		<aware_of_module>org.openmrs.module.legacyui</aware_of_module>

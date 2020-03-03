@@ -1,0 +1,225 @@
+<!--
+  ~ The contents of this file are subject to the OpenMRS Public License
+  ~ Version 1.0 (the "License"); you may not use this file except in
+  ~ compliance with the License. You may obtain a copy of the License at
+  ~ http://license.openmrs.org
+  ~
+  ~ Software distributed under the License is distributed on an "AS IS"
+  ~ basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+  ~ License for the specific language governing rights and limitations
+  ~ under the License.
+  ~
+  ~ Copyright (C) OpenMRS, LLC.  All Rights Reserved.
+  -->
+<htmlform>
+	<script type="text/javascript" src="../moduleResources/kenyaemr/scripts/moment.js"></script>
+	<style>
+		.simple-table {
+			border: solid 1px #DDEEEE;
+			border-collapse: collapse;
+			border-spacing: 0;
+			font: normal 13px Arial, sans-serif;
+		}
+
+		.simple-table thead th {
+			background-color: #DDEFEF;
+			border: solid 1px #DDEEEE;
+			color: #336B6B;
+			padding: 10px;
+			text-align: left;
+			text-shadow: 1px 1px 1px #fff;
+		}
+
+		.simple-table td {
+			border: solid 1px #DDEEEE;
+			color: #333;
+			padding: 10px;
+			text-shadow: 1px 1px 1px #fff;
+		}
+	</style>
+	<script>
+
+		$(document).ready(function () {
+		});
+	</script>
+	<div class="ke-form-header">
+		<table width="100%">
+			<tr>
+				<td>Date: <encounterDate id="encounter-date" showTime="true" /></td>
+				<td>Location: <encounterLocation default="GlobalProperty:kenyaemr.defaultLocation" type="autocomplete" /></td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="ke-form-content">
+		<fieldset class="gbv-scree">
+			<!--Gender based violence screening-->
+			<fieldset id="psychosocial-preparation-tab">
+				<legend>
+					Systemic examination:
+				</legend>
+<!--				from here-->
+				<table class="visit-edit-table">
+					<table style="width: 70%;" border="0" id="tbl-systems-review">
+						<tr>
+							<th align="left">No. </th>
+							<th align="left">System Review</th>
+							<th align="left">Findings</th>
+							<th align="left">Findings Notes</th>
+						</tr>
+						<tr>
+							<td>1.</td>
+							<td>Skin</td>
+							<td><obs class="skin-findings"
+									 conceptId="1120AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+									 answerConceptIds="150555AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,125201AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,135591AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,136455AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,507AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1249AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5244AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+									 answerLabels="Abscess,Swelling/Growth,Hair Loss,Itching,Kaposi Sarcoma,Skin eruptions/Rashes,Oral sores"
+									 style="dropdowm"
+							/></td>
+							<td><obs class="skin-notes" conceptId="160981AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" rows="1" cols="50"
+							/>
+							</td>
+						</tr>
+						<tr>
+							<td>2.</td>
+							<td>Eyes</td>
+							<td><obs class="eye-findings"
+									 conceptId="163309AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+									 answerConceptIds="123074AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,140940AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,131040AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,127777AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,140827AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,139100AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+									 answerLabels="Visual Disturbance,Excessive tearing,Eye pain,Eye redness,Light sensitive,Itchy eyes"
+									 style="dropdowm"
+							/></td>
+
+							<td><obs class="eye-notes" conceptId="164938" rows="1" cols="50"
+							/>
+							</td>
+						</tr>
+						<tr>
+							<td>3.</td>
+							<td>ENT</td>
+							<td><obs class="ent-findings"
+									 conceptId="164936"
+									 answerConceptIds="148517AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,139075AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,119558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,118536AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,106AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,147230AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,135841AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,117698AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,138554AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,507AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,152228AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,128055AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,133499AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160285AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,110099AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,126423AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,126318AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,158843AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5244AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5334AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,123588AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,124601AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,123919AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,111525AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+									 answerLabels="Apnea,Hearing disorder,Dental caries,Erythema,Frequent colds,Gingival bleeding,Hairy cell leukoplakia,Hearing loss,Hoarseness,Kaposi Sarcoma,Masses,Nasal discharge,Nosebleed,Pain,Post nasal discharge,Sinus problems,Snoring,Sore thoat,Oral sores,Thrush,Tinnitus,Toothache,Ulcers,Vertigo"
+									 style="dropdowm"
+							/></td>
+							<td><obs class="ent-notes" conceptId="164939" rows="1" cols="50"
+							/>
+							</td>
+						</tr>
+						<tr>
+							<td>4.</td>
+							<td>Chest</td>
+							<td><obs class="chest-findings"
+									 conceptId="1123AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+									 answerConceptIds="146893AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,127640AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,145712AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,164440AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,127639AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5209AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+									 answerLabels="Bronchial breathing,Crackles,Dullness,Reduced breathing,Respiratory distress,Wheezing"
+									 style="dropdowm"
+							/></td>
+							<td><obs class="chest-notes" conceptId="163042AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" rows="1" cols="50"
+							/>
+							</td>
+						</tr>
+						<tr>
+							<td>5.</td>
+							<td>CVS</td>
+							<td><obs class="cvs-findings"
+									 conceptId="1124AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+									 answerConceptIds="140147AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,136522AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,562AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,130560AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+									 answerLabels="Elevated blood pressure,Irregular heartbeat,Cardiac murmur,Cardiac rub"
+									 style="dropdowm"
+							/></td>
+							<td><obs class="cvs-notes" conceptId="163046AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" rows="1" cols="50"
+							/>
+							</td>
+						</tr>
+						<tr>
+							<td>6.</td>
+							<td>Abdomen</td>
+							<td><obs class="abdomen-findings"
+									 conceptId="1125AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+									 answerConceptIds="150915AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5008AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5103AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5009AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5105AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+									 answerLabels="Abdominal distension,Hepatomegaly,Abdominal mass,Splenomegaly,Abdominal tenderness"
+									 style="dropdowm "
+							/></td>
+							<td><obs class="abdomen-notes" conceptId="160948AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" rows="1" cols="50"
+							/>
+							</td>
+						</tr>
+						<tr>
+							<td>7.</td>
+							<td>CNS</td>
+							<td><obs class="cns-findings"
+									 conceptId="164937"
+									 answerConceptIds="118872AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1836AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,150817AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,120345AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,157498AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,112721AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,136282AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+									 answerLabels="Altered sensations,Bulging fontenelle,Abnormal reflexes,Confusion,Limb weakness,Stiff neck,Kernicterus"
+									 style="dropdowm"
+							/></td>
+							<td><obs class="cns-notes" conceptId="160994AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" rows="1" cols="50"
+							/>
+							</td>
+						</tr>
+						<tr>
+							<td>8.</td>
+							<td>Genitourinary </td>
+							<td><obs class="gus-findings"
+									 conceptId="1126AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+									 answerConceptIds="147241AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,154311AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,123529AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,123396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,124087AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+									 answerLabels="Bleeding,Rectal discharge,Urethral discharge,Vaginal discharge,Ulceration "
+									 style="dropdowm"
+							/></td>
+							<td><obs class="gus-notes" conceptId="163047AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" rows="1" cols="50"
+							/>
+							</td>
+						</tr>
+					</table>
+				</table>
+
+				<h2>Diagnosis:</h2>
+				<table>
+
+						<legend>Treatment/Management Plan</legend>
+						<table style="width: 70%;" border="0">
+							<tr>
+								<th align="left">Diagnosis</th>
+								<th align="left">Treatment Plan</th>
+							</tr>
+							<repeat>
+								<template>
+									<obsgroup groupingConceptId="159947AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
+										<tr>
+											<td>
+												<obs conceptId="6042AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerClasses="Diagnosis" id="diagnosis-type" style="autocomplete"/>
+											</td>
+											<td>
+												<obs conceptId="163104AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" rows="1" cols="80" id="treatment-plan"/>
+											</td>
+										</tr>
+									</obsgroup>
+								</template>
+								<render n="11" concept="Diagnosis"/>
+								<render n="12" concept="Diagnosis"/>
+								<render n="13" concept="Diagnosis"/>
+								<render n="14" concept="Diagnosis"/>
+								<render n="15" concept="Diagnosis"/>
+							</repeat>
+						</table>
+
+				</table>
+				<table>
+					<h2>Notes:</h2>
+					<tr>
+						<td>
+							<label>Clinical Notes</label>
+							<obs conceptId="162169" style="textarea" cols="60"/>
+						</td>
+					</tr>
+				</table>
+			</fieldset>
+		</fieldset>
+	</div>
+	<div class="ke-form-footer">
+		<submit/>
+	</div>
+
+</htmlform>

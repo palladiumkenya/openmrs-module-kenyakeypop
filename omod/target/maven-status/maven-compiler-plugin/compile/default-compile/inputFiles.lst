@@ -1,2 +1,11 @@
-/home/makombe/openmrs-module-kenyakeypop/omod/src/main/java/org/openmrs/module/kenyakeypop/extension/html/AdminList.java
-/home/makombe/openmrs-module-kenyakeypop/omod/src/main/java/org/openmrs/module/kenyakeypop/web/controller/KenyakeypopController.java
+C:\Users\test\IdeaProjects\OpenMRS_Project\Kenya_EMRGreencard\openmrs-module-kenyakeypop\omod\src\main\java\org\openmrs\module\kenyakeypop\fragment\controller\program\ProgramCompletionFragmentController.java
+C:\Users\test\IdeaProjects\OpenMRS_Project\Kenya_EMRGreencard\openmrs-module-kenyakeypop\omod\src\main\java\org\openmrs\module\kenyakeypop\fragment\controller\program\ProgramHistoriesFragmentController.java
+C:\Users\test\IdeaProjects\OpenMRS_Project\Kenya_EMRGreencard\openmrs-module-kenyakeypop\omod\src\main\java\org\openmrs\module\kenyakeypop\extension\html\AdminList.java
+C:\Users\test\IdeaProjects\OpenMRS_Project\Kenya_EMRGreencard\openmrs-module-kenyakeypop\omod\src\main\java\org\openmrs\module\kenyakeypop\fragment\controller\program\ProgramCarePanelsFragmentController.java
+C:\Users\test\IdeaProjects\OpenMRS_Project\Kenya_EMRGreencard\openmrs-module-kenyakeypop\omod\src\main\java\org\openmrs\module\kenyakeypop\fragment\controller\program\ProgramEnrollmentFragmentController.java
+C:\Users\test\IdeaProjects\OpenMRS_Project\Kenya_EMRGreencard\openmrs-module-kenyakeypop\omod\src\main\java\org\openmrs\module\kenyakeypop\fragment\controller\kpClient\ClientSummaryFragmentController.java
+C:\Users\test\IdeaProjects\OpenMRS_Project\Kenya_EMRGreencard\openmrs-module-kenyakeypop\omod\src\main\java\org\openmrs\module\kenyakeypop\page\controller\KpProviderHomePageController.java
+C:\Users\test\IdeaProjects\OpenMRS_Project\Kenya_EMRGreencard\openmrs-module-kenyakeypop\omod\src\main\java\org\openmrs\module\kenyakeypop\fragment\controller\program\ProgramHistoryFragmentController.java
+C:\Users\test\IdeaProjects\OpenMRS_Project\Kenya_EMRGreencard\openmrs-module-kenyakeypop\omod\src\main\java\org\openmrs\module\kenyakeypop\fragment\controller\kpClient\ClientAllergiesAndChronicIllnessesFragmentController.java
+C:\Users\test\IdeaProjects\OpenMRS_Project\Kenya_EMRGreencard\openmrs-module-kenyakeypop\omod\src\main\java\org\openmrs\module\kenyakeypop\web\controller\KenyakeypopController.java
+C:\Users\test\IdeaProjects\OpenMRS_Project\Kenya_EMRGreencard\openmrs-module-kenyakeypop\omod\src\main\java\org\openmrs\module\kenyakeypop\page\controller\PatientProfilePageController.java

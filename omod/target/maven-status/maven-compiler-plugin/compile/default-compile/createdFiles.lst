@@ -1,2 +1,11 @@
-org/openmrs/module/kenyakeypop/web/controller/KenyakeypopController.class
-org/openmrs/module/kenyakeypop/extension/html/AdminList.class
+org\openmrs\module\kenyakeypop\extension\html\AdminList.class
+org\openmrs\module\kenyakeypop\fragment\controller\program\ProgramCarePanelsFragmentController.class
+org\openmrs\module\kenyakeypop\page\controller\KpProviderHomePageController.class
+org\openmrs\module\kenyakeypop\fragment\controller\program\ProgramEnrollmentFragmentController.class
+org\openmrs\module\kenyakeypop\fragment\controller\program\ProgramCompletionFragmentController.class
+org\openmrs\module\kenyakeypop\fragment\controller\program\ProgramHistoriesFragmentController.class
+org\openmrs\module\kenyakeypop\web\controller\KenyakeypopController.class
+org\openmrs\module\kenyakeypop\page\controller\PatientProfilePageController.class
+org\openmrs\module\kenyakeypop\fragment\controller\kpClient\ClientSummaryFragmentController.class
+org\openmrs\module\kenyakeypop\fragment\controller\program\ProgramHistoryFragmentController.class
+org\openmrs\module\kenyakeypop\fragment\controller\kpClient\ClientAllergiesAndChronicIllnessesFragmentController.class
