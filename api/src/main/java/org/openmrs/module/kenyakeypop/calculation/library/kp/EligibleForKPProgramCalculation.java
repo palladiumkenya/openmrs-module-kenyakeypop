@@ -24,12 +24,13 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Calculates whether patients are eligible for the HIV program Criteria == Alive Age > =15
+ * Calculates whether patients are eligible for the HIV program
+ * Criteria
+ * Alive
+ * Age > =15
  */
 public class EligibleForKPProgramCalculation extends AbstractPatientCalculation {
-	
-	protected static final Log log = LogFactory.getLog(EligibleForKPProgramCalculation.class);
-	
+
 	@Override
 	public CalculationResultMap evaluate(Collection<Integer> cohort, Map<String, Object> params,
 	        PatientCalculationContext context) {
@@ -39,13 +40,10 @@ public class EligibleForKPProgramCalculation extends AbstractPatientCalculation 
 		for (int ptId : cohort) {
 			boolean eligible = false;
 			
-			// get patient's age
 			Integer age = service.getPerson(ptId).getAge();
 			if (alive.contains(ptId) && age >= 15) {
 				eligible = true;
 			}
-			
-			//log.info("Eligible for KP ==> " + eligible);
 			ret.put(ptId, new BooleanResult(eligible, this));
 			
 		}
