@@ -7,7 +7,7 @@
  * Copyright (C) OpenMRS Inc. OpenMRS is a registered trademark and the OpenMRS
  * graphic logo is a trademark of OpenMRS Inc.
  */
-package org.openmrs.module.kenyaemr.calculation.library.kp;
+package org.openmrs.module.kenyakeypop.calculation.library.kp;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -24,13 +24,10 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Calculates whether patients are eligible for the HIV program
- * Criteria
- * Alive
- * Age > =15
+ * Calculates whether patients are eligible for the HIV program Criteria Alive Age > =15
  */
 public class EligibleForKPProgramCalculation extends AbstractPatientCalculation {
-
+	
 	@Override
 	public CalculationResultMap evaluate(Collection<Integer> cohort, Map<String, Object> params,
 	        PatientCalculationContext context) {
