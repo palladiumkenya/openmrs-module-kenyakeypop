@@ -25,12 +25,20 @@
 
     <context:component-scan base-package="org.openmrs.module.kenyakeypop" />
 
-    <bean id="kenyakeypop.app.keypopulation" factory-bean="kenyacore.appFactoryBean" factory-method="createInstance">
-        <constructor-arg value="kenyakeypop.keypopulation" />
-        <constructor-arg value="Key Population" />
+    <bean id="kenyakeypop.app.keypopulation.provider" factory-bean="kenyacore.appFactoryBean" factory-method="createInstance">
+        <constructor-arg value="kenyakeypop.keypopulation.provider" />
+        <constructor-arg value="KP Provider" />
         <constructor-arg value="kenyakeypop/kenyakeypopulationHome.page" />
-        <constructor-arg value="kenyaui:apps/registration.png" />
-        <constructor-arg value="1000" />
+        <constructor-arg value="kenyakeypop:apps/clinician.png" />
+        <constructor-arg value="2000" />
+    </bean>
+
+    <bean id="kenyakeypop.app.keypopulation.calendar" factory-bean="kenyacore.appFactoryBean" factory-method="createInstance">
+        <constructor-arg value="kenyakeypop.keypopulation.calendar" />
+        <constructor-arg value="KP Calendar" />
+        <constructor-arg value="kenyakeypop/kenyakeypopulationHome.page" />
+        <constructor-arg value="kenyaui:apps/peerCalendar.png" />
+        <constructor-arg value="2001" />
     </bean>
     <!-- Wraps KenyakeypopService methods in DB transactions and OpenMRS interceptors,
     which set audit info like dateCreated, changedBy, etc.-->

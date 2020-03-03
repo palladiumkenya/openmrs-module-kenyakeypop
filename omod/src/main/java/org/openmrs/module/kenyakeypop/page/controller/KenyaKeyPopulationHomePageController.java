@@ -7,13 +7,33 @@
  * Copyright (C) OpenMRS Inc. OpenMRS is a registered trademark and the OpenMRS
  * graphic logo is a trademark of OpenMRS Inc.
  */
-package org.openmrs.module.Kenyakeypop.page.controller;
+package org.openmrs.module.kenyakeypop.page.controller;
 
+import org.openmrs.Patient;
+import org.openmrs.module.kenyaemr.EmrConstants;
+import org.openmrs.module.kenyaemr.EmrWebConstants;
+import org.openmrs.module.kenyakeypop.KpConstant;
+import org.openmrs.module.kenyaui.annotation.AppPage;
+import org.openmrs.ui.framework.SimpleObject;
+import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.page.PageModel;
 
+/**
+ * Homepage for the KP provider app
+ */
+@AppPage(KpConstant.APP_KP_PROVIDER)
 public class KenyaKeyPopulationHomePageController {
 	
-	public void controller(PageModel model) {
+	public String controller(UiUtils ui, PageModel model) {
 		
+		Patient patient = (Patient) model.getAttribute(EmrWebConstants.MODEL_ATTR_CURRENT_PATIENT);
+		
+		if (patient != null) {
+			return "redirect:"
+			        + ui.pageLink(EmrConstants.MODULE_ID, "clinician/clinicianViewPatient",
+			            SimpleObject.create("patientId", patient.getId()));
+		} else {
+			return null;
+		}
 	}
 }
