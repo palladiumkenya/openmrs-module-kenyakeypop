@@ -13,7 +13,6 @@
   -->
 <htmlform>
     <script type="text/javascript" src="../moduleResources/kenyaemr/scripts/moment.js"></script>
-    <script type="text/javascript" src="../moduleResources/kenyaemr/scripts/getBrowserUrlParameter.js"></script>
     <style>
         .simple-table {
             border: solid 1px #DDEEEE;
@@ -284,6 +283,12 @@
         });
 
 
+        function kpGetUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        };
 
     </script>
 
