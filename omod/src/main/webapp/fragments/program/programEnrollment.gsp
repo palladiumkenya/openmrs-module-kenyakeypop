@@ -1,5 +1,5 @@
 <% if (encounter) { %>
-<button type="button" class="ke-compact" onclick="ui.navigate('${ ui.pageLink("prep", "editForm", [ encounterId: encounter.id, appId: currentApp.id, returnUrl: ui.thisUrl() ]) }')">
+<button type="button" class="ke-compact" onclick="ui.navigate('${ ui.pageLink("kenyakeypop", "editForm", [ encounterId: encounter.id, appId: currentApp.id, returnUrl: ui.thisUrl() ]) }')">
 	<img src="${ ui.resourceLink("kenyaui", "images/glyphs/edit.png") }" />
 </button>
 <% } %>

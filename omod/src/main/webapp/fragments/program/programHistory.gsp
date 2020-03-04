@@ -7,7 +7,7 @@
 
 		<% if (enrollment.dateCompleted) { %>
 		<div class="ke-stack-item">
-			${ ui.includeFragment("prep", "program/programCompletion", [ patientProgram: enrollment, showClinicalData: config.showClinicalData ]) }
+			${ ui.includeFragment("kenyakeypop", "program/programCompletion", [ patientProgram: enrollment, showClinicalData: config.showClinicalData ]) }
 		</div>
 		<% } else if (patientForms) { %>
 		<div class="ke-stack-item">
@@ -17,7 +17,7 @@
 						icon: form.icon,
 						label: form.name,
 						extra: "Edit form",
-						href: ui.pageLink("prep", "editProgramForm", [
+						href: ui.pageLink("kenyakeypop", "editProgramForm", [
 								appId: currentApp.id,
 								patientProgramId: enrollment.id,
 								formUuid: form.formUuid,
@@ -29,7 +29,7 @@
 		<% } %>
 
 		<div class="ke-stack-item">
-			${ ui.includeFragment("prep", "program/programEnrollment", [ patientProgram: enrollment, showClinicalData: config.showClinicalData ]) }
+			${ ui.includeFragment("kenyakeypop", "program/programEnrollment", [ patientProgram: enrollment, showClinicalData: config.showClinicalData ]) }
 		</div>
 	<% } %>
 </div>
@@ -39,13 +39,13 @@
 <div class="ke-panel-footer">
 	<% if (currentEnrollment) { %>
 
-	<button type="button" onclick="ui.navigate('${ ui.pageLink("prep", "enterForm", [ patientId: patient.id, formUuid: defaultCompletionForm.targetUuid, appId: currentApp.id, returnUrl: ui.thisUrl() ]) }')">
+	<button type="button" onclick="ui.navigate('${ ui.pageLink("kenyakeypop", "enterForm", [ patientId: patient.id, formUuid: defaultCompletionForm.targetUuid, appId: currentApp.id, returnUrl: ui.thisUrl() ]) }')">
 		<img src="${ ui.resourceLink("kenyaui", "images/glyphs/discontinue.png") }" /> Discontinue
 	</button>
 
 	<% } else if (patientIsEligible) { %>
 
-	<button type="button" onclick="ui.navigate('${ ui.pageLink("prep", "enterForm", [ patientId: patient.id, formUuid: defaultEnrollmentForm.targetUuid, appId: currentApp.id, returnUrl: ui.thisUrl() ]) }')">
+	<button type="button" onclick="ui.navigate('${ ui.pageLink("kenyakeypop", "enterForm", [ patientId: patient.id, formUuid: defaultEnrollmentForm.targetUuid, appId: currentApp.id, returnUrl: ui.thisUrl() ]) }')">
 		<img src="${ ui.resourceLink("kenyaui", "images/glyphs/enroll.png") }" /> Enroll
 	</button>
 
