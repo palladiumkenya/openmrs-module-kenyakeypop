@@ -7,7 +7,7 @@
  * Copyright (C) OpenMRS Inc. OpenMRS is a registered trademark and the OpenMRS
  * graphic logo is a trademark of OpenMRS Inc.
  */
-package org.openmrs.module.kenyaemr.fragment.controller.patient;
+package org.openmrs.module.kenyakeypop.fragment.controller.kpClient;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -32,7 +32,8 @@ import org.openmrs.ui.framework.page.PageRequest;
 
 import java.util.*;
 
-import static org.openmrs.module.kenyaemr.metadata.CommonMetadata._Form.*;
+import static org.openmrs.module.kenyakeypop.metadata.KpMetadata._Form.*;
+
 import static org.openmrs.module.kenyaemr.metadata.TbMetadata._Form.TB_SCREENING;
 
 /**
@@ -116,13 +117,11 @@ public class ActionsPanelFragmentController {
 		List<SimpleObject> commodityObj = new ArrayList<SimpleObject>();
 		List<SimpleObject> summaryReportingObj = new ArrayList<SimpleObject>();
 		
-		String communityTools[] = new String[] { "REFERRAL_AND_LINKAGE", "KP_CLIENT_TRACING_FORM", "KP_REFERRAL_FORM",
-		        "KP_PEER_CALENDAR_FORM" };
-		String clinicalTools[] = new String[] { "KP_CLIENT_ENROLLMENT", "KP_STI_TREATMENT_FORM",
-		        "KP_ALCOHOL_SCREENING_FORM", "KP_DEPRESSION_SCREENING_FORM", "KP_HCW_OVERDOSE_REPORTING_FORM",
-		        "KP_PEER_OVERDOSE_REPORTING_FORM", "TB_SCREENING", "KP_CLIENT_HIV_STATUS_FORM", "HTS_INITIAL_TEST",
-		        "HTS_CONFIRMATORY_TEST", "KP_CLINICAL_VISIT_FORM" };
-		String programtools[] = new String[] { "KP_VIOLENCE_SCREENING_FORM" };
+		String communityTools[] = new String[] { KP_CLIENT_TRACING_FORM, KP_PEER_CALENDAR_FORM };
+		String clinicalTools[] = new String[] { KP_CLIENT_ENROLLMENT, KP_STI_TREATMENT_FORM, KP_ALCOHOL_SCREENING_FORM,
+		        KP_DEPRESSION_SCREENING_FORM, KP_HCW_OVERDOSE_REPORTING_FORM, KP_PEER_OVERDOSE_REPORTING_FORM, TB_SCREENING,
+		        KP_CLINICAL_VISIT_FORM };
+		String programtools[] = new String[] { KP_VIOLENCE_SCREENING_FORM };
 		String commodityTools[] = new String[] {};
 		String summaryReportingTools[] = new String[] {};
 		
