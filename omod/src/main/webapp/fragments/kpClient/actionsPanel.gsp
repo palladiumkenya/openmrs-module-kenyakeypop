@@ -93,7 +93,7 @@
 						"""kenyaemr.openEncounterDialog('${ currentApp.id }', ${ encounter.id });"""
 					}
 				%>
-				${ ui.includeFragment("kenyaemr", "widget/encounterStack", [ encounters: encounters, onEncounterClick: onEncounterClick ]) }
+				${ ui.includeFragment("kenyakeypop", "widget/encounterLightStack", [ encounters: encounters, onEncounterClick: onEncounterClick ]) }
 			</a>
 			</li>
 
