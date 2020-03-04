@@ -32,7 +32,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-
+import java.util.Locale;
 /**
  * View peer clients page for peer calender app
  */
@@ -43,13 +43,25 @@ public class PeerViewClientsPageController {
 	
 	static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 	
+	static SimpleDateFormat month_date = new SimpleDateFormat("MMM yyyy", Locale.ENGLISH);
+	
 	public void controller() {
 	}
 	
 	public void get(@RequestParam("patientId") Patient patient, UiUtils ui,
 	        @RequestParam("effectiveDate") String effectiveDate, PageModel model) {
+		
+		Date reportingPeriod = null;
+		try {
+			reportingPeriod = DATE_FORMAT.parse(effectiveDate);
+		}
+		catch (ParseException e) {
+			e.printStackTrace();
+		}
 		model.put("peers", getPeers(patient, effectiveDate));
+		model.put("TotalPeers", getPeers(patient, effectiveDate).size());
 		model.put("effectiveDate", effectiveDate);
+		model.put("reportingPeriod", month_date.format(reportingPeriod));
 		
 	}
 	
@@ -127,4 +139,5 @@ public class PeerViewClientsPageController {
 		    Collections.singleton(form), Collections.singleton(type), null, null, null, false);
 		return encounters.size() > 0 ? encounters.get(encounters.size() - 1) : null;
 	}
+	
 }
