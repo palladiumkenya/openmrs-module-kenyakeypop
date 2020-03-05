@@ -63,24 +63,13 @@
                     <div class="info-header">
                         <i class="fa fa-support"></i>
 
-                        <h3>Peer - Peer Educator Relationship</h3>
+                        <h3>Relationship</h3>
                     </div>
 
                     ${ui.includeFragment("kenyakeypop", "relationship/patientRelationships", [patient: currentPatient])}
 
                 </div>
 
-                <div class="info-section">
-                    <div class="info-header">
-                        <i class="fa fa-history"></i>
-
-                        <h3>KP Program History</h3>
-                    </div>
-
-                    <div class="info-body">
-
-                    </div>
-                </div>
             </div>
 
             <div class="info-container column">
