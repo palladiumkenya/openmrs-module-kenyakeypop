@@ -4,10 +4,6 @@
 	ui.includeCss("kenyaemrorderentry", "font-awesome.css.map")
 	ui.includeCss("kenyaemrorderentry", "fontawesome-webfont.svg")
 
-	def onEncounterClick = { encounter ->
-		"""kenyaemr.openEncounterDialog('${ currentApp.id }', ${ encounter.id });"""
-	}
-
 %>
 
 <div class="action-container column">
@@ -20,7 +16,7 @@
 				<%
 					def onCOFormClick = { form ->
 						def visitId = currentVisit ? currentVisit.id : activeVisit.id
-						def opts = [ visitId: visitId, formUuid: form.formUuid, returnUrl: ui.thisUrl() ]
+						def opts = [ appId: currentApp.id, visitId: visitId, formUuid: form.formUuid, returnUrl: ui.thisUrl() ]
 						"""ui.navigate('${ ui.pageLink('kenyaemr', 'enterForm', opts) }');"""
 					}
 				%>
@@ -38,7 +34,7 @@
 				<%
 					def onOtherFormClick = { form ->
 						def visitId = currentVisit ? currentVisit.id : activeVisit.id
-						def opts = [ visitId: visitId, formUuid: form.formUuid, returnUrl: ui.thisUrl() ]
+						def opts = [ appId: currentApp.id, visitId: visitId, formUuid: form.formUuid, returnUrl: ui.thisUrl() ]
 						"""ui.navigate('${ ui.pageLink('kenyaemr', 'enterForm', opts) }');"""
 					}
 				%>
@@ -56,7 +52,7 @@
 				<%
 					def onCFFormClick = { form ->
 						def visitId = currentVisit ? currentVisit.id : activeVisit.id
-						def opts = [ visitId: visitId, formUuid: form.formUuid, returnUrl: ui.thisUrl() ]
+						def opts = [ appId: currentApp.id, visitId: visitId, formUuid: form.formUuid, returnUrl: ui.thisUrl() ]
 						"""ui.navigate('${ ui.pageLink('kenyaemr', 'enterForm', opts) }');"""
 					}
 				%>
@@ -74,7 +70,7 @@
 				<%
 					def onPLFormClick = { form ->
 						def visitId = currentVisit ? currentVisit.id : activeVisit.id
-						def opts = [ visitId: visitId, formUuid: form.formUuid, returnUrl: ui.thisUrl() ]
+						def opts = [ appId: currentApp.id, visitId: visitId, formUuid: form.formUuid, returnUrl: ui.thisUrl() ]
 						"""ui.navigate('${ ui.pageLink('kenyaemr', 'enterForm', opts) }');"""
 					}
 				%>
@@ -91,7 +87,11 @@
 		<ul>
 			<h3>Completed Forms</h3>
 			<li class="float-left" style="margin-top: 7px">
-
+				<%
+					def onEncounterClick = { encounter ->
+						"""kenyaemr.openEncounterDialog('${ currentApp.id }', ${ encounter.id });"""
+					}
+				%>
 				${ ui.includeFragment("kenyakeypop", "widget/encounterLightStack", [ encounters: encounters, onEncounterClick: onEncounterClick ]) }
 			</a>
 			</li>

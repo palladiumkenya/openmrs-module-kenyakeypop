@@ -12,6 +12,8 @@ package org.openmrs.module.kenyakeypop.page.controller;
 import org.openmrs.Patient;
 import org.openmrs.Visit;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.kenyakeypop.KpConstant;
+import org.openmrs.module.kenyaui.annotation.AppPage;
 import org.openmrs.ui.framework.page.PageModel;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -20,7 +22,7 @@ import java.util.List;
 /**
  * Patient Profile page controller
  */
-/*@AppPage(EmrConstants.APP_CLINICIAN)*/
+@AppPage(KpConstant.APP_KP_PROVIDER)
 public class PatientProfilePageController {
 	
 	public void controller(@RequestParam("patientId") Patient patient, PageModel model) {
