@@ -3,12 +3,11 @@
 	ui.includeCss("kenyaemrorderentry", "font-awesome.min.css")
 	ui.includeCss("kenyaemrorderentry", "font-awesome.css.map")
 	ui.includeCss("kenyaemrorderentry", "fontawesome-webfont.svg")
+
 %>
 
 <div class="action-container column">
 	<div class="action-section">
-
-		${ ui.includeFragment("kenyaemr", "visitMenu", [ patient: currentPatient, visit: activeVisit ])}
 
 		<ul  id ="community-outreach-tools">
 
@@ -103,32 +102,32 @@
 </div>
 <script type="text/javascript">
 
-	//On ready
-	jQuery(function () {
-		//defaults
+    //On ready
+    jQuery(function () {
+        //defaults
 
-		<% if (programLevelForms) { %>
-		jQuery("#program-level-tools").show();
-		<% } else { %>
-		jQuery("#program-level-tools").hide();
-		<% } %>
+        <% if (programLevelForms) { %>
+        jQuery("#program-level-tools").show();
+        <% } else { %>
+        jQuery("#program-level-tools").hide();
+        <% } %>
 
-		<% if (clinicalForms) { %>
-		jQuery("#clinical-tools").show();
-		<% } else { %>
-		jQuery("#clinical-tools").hide();
-		<% } %>
+        <% if (clinicalForms) { %>
+        jQuery("#clinical-tools").show();
+        <% } else { %>
+        jQuery("#clinical-tools").hide();
+        <% } %>
 
-		<% if (communityOutreachForms) { %>
-		jQuery("#community-outreach-tools").show();
-		<% } else { %>
-		jQuery("#community-outreach-tools").hide();
-		<% } %>
+        <% if (communityOutreachForms) { %>
+        jQuery("#community-outreach-tools").show();
+        <% } else { %>
+        jQuery("#community-outreach-tools").hide();
+        <% } %>
 
-		<% if (otherForms) { %>
-		jQuery("#other-tools").show();
-		<% } else { %>
-		jQuery("#other-tools").hide();
-		<% } %>
-	});
+        <% if (otherForms) { %>
+        jQuery("#other-tools").show();
+        <% } else { %>
+        jQuery("#other-tools").hide();
+        <% } %>
+    });
 </script>
