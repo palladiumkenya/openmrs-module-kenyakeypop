@@ -5,10 +5,11 @@
     ui.includeCss("kenyaemrorderentry", "font-awesome.min.css")
     ui.includeCss("kenyaemrorderentry", "font-awesome.css.map")
     ui.includeCss("kenyaemrorderentry", "../fontawesome-webfont.svg")
+    def triageUuid ="37f6bd8d-586a-4169-95fa-5781f987fe62";
 
     def editContactInfoLink = ui.pageLink("registrationapp", "editSection", [patientId: patient.id, sectionId: "contactInfo", appId: "referenceapplication.registrationapp.registerPatient", returnUrl: ui.thisUrl()])
     def editAliasLink = ui.pageLink("registrationapp", "editSection", [patientId: patient.id, sectionId: "alias", appId: "referenceapplication.registrationapp.registerPatient", returnUrl: ui.thisUrl()])
-    def addTriageFormLink = ui.pageLink("htmlformentryui", "htmlform/enterHtmlFormWithSimpleUi", [patientId: currentPatient.patientId, definitionUiResource: "kenyaemr:simpleuiforms/triage.xml", returnUrl: ui.thisUrl()])
+    def addTriageFormLink = ui.pageLink("kenyakeypop", "enterForm", [patientId: currentPatient.patientId, formUuid: triageUuid, appId:currentApp.id, returnUrl: ui.thisUrl()])
 
 %>
 <script type="text/javascript">
