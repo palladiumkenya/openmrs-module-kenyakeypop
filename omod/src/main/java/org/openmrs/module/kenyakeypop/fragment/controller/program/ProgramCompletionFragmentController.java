@@ -18,7 +18,7 @@ import org.openmrs.module.kenyaemr.wrapper.Enrollment;
 import org.openmrs.ui.framework.annotation.FragmentParam;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
-import org.openmrs.module.kenyaemr.EmrWebConstants;
+import org.openmrs.module.kenyakeypop.EmrWebConstants;
 
 /**
  * Program completion fragment
