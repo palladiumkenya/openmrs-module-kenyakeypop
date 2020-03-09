@@ -43,7 +43,7 @@ import java.util.List;
  */
 
 @Component
-@Builds({ "kenyaemr.etl.common.report.outreachWorkerSummary" })
+@Builds({ "kenyaemr.kenyakeypop.kenyakeypop.report.outreachWorkerSummary" })
 public class OutreachWorkerSummaryReportBuilder extends AbstractHybridReportBuilder {
 	
 	public static final String DATE_FORMAT = "yyyy-MM-dd";

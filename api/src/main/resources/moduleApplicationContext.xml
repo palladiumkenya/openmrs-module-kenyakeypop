@@ -58,17 +58,20 @@
 
             </set>
         </property>
-        <property name="reports">
-            <set>
 
-            </set>
-        </property>
         <property name="fragments">
             <map>
 
             </map>
         </property>
         <property name="order" value="590" />
+        <property name="reports">
+            <set>
+                <ref bean="kenyaemr.kenyakeypop.kenyakeypop.report.moh731b" />
+                <ref bean="kenyaemr.kenyakeypop.kenyakeypop.report.outreachWorkerSummary" />
+                <ref bean="kenyaemr.kenyakeypop.kenyakeypop.report.cohort.analysis.kpRegister" />
+            </set>
+        </property>
 
     </bean>
 
@@ -104,7 +107,15 @@
         <property name="icon" value="kenyaui:forms/completion.png" />
         <property name="htmlform" value="kenyakeypop:kpDiscontinuation.html" />
     </bean>
-
+  <!--  <bean id="kenyaemr.config.report" class="org.openmrs.module.kenyacore.report.ReportConfiguration">
+        <property name="reports">
+            <set>
+                <ref bean="kenyaemr.kenyakeypop.kenyakeypop.report.moh731b" />
+                <ref bean="kenyaemr.kenyakeypop.kenyakeypop.report.outreachWorkerSummary" />
+                <ref bean="kenyaemr.kenyakeypop.kenyakeypop.report.cohort.analysis.kpRegister" />
+            </set>
+        </property>
+    </bean>-->
     <!-- kp peer calendar -->
     <bean id="kenyakeypop.form.kpPeerCalendar" class="org.openmrs.module.kenyacore.form.FormDescriptor">
         <property name="targetUuid" value="7492cffe-5874-4144-a1e6-c9e455472a35" />
@@ -132,6 +143,40 @@
         <property name="icon" value="kenyaui:forms/generic.png" />
         <property name="htmlform" value="kenyakeypop:kpContact.html" />
         <property name="order" value="201018" />
+    </bean>
+
+    <!--Reports-->
+    <!-- KP register-->
+    <bean id="kenyaemr.kenyakeypop.kenyakeypop.report.cohort.analysis.kpRegister" class="org.openmrs.module.kenyacore.report.HybridReportDescriptor">
+        <property name="targetUuid" value="601fb262-ec35-48bb-a1e8-44e0274a06d0" />
+        <property name="name" value="KP Cohort Register" />
+        <property name="description" value="KP Cohort Register" />
+        <property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
+        <property name="template" value="kenyakeypop:KP_Cohort_Register_Template.xls" />
+        <property name="repeatingSection" value="sheet:1,row:7,dataset:KPRegister" />
+    </bean>
+
+    <bean id="kenyaemr.kenyakeypop.kenyakeypop.report.outreachWorkerSummary" class="org.openmrs.module.kenyacore.report.HybridReportDescriptor">
+        <property name="targetUuid" value="2b7c5b52-d11e-4340-a55f-5f1053ad2110" />
+        <property name="name" value="Outreach Worker Summary" />
+        <property name="description" value="Outreach Worker Summary" />
+        <property name="apps">
+            <set>
+                <ref bean="kenyaemr.app.reports" />
+            </set></property>
+        <property name="template" value="kenyakeypop:Outreach_Workers_summary_Template.xls" />
+        <property name="repeatingSection" value="sheet:1,row:8,dataset:OutreachWorkerSummary" />
+    </bean>
+
+    <bean id="kenyaemr.kenyakeypop.kenyakeypop.report.moh731b" class="org.openmrs.module.kenyacore.report.IndicatorReportDescriptor">
+        <property name="targetUuid" value="f8109c53-93bb-4561-b397-bb22ea317577" />
+        <property name="name" value="MOH 731B Report" />
+        <property name="description" value="MOH 731B Report based" />
+        <property name="apps">
+            <set>
+                <ref bean="kenyaemr.app.reports" />
+            </set></property>
+        <property name="template" value="kenyakeypop:MOH_731Plus_Template.xls" />
     </bean>
 
     <!-- Wraps KenyakeypopService methods in DB transactions and OpenMRS interceptors,

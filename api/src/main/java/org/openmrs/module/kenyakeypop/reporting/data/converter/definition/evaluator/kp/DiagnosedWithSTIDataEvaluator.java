@@ -38,7 +38,7 @@ public class DiagnosedWithSTIDataEvaluator implements PersonDataEvaluator {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
 		String qry = "select  r.client_id, coalesce(v.sti_results,t.syndrome,t.other_syndrome) from  kenyaemr_etl.etl_client_registration r  left outer join kenyaemr_etl.etl_clinical_visit v on r.client_id = v.client_id left outer join kenyaemr_etl.etl_sti_treatment t\n"
-		        + "on t.client_id = r.client_id where t.syndrome is not null or v.sti_results is not null group by r.client_id;";
+		        + "on t.patient_id = r.client_id where t.syndrome is not null or v.sti_results is not null group by r.client_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");
