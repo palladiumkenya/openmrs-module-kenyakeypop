@@ -33,6 +33,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
 /**
  * View peer clients page for peer calender app
  */
