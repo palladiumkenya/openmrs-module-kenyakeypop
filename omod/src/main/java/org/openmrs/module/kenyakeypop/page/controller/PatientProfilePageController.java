@@ -12,11 +12,17 @@ package org.openmrs.module.kenyakeypop.page.controller;
 import org.openmrs.Patient;
 import org.openmrs.Visit;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.kenyacore.program.ProgramDescriptor;
+import org.openmrs.module.kenyacore.program.ProgramManager;
 import org.openmrs.module.kenyakeypop.KpConstant;
 import org.openmrs.module.kenyaui.annotation.AppPage;
+import org.openmrs.ui.framework.annotation.FragmentParam;
+import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.page.PageModel;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -28,11 +34,13 @@ public class PatientProfilePageController {
 	public void controller(@RequestParam("patientId") Patient patient, PageModel model) {
 		
 		List<Visit> activeVisits = Context.getVisitService().getActiveVisitsByPatient(patient);
+		
 		Visit lastVisit = null;
 		if (activeVisits.size() > 0) {
 			lastVisit = activeVisits.get(activeVisits.size() - 1);
 		}
 		model.addAttribute("visit", lastVisit);
+		model.addAttribute("patient", patient);
 		
 	}
 }

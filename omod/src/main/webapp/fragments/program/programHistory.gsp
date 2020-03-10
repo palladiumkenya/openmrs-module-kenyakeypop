@@ -39,13 +39,13 @@
 <div class="ke-panel-footer">
 	<% if (currentEnrollment) { %>
 
-	<button type="button" onclick="ui.navigate('${ ui.pageLink("kenyakeypop", "enterForm", [ patientId: patient.id, formUuid: defaultCompletionForm.targetUuid, appId: currentApp != null ? currentApp.id : "kenyakeypop.keypopulation.provider", returnUrl: ui.thisUrl() ]) }')">
+	<button type="button" onclick="ui.navigate('${ ui.pageLink("kenyakeypop", "enterForm", [ patientId: patient.id, formUuid: defaultCompletionForm.targetUuid, appId: currentApp.id, returnUrl: ui.thisUrl() ]) }')">
 		<img src="${ ui.resourceLink("kenyaui", "images/glyphs/discontinue.png") }" /> Discontinue
 	</button>
 
 	<% } else if (patientIsEligible) { %>
 
-	<button type="button" onclick="ui.navigate('${ ui.pageLink("kenyakeypop", "enterForm", [ patientId: patient.id, formUuid: defaultEnrollmentForm.targetUuid,appId: currentApp != null ? currentApp.id : "kenyakeypop.keypopulation.provider" , returnUrl: ui.thisUrl() ]) }')">
+	<button type="button" onclick="ui.navigate('${ ui.pageLink("kenyakeypop", "enterForm", [ patientId: patient.id, formUuid: defaultEnrollmentForm.targetUuid, appId: currentApp.id, returnUrl: ui.thisUrl() ]) }')">
 		<img src="${ ui.resourceLink("kenyaui", "images/glyphs/enroll.png") }" /> Enroll
 	</button>
 

@@ -116,7 +116,6 @@
                 <ref bean="kenyaemr.app.intake" />
                 <ref bean="kenyaemr.app.clinician" />
                 <ref bean="kenyaemr.app.chart" />
-                <ref bean="kenyakeypop.app.keypopulation.provider" />
             </set>
         </property>
         <property name="icon" value="kenyaui:forms/completion.png" />
@@ -153,7 +152,6 @@
                 <ref bean="kenyaemr.app.clinician" />
                 <ref bean="kenyaemr.app.chart" />
                 <ref bean="kenyaemr.app.hts" />
-                <ref bean="kenyakeypop.app.keypopulation.provider" />
             </set>
         </property>
         <property name="icon" value="kenyaui:forms/generic.png" />
@@ -161,6 +159,7 @@
         <property name="order" value="201018" />
     </bean>
 
+<<<<<<< HEAD
     <!--Reports-->
     <!-- KP register-->
     <bean id="kenyaemr.kenyakeypop.kenyakeypop.report.cohort.analysis.kpRegister" class="org.openmrs.module.kenyacore.report.HybridReportDescriptor">
@@ -193,7 +192,7 @@
                 <ref bean="kenyaemr.app.reports" />
             </set></property>
         <property name="template" value="kenyakeypop:MOH_731Plus_Template.xls" />
-    </bean>
+=======
     <!-- kp Appointments -->
     <bean id="kenyakeypop.form.kpAppointmentCreation" class="org.openmrs.module.kenyacore.form.FormDescriptor">
         <property name="targetUuid" value="7587529e-9d84-4947-953e-afe5643cc816" />
@@ -393,6 +392,7 @@
         <property name="icon" value="kenyaui:forms/generic.png" />
         <property name="htmlform" value="kenyakeypop:kpDiagnosis.html" />
         <property name="order" value="201022" />
+>>>>>>> Added Fragments for forms and KP specific forms
     </bean>
 
     <!-- Wraps KenyakeypopService methods in DB transactions and OpenMRS interceptors,

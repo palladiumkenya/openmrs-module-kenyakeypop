@@ -11,16 +11,17 @@ package org.openmrs.module.kenyakeypop.fragment.controller.kpClient;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openmrs.*;
+import org.openmrs.Encounter;
+import org.openmrs.Form;
+import org.openmrs.Role;
+import org.openmrs.User;
+import org.openmrs.Visit;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.appframework.domain.AppDescriptor;
 import org.openmrs.module.appframework.service.AppFrameworkService;
 import org.openmrs.module.kenyacore.form.FormDescriptor;
 import org.openmrs.module.kenyacore.form.FormManager;
-import org.openmrs.module.kenyaemr.EmrConstants;
-import org.openmrs.module.kenyaemr.fragment.controller.VisitAvailableFormsFragmentController;
 import org.openmrs.module.kenyakeypop.KpConstant;
-import org.openmrs.module.kenyaui.KenyaUiConstants;
 import org.openmrs.module.kenyaui.KenyaUiUtils;
 import org.openmrs.module.kenyaui.annotation.AppPage;
 import org.openmrs.ui.framework.SimpleObject;
@@ -31,9 +32,16 @@ import org.openmrs.ui.framework.fragment.FragmentModel;
 import org.openmrs.ui.framework.page.PageContext;
 import org.openmrs.ui.framework.page.PageRequest;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
-import static org.openmrs.module.kenyaemr.metadata.CommonMetadata._Form.*;
+import static org.openmrs.module.kenyaemr.metadata.CommonMetadata._Form.HTS_CONFIRMATORY_TEST;
+import static org.openmrs.module.kenyaemr.metadata.CommonMetadata._Form.HTS_INITIAL_TEST;
 import static org.openmrs.module.kenyaemr.metadata.TbMetadata._Form.TB_SCREENING;
 import static org.openmrs.module.kenyakeypop.KpConstant.MODULE_ID;
 import static org.openmrs.module.kenyakeypop.metadata.KpMetadata._Form.*;
@@ -44,7 +52,7 @@ import static org.openmrs.module.kenyakeypop.metadata.KpMetadata._Form.*;
 @AppPage(KpConstant.APP_KP_PROVIDER)
 public class ActionsPanelFragmentController {
 	
-	protected static final Log log = LogFactory.getLog(VisitAvailableFormsFragmentController.class);
+	protected static final Log log = LogFactory.getLog(ActionsPanelFragmentController.class);
 	
 	public void controller(FragmentModel model, @FragmentParam(value = "visit", required = false) Visit visit, UiUtils ui,
 	        PageRequest request, PageContext pageContext, @SpringBean FormManager formManager,
