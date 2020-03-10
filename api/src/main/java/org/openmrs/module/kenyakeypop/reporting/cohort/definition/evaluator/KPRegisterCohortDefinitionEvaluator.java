@@ -51,8 +51,8 @@ public class KPRegisterCohortDefinitionEvaluator implements CohortDefinitionEval
 		
 		context = ObjectUtil.nvl(context, new EvaluationContext());
 		
-		String qry = "select c.client_id from kenyaemr_etl.etl_contact c\n" +
-				"where c.voided = 0 group by c.client_id having max(date(c.visit_date)) BETWEEN DATE(:startDate) AND DATE(:endDate);";
+		String qry = "select c.client_id from kenyaemr_etl.etl_contact c\n"
+		        + "where c.voided = 0 group by c.client_id having max(date(c.visit_date)) BETWEEN DATE(:startDate) AND DATE(:endDate);";
 		SqlQueryBuilder builder = new SqlQueryBuilder();
 		builder.append(qry);
 		Date startDate = (Date) context.getParameterValue("startDate");

@@ -40,7 +40,7 @@ public class StatusInProgramDataEvaluator implements PersonDataEvaluator {
 		String qry = "select r.client_id,\n"
 		        + "       (case r.dead when 0 then (coalesce(IFNULL((case when timestampdiff(Month,max(date(p.visit_date)),date(:endDate))<=3  then \"A\" when timestampdiff(Month,max(date(p.visit_date)),date(:endDate)) between 4 and 9 then \"DT\"\n"
 		        + "                                                       when timestampdiff(Month,max(date(p.visit_date)),date(:endDate)) > 9 then \"LTFU\" else null end),(case when timestampdiff(Month,max(date(v.visit_date)),date(:endDate))<=3  then \"A\" when timestampdiff(Month,max(date(v.visit_date)),date(:endDate)) between 4 and 9 then \"DT\"\n"
-		        + "                when timestampdiff(Month,max(date(v.visit_date)),date(:endDate)) > 9 then \"LTFU\" else \"\" end)))) when 1 then \"D\" else null end) as status_in_program from kenyaemr_etl.etl_client_registration r left join kenyaemr_etl.etl_peer_calendar p on r.client_id = p.client_id\n"
+		        + "                when timestampdiff(Month,max(date(v.visit_date)),date(:endDate)) > 9 then \"LTFU\" else \"\" end)))) when 1 then \"D\" else null end) as status_in_program from kenyaemr_etl.etl_patient_demographics r left join kenyaemr_etl.etl_peer_calendar p on r.client_id = p.client_id\n"
 		        + "                left join kenyaemr_etl.etl_clinical_visit v\n"
 		        + "                on r.client_id = v.client_id where p.client_id is not null or v.client_id is not null group by r.client_id;";
 		

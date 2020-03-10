@@ -37,7 +37,7 @@ public class ReachedWithEBIDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select v.client_id,v.risk_red_counselling_ebi_provided from kenyaemr_etl.etl_clinical_visit v group by v.client_id;";
+		String qry = "select v.client_id,v.risk_red_counselling_ebi_provided from kenyaemr_etl.etl_clinical_visit v where date(v.visit_date) between date(:startDate) and date(:endDate) group by v.client_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");
