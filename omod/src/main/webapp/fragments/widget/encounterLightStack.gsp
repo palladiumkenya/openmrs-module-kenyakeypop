@@ -21,7 +21,7 @@
 </style>
 <div class="ke-stack-item ke-navigable-form" onclick="${ onClick }" style="a ">
 	<input type="hidden" name="encounterId" value="${ encounter.encounterId }"/>
-	<i class="fa fa-file-text" style="color:yellow"></i>
+	<i class="fa fa-file-text-o" style="color:yellow"></i>
 	<b>${ title }</b> by ${ providers }<br/>
 </div>
 <%
