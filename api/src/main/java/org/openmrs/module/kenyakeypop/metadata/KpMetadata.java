@@ -93,7 +93,7 @@ public class KpMetadata extends AbstractMetadataBundle {
 		
 		public static final String KP_PEER_CALENDAR_FORM = "7492cffe-5874-4144-a1e6-c9e455472a35";
 		
-		public static final String KP_PEER_OVERDOSE_REPORTING_FORM = "92fd9c5a-c84a-483b-8d78-d4d7a600db30";
+		//public static final String KP_PEER_OVERDOSE_REPORTING_FORM = "92fd9c5a-c84a-483b-8d78-d4d7a600db30";
 		
 		public static final String KP_HCW_OVERDOSE_REPORTING_FORM = "d753bab3-0bbb-43f5-9796-5e95a5d641f3";
 		
