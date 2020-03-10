@@ -1,6 +1,5 @@
 <%
     ui.decorateWith("kenyaemr", "standardPage", [patient: currentPatient])
-    ui.includeCss("kenyaemr", "referenceapplication.css", 100)
     ui.includeCss("kenyaemrorderentry", "font-awesome.css")
     ui.includeCss("kenyaemrorderentry", "font-awesome.min.css")
     ui.includeCss("kenyaemrorderentry", "font-awesome.css.map")
@@ -21,6 +20,21 @@
 
 
 </script>
+<style>
+.dashboard .info-header {
+    border-bottom: 6px solid #7f7b72 !important;
+}
+.dashboard .info-header i {
+    font-size: 1.3em;
+    color: #7f7b72 !important;
+}
+.dashboard .info-header h3 {
+    display: inline-block;
+    font-family: "OpenSansBold";
+    font-size: 1em;
+    margin: 0;
+}
+</style>
 
 <div class="clear"></div>
 
@@ -51,7 +65,7 @@
 
                 <div class="info-section">
                     <div class="info-header">
-                        <i class="fa fa-support"></i>
+                        <i class="fa fa-list-ul fa-2x"></i>
 
                         <h3>Peer - Contact Form</h3>
                     </div>
@@ -62,7 +76,7 @@
 
                 <div class="info-section">
                     <div class="info-header">
-                        <i class="fa fa-support"></i>
+                        <i class="fa fa-list-ul fa-2x"></i>
 
                         <h3>Relationship</h3>
                     </div>
