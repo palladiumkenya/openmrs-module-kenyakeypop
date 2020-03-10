@@ -76,7 +76,7 @@
 
                 <div class="info-section">
                     <div class="info-header">
-                        <i class="fa fa-list-ul fa-2x"></i>
+                        <i class="fa fa-users fa-2x"></i>
 
                         <h3>Relationship</h3>
                     </div>
@@ -87,7 +87,7 @@
 
                 <div class="info-section">
                     <div class="info-header">
-                        <i class="fa fa-support"></i>
+                        <i class="fa fa-file-o"></i>
 
                         <h3>Enrollment status</h3>
                     </div>
