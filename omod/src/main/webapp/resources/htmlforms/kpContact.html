@@ -323,26 +323,28 @@
 
                 </tr>
                 <tr>
-                <td>Unique Identifier code</td>
-                <td>
-                    <span id="kp-id"><patient id="upn" field="identifier" identifierTypeId="b7bfefd0-239b-11e9-ab14-d663bd873d93" /></span>
-                    <span id="upnError" class="error"></span>
+                    <td>Unique Identifier code</td>
+                    <td>
+                        <span id="kp-id"><patient id="upn" field="identifier" identifierTypeId="b7bfefd0-239b-11e9-ab14-d663bd873d93" /></span>
+                        <span id="upnError" class="error"></span>
 
-                </td>
-                    <td></td>
-                    <td></td>
+                    </td>
+                    <td>Alias:</td>
+                    <td>
+                        <obs id="alias" conceptId="1526"/>
+                    </td>
                 </tr>
                 <tr>
                     <td>Alternative Contact Person</td>
                     <td>
-                    Name :
+                        Name :
                         <obs id="altname" conceptId="160638"/>
                     </td>
                     <td>
-                    Telephone number :
+                        Telephone number :
                     </td>
                     <td>
-                    <obs id="mobile" conceptId="160642"/>
+                        <obs id="mobile" conceptId="160642"/>
                     </td>
                 </tr>
                 <tr>
@@ -357,22 +359,22 @@
                 </tr>
                 <tr id="program_name">
 
-                        <td width="400" valign="top">If yes, which programme do you receive service from?</td>
+                    <td width="400" valign="top">If yes, which programme do you receive service from?</td>
                     <td colspan="3">
-                            <obs id="program" conceptId="165137"/>
+                        <obs id="program" conceptId="165137"/>
 
-                        </td>
+                    </td>
                 </tr>
                 <tr>
-                        <td >Hot spot mostly frequented</td>
-                        <td >
-                            <obs conceptId="165006" id="hotspot_frequented"/>
+                    <td >Hot spot mostly frequented</td>
+                    <td >
+                        <obs conceptId="165006" id="hotspot_frequented"/>
 
-                        </td>
-                        <td >Type of Hotspot</td>
-                        <td >
-                            <obs conceptId="165005"
-                                 answerConceptIds="165011,
+                    </td>
+                    <td >Type of Hotspot</td>
+                    <td >
+                        <obs conceptId="165005"
+                             answerConceptIds="165011,
                                                    165012,
                                                    165013,
                                                    165014,
@@ -391,7 +393,7 @@
                                                    165026,
                                                    165297,
                                                    5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                                 answerLabels="Street,
+                             answerLabels="Street,
                                               Injecting den,
                                               Uninhabitable building,
                                               Park,
@@ -410,12 +412,12 @@
                                               Barbershop/Salon,
                                               Virtual Space,
                                               Other (Specify)"
-                                 id="hotspot-type"
-                                 style="dropdown" />
-                           <br/><br/>
-                            <obs conceptId="165298" id="other-hotspots-specify"/>
-                            <br />
-                        </td>
+                             id="hotspot-type"
+                             style="dropdown" />
+                        <br/><br/>
+                        <obs conceptId="165298" id="other-hotspots-specify"/>
+                        <br />
+                    </td>
                 </tr>
                 <tr id="year_started_sex">
                     <td width="550" valign="top">Which year did you start sex work?</td>
