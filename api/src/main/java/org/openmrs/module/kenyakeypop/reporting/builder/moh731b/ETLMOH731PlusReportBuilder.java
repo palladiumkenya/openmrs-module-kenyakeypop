@@ -33,7 +33,7 @@ import java.util.List;
  * Report builder for ETL MOH 731B for Key Population
  */
 @Component
-@Builds({ "kenyaemr.etl.common.report.moh731b" })
+@Builds({ "kenyaemr.kenyakeypop.kenyakeypop.report.moh731b" })
 public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 	
 	@Autowired

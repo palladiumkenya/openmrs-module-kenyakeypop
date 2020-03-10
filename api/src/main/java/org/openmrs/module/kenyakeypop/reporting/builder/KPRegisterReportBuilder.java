@@ -37,7 +37,7 @@ import java.util.List;
 ;
 
 @Component
-@Builds({ "kenyaemr.kp.report.cohort.analysis.kpRegister" })
+@Builds({ "kenyaemr.kenyakeypop.kenyakeypop.report.cohort.analysis.kpRegister" })
 public class KPRegisterReportBuilder extends AbstractHybridReportBuilder {
 	
 	public static final String DATE_FORMAT = "dd/MM/yyyy";
