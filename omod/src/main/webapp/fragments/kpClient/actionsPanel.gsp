@@ -5,14 +5,68 @@
 	ui.includeCss("kenyaemrorderentry", "fontawesome-webfont.svg")
 
 %>
+<style>
+.action-container {
+	display: inline;
+	float: left;
+	width: 99.9%;
+	margin: 0 1.04167%;
+}
+.action-section {
+	margin-top: 2px;
+	background: #7f7b72 !important; ;
+	border: 1px solid #dddddd;
+}
+.float-left {
+	float: left;
+	clear: left;
+	width: 97.91666%;
+	background: #7f7b72 !important;
+	color: white;
+}
 
-<div class="action-container column">
+.action-section a:link {
+	color: white;!important;
+}
+
+.action-section a:hover {
+	color: white;
+}
+
+.action-section a:visited {
+	color: white;
+}
+.action-section h3 {
+	margin: 0;
+	color: white;
+	border-bottom: 1px solid white;
+	margin-bottom: 5px;
+	font-size: 1.5em;
+	margin-top: 5px;
+}
+.action-section ul {
+	background: #7f7b72 !important; ;
+	color: white;
+	padding: 5px;
+}
+
+.action-section li {
+	font-size: 1.1em;
+}
+.action-section i {
+	font-size: 1.1em;
+	margin-left: 8px;
+}
+</style>
+
+<div class="action-container">
 	<div class="action-section">
 
-		<ul  id ="community-outreach-tools">
+		<ul  id ="community-outreach-tools" class="float-left">
 
 			<h3>Community Outreach Tools</h3>
 			<li class="float-left" style="margin-top: 7px">
+				<a>
 				<%
 					def onCOFormClick = { form ->
 						def visitId = currentVisit ? currentVisit.id : activeVisit.id
@@ -27,10 +81,11 @@
 			</li>
 
 		</ul>
-		<ul id="other-tools">
+		<ul id="other-tools" class="float-left">
 
 			<h3>Other Tools</h3>
 			<li class="float-left" style="margin-top: 7px">
+				<a>
 				<%
 					def onOtherFormClick = { form ->
 						def visitId = currentVisit ? currentVisit.id : activeVisit.id
@@ -45,10 +100,11 @@
 			</li>
 
 		</ul>
-		<ul id = "clinical-tools">
+		<ul id = "clinical-tools" class="float-left">
 
 			<h3>Clinical Tools</h3>
 			<li class="float-left" style="margin-top: 7px">
+				<a>
 				<%
 					def onCFFormClick = { form ->
 						def visitId = currentVisit ? currentVisit.id : activeVisit.id
@@ -63,10 +119,11 @@
 			</li>
 
 		</ul>
-		<ul id="program-level-tools">
+		<ul id="program-level-tools" class="float-left">
 
 			<h3>Program Level Tools</h3>
 			<li class="float-left" style="margin-top: 7px">
+				<a>
 				<%
 					def onPLFormClick = { form ->
 						def visitId = currentVisit ? currentVisit.id : activeVisit.id
@@ -84,9 +141,10 @@
 
 
 
-		<ul>
+		<ul class="float-left">
 			<h3>Completed Forms</h3>
 			<li class="float-left" style="margin-top: 7px">
+				<a>
 				<%
 					def onEncounterClick = { encounter ->
 						"""kenyaemr.openEncounterDialog('${ currentApp.id }', ${ encounter.id });"""
