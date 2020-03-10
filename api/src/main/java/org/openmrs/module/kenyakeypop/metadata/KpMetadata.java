@@ -102,7 +102,9 @@ public class KpMetadata extends AbstractMetadataBundle {
 		public static final String KP_STI_TREATMENT_FORM = "318ad7be-e4da-481f-bcdd-0368cb7601c8";
 		
 		public static final String KP_VIOLENCE_SCREENING_FORM = "10cd2ca0-8d25-4876-b97c-b568a912957e";
-		
+		public static final String KP_REFERRAL_FORM = "bd12f98a-fcfe-4472-a858-17f28457932b";
+
+
 	}
 	
 	public static final class _PatientIdentifierType {
@@ -208,7 +210,10 @@ public class KpMetadata extends AbstractMetadataBundle {
 		    KpMetadata._Form.KP_PEER_CALENDAR_FORM));
 		install(form("KP Diagnosis", "Form for updating diagnosis", KpMetadata._EncounterType.KP_DIAGNOSIS, "1",
 		    KpMetadata._Form.KP_DIAGNOSIS_FORM));
-		
+
+		install(form("Referral", "Form for adding referrals", KpMetadata._EncounterType.KP_REFERRAL, "1", KpMetadata._Form.KP_REFERRAL_FORM));
+
+
 		install(relationshipType("Peer-educator", "Peer", "One that follows up peers",
 		    KpMetadata._RelationshipType.PEER_EDUCATOR));
 		
