@@ -71,6 +71,16 @@
 
                 </div>
 
+                <div class="info-section">
+                    <div class="info-header">
+                        <i class="fa fa-support"></i>
+
+                        <h3>Enrollment status</h3>
+                    </div>
+
+                          ${ ui.includeFragment("kenyakeypop", "program/programHistories", [ patient: currentPatient, showClinicalData: true ]) }
+                </div>
+
             </div>
 
             <div class="info-container column">

@@ -116,6 +116,7 @@
                 <ref bean="kenyaemr.app.intake" />
                 <ref bean="kenyaemr.app.clinician" />
                 <ref bean="kenyaemr.app.chart" />
+                <ref bean="kenyakeypop.app.keypopulation.provider" />
             </set>
         </property>
         <property name="icon" value="kenyaui:forms/completion.png" />
@@ -152,6 +153,7 @@
                 <ref bean="kenyaemr.app.clinician" />
                 <ref bean="kenyaemr.app.chart" />
                 <ref bean="kenyaemr.app.hts" />
+                <ref bean="kenyakeypop.app.keypopulation.provider" />
             </set>
         </property>
         <property name="icon" value="kenyaui:forms/generic.png" />
