@@ -38,7 +38,7 @@ public class EligibleForKPProgramCalculation extends AbstractPatientCalculation 
 			boolean eligible = false;
 			
 			Integer age = service.getPerson(ptId).getAge();
-			if (alive.contains(ptId) && age >= 15) {
+			if (alive.contains(ptId) && age >= 12) {
 				eligible = true;
 			}
 			ret.put(ptId, new BooleanResult(eligible, this));
