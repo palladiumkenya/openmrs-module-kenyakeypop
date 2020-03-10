@@ -165,7 +165,7 @@ public class KpMetadata extends AbstractMetadataBundle {
 		
 		// Installing forms
 		
-		install(form("KP Enrollment", null, KpMetadata._EncounterType.KP_CLIENT_ENROLLMENT, "1",
+		install(form("Clinical Enrollment", null, KpMetadata._EncounterType.KP_CLIENT_ENROLLMENT, "1",
 		    KpMetadata._Form.KP_CLIENT_ENROLLMENT));
 		install(form("Discontinuation", null, KpMetadata._EncounterType.KP_CLIENT_DISCONTINUATION, "1",
 		    KpMetadata._Form.KP_CLIENT_DISCONTINUATION));
