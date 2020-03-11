@@ -100,7 +100,6 @@
                 <ref bean="kenyakeypop.app.keypopulation.provider" />
             </set>
         </property>
-        <property name="showIfCalculation" value="org.openmrs.module.kenyakeypop.calculation.library.kp.EligibleForNonClinicalServices" />
         <property name="icon" value="kenyaui:forms/generic.png" />
         <property name="htmlform" value="kenyakeypop:kpClientEnrollment.html" />
 
@@ -226,7 +225,7 @@
         <property name="showIfCalculation" value="org.openmrs.module.kenyakeypop.calculation.library.kp.EligibleForClinicalServices" />
         <property name="icon" value="kenyaui:forms/generic.png" />
         <property name="htmlform" value="kenyakeypop:kpClientTracing.html" />
-        <property name="order" value="201006" />
+        <property name="order" value="201007" />
     </bean>
 
     <!-- kp STI Treatment-->
@@ -278,7 +277,6 @@
                 <ref bean="kenyakeypop.app.keypopulation.provider" />
             </set>
         </property>
-        <property name="showIfCalculation" value="org.openmrs.module.kenyakeypop.calculation.library.kp.EligibleForNonClinicalServices" />
         <property name="icon" value="kenyaui:forms/generic.png" />
         <property name="htmlform" value="kenyakeypop:kpPeerOverdoseReporting.html" />
         <property name="order" value="201015" />
@@ -302,24 +300,6 @@
         <property name="order" value="201016" />
     </bean>
 
-    <!-- kp client Health Education -->
-    <bean id="kenyakeypop.form.kpHealthEducation" class="org.openmrs.module.kenyacore.form.FormDescriptor">
-        <property name="targetUuid" value="67a224a5-907c-49e0-a1ea-e7c38b7a489d" />
-        <property name="apps">
-            <set>
-                <ref bean="kenyaemr.app.registration" />
-                <ref bean="kenyaemr.app.clinician" />
-                <ref bean="kenyaemr.app.chart" />
-                <ref bean="kenyaemr.app.hts" />
-                <ref bean="kenyakeypop.app.keypopulation.provider" />
-            </set>
-        </property>
-        <property name="showIfCalculation" value="org.openmrs.module.kenyakeypop.calculation.library.kp.EligibleForClinicalServices" />
-        <property name="icon" value="kenyaui:forms/generic.png" />
-        <property name="htmlform" value="kenyakeypop:kpHealthEducation.html" />
-        <property name="order" value="201018" />
-    </bean>
->>>>>>> Added form eligibilities - clinical vs non clinical
     <!-- kp client Violence Screening -->
     <bean id="kenyakeypop.form.kpViolenceScreening" class="org.openmrs.module.kenyacore.form.FormDescriptor">
         <property name="targetUuid" value="10cd2ca0-8d25-4876-b97c-b568a912957e" />
@@ -349,7 +329,6 @@
                 <ref bean="kenyakeypop.app.keypopulation.provider" />
             </set>
         </property>
-        <property name="showIfCalculation" value="org.openmrs.module.kenyakeypop.calculation.library.kp.EligibleForNonClinicalServices" />
         <property name="icon" value="kenyaui:forms/generic.png" />
         <property name="htmlform" value="kenyakeypop:kpReferral.html" />
         <property name="order" value="201020" />
