@@ -6,8 +6,6 @@
     ui.includeCss("kenyaemrorderentry", "../fontawesome-webfont.svg")
     def triageUuid ="37f6bd8d-586a-4169-95fa-5781f987fe62";
 
-    def editContactInfoLink = ui.pageLink("registrationapp", "editSection", [patientId: patient.id, sectionId: "contactInfo", appId: "referenceapplication.registrationapp.registerPatient", returnUrl: ui.thisUrl()])
-    def editAliasLink = ui.pageLink("registrationapp", "editSection", [patientId: patient.id, sectionId: "alias", appId: "referenceapplication.registrationapp.registerPatient", returnUrl: ui.thisUrl()])
     def addTriageFormLink = ui.pageLink("kenyakeypop", "enterForm", [patientId: currentPatient.patientId, formUuid: triageUuid, appId:currentApp.id, returnUrl: ui.thisUrl()])
 
 %>
@@ -51,11 +49,6 @@
                         <i class="icon-diagnosis"></i>
 
                         <h3>Registration Info</h3>
-                        <span class="right"><i class="fa fa-pencil"
-                                               style="font-size:20px;color: steelblue;"></i> &nbsp;<a
-                                href="${editAliasLink}">Edit Client Alias</a> &nbsp;&nbsp;&nbsp; <i class="fa fa-pencil"
-                                                                                                    style="font-size:20px;color: steelblue">&nbsp;</i> <a
-                                href="${editContactInfoLink}">Edit Contact Info</a></span>
                     </div>
 
                     <div class="info-body">
