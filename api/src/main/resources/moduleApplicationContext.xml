@@ -55,7 +55,7 @@
         </property>
         <property name="visitForms">
             <set>
-               <ref bean="kenyakeypop.form.kpClientTracing"/>
+                <ref bean="kenyakeypop.form.kpClientTracing"/>
                 <ref bean="kenyakeypop.form.kpSTITreatment"/>
                 <ref bean="kenyakeypop.form.kpDepressionScreening"/>
                 <ref bean="kenyakeypop.form.kpPeerOverdoseReporting"/>
