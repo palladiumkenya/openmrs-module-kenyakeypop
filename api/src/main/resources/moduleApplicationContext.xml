@@ -298,7 +298,7 @@
     </bean>
 
     <!-- kp client Health Education -->
-    <!--<bean id="kenyakeypop.form.kpHealthEducation" class="org.openmrs.module.kenyacore.form.FormDescriptor">
+    <bean id="kenyakeypop.form.kpHealthEducation" class="org.openmrs.module.kenyacore.form.FormDescriptor">
         <property name="targetUuid" value="67a224a5-907c-49e0-a1ea-e7c38b7a489d" />
         <property name="apps">
             <set>
@@ -312,9 +312,9 @@
         <property name="icon" value="kenyaui:forms/generic.png" />
         <property name="htmlform" value="kenyakeypop:kpHealthEducation.html" />
         <property name="order" value="201018" />
-    </bean>-->
+    </bean>
     <!-- kp client Violence Screening -->
-    <!--<bean id="kenyakeypop.form.kpViolenceScreening" class="org.openmrs.module.kenyacore.form.FormDescriptor">
+    <bean id="kenyakeypop.form.kpViolenceScreening" class="org.openmrs.module.kenyacore.form.FormDescriptor">
         <property name="targetUuid" value="10cd2ca0-8d25-4876-b97c-b568a912957e" />
         <property name="apps">
             <set>
@@ -328,7 +328,7 @@
         <property name="icon" value="kenyaui:forms/generic.png" />
         <property name="htmlform" value="kenyakeypop:kpViolenceScreening.html" />
         <property name="order" value="201019" />
-    </bean>-->
+    </bean>
     <!-- kp client Referrals -->
     <bean id="kenyakeypop.form.kpReferral" class="org.openmrs.module.kenyacore.form.FormDescriptor">
         <property name="targetUuid" value="bd12f98a-fcfe-4472-a858-17f28457932b" />

@@ -10,7 +10,6 @@
 package org.openmrs.module.kenyakeypop.metadata;
 
 import org.openmrs.PatientIdentifierType;
-import org.openmrs.module.kenyaemr.metadata.CommonMetadata;
 import org.openmrs.module.metadatadeploy.bundle.AbstractMetadataBundle;
 import org.springframework.stereotype.Component;
 
@@ -51,8 +50,9 @@ public class KpMetadata extends AbstractMetadataBundle {
 		public static final String KP_CLIENT_DISCONTINUATION = "d7142400-2495-11e9-ab14-d663bd873d93";
 		
 		public static final String KP_OVERDOSE_SCREENING = "c3fb7831-f8fc-4b71-bd54-f23cdd77e305";
+		
 		public static final String KP_PEER_OVERDOSE_REPORTING = "383974fe-58ef-488f-bdff-8962f4dd7518";
-
+		
 		public static final String KP_CLIENT_HIV_STATUS = "999792ec-8854-11e9-bc42-526af7764f64";
 		
 		public static final String KP_PEER_CALENDAR = "c4f9db39-2c18-49a6-bf9b-b243d673c64d";
@@ -102,9 +102,9 @@ public class KpMetadata extends AbstractMetadataBundle {
 		public static final String KP_STI_TREATMENT_FORM = "318ad7be-e4da-481f-bcdd-0368cb7601c8";
 		
 		public static final String KP_VIOLENCE_SCREENING_FORM = "10cd2ca0-8d25-4876-b97c-b568a912957e";
+		
 		public static final String KP_REFERRAL_FORM = "bd12f98a-fcfe-4472-a858-17f28457932b";
-
-
+		
 	}
 	
 	public static final class _PatientIdentifierType {
@@ -147,9 +147,10 @@ public class KpMetadata extends AbstractMetadataBundle {
 		
 		install(encounterType("KP Peer Overdose screening", "Records KP Peer Overdose screening",
 		    KpMetadata._EncounterType.KP_OVERDOSE_SCREENING));
-
-		install(encounterType("KP Peer Overdose reporting", "Records KP Peer Overdose reporting", KpMetadata._EncounterType.KP_PEER_OVERDOSE_REPORTING));
-
+		
+		install(encounterType("KP Peer Overdose reporting", "Records KP Peer Overdose reporting",
+		    KpMetadata._EncounterType.KP_PEER_OVERDOSE_REPORTING));
+		
 		install(encounterType("KP STI treatment", "Records KP STI treatment", KpMetadata._EncounterType.KP_STI_TREATMENT));
 		install(encounterType("KP STI Detailed treatment", "Records KP STI Detailed treatment",
 		    KpMetadata._EncounterType.KP_STI_DETAILED_TREATMENT));
@@ -197,9 +198,10 @@ public class KpMetadata extends AbstractMetadataBundle {
 		
 		install(form("Depression Screening PHQ-9", null, KpMetadata._EncounterType.KP_DEPRESSION_SCREENING, "1",
 		    KpMetadata._Form.KP_DEPRESSION_SCREENING_FORM));
-
-		install(form("Peer Overdose Reporting Tool", "Peer Overdose Reporting Tool", KpMetadata._EncounterType.KP_PEER_OVERDOSE_REPORTING, "1", KpMetadata._Form.KP_PEER_OVERDOSE_REPORTING_FORM));
-
+		
+		install(form("Peer Overdose Reporting Tool", "Peer Overdose Reporting Tool",
+		    KpMetadata._EncounterType.KP_PEER_OVERDOSE_REPORTING, "1", KpMetadata._Form.KP_PEER_OVERDOSE_REPORTING_FORM));
+		
 		install(form("HCW Overdose Reporting Tool", "HCW Overdose Reporting Tool",
 		    KpMetadata._EncounterType.KP_HCW_OVERDOSE_REPORTING, "1", KpMetadata._Form.KP_HCW_OVERDOSE_REPORTING_FORM));
 		install(form("Contact form", null, KpMetadata._EncounterType.KP_CONTACT, "1", KpMetadata._Form.KP_CONTACT_FORM));
@@ -210,10 +212,10 @@ public class KpMetadata extends AbstractMetadataBundle {
 		    KpMetadata._Form.KP_PEER_CALENDAR_FORM));
 		install(form("KP Diagnosis", "Form for updating diagnosis", KpMetadata._EncounterType.KP_DIAGNOSIS, "1",
 		    KpMetadata._Form.KP_DIAGNOSIS_FORM));
-
-		install(form("Referral", "Form for adding referrals", KpMetadata._EncounterType.KP_REFERRAL, "1", KpMetadata._Form.KP_REFERRAL_FORM));
-
-
+		
+		install(form("Referral", "Form for adding referrals", KpMetadata._EncounterType.KP_REFERRAL, "1",
+		    KpMetadata._Form.KP_REFERRAL_FORM));
+		
 		install(relationshipType("Peer-educator", "Peer", "One that follows up peers",
 		    KpMetadata._RelationshipType.PEER_EDUCATOR));
 		
