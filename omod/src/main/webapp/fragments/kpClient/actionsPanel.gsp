@@ -62,6 +62,26 @@
 <div class="action-container">
 	<div class="action-section">
 
+		${ ui.includeFragment("kenyaemr", "visitMenu", [ patient: currentPatient, visit: activeVisit ])}
+
+		<ul class="float-left">
+			<h3>Visit Actions</h3>
+
+			<li class="float-left" style="margin-top: 7px">
+				<a href="${ ui.pageLink("kenyaemrorderentry", "drugOrders", [patientId: currentPatient]) }" class="float-left">
+					<i class="fa fa-medkit fa-2x"></i>
+					Drug Orders
+				</a>
+			</li>
+			<li class="float-left" style="margin-top: 7px">
+				<a href="${ ui.pageLink("kenyaemrorderentry", "labOrders", [patientId: currentPatient]) }" class="float-left">
+					<i class="fa fa-flask fa-2x"></i>
+					Lab Orders
+				</a>
+			</li>
+
+		</ul>
+
 		<ul  id ="community-outreach-tools" class="float-left">
 
 			<h3>Community Outreach Tools</h3>
@@ -76,25 +96,6 @@
 				%>
 
 				${ ui.includeFragment("kenyakeypop", "widget/formLightStack", [ forms: communityOutreachForms, onFormClick: onCOFormClick ]) }
-
-			</a>
-			</li>
-
-		</ul>
-		<ul id="other-tools" class="float-left">
-
-			<h3>Other Tools</h3>
-			<li class="float-left" style="margin-top: 7px">
-				<a>
-				<%
-					def onOtherFormClick = { form ->
-						def visitId = currentVisit ? currentVisit.id : activeVisit.id
-						def opts = [ appId: currentApp.id, visitId: visitId, formUuid: form.formUuid, returnUrl: ui.thisUrl() ]
-						"""ui.navigate('${ ui.pageLink('kenyaemr', 'enterForm', opts) }');"""
-					}
-				%>
-
-				${ ui.includeFragment("kenyakeypop", "widget/formLightStack", [ forms: otherForms, onFormClick: onOtherFormClick ]) }
 
 			</a>
 			</li>
@@ -135,6 +136,25 @@
 				${ ui.includeFragment("kenyakeypop", "widget/formLightStack", [ forms: programLevelForms, onFormClick: onPLFormClick ]) }
 
 			</a>
+			</li>
+
+		</ul>
+		<ul id="other-tools" class="float-left">
+
+			<h3>Other Tools</h3>
+			<li class="float-left" style="margin-top: 7px">
+				<a>
+					<%
+						def onOtherFormClick = { form ->
+							def visitId = currentVisit ? currentVisit.id : activeVisit.id
+							def opts = [ appId: currentApp.id, visitId: visitId, formUuid: form.formUuid, returnUrl: ui.thisUrl() ]
+							"""ui.navigate('${ ui.pageLink('kenyaemr', 'enterForm', opts) }');"""
+						}
+					%>
+
+					${ ui.includeFragment("kenyakeypop", "widget/formLightStack", [ forms: otherForms, onFormClick: onOtherFormClick ]) }
+
+				</a>
 			</li>
 
 		</ul>

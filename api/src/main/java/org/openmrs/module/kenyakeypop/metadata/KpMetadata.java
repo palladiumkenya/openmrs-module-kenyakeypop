@@ -90,7 +90,7 @@ public class KpMetadata extends AbstractMetadataBundle {
 		public static final String KP_DIAGNOSIS_TREATMENT_FORM = "30905fa8-5a35-4d11-a7a3-8e1016b8dc8f";
 		
 		public static final String KP_CLIENT_DISCONTINUATION = "1f76643e-2495-11e9-ab14-d663bd873d93";
-
+		
 		public static final String KP_PEER_CALENDAR_FORM = "7492cffe-5874-4144-a1e6-c9e455472a35";
 		
 		public static final String KP_PEER_OVERDOSE_REPORTING_FORM = "92fd9c5a-c84a-483b-8d78-d4d7a600db30";
@@ -184,7 +184,7 @@ public class KpMetadata extends AbstractMetadataBundle {
 		
 		install(form("Diagnosis and Treatment Plan", null, KpMetadata._EncounterType.KP_DIAGNOSIS_TREATMENT, "1",
 		    KpMetadata._Form.KP_DIAGNOSIS_TREATMENT_FORM));
-
+		
 		install(form("STI Treatment", "Form for adding STI treatment details",
 		    KpMetadata._EncounterType.KP_STI_DETAILED_TREATMENT, "1", KpMetadata._Form.KP_STI_TREATMENT_FORM));
 		
@@ -199,7 +199,7 @@ public class KpMetadata extends AbstractMetadataBundle {
 		
 		install(form("HCW Overdose Reporting Tool", "HCW Overdose Reporting Tool",
 		    KpMetadata._EncounterType.KP_HCW_OVERDOSE_REPORTING, "1", KpMetadata._Form.KP_HCW_OVERDOSE_REPORTING_FORM));
-
+		
 		install(form("Contact form", null, KpMetadata._EncounterType.KP_CONTACT, "1", KpMetadata._Form.KP_CONTACT_FORM));
 		
 		install(form("Clinic visit form", "Form for adding referrals", KpMetadata._EncounterType.KP_CLINICAL_VISIT_FORM,
