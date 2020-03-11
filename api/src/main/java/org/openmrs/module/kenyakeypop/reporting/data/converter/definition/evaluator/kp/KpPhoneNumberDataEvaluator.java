@@ -37,7 +37,7 @@ public class KpPhoneNumberDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select r.client_id,r.phone_number from kenyaemr_etl.etl_patient_demographics r group by r.client_id;";
+		String qry = "select r.patient_id,r.phone_number from kenyaemr_etl.etl_patient_demographics r group by r.patient_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");
