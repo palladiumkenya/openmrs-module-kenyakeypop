@@ -56,13 +56,11 @@
         <property name="visitForms">
             <set>
                <ref bean="kenyakeypop.form.kpClientTracing"/>
-                <!--<ref bean="kenyakeypop.form.kpHIVstatus"/>-->
                 <ref bean="kenyakeypop.form.kpSTITreatment"/>
                 <ref bean="kenyakeypop.form.kpDepressionScreening"/>
                 <ref bean="kenyakeypop.form.kpPeerOverdoseReporting"/>
                 <ref bean="kenyakeypop.form.kpHealthWorkerOverdoseReporting"/>
                 <ref bean="kenyakeypop.form.kpViolenceScreening"/>
-                <ref bean="kenyakeypop.form.kpHealthEducation"/>
                 <ref bean="kenyakeypop.form.kpReferral"/>
                 <ref bean="kenyakeypop.form.kpAlcoholScreening"/>
                 <ref bean="kenyakeypop.form.kpClinicalVisitForm" />
@@ -297,22 +295,7 @@
         <property name="order" value="201016" />
     </bean>
 
-    <!-- kp client Health Education -->
-    <bean id="kenyakeypop.form.kpHealthEducation" class="org.openmrs.module.kenyacore.form.FormDescriptor">
-        <property name="targetUuid" value="67a224a5-907c-49e0-a1ea-e7c38b7a489d" />
-        <property name="apps">
-            <set>
-                <ref bean="kenyaemr.app.registration" />
-                <ref bean="kenyaemr.app.clinician" />
-                <ref bean="kenyaemr.app.chart" />
-                <ref bean="kenyaemr.app.hts" />
-                <ref bean="kenyakeypop.app.keypopulation.provider" />
-            </set>
-        </property>
-        <property name="icon" value="kenyaui:forms/generic.png" />
-        <property name="htmlform" value="kenyakeypop:kpHealthEducation.html" />
-        <property name="order" value="201018" />
-    </bean>
+
     <!-- kp client Violence Screening -->
     <bean id="kenyakeypop.form.kpViolenceScreening" class="org.openmrs.module.kenyacore.form.FormDescriptor">
         <property name="targetUuid" value="10cd2ca0-8d25-4876-b97c-b568a912957e" />
