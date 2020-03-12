@@ -73,10 +73,11 @@ public class ActionsPanelFragmentController {
 		List<SimpleObject> commodityObj = new ArrayList<SimpleObject>();
 		List<SimpleObject> summaryReportingObj = new ArrayList<SimpleObject>();
 		
-		String communityTools[] = new String[] { KP_CLIENT_TRACING_FORM, KP_PEER_CALENDAR_FORM };
+		String communityTools[] = new String[] { KP_CLIENT_TRACING_FORM, KP_PEER_OVERDOSE_REPORTING_FORM, KP_REFERRAL_FORM,
+		        KP_PEER_CALENDAR_FORM };
 		String clinicalTools[] = new String[] { KP_CLIENT_ENROLLMENT, KP_STI_TREATMENT_FORM, KP_ALCOHOL_SCREENING_FORM,
-		        KP_DEPRESSION_SCREENING_FORM, KP_HCW_OVERDOSE_REPORTING_FORM, KP_PEER_OVERDOSE_REPORTING_FORM, TB_SCREENING,
-		        HTS_INITIAL_TEST, HTS_CONFIRMATORY_TEST, KP_CLINICAL_VISIT_FORM };
+		        KP_DEPRESSION_SCREENING_FORM, KP_HCW_OVERDOSE_REPORTING_FORM, TB_SCREENING, HTS_INITIAL_TEST,
+		        HTS_CONFIRMATORY_TEST, KP_CLINICAL_VISIT_FORM };
 		String programtools[] = new String[] { KP_VIOLENCE_SCREENING_FORM };
 		String commodityTools[] = new String[] {};
 		String summaryReportingTools[] = new String[] {};
