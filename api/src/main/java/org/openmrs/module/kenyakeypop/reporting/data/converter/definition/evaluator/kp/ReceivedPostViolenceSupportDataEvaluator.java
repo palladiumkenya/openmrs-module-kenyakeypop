@@ -36,7 +36,7 @@ public class ReceivedPostViolenceSupportDataEvaluator implements PersonDataEvalu
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select v.client_id, v.violence_treated from kenyaemr_etl.etl_clinical_visit v where v.violence_treated = \"Supported\" group by v.client_id;";
+		String qry = "select v.client_id, v.violence_treated from kenyaemr_etl.etl_clinical_visit v where v.violence_treated = \"Supported\" and date(v.visit_date) between date(:startDate) and date(:endDate) group by v.client_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");

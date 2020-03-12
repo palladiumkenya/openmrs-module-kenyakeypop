@@ -37,7 +37,7 @@ public class StartedTBTreatmentDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select v.client_id, v.tb_treated from kenyaemr_etl.etl_clinical_visit v where v.tb_treated = \"Yes\" group by v.client_id having max(date(v.visit_date)) between date(:startDate) and date(:endDate);";
+		String qry = "select v.client_id,mid(max(concat(v.visit_date,v.tb_treated)),11)  from kenyaemr_etl.etl_clinical_visit v where v.tb_treated = \"Yes\" group by v.client_id having max(date(v.visit_date)) between date(:startDate) and date(:endDate);";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");

@@ -37,7 +37,8 @@ public class HTSDeliveryPointDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select t.patient_id, min(t.hts_entry_point) from kenyaemr_etl.etl_hts_test t group by t.patient_id;";
+		String qry = "select t.patient_id, t.hts_entry_point from kenyaemr_etl.etl_hts_test t inner join kenyaemr_etl.etl_contact c on t.patient_id = c.client_id\n"
+		        + "where date(t.visit_date) between date(:startDate) and date(:endDate) group by t.patient_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");
