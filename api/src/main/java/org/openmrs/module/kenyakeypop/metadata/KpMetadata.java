@@ -18,6 +18,7 @@ import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.form;
 import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.patientIdentifierType;
 import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.program;
 import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.relationshipType;
+import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.personAttributeType;
 
 /**
  * KP metadata bundle
@@ -109,6 +110,11 @@ public class KpMetadata extends AbstractMetadataBundle {
 		
 		public static final String KP_UNIQUE_PATIENT_NUMBER = "b7bfefd0-239b-11e9-ab14-d663bd873d93";
 		
+	}
+	
+	public static final class _PersonAttributeType {
+		
+		public static final String KP_CLIENT_ALIAS = "572d667b-ec71-4041-8add-ad8d1fe97af1";
 	}
 	
 	public static final class _RelationshipType {
@@ -218,6 +224,10 @@ public class KpMetadata extends AbstractMetadataBundle {
 		install(patientIdentifierType("KP unique Number", "Unique Number assigned to KP client upon enrollment", null, null,
 		    null, PatientIdentifierType.LocationBehavior.NOT_USED, false,
 		    KpMetadata._PatientIdentifierType.KP_UNIQUE_PATIENT_NUMBER));
+		
+		//Installing person attributes
+		install(personAttributeType("KP Client Alias", "KP client Alias name", String.class, null, true, 4.3,
+		    _PersonAttributeType.KP_CLIENT_ALIAS));
 		
 		install(program("Key Population", "Treatment for Key Population clients", kp_concept, _Program.KEY_POPULATION));
 	}
