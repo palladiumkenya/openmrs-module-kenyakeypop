@@ -35,7 +35,7 @@
             jq('#referred-lab :input[type=radio]').change(onLabReferral);
             jq('#given-condoms :input[type=radio]').change(condomsGiven);
             jq('#given-lubricants :input[type=radio]').change(lubesGiven);
-            jq("#returnVisitDate input").change(nextAppointmentDate);
+            //jq("#returnVisitDate input").change(nextAppointmentDate);
 
 
             if (pgender == 'F') {
@@ -81,20 +81,7 @@
             });
 
         })
-        var nextAppointmentDate  = function () {
-            var today = moment().format('YYYY-MM-DD');
-            var nextAppointment = getValue('returnVisitDate.value');
-            var appointment = moment(moment(moment(nextAppointment, 'YYYY-MM-DD').toDate()).format('YYYY-MM-DD')).isBefore(moment(moment(today, 'YYYY-MM-DD').toDate()).format('YYYY-MM-DD'));
-            if (appointment) {
-                getField('returnVisitDate.error').html('Next appointment date should be in the future').show();
-                jq("#returnVisitDate input").val('');
-            }
-            else{
-                getField('returnVisitDate.error').html('Next appointment date should be in the future').hide();
-            }
 
-
-        }
 
         function onOtherSyndromeSelected() {
             var val = jq(this).val();
@@ -224,7 +211,7 @@
             }
 
             if (condomsGiven ==1065 &amp;&amp;  !NumberOfCondomsGiven.match(validated)) {
-                    getField('condoms-number.error').html('Should be between 1 and 200.').show();
+                getField('condoms-number.error').html('Should be between 1 and 200.').show();
                 return false;
             }
 
@@ -343,7 +330,7 @@
                 <p>
                     New client in programme? : <obs id ="new_client" conceptId="164144"
 
-                         style="radio"/>
+                                                    style="radio"/>
                 </p>
 
             </table>
@@ -688,7 +675,7 @@
                 <tr>
                     <td>Date of next visit:&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
 
-                        <obs conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true"  id="returnVisitDate" />
+                        <obs conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  id="returnVisitDate" />
                         <span style="color:red;"><strong>*</strong></span>
                     </td>
                 </tr>
