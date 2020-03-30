@@ -42,11 +42,16 @@
     </style>
     <script type="text/javascript">
         var pgender = "<lookup expression="patient.gender" />";
-        var PATIENT_HAS_UPN = <lookup expression="kenyaemr.hasHivUniquePatientNumber()" />;
+        var patientId = <lookup expression="patient.patientId"/>;
+        var kpVelocity = "<lookup expression="kenyakeypop.KpVelocityCalculation()" />";
+        var kpAlias = kpVelocity.split(",")[0].split(":")[1];
+        var ctxPath = typeof openmrsContextPath === 'string' ? openmrsContextPath : OPENMRS_CONTEXT_PATH;
+
+
         function onHistoricalStatusDateChange() {
 
             var today = new Date()//.getTime();        //get current date
-            var patientId = <lookup expression="patient.patientId"/>;
+
 
             /*this data should not be in Future */
             if (ENC_DATE &gt; today) {
@@ -70,8 +75,9 @@
 
         }
 
-        $(document).ready(function () {
-            $("#date").datepicker({
+
+        jq(document).ready(function () {
+            jq("#date").datepicker({
                 changeMonth: false,
                 changeYear: true,
                 dateFormat: 'dd/mm/yy',
@@ -82,10 +88,22 @@
             jq('#hotspot-type select').click(onOtherHotspotSelected);
             jq("#mobile input").change(validateContactNumber);
             jq("#kp-id input").change(validateUpnNumber);
+            jq("#alias-success-label").hide();
 
 
+            if(kpAlias !=null &amp;&amp; kpAlias !='null'){
+                jq('#kpalias:text').val(kpAlias);
+            }else {
+                jq('#kpalias:text').val(" ");
+            }
 
+            jq('.saveAlias').click(function (e) {
 
+                saveClientAlias();
+                jq("#alias-success-label").show();
+
+                e.preventDefault();
+            });
 
             jq('#upnError').hide();
             jq("#hiv-id input[type=text]").blur(checkForExistingPatientIdentifiers);
@@ -108,7 +126,7 @@
                 jq("#key_pop_type input[value=165107]").prop("disabled", false);
             }
 
-            $('input').on('click',function () {
+            jq('input').on('click',function () {
 
                 var year_startSex_work = getField('startSex.value').val();
                 var year_start_having_sex_with_men = getField('sexWithMen.value').val();
@@ -127,7 +145,7 @@
 
             });
 
-            $("input[type='radio']").click(function(){
+            jq("input[type='radio']").click(function(){
                 var keypop_msm = $("input[name='w8']:checked").val();
                 if(keypop_msm ==160578){
                     jq("#msm").show();
@@ -143,7 +161,7 @@
 
             });
 
-            $("input[type='radio']").click(function(){
+            jq("input[type='radio']").click(function(){
                 var peer_educator = $("input[name='w13']:checked").val();
                 if(peer_educator ==1065){
                     jq("#program_name").show();
@@ -241,6 +259,25 @@
 
         }
 
+        function saveClientAlias() {
+            var clientAliasValue = jq("#kpalias").val();
+            jq.getJSON('/' + ctxPath + '/kenyakeypop/kpClient/clientContactForm/saveOrUpdateClientAlias.action', {
+                patientId: patientId,
+                alias: clientAliasValue
+
+            }, function(data) {
+                if (data.status == "Success") {
+                    jq("#lblClientAliasCompletionState").text(data.message).addClass("ke-success-label");
+
+                } else {
+                    jq("#lblClientAliasCompletionState").text(data.message).addClass("ke-error-label");
+
+                }
+
+            });
+
+        }
+
 
         beforeSubmit.push(function() {
             var hotspot_frequented = getField('hotspot_frequented.value').val();
@@ -327,11 +364,13 @@
                     <td>
                         <span id="kp-id"><patient id="upn" field="identifier" identifierTypeId="b7bfefd0-239b-11e9-ab14-d663bd873d93" /></span>
                         <span id="upnError" class="error"></span>
-
                     </td>
                     <td>Alias:</td>
                     <td>
-                        <obs id="alias" conceptId="1526"/>
+                        <span id="alias-success-label"><label style="color: green" id="lblClientAliasCompletionState"/></span>
+                        <input type="text" name="kpalias" id="kpalias" />
+                        <button   class="saveAlias">Save Alias</button>
+
                     </td>
                 </tr>
                 <tr>
