@@ -9,9 +9,15 @@
  */
 package org.openmrs.module.kenyakeypop.fragment.controller.kpClient;
 
-import org.openmrs.*;
+import org.openmrs.EncounterType;
+import org.openmrs.Form;
+import org.openmrs.Patient;
+import org.openmrs.Encounter;
+import org.openmrs.Obs;
+import org.openmrs.Person;
+import org.openmrs.PersonAttribute;
+import org.openmrs.api.PersonService;
 import org.openmrs.module.kenyacore.form.FormManager;
-import org.openmrs.module.kenyaemr.metadata.CommonMetadata;
 import org.openmrs.module.kenyaemr.util.EmrUtils;
 import org.openmrs.module.kenyakeypop.metadata.KpMetadata;
 import org.openmrs.module.kenyaui.KenyaUiUtils;
@@ -22,6 +28,7 @@ import org.openmrs.ui.framework.annotation.FragmentParam;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
 import org.openmrs.ui.framework.page.PageRequest;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -106,6 +113,25 @@ public class ClientContactFormFragmentController {
 		    "weeklyDrugInjections", weeklyDrugInjections != null ? weeklyDrugInjections : ""
 		
 		);
+	}
+	
+	public SimpleObject saveOrUpdateClientAlias(@SpringBean("personService") PersonService personService,
+	        @RequestParam(value = "patientId") Patient patient, @RequestParam(value = "alias") String alias)
+	        throws Exception {
+		Person person = patient.getPerson();
+		PersonAttribute personAttribute = new PersonAttribute();
+		personAttribute.setAttributeType(personService
+		        .getPersonAttributeTypeByUuid(KpMetadata._PersonAttributeType.KP_CLIENT_ALIAS));
+		personAttribute.setValue(alias);
+		person.addAttribute(personAttribute);
+		try {
+			personService.savePerson(person);
+			return SimpleObject.create("status", "Success", "message", "Client alias saved successfully");
+		}
+		catch (Exception e) {
+			return SimpleObject.create("status", "Error", "message", "There was an error updating Client alias");
+		}
+		
 	}
 	
 }
