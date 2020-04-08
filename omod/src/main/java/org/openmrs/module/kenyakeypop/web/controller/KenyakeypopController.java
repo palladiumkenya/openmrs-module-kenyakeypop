@@ -24,12 +24,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-/**
- * This class configured as controller using annotation and mapped with the URL of
- * 'module/${rootArtifactid}/${rootArtifactid}Link.form'.
- */
-@Controller("${rootrootArtifactid}.KenyakeypopController")
-@RequestMapping(value = "module/${rootArtifactid}/${rootArtifactid}.form")
 public class KenyakeypopController {
 	
 	/** Logger for this class and subclasses */

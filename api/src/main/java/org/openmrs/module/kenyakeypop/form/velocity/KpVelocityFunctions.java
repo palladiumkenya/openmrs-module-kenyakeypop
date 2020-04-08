@@ -18,7 +18,6 @@ import org.openmrs.module.kenyaemr.Dictionary;
 import org.openmrs.module.kenyaemr.calculation.EmrCalculationUtils;
 import org.openmrs.module.kenyakeypop.calculation.library.kp.KpVelocityCalculation;
 
-
 /**
  * Velocity functions for adding logic to HTML forms
  */
@@ -55,7 +54,5 @@ public class KpVelocityFunctions {
 		return (String) kpVelocity.getValue();
 		
 	}
-
-
-
+	
 }
