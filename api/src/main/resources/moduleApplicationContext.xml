@@ -65,6 +65,7 @@
                 <ref bean="kenyakeypop.form.kpAlcoholScreening"/>
                 <ref bean="kenyakeypop.form.kpClinicalVisitForm" />
                 <ref bean="kenyakeypop.form.kpDiagnosis" />
+                <ref bean="kenyakeypop.form.kpTreatmentVerification" />
             </set>
         </property>
 
@@ -386,6 +387,21 @@
         <property name="order" value="201022" />
     </bean>
 
+    <!--    kp TreatmentVerification-->
+    <bean id="kenyakeypop.form.kpTreatmentVerification" class="org.openmrs.module.kenyacore.form.FormDescriptor">
+        <property name="targetUuid" value="a70a1132-75b3-11ea-bc55-0242ac130003" />
+        <property name="apps">
+            <set>
+                <ref bean="kenyaemr.app.clinician" />
+                <ref bean="kenyaemr.app.hts" />
+                <ref bean="kenyakeypop.app.keypopulation.provider" />
+            </set>
+        </property>
+        <property name="showIfCalculation" value="org.openmrs.module.kenyakeypop.calculation.library.kp.EligibleForClinicalServices" />
+        <property name="icon" value="kenyaui:forms/generic.png" />
+        <property name="htmlform" value="kenyakeypop:kpTreatmentVerificationForm.html" />
+        <property name="order" value="201023" />
+    </bean>
     <!-- Wraps KenyakeypopService methods in DB transactions and OpenMRS interceptors,
     which set audit info like dateCreated, changedBy, etc.-->
     <bean id="kenyakeypop.KenyakeypopService"
