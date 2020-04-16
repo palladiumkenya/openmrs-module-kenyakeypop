@@ -67,8 +67,10 @@ public class KpMetadata extends AbstractMetadataBundle {
 		public static final String KP_STI_DETAILED_TREATMENT = "2cc8c535-bbfa-4668-98c7-b12e3550ee7b";
 		
 		public static final String KP_VIOLENCE_SCREENING = "7b69daf5-b567-4384-9d29-f020c408d613";
-
+		
 		public static final String KP_TREATMENT_VERIFICATION = "a70a1056-75b3-11ea-bc55-0242ac130003";
+		
+		public static final String KP_PREP_TREATMENT_VERIFICATION = "5c64e368-7fdc-11ea-bc55-0242ac130003";
 		
 	}
 	
@@ -105,8 +107,10 @@ public class KpMetadata extends AbstractMetadataBundle {
 		public static final String KP_VIOLENCE_SCREENING_FORM = "10cd2ca0-8d25-4876-b97c-b568a912957e";
 		
 		public static final String KP_REFERRAL_FORM = "bd12f98a-fcfe-4472-a858-17f28457932b";
-
+		
 		public static final String KP_TREATMENT_VERIFICATION_FORM = "a70a1132-75b3-11ea-bc55-0242ac130003";
+		
+		public static final String KP_PREP_TREATMENT_VERIFICATION_FORM = "5c64e61a-7fdc-11ea-bc55-0242ac130003";
 		
 	}
 	
@@ -178,7 +182,9 @@ public class KpMetadata extends AbstractMetadataBundle {
 		install(encounterType("KP Peer Calendar", "Records KP Peer Calendar", KpMetadata._EncounterType.KP_PEER_CALENDAR));
 		install(encounterType("KP Diagnosis", "Records KP Diagnosis", KpMetadata._EncounterType.KP_DIAGNOSIS));
 		install(encounterType("KP kpTreatmentVerification", "Treatment Verification",
-				KpMetadata._EncounterType.KP_TREATMENT_VERIFICATION));
+		    KpMetadata._EncounterType.KP_TREATMENT_VERIFICATION));
+		install(encounterType("KP prepTreatmentVerification", "Prep Treatment Verification",
+		    KpMetadata._EncounterType.KP_PREP_TREATMENT_VERIFICATION));
 		// Installing forms
 		
 		install(form("Clinical Enrollment", null, KpMetadata._EncounterType.KP_CLIENT_ENROLLMENT, "1",
@@ -222,9 +228,12 @@ public class KpMetadata extends AbstractMetadataBundle {
 		
 		install(form("Referral", "Form for adding referrals", KpMetadata._EncounterType.KP_REFERRAL, "1",
 		    KpMetadata._Form.KP_REFERRAL_FORM));
-
+		
 		install(form("kpTreatmentVerification", "treatment verification form",
-				KpMetadata._EncounterType.KP_TREATMENT_VERIFICATION, "1", _Form.KP_TREATMENT_VERIFICATION_FORM));
+		    KpMetadata._EncounterType.KP_TREATMENT_VERIFICATION, "1", _Form.KP_TREATMENT_VERIFICATION_FORM));
+		
+		install(form("prepTreatmentVerification", "prep treatment verification form",
+		    KpMetadata._EncounterType.KP_PREP_TREATMENT_VERIFICATION, "1", _Form.KP_PREP_TREATMENT_VERIFICATION_FORM));
 		
 		install(relationshipType("Peer-educator", "Peer", "One that follows up peers",
 		    KpMetadata._RelationshipType.PEER_EDUCATOR));
