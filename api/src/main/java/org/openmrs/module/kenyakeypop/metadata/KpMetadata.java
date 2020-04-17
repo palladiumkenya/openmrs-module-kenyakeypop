@@ -232,7 +232,7 @@ public class KpMetadata extends AbstractMetadataBundle {
 		install(form("kpTreatmentVerification", "treatment verification form",
 		    KpMetadata._EncounterType.KP_TREATMENT_VERIFICATION, "1", _Form.KP_TREATMENT_VERIFICATION_FORM));
 		
-		install(form("prepTreatmentVerification", "prep treatment verification form",
+		install(form("PrEP Treatment Verification", "prep treatment verification form",
 		    KpMetadata._EncounterType.KP_PREP_TREATMENT_VERIFICATION, "1", _Form.KP_PREP_TREATMENT_VERIFICATION_FORM));
 		
 		install(relationshipType("Peer-educator", "Peer", "One that follows up peers",
