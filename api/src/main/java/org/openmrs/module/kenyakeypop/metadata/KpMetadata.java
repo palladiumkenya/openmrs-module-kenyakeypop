@@ -191,7 +191,7 @@ public class KpMetadata extends AbstractMetadataBundle {
 		    KpMetadata._Form.KP_CLIENT_ENROLLMENT));
 		install(form("Discontinuation", null, KpMetadata._EncounterType.KP_CLIENT_DISCONTINUATION, "1",
 		    KpMetadata._Form.KP_CLIENT_DISCONTINUATION));
-		install(form("Follow Up Tracking Form", null, KpMetadata._EncounterType.KP_CLIENT_TRACING, "1",
+		install(form("Peer Tracking Form", null, KpMetadata._EncounterType.KP_CLIENT_TRACING, "1",
 		    KpMetadata._Form.KP_CLIENT_TRACING_FORM));
 		
 		install(form("Alcohol Abuse Screening Tool", null, KpMetadata._EncounterType.KP_ALCOHOL_SCREENING, "1",
