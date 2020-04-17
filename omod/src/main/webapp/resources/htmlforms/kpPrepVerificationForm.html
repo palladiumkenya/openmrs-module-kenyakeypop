@@ -1,0 +1,243 @@
+<!--
+  ~ The contents of this file are subject to the OpenMRS Public License
+  ~ Version 1.0 (the "License"); you may not use this file except in
+  ~ compliance with the License. You may obtain a copy of the License at
+  ~ http://license.openmrs.org
+  ~
+  ~ Software distributed under the License is distributed on an "AS IS"
+  ~ basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+  ~ License for the specific language governing rights and limitations
+  ~ under the License.
+  ~
+  ~ Copyright (C) OpenMRS, LLC.  All Rights Reserved.
+  -->
+<htmlform>
+    <script type="text/javascript" src="../moduleResources/kenyaemr/scripts/moment.js"></script>
+    <style>
+        .simple-table {
+            border: solid 1px #DDEEEE;
+            border-collapse: collapse;
+            border-spacing: 0;
+            font: normal 13px Arial, sans-serif;
+        }
+
+        .simple-table thead th {
+            background-color: #DDEFEF;
+            border: solid 1px #DDEEEE;
+            color: #336B6B;
+            padding: 10px;
+            text-align: left;
+            text-shadow: 1px 1px 1px #fff;
+        }
+
+        .simple-table td {
+            border: solid 1px #DDEEEE;
+            color: #333;
+            padding: 10px;
+            text-shadow: 1px 1px 1px #fff;
+        }
+    </style>
+    <script type="text/javascript" src="../moduleResources/kenyaemr/scripts/moment.js"></script>
+
+
+    <div class="ke-form-header">
+        <table width="100%">
+            <tr>
+                <td>Date:
+                    <encounterDate id="encounter-date" showTime="true"/>
+                </td>
+                <td>Location:
+                    <encounterLocation default="GlobalProperty:kenyaemr.defaultLocation" type="autocomplete"/>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="ke-form-content">
+        <ifMode mode="EDIT">
+            <script type="text/javascript">
+                jq(function(){
+                    var val = getValue('referred.value');
+                    if(val == 1272){
+                        jq("#referred-specify").show();
+                    }
+                    else{
+                        jq("#referred-specify").hide();
+                        jq('#referred-specify input').val('');
+                    }
+                });
+
+            </script>
+        </ifMode>
+        <!--Peer Educator/ORW Overdose Encounter Reporting Tool-->
+            <fieldset id="prep_verification_form">
+                <legend>
+                    Prep History
+                </legend>
+                <table class="simple-table" id="overdose-reporting-tool">
+                         <tr>
+                            <td><b>Enrollment Date</b></td>
+                            <td>
+                                <obs id="incident_date" conceptId="163526" allowFutureDates="false"  />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b>Name of health facility accessing prep</b>
+                            </td>
+                            <td>
+                                <obs conceptId="162724"/>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b>is a PEPFAR site</b>
+                            </td>
+                            <td ><p>  <obs id="received_results" conceptId="1557"
+                                           answerConceptIds="1065,
+                                                            1066,1067"  answerLabels="Yes,No, Unknown"
+                                           style="radio" answerSeparator="&lt;br /&gt;"  />
+                            </p></td>
+                        </tr>
+                    <tr>
+                        <td>
+                            <b>Date initiated on PrEP </b>
+                        </td>
+
+                        <td><obs conceptId="160555" id="first-enrolled-date"/></td>
+
+
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>PrEP Regimen</b>
+                        </td>
+                        <td id="regimen-options"><obs conceptId="164515" labelText=" " answerConceptIds="161364AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						84795AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,104567AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                                      answerLabels="TDF/3TC,TDF,TDF/FTC(Preferred)" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <b>Source information</b>
+                        </td>
+                        <td>
+                            <obs conceptId="162568"/>
+                        </td>
+                    </tr>
+                </table>
+        </fieldset>
+
+        <fieldset id="prep_appointment">
+            <legend>Prep Appointment</legend>
+            <table class="simple-table">
+                <tr>
+                    <td ><p><b>Verification Date</b></p></td>
+                    <td ><p><b>PrEP Status</b></p></td>
+                    <td ><p><b>PrEP Discontinuation Reasons</b></p></td>
+                    <td ><p><b>Next PrEP Appointment</b></p></td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <obs id="verification_date" conceptId="1711" allowFutureDates="false"  />
+                    </td>
+                    <td>
+                        <obs conceptId="165109" id="treatment-plan"
+                             answerConceptIds="1256AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1257AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162904AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1260AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabels="Start,Continue,Restart,Discontinue"   answerSeparator="&lt;br /&gt;"
+                             style="radio" required="true" />
+                    </td>
+                    <td><obs id="discontinue" conceptId="161555" labelText=" "   answerConceptIds="138571AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						113338AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1302AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						159598AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						162696AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,150506AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						978AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622"
+                             answerLabels="HIV test is positive,Renal dysfunction,Viral suppression of HIV+,
+							 Not adherent to PrEP,Too many HIV tests,Client request,Intimate partner violence,
+							 Self Discontinuation,Low risk of HIV,Other-specify"  style="dropdown"/>
+
+                    </td>
+                    <td id="next-appointment-date"><obs id="next-appointment" conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true"/></td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <obs id="verification_date" conceptId="1711" allowFutureDates="false"  />
+                    </td>
+                    <td>
+                        <obs conceptId="165109" id="treatment-plan"
+                             answerConceptIds="1256AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1257AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162904AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1260AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabels="Start,Continue,Restart,Discontinue"   answerSeparator="&lt;br /&gt;"
+                             style="radio" required="true" />
+                    </td>
+                    <td><obs id="discontinue" conceptId="161555" labelText=" "   answerConceptIds="138571AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						113338AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1302AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						159598AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						162696AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,150506AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						978AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622"
+                             answerLabels="HIV test is positive,Renal dysfunction,Viral suppression of HIV+,
+							 Not adherent to PrEP,Too many HIV tests,Client request,Intimate partner violence,
+							 Self Discontinuation,Low risk of HIV,Other-specify"  style="dropdown"/>
+
+                    </td>
+                    <td id="next-appointment-date"><obs id="next-appointment" conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true"/></td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <obs id="verification_date" conceptId="1711" allowFutureDates="false"  />
+                    </td>
+                    <td>
+                        <obs conceptId="165109" id="treatment-plan"
+                             answerConceptIds="1256AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1257AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162904AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1260AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabels="Start,Continue,Restart,Discontinue"   answerSeparator="&lt;br /&gt;"
+                             style="radio" required="true" />
+                    </td>
+                    <td><obs id="discontinue" conceptId="161555" labelText=" "   answerConceptIds="138571AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						113338AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1302AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						159598AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						162696AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,150506AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						978AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622"
+                             answerLabels="HIV test is positive,Renal dysfunction,Viral suppression of HIV+,
+							 Not adherent to PrEP,Too many HIV tests,Client request,Intimate partner violence,
+							 Self Discontinuation,Low risk of HIV,Other-specify"  style="dropdown"/>
+
+                    </td>
+                    <td id="next-appointment-date"><obs id="next-appointment" conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true"/></td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <obs id="verification_date" conceptId="1711" allowFutureDates="false"  />
+                    </td>
+                    <td>
+                        <obs conceptId="165109" id="treatment-plan"
+                             answerConceptIds="1256AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1257AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162904AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1260AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabels="Start,Continue,Restart,Discontinue"   answerSeparator="&lt;br /&gt;"
+                             style="radio" required="true" />
+                    </td>
+                    <td><obs id="discontinue" conceptId="161555" labelText=" "   answerConceptIds="138571AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						113338AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1302AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						159598AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						162696AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,150506AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						978AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622"
+                             answerLabels="HIV test is positive,Renal dysfunction,Viral suppression of HIV+,
+							 Not adherent to PrEP,Too many HIV tests,Client request,Intimate partner violence,
+							 Self Discontinuation,Low risk of HIV,Other-specify"  style="dropdown"/>
+
+                    </td>
+                    <td id="next-appointment-date"><obs id="next-appointment" conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true"/></td>
+
+                </tr>
+            </table>
+
+        </fieldset>
+    </div>
+    <div class="ke-form-footer">
+        <submit/>
+    </div>
+
+</htmlform>
