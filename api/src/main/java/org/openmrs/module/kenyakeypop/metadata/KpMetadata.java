@@ -10,15 +10,19 @@
 package org.openmrs.module.kenyakeypop.metadata;
 
 import org.openmrs.PatientIdentifierType;
+import org.openmrs.api.AdministrationService;
+import org.openmrs.api.context.Context;
+import org.openmrs.module.kenyakeypop.KpConstant;
 import org.openmrs.module.metadatadeploy.bundle.AbstractMetadataBundle;
 import org.springframework.stereotype.Component;
-
 import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.encounterType;
 import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.form;
 import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.patientIdentifierType;
 import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.program;
 import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.relationshipType;
 import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.personAttributeType;
+import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.globalProperty;
+
 
 /**
  * KP metadata bundle
@@ -27,6 +31,8 @@ import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.personAt
 public class KpMetadata extends AbstractMetadataBundle {
 	
 	public static String kp_concept = "bf850dd4-309b-4cbd-9470-9d8110ea5550";
+	
+	private AdministrationService administrationService;
 	
 	public static final class _EncounterType {
 		
@@ -71,9 +77,11 @@ public class KpMetadata extends AbstractMetadataBundle {
 		public static final String KP_TREATMENT_VERIFICATION = "a70a1056-75b3-11ea-bc55-0242ac130003";
 		
 		public static final String KP_PREP_TREATMENT_VERIFICATION = "5c64e368-7fdc-11ea-bc55-0242ac130003";
-		
+
 		public static final String KP_GENDER_BASED_VIOLENCE = "94eebf1a-83a1-11ea-bc55-0242ac130003";
-		
+
+		public static final String KP_IDENTIFIER = "b046eb36-7bd0-40cf-bdcb-c662bc0f00c3";
+
 	}
 	
 	public static final class _Form {
@@ -190,7 +198,7 @@ public class KpMetadata extends AbstractMetadataBundle {
 		install(encounterType("KP PrEP Treatment Verification", "Prep Treatment Verification",
 		    KpMetadata._EncounterType.KP_PREP_TREATMENT_VERIFICATION));
 		install(encounterType("KP Gender Based Violence", "Gender based violence", _EncounterType.KP_GENDER_BASED_VIOLENCE));
-		
+		install(encounterType("KP Idenitfier", "Identifier", _EncounterType.KP_IDENTIFIER));
 		// Installing forms
 		
 		install(form("Clinical Enrollment", null, KpMetadata._EncounterType.KP_CLIENT_ENROLLMENT, "1",
@@ -254,7 +262,24 @@ public class KpMetadata extends AbstractMetadataBundle {
 		//Installing person attributes
 		install(personAttributeType("KP Client Alias", "KP client Alias name", String.class, null, true, 4.3,
 		    _PersonAttributeType.KP_CLIENT_ALIAS));
+		administrationService = Context.getAdministrationService();
+		
+		String countyCodeValue = administrationService.getGlobalProperty(KpConstant.GP_COUNTY_CODE) != null ? administrationService
+		        .getGlobalProperty(KpConstant.GP_COUNTY_CODE) : "0";
+		
+		String subCountyCodeValue = administrationService.getGlobalProperty(KpConstant.GP_SUB_COUNTY_CODE) != null ? administrationService
+		        .getGlobalProperty(KpConstant.GP_SUB_COUNTY_CODE) : "0";
+		String wardCodeValue = administrationService.getGlobalProperty(KpConstant.GP_WARD_CODE) != null ? administrationService
+		        .getGlobalProperty(KpConstant.GP_WARD_CODE) : "0";
+		String partnerCodeValue = administrationService.getGlobalProperty(KpConstant.GP_IMPLEMENTING_PARTNER_CODE) != null ? administrationService
+		        .getGlobalProperty(KpConstant.GP_IMPLEMENTING_PARTNER_CODE) : "0";
+		
+		install(globalProperty(KpConstant.GP_COUNTY_CODE, "KP county code", countyCodeValue));
+		install(globalProperty(KpConstant.GP_SUB_COUNTY_CODE, "KP sub county code", subCountyCodeValue));
+		install(globalProperty(KpConstant.GP_IMPLEMENTING_PARTNER_CODE, "KP implementing partner code", partnerCodeValue));
+		install(globalProperty(KpConstant.GP_WARD_CODE, "KP ward code", wardCodeValue));
 		
 		install(program("Key Population", "Treatment for Key Population clients", kp_concept, _Program.KEY_POPULATION));
+		
 	}
 }
