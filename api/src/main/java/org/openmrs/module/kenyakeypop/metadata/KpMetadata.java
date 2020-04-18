@@ -72,6 +72,8 @@ public class KpMetadata extends AbstractMetadataBundle {
 		
 		public static final String KP_PREP_TREATMENT_VERIFICATION = "5c64e368-7fdc-11ea-bc55-0242ac130003";
 		
+		public static final String KP_IDENTIFIER = "b046eb36-7bd0-40cf-bdcb-c662bc0f00c3";
+		
 	}
 	
 	public static final class _Form {
@@ -185,6 +187,7 @@ public class KpMetadata extends AbstractMetadataBundle {
 		    KpMetadata._EncounterType.KP_TREATMENT_VERIFICATION));
 		install(encounterType("KP prepTreatmentVerification", "Prep Treatment Verification",
 		    KpMetadata._EncounterType.KP_PREP_TREATMENT_VERIFICATION));
+		install(encounterType("KP Idenitfier", "Identifier", _EncounterType.KP_IDENTIFIER));
 		// Installing forms
 		
 		install(form("Clinical Enrollment", null, KpMetadata._EncounterType.KP_CLIENT_ENROLLMENT, "1",
