@@ -949,8 +949,10 @@
             var pgender = "<lookup expression="patient.gender" />";
             if(pgender=="M"){jq("#cervical_cancer").hide();
                 jq("#post_abortal").hide();
+                jq("#family-planning").hide();
             }else{jq("#cervical_cancer").show();
-                jq("#post_abortal").show();}
+                jq("#post_abortal").show();
+                jq("#family-planning").show();}
             jq('#sti_screened').click(StiScreened);
             jq('#sti_results').click(StiResults);
             jq('#sti_referred').click(StiReferred);
@@ -1552,7 +1554,7 @@
                     /></p></td>
 
                 </tr>
-                <tr>
+                <tr  id="family-planning">
                     <td ><p>Family Planning</p></td>
                     <td ><p>  <obs id="fam_screened" conceptId="1382" required="true"
                                    style="radio" answerConceptIds="1065,1066" /></p></td>
