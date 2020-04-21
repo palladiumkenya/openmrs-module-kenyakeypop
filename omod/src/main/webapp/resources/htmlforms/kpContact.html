@@ -47,6 +47,9 @@
         var kpAlias = kpVelocity.split(",")[0].split(":")[1];
         var ctxPath = typeof openmrsContextPath === 'string' ? openmrsContextPath : OPENMRS_CONTEXT_PATH;
 
+        var YEAR_STARTED_SEX_WORK = "<lookup expression="fn.latestObs(165030).getValueNumeric()"/>";
+        var YEAR_STARTED_SEX_WITH_MEN = "<lookup expression="fn.latestObs(165031).getValueNumeric()"/>";
+        var YEAR_STARTED_DRUGS = "<lookup expression="fn.latestObs(165032).getValueNumeric()"/>";
 
         function onHistoricalStatusDateChange() {
 
@@ -71,11 +74,7 @@
                 .done(function(data) {
                     onPatientAgeUpdate(data.age);
                 });
-
-
         }
-
-
         jq(document).ready(function () {
             jq("#date").datepicker({
                 changeMonth: false,
@@ -84,6 +83,24 @@
                 duration: 'fast',
                 stepMonths: 0
             });
+
+            if(YEAR_STARTED_SEX_WORK !==''){
+                getField('startSex.value').val(Math.trunc(YEAR_STARTED_SEX_WORK));
+            }else {
+                getField('startSex.value').val('');
+            }
+
+            if(YEAR_STARTED_SEX_WITH_MEN !==''){
+                getField('sexWithMen.value').val(Math.trunc(YEAR_STARTED_SEX_WITH_MEN));
+            }else {
+                getField('sexWithMen.value').val('');
+            }
+            if(YEAR_STARTED_DRUGS !==''){
+                    getField('usingDrugs.value').val(Math.trunc(YEAR_STARTED_DRUGS));
+            }else {
+                    getField('usingDrugs.value').val('');
+            }
+
             jq("#other-hotspots-specify").hide();
             jq('#hotspot-type select').click(onOtherHotspotSelected);
             jq("#mobile input").change(validateContactNumber);
@@ -183,7 +200,6 @@
                     }
                 }
 
-
             }
 
             function yearValidation(year, textfield) {
@@ -220,6 +236,7 @@
                     getField(textfield+'.error').html('Please enter valid year.').hide();
                 }
             }
+
         });
         function onOtherHotspotSelected() {
             var val = jq(this).val();
