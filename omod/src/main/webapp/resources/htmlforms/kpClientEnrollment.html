@@ -19,6 +19,11 @@
 
         var KEY_POP_TYPE = "<lookup expression="fn.latestObs(164929).getValueCoded()"/>";
         var gender = "<lookup expression="patient.gender" />";
+
+        var YEAR_STARTED_SEX_WORK = "<lookup expression="fn.latestObs(165030).getValueNumeric()"/>";
+        var YEAR_STARTED_SEX_WITH_MEN = "<lookup expression="fn.latestObs(165031).getValueNumeric()"/>";
+        var YEAR_STARTED_DRUGS = "<lookup expression="fn.latestObs(165032).getValueNumeric()"/>";
+
         function onHistoricalStatusDateChange() {
 
             var today = new Date()//.getTime();        //get current date
@@ -86,7 +91,6 @@
                 jq("#care_provided_txt :input").prop('disabled', true);
                 jq('#care_provided :input').prop('checked', false);
                 jq("#care_provided :input").prop('disabled', true);
-
 
             }
         }
@@ -200,13 +204,28 @@
             jq('#share-test-tr :input[type=radio]').change(hivStatusDisclosure);
             jq("#care_provided input").change(providedElseWhere);
             if(KEY_POP_TYPE == 105 || KEY_POP_TYPE == 165085){
+                if(YEAR_STARTED_DRUGS !==''){
+                    getField('usingDrugs.value').val(Math.trunc(YEAR_STARTED_DRUGS));
+                }else {
+                    getField('usingDrugs.value').val('');
+                }
                 jq("#yearStartedDrugs").show();
             }
             else if(KEY_POP_TYPE == 160578 ){
+                if(YEAR_STARTED_SEX_WITH_MEN !==''){
+                    getField('sexWithMen.value').val(Math.trunc(YEAR_STARTED_SEX_WITH_MEN));
+                }else {
+                    getField('sexWithMen.value').val('');
+                }
                 jq("#yearStartedSexWithMen").show();
             }
 
             else if(KEY_POP_TYPE == 165083 || KEY_POP_TYPE == 165084 ){
+                if(YEAR_STARTED_SEX_WORK !==''){
+                    getField('startSex.value').val(Math.trunc(YEAR_STARTED_SEX_WORK));
+                }else {
+                    getField('startSex.value').val('');
+                }
                 jq("#year_started_sex").show();
             }
             else {
