@@ -194,7 +194,7 @@ public class KpMetadata extends AbstractMetadataBundle {
 		install(form("Peer Tracking Form", null, KpMetadata._EncounterType.KP_CLIENT_TRACING, "1",
 		    KpMetadata._Form.KP_CLIENT_TRACING_FORM));
 		
-		install(form("Alcohol Abuse Screening Tool", null, KpMetadata._EncounterType.KP_ALCOHOL_SCREENING, "1",
+		install(form("Alcohol Abuse Screening Tool(AUDIT)", null, KpMetadata._EncounterType.KP_ALCOHOL_SCREENING, "1",
 		    KpMetadata._Form.KP_ALCOHOL_SCREENING_FORM));
 		install(form("Appointment Creation", null, KpMetadata._EncounterType.KP_APPOINTMENT_CREATION, "1",
 		    KpMetadata._Form.KP_APPOINTMENT_CREATION_FORM));
