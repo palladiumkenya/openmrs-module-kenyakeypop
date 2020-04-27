@@ -72,6 +72,8 @@ public class KpMetadata extends AbstractMetadataBundle {
 		
 		public static final String KP_PREP_TREATMENT_VERIFICATION = "5c64e368-7fdc-11ea-bc55-0242ac130003";
 		
+		public static final String KP_GENDER_BASED_VIOLENCE = "94eebf1a-83a1-11ea-bc55-0242ac130003";
+		
 	}
 	
 	public static final class _Form {
@@ -111,6 +113,8 @@ public class KpMetadata extends AbstractMetadataBundle {
 		public static final String KP_TREATMENT_VERIFICATION_FORM = "a70a1132-75b3-11ea-bc55-0242ac130003";
 		
 		public static final String KP_PREP_TREATMENT_VERIFICATION_FORM = "5c64e61a-7fdc-11ea-bc55-0242ac130003";
+		
+		public static final String KP_GENDER_BASED_VIOLENCE_FORM = "94eec122-83a1-11ea-bc55-0242ac130003";
 		
 	}
 	
@@ -183,8 +187,10 @@ public class KpMetadata extends AbstractMetadataBundle {
 		install(encounterType("KP Diagnosis", "Records KP Diagnosis", KpMetadata._EncounterType.KP_DIAGNOSIS));
 		install(encounterType("KP kpTreatmentVerification", "Treatment Verification",
 		    KpMetadata._EncounterType.KP_TREATMENT_VERIFICATION));
-		install(encounterType("KP prepTreatmentVerification", "Prep Treatment Verification",
+		install(encounterType("KP PrEP Treatment Verification", "Prep Treatment Verification",
 		    KpMetadata._EncounterType.KP_PREP_TREATMENT_VERIFICATION));
+		install(encounterType("KP Gender Based Violence", "Gender based violence", _EncounterType.KP_GENDER_BASED_VIOLENCE));
+		
 		// Installing forms
 		
 		install(form("Clinical Enrollment", null, KpMetadata._EncounterType.KP_CLIENT_ENROLLMENT, "1",
@@ -234,6 +240,9 @@ public class KpMetadata extends AbstractMetadataBundle {
 		
 		install(form("PrEP Treatment Verification", "prep treatment verification form",
 		    KpMetadata._EncounterType.KP_PREP_TREATMENT_VERIFICATION, "1", _Form.KP_PREP_TREATMENT_VERIFICATION_FORM));
+		
+		install(form("Gender Based Violence", "Gender Based Violence form", _EncounterType.KP_GENDER_BASED_VIOLENCE, "1",
+		    _Form.KP_GENDER_BASED_VIOLENCE_FORM));
 		
 		install(relationshipType("Peer-educator", "Peer", "One that follows up peers",
 		    KpMetadata._RelationshipType.PEER_EDUCATOR));
