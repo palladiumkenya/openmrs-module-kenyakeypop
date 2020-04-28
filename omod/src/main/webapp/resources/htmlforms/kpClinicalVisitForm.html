@@ -16,12 +16,8 @@
 
     <script type="text/javascript" src="../moduleResources/kenyaemr/scripts/moment.js"></script>
     <script type="text/javascript">
-        var LATEST_SELF_REPORTED_STATUS = "<lookup expression="
-        fn.latestObs(165153).getValueCoded()
-        "/>";
-        var LATEST_TEST_TYPE = "<lookup expression="
-        fn.latestObs(164956).getValueCoded()
-        "/>";
+        var LATEST_SELF_REPORTED_STATUS = "<lookup expression="fn.latestObs(165153).getValueCoded()"/>";
+        var LATEST_TEST_TYPE = "<lookup expression="fn.latestObs(164956).getValueCoded()"/>";
 
         $.fn.noText = function () {/*use the jquery prototype technology to make a chainable clear field method*/
             if (this.is('clinicVisit_form')) { /*check to c if you the element type is an input*/
@@ -823,9 +819,7 @@
             }
 
             else {
-                var default_location = "<lookup expression="
-                kenyaemr.location()
-                " />";
+                var default_location = "<lookup expression="kenyaemr.location()" />";
                 jq("#facilitytxt input").val(default_location);
                 jq("#facilitytxt input").prop("disabled", true);
             }
@@ -872,9 +866,7 @@
                 jq('#viral_results input').prop('disabled', false).addClass('disabled');
             }
             else if (careProvided == 163266) {
-                var default_location = "<lookup expression="
-                kenyaemr.location()
-                " />";
+                var default_location = "<lookup expression="kenyaemr.location()" />";
                 jq("#care_provided_txt input").val(default_location);
                 jq("#care_provided_txt input").prop("disabled", true);
 
@@ -971,9 +963,7 @@
         //On Ready
         $(document).ready(function () {
             // sti forms
-            var pgender = "<lookup expression="
-            patient.gender
-            " />";
+            var pgender = "<lookup expression="patient.gender" />";
             if (pgender == "M") {
                 jq("#cervical_cancer").hide();
                 jq("#post_abortal").hide();
