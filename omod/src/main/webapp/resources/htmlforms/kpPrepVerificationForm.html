@@ -39,7 +39,7 @@
     </style>
     <script type="text/javascript" src="../moduleResources/kenyaemr/scripts/moment.js"></script>
     <script>
-      var Discontinue1  = function () {
+      var FirstDiscontinuation  = function () {
               var discontinue = getValue('treatment-plan1.value');
              if(discontinue=="1260"){
 			   $('#discontinue1 select').attr('disabled', false);
@@ -50,7 +50,7 @@
                 $("#discontinue1 select").val("Select");
                 }
             }
-                var Discontinue2  = function () {
+                var SecondDiscontinuation  = function () {
             var discontinue = getValue('treatment-plan2.value');
              if(discontinue=="1260"){
 				   $('#discontinue2 select').attr('disabled', false);
@@ -61,7 +61,7 @@
                 $("#discontinue2 select").val("Select");
                 }
             }
-                var Discontinue3  = function () {
+                var ThirdDiscontinuation  = function () {
               var discontinue = getValue('treatment-plan3.value');
              if(discontinue=="1260"){
 				 $('#discontinue3 select').attr('disabled', false);
@@ -74,7 +74,7 @@
             }
 
 
-             var Discontinue4  = function () {
+             var FourthDiscontinuation  = function () {
             var discontinue = getValue('treatment-plan4.value');
            if (discontinue == "1260"){
                     $('#discontinue4 select').attr('disabled', false);
@@ -87,7 +87,7 @@
             }
 		}
 
-		  var Specify1  = function () {
+		  var SpecifyFirstDiscontinuation  = function () {
             var discontinue = getValue('discontinue1.value');
            if (discontinue == "5622"){
                  $('#specify1 input').prop('disabled', false);
@@ -97,7 +97,7 @@
                     $('#specify1 input').val('');
             }
 		}
-		  var Specify2  = function () {
+		  var SpecifySecondDiscontinuation  = function () {
             var discontinue = getValue('discontinue2.value');
            if (discontinue == "5622"){
                  $('#specify2 input').prop('disabled', false);
@@ -108,7 +108,7 @@
             }
 		}
 
-		  var Specify3  = function () {
+		  var SpecifyThirdDiscontinuation  = function () {
             var discontinue = getValue('discontinue3.value');
            if (discontinue == "5622"){
                  $('#specify3 input').prop('disabled', false);
@@ -119,7 +119,7 @@
             }
 		}
 
-		  var Specify4  = function () {
+		  var SpecifyFourthDiscontinuation  = function () {
             var discontinue = getValue('discontinue4.value');
            if (discontinue == "5622"){
                  $('#specify4 input').prop('disabled', false);
@@ -145,15 +145,15 @@ $('#specify2 input').prop('disabled', true);
 $('#specify3 input').prop('disabled', true);
 $('#specify4 input').prop('disabled', true);
 
-            $('#treatment-plan1').click(Discontinue1);
-			$('#treatment-plan2').click(Discontinue2);
-			$('#treatment-plan3').click(Discontinue3);
-			$('#treatment-plan4').click(Discontinue4);
+            $('#treatment-plan1').click(FirstDiscontinuation);
+			$('#treatment-plan2').click(SecondDiscontinuation);
+			$('#treatment-plan3').click(ThirdDiscontinuation);
+			$('#treatment-plan4').click(FourthDiscontinuation);
 
-			$('#discontinue1').click(Specify1);
-			$('#discontinue2').click(Specify2);
-			$('#discontinue3').click(Specify3);
-			$('#discontinue4').click(Specify4);
+			$('#discontinue1').click(SpecifyFirstDiscontinuation);
+			$('#discontinue2').click(SpecifySecondDiscontinuation);
+			$('#discontinue3').click(SpecifyThirdDiscontinuation);
+			$('#discontinue4').click(SpecifyFourthDiscontinuation);
 
 });
 
