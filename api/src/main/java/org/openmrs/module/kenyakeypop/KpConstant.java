@@ -19,4 +19,16 @@ public class KpConstant {
 	public static final String APP_KP_PROVIDER = MODULE_ID + ".keypopulation.provider";
 	
 	public static final String APP_KP_CALENDAR = MODULE_ID + ".keypopulation.calendar";
+	
+	/**
+	 * Global property names
+	 */
+	public static final String GP_COUNTY_CODE = MODULE_ID + ".countyCode";
+	
+	public static final String GP_SUB_COUNTY_CODE = MODULE_ID + ".subCountyCode";
+	
+	public static final String GP_WARD_CODE = MODULE_ID + ".wardCode";
+	
+	public static final String GP_IMPLEMENTING_PARTNER_CODE = MODULE_ID + ".implementingPartnerCode";
+	
 }
