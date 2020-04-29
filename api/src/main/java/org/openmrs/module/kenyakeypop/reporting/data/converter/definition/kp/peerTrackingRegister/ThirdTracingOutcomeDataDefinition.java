@@ -15,24 +15,24 @@ import org.openmrs.module.reporting.definition.configuration.ConfigurationProper
 import org.openmrs.module.reporting.evaluation.caching.Caching;
 
 /**
- * Serial No. Column
+ * Third Trace Outcome
  */
 @Caching(strategy = ConfigurationPropertyCachingStrategy.class)
-public class SecondTracingOutcomeDataDefinition extends BaseDataDefinition implements PersonDataDefinition {
-
+public class ThirdTracingOutcomeDataDefinition extends BaseDataDefinition implements PersonDataDefinition {
+	
 	public static final long serialVersionUID = 1L;
-
+	
 	/**
 	 * Default Constructor
 	 */
-	public SecondTracingOutcomeDataDefinition() {
+	public ThirdTracingOutcomeDataDefinition() {
 		super();
 	}
-
+	
 	/**
 	 * Constructor to populate name only
 	 */
-	public SecondTracingOutcomeDataDefinition(String name) {
+	public ThirdTracingOutcomeDataDefinition(String name) {
 		super(name);
 	}
 	
