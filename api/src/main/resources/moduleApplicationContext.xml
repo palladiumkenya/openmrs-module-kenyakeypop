@@ -400,7 +400,11 @@
                 <ref bean="kenyakeypop.app.keypopulation.provider" />
             </set>
         </property>
+<!--
         <property name="showIfCalculation" value="org.openmrs.module.kenyakeypop.calculation.library.kp.EligibleForClinicalServices" />
+-->
+        <property name="showIfCalculation" value="org.openmrs.module.kenyakeypop.calculation.library.kp.EligibleForHivTreatmentForm" />
+
         <property name="icon" value="kenyaui:forms/generic.png" />
         <property name="htmlform" value="kenyakeypop:kpTreatmentVerificationForm.html" />
         <property name="order" value="201023" />

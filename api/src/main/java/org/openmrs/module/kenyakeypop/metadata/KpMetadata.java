@@ -23,7 +23,6 @@ import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.relation
 import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.personAttributeType;
 import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.globalProperty;
 
-
 /**
  * KP metadata bundle
  */
@@ -77,11 +76,11 @@ public class KpMetadata extends AbstractMetadataBundle {
 		public static final String KP_TREATMENT_VERIFICATION = "a70a1056-75b3-11ea-bc55-0242ac130003";
 		
 		public static final String KP_PREP_TREATMENT_VERIFICATION = "5c64e368-7fdc-11ea-bc55-0242ac130003";
-
+		
 		public static final String KP_GENDER_BASED_VIOLENCE = "94eebf1a-83a1-11ea-bc55-0242ac130003";
-
+		
 		public static final String KP_IDENTIFIER = "b046eb36-7bd0-40cf-bdcb-c662bc0f00c3";
-
+		
 	}
 	
 	public static final class _Form {
@@ -243,7 +242,7 @@ public class KpMetadata extends AbstractMetadataBundle {
 		install(form("Referral", "Form for adding referrals", KpMetadata._EncounterType.KP_REFERRAL, "1",
 		    KpMetadata._Form.KP_REFERRAL_FORM));
 		
-		install(form("KP Treatment Verification", "treatment verification form",
+		install(form("KP HIV Treatment Verification", "treatment verification form",
 		    KpMetadata._EncounterType.KP_TREATMENT_VERIFICATION, "1", _Form.KP_TREATMENT_VERIFICATION_FORM));
 		
 		install(form("PrEP Treatment Verification", "prep treatment verification form",
