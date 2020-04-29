@@ -39,6 +39,148 @@ text-shadow: 1px 1px 1px #fff;
 
     </style>
     <script>
+      var PhysicalyAbusedClicked  = function () {
+              var Slapped = getValue('physicalyAbused.value');
+             if(Slapped=="1065"){
+					$('#slapped_other input').prop('disabled', false);
+				}
+				else if (Slapped != "1065"){
+                    $('#slapped_other input').prop('disabled', true);
+                    $('#other_slapped_specify input').prop('disabled', true);
+                    $('#other_slapped_specify input').val('');
+                }
+            }
+    var ForcefulCliked  = function () {
+			var ForceFul = getValue('forceful.value');
+             if (ForceFul == "1065"){
+
+                    $('#forceful_other input').prop('disabled', false);
+                   }
+                else if (ForceFul != '1065'){
+                    $('#ForceFullOther input').prop('disabled', true);
+                    $('#other_forceful_specify input').prop('disabled', true);
+                    $('#other_forceful_specify input').val('');
+                }
+            }
+
+            var ForcefulOtherClicked  = function () {
+            var ForceFullOther = getValue('forceful_other.value');
+                if (ForceFullOther == "5622"){
+                    $('#other_forceful_specify input').prop('disabled', false);
+                   }
+                else if (ForceFullOther != "5622"){
+
+                    $('#other_forceful_specify input').prop('disabled', true);
+                    $('#other_forceful_specify input').val('');
+
+                }
+            }
+
+            var FrightensCliked  = function () {
+            	var Frightens = getValue('frightens.value');
+               if(Frightens=="1065"){
+					$('#frightens_other input').prop('disabled', false);
+
+				}
+				else if (Frightens != "1065"){
+                    $('#frightens_other input').prop('disabled', true);
+                    $('#other_frightens_specify input').prop('disabled', true);
+                    $('#other_frightens_specify input').val('');
+                }
+            }
+
+        var FrightensOtherCliked  = function () {
+        	var FrightensOther = getValue('frightens_other.value');
+               if (FrightensOther == "5622"){
+                    $('#other_frightens_specify input').prop('disabled', false);
+                   }
+                else if (FrightensOther != "5622"){
+
+                    $('#other_forceful_specify input').prop('disabled', true);
+                    $('#other_forceful_specify input').val('');
+                    }
+            }
+
+              var BadRelationCliked  = function () {
+              var BadRelation = getValue('badRelation.value');
+                if(BadRelation=="1065"){
+					$('#badRelation_other input').prop('disabled', false);
+
+				}
+				else if (BadRelation != "1065"){
+                    $('#badRelation_other input').prop('disabled', true);
+                    $('#other_badRelation_specify input').prop('disabled', true);
+                    $('#other_badRelation_specify input').val('');
+                }
+            }
+
+            var BadRelationOtherCliked  = function () {
+            var BadRelationOther = getValue('badRelation_other.value');
+               if (BadRelationOther == "5622"){
+                    $('#other_badRelation_specify input').prop('disabled', false);
+                   }
+                else if (BadRelationOther != "5622"){
+
+                    $('#other_badRelation_specify input').prop('disabled', true);
+                    $('#other_badRelation_specify input').val('');
+
+                }
+            }
+
+
+
+			var SlappedOtherCliked  = function () {
+			var SlappedOther = getValue('slapped_other.value');
+             if (SlappedOther == "5622"){
+                    $('#other_slapped_specify input').prop('disabled', false);
+                   }
+                else if (SlappedOther != "5622"){
+
+                    $('#other_slapped_specify input').prop('disabled', true);
+                    $('#other_slapped_specify input').val('');
+
+                }
+            }
+
+            var SomeOneCliked  = function () {
+            var Someone = getValue('someone.value');
+            if(Someone=="1065"){
+					$('#someone_other input').prop('disabled', false);
+
+				}
+				else if (Someone != "1065"){
+                    $('#someone_other input').prop('disabled', true);
+                    $('#other_someone_specify input').prop('disabled', true);
+                    $('#other_someone_specify input').val('');
+                }
+            }
+
+              var Help  = function () {
+            var help = getValue('soughtHelp.value');
+            if(help=="1065"){
+					$('#wheresoughtHelp input').prop('disabled', false);
+					$('#form_of_incident input').prop('disabled', true);
+
+				}
+				else if (help != "1065"){
+                 $('#wheresoughtHelp input').prop('disabled', true);
+                 $('#form_of_incident input').prop('disabled', false);
+
+                }
+            }
+
+             var SomeOneOtherCliked  = function () {
+             var SomeoneOther = getValue('someone_other.value');
+           if (SomeoneOther == "5622"){
+                    $('#other_someone_specify input').prop('disabled', false);
+                   }
+                else if (SomeoneOther != "5622"){
+
+                    $('#other_someone_specify input').prop('disabled', true);
+                    $('#other_someone_specify input').val('');
+
+            }
+		}
 
 $(document).ready(function () {
 
@@ -48,123 +190,40 @@ $('#badRelation_other input').prop('disabled', true);
 $('#slapped_other input').prop('disabled', true);
 $('#someone_other input').prop('disabled', true);
 
+$('#other_someone_specify input').prop('disabled', true);
+$('#other_slapped_specify input').prop('disabled', true);
+$('#other_badRelation_specify input').prop('disabled', true);
+$('#other_frightens_specify input').prop('disabled', true);
+$('#other_forceful_specify input').prop('disabled', true);
+
+$('#wheresoughtHelp input').prop('disabled', true);
+
+
+
+  $('#forceful_other').click(ForcefulOtherClicked);
+			$('#forceful').click(ForcefulCliked);
+			$('#frightens_other').click(FrightensOtherCliked);
+			$('#frightens').click(FrightensCliked);
+			$('#badRelation_other').click(BadRelationOtherCliked);
+			$('#badRelation').click(BadRelationCliked);
+			$('#slapped_other').click(SlappedOtherCliked);
+
+			$('#someone_other').click(SomeOneOtherCliked);
+			$('#someone').click(SomeOneCliked);
+$('#physicalyAbused').click(PhysicalyAbusedClicked);
+$('#soughtHelp').click(Help);
+
 	$('input[type=radio]').change( function()  {
 
-			var otherForcefulSpecify =  getValue('other_forceful_specify.value');
-			var ForceFullOther = getValue('forceful_other.value');
-			var ForceFul = getValue('forceful.value');
-
-			var OtherFrightensSpecify = getValue('other_frightens_specify.value');
-			var FrightensOther = getValue('frightens_other.value');
-			var Frightens = getValue('frightens.value');
-
-			var OtherBadRelationSpecify = getValue('other_badRelation_specify.value');
-			var BadRelationOther = getValue('badRelation_other.value');
-			var BadRelation = getValue('badRelation.value');
-
-			var OtherSlappedSpecify = getValue('other_slapped_specify.value');
-			var SlappedOther = getValue('slapped_other.value');
-			var Slapped = getValue('slapped.value');
-
-			var OtherSomeoneSpecify = getValue('other_someone_specify.value');
-			var SomeoneOther = getValue('someone_other.value');
-			var Someone = getValue('someone.value');
-
-			  if (ForceFul == "1065"){
-                    jq("#ForceFullOther :input").prop("disabled", false);
-                   }
-                else if (ForceFul != "1065"){
-                    jq("#ForceFullOther :input").prop("disabled", true);
-                    jq("#other_forceful_specify :input").prop("disabled", true);
-                    jq("#other_forceful_specify input").val('');
-                }
-
-                else  if (ForceFullOther == "5622"){
-                    jq("#other_forceful_specify :input").prop("disabled", false);
-                   }
-                else if (ForceFullOther != "5622"){
-
-                    jq("#other_forceful_specify :input").prop("disabled", true);
-                    jq("#other_forceful_specify input").val('');
-
-                }
-				else if(Frightens=="1065"){
-					jq("#frightens_other :input").prop("disabled", false);
-
-				}
-				else if (Frightens != "1065"){
-                    jq("#frightens_other :input").prop("disabled", true);
-                    jq("#other_frightens_specify :input").prop("disabled", true);
-                    jq("#other_frightens_specify input").val('');
-                }
-
-                else  if (FrightensOther == "5622"){
-                    jq("#other_frightens_specify :input").prop("disabled", false);
-                   }
-                else if (FrightensOther != "5622"){
-
-                    jq("#other_forceful_specify :input").prop("disabled", true);
-                    jq("#other_forceful_specify input").val('');
-                    }
-
-				else if(BadRelation=="1065"){
-					jq("#badRelation_other :input").prop("disabled", false);
-
-				}
-				else if (BadRelation != "1065"){
-                    jq("#badRelation_other :input").prop("disabled", true);
-                    jq("#other_badRelation_specify :input").prop("disabled", true);
-                    jq("#other_badRelation_specify input").val('');
-                }
-
-                else  if (BadRelationOther == "5622"){
-                    jq("#other_badRelation_specify :input").prop("disabled", false);
-                   }
-                else if (BadRelationOther != "5622"){
-
-                    jq("#other_badRelation_specify :input").prop("disabled", true);
-                    jq("#other_badRelation_specify input").val('');
-
-                }
-				else if(Slapped=="1065"){
-					jq("#slapped_other :input").prop("disabled", false);
+   var Slapped = getValue('physicalyAbused.value');
+             if(Slapped=="1065"){
+					$('#slapped_other input').prop('disabled', false);
 				}
 				else if (Slapped != "1065"){
-                    jq("#slapped_other :input").prop("disabled", true);
-                    jq("#other_slapped_specify :input").prop("disabled", true);
-                    jq("#other_slapped_specify input").val('');
+                    $('#slapped_other input').prop('disabled', true);
+                    $('#other_slapped_specify input').prop('disabled', true);
+                    $('#other_slapped_specify input').val('');
                 }
-
-                else  if (SlappedOther == "5622"){
-                    jq("#other_slapped_specify :input").prop("disabled", false);
-                   }
-                else if (SlappedOther != "5622"){
-
-                    jq("#other_slapped_specify :input").prop("disabled", true);
-                    jq("#other_slapped_specify input").val('');
-
-                }
-				else if(Someone=="1065"){
-					jq("#someone_other :input").prop("disabled", false);
-
-				}
-				else if (Someone != "1065"){
-                    jq("#someone_other :input").prop("disabled", true);
-                    jq("#other_someone_specify :input").prop("disabled", true);
-                    jq("#other_someone_specify input").val('');
-                }
-
-                else  if (SomeoneOther == "5622"){
-                    jq("#other_someone_specify :input").prop("disabled", false);
-                   }
-                else if (SomeoneOther != "5622"){
-
-                    jq("#other_someone_specify :input").prop("disabled", true);
-                    jq("#other_someone_specify input").val('');
-
-                }
-
-
 
 
 	});
@@ -199,7 +258,7 @@ $('#someone_other input').prop('disabled', true);
                                 someone in any way?
                             </td>
                             <td>
-                                <obs id="slapped" conceptId="160658" labelText=" "
+                                <obs id="physicalyAbused" conceptId="160658" labelText=" "
                                      answerConceptIds="1065,1066"
                                      style="radio" answerLabels="Yes,No"/>
                             </td>
@@ -343,12 +402,12 @@ $('#someone_other input').prop('disabled', true);
                                         Did you seek help
                                     </td>
                                     <td>
-                                        <obs conceptId="162871" labelText=" "
-                                             answerConceptIds="1582AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                        <obs id="soughtHelp" conceptId="162871" labelText=" "
+                                             answerConceptIds="1065,1066"
                                              style="radio" answerLabels="Yes,No"/>
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr id="wheresoughtHelp">
                                     <td>
                                         Where you sought help
                                     </td>
@@ -363,7 +422,7 @@ $('#someone_other input').prop('disabled', true);
                                                     <br/>
                                                 </td>
                                                 <td>Date:
-                                                    <obs conceptId="165230"/>
+                                                    <obs conceptId="160753"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -373,7 +432,7 @@ $('#someone_other input').prop('disabled', true);
                                                     <br/>
                                                 </td>
                                                 <td>Date:
-                                                    <obs conceptId="165230"/>
+                                                    <obs conceptId="160753"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -383,7 +442,7 @@ $('#someone_other input').prop('disabled', true);
                                                     <br/>
                                                 </td>
                                                 <td>Date:
-                                                    <obs conceptId="165230"/>
+                                                    <obs conceptId="160753"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -393,7 +452,7 @@ $('#someone_other input').prop('disabled', true);
                                                     <br/>
                                                 </td>
                                                 <td>Date:
-                                                    <obs conceptId="165230"/>
+                                                    <obs conceptId="160753"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -403,7 +462,7 @@ $('#someone_other input').prop('disabled', true);
                                                     <br/>
                                                 </td>
                                                 <td>Date:
-                                                    <obs conceptId="165230"/>
+                                                    <obs conceptId="160753"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -413,7 +472,7 @@ $('#someone_other input').prop('disabled', true);
                                                     <br/>
                                                 </td>
                                                 <td>Date:
-                                                    <obs conceptId="165230"/>
+                                                    <obs conceptId="160753"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -423,7 +482,7 @@ $('#someone_other input').prop('disabled', true);
                                                     <br/>
                                                 </td>
                                                 <td>Date:
-                                                    <obs conceptId="165230"/>
+                                                    <obs conceptId="160753"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -433,7 +492,7 @@ $('#someone_other input').prop('disabled', true);
                                                     <br/>
                                                 </td>
                                                 <td>Date:
-                                                    <obs conceptId="165230"/>
+                                                    <obs conceptId="160753"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -443,7 +502,7 @@ $('#someone_other input').prop('disabled', true);
                                                     <br/>
                                                 </td>
                                                 <td>Date:
-                                                    <obs conceptId="165230"/>
+                                                    <obs conceptId="160753"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -453,7 +512,7 @@ $('#someone_other input').prop('disabled', true);
                                                     <br/>
                                                 </td>
                                                 <td>Date:
-                                                    <obs conceptId="165230"/>
+                                                    <obs conceptId="160753"/>
                                                 </td>
                                             </tr>
                                         </table>
@@ -463,35 +522,30 @@ $('#someone_other input').prop('disabled', true);
                                     </td>
 
                                     <td>
-                                        <obs conceptId="162875"
-                                             answerConceptIds="1066,165070, 160570,1356,
-                                                130719,135914,165228,165171,165192,
-                                                127910,165203,5618,165093,165274,165180,165200,165184,1185,5622
-                                                 "
-                                             answerLabels="No action taken,
-                                               Counselling
-                                                Emergency pills,
-                                                Hiv testing,
-                                                Investigation done,
-                                                Matter presented to court,
-                                                P3 form issued,
-                                                PEP given,
-                                                Perpetrator arrested,
-                                                Post rape care,
-                                                PrEP given,
-                                                Reconciliation,
-                                                Referred back to the family,
-                                                Referred to hospital,
-                                                Statement taken,
-                                                STI Prophylaxis,
-                                                Trauma counselling done,
-                                                Treatment,
-                                                Other
-                                                " style="radio" answerSeparator="&lt;br /&gt;"/>
+                                        <obs conceptId="162875" answerConceptId="1066"  answerLabel="No action taken" style="checkbox" /><br />
+                                        <obs conceptId="162875" answerConceptId="165070"  answerLabel="Counselling" style="checkbox" /><br />
+                                        <obs conceptId="162875" answerConceptId="160570"  answerLabel="Emergency pills" style="checkbox" /><br />
+                                        <obs conceptId="162875" answerConceptId="1356"  answerLabel=" Hiv testing" style="checkbox" /><br />
+                                        <obs conceptId="162875" answerConceptId="130719"  answerLabel="Investigation done" style="checkbox" /><br />
+                                        <obs conceptId="162875" answerConceptId="135914"  answerLabel="Matter presented to court" style="checkbox" /><br />
+                                        <obs conceptId="162875" answerConceptId="165228"  answerLabel="P3 form issued" style="checkbox" /><br />
+                                        <obs conceptId="162875" answerConceptId="165171"  answerLabel="PEP given" style="checkbox" /><br />
+                                        <obs conceptId="162875" answerConceptId="165192"  answerLabel="Perpetrator arrested" style="checkbox" /><br />
+                                        <obs conceptId="162875" answerConceptId="127910"  answerLabel="Post rape care" style="checkbox" /><br />
+                                        <obs conceptId="162875" answerConceptId="165203"  answerLabel=" PrEP given" style="checkbox" /><br />
+                                        <obs conceptId="162875" answerConceptId="5618"  answerLabel="Reconciliation" style="checkbox" /><br />
+                                        <obs conceptId="162875" answerConceptId="165093"  answerLabel="Referred back to the family" style="checkbox" /><br />
+                                        <obs conceptId="162875" answerConceptId="165274"  answerLabel="Referred to hospital" style="checkbox" /><br />
+                                        <obs conceptId="162875" answerConceptId="165180"  answerLabel="Statement taken" style="checkbox" /><br />
+                                        <obs conceptId="162875" answerConceptId="165200"  answerLabel="STI Prophylaxis" style="checkbox" /><br />
+                                        <obs conceptId="162875" answerConceptId="165184"  answerLabel="Trauma counselling done" style="checkbox" /><br />
+                                        <obs conceptId="162875" answerConceptId="1185"  answerLabel="Treatment" style="checkbox" /><br />
+                                        <obs conceptId="162875" answerConceptId="5622"  answerLabel="Other specify" style="checkbox" /><br />
+
                                     </td>
                                 </tr>
                                 <tr><td>
-                                    Reason for not reporting...
+                                    Reason for not reporting
                                 </td>
                                     <td id="form_of_incident">
                                         <div style="float: left; padding-right: 50px">
