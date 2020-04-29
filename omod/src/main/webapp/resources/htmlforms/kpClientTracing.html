@@ -90,19 +90,15 @@
 		function onTrackingAttemptedSelected() {
 			var val = jq(this).val();
 			var trackingAttempted = jq("#tracking-attempted input:radio:checked");
-            var latestTracingAttemptNumber = "<lookup expression="fn.latestObs(1639).getValueNumeric()"/>";
+
 			if(val == 1065 &amp;&amp; trackingAttempted.length >0 ){
 				jq("#not-attempted").hide();
 				jq("#attempted-first").show();
-				/*jq("#attempted-second").show();
-				jq("#attempted-third").show();*/
 				jq("#outcome-field").show();
 			}
 			else{
 				jq("#not-attempted").show();
 				jq("#attempted-first").hide();
-			/*	jq("#attempted-second").hide();
-				jq("#attempted-third").hide();*/
 				jq("#outcome-field").hide();
 			}
 		}
@@ -126,41 +122,6 @@
 				jq("#other-informant").hide();
 			}
 		}
-		function kpReached() {
-			var reached = getValue("first_tracing-outcome.value");
-			if(reached == 1065){
-				/*jq("#attempted-second").hide();
-				jq("#attempted-third").hide();*/
-				//jq("#attempted-first input").prop("disabled", false);
-				/*jq("#attempted-second input").prop("disabled", true);
-				jq("#attempted-third input").prop("disabled", true);*/
-			}else {
-			/*	jq("#attempted-second").show();
-				jq("#attempted-third").show();
-				jq("#attempted-second input").prop("disabled", false);
-				jq("#attempted-third input").prop("disabled", true);*/
-				//jq("#attempted-first input").prop("disabled", true);
-				//jq("#first_tracing-outcome input").prop("disabled", false);
-
-			}
-		}
-		function Seecond_atempt_kpReached() {
-			var reached = getValue("second_tracing_outcome.value");
-			if(reached == 1065){
-/*
-				jq("#attempted-third").hide();
-				jq("#attempted-second input").prop("disabled", false);*/
-				jq("#attempted-first input").prop("disabled", true);
-			/*	jq("#attempted-third input").prop("disabled", true);*/
-			}else {
-			/*	jq("#attempted-third").show();
-				jq("#attempted-second input").prop("disabled", true);
-				jq("#attempted-third input").prop("disabled", false);*/
-				jq("#attempted-first input").prop("disabled", true);
-				jq("#second_tracing_outcome input").prop("disabled", false);
-			}
-		}
-
 
 		function kpNotReached() {
 			var val = jq(this).val();
@@ -175,13 +136,9 @@
 		var dateValidations  = function () {
 			var encounter = getValue('encounter-date.value');
 			var first_attempt_date = getValue('first_attempt.value');
-	/*		var second_attempt_date = getValue('second_attempt.value');
-			var third_attempt_date = getValue('third_attempt.value');*/
-
 
 			var isFirstAttemptBeforeEncounter= moment(moment(moment(first_attempt_date, 'YYYY-MM-DD').toDate()).format('YYYY-MM-DD')).isBefore(moment(moment(encounter, 'YYYY-MM-DD').toDate()).format('YYYY-MM-DD'));
-			/*var iaSecondBeforeFirst= moment(moment(moment(second_attempt_date, 'YYYY-MM-DD').toDate()).format('YYYY-MM-DD')).isBefore(moment(moment(first_attempt_date, 'YYYY-MM-DD').toDate()).format('YYYY-MM-DD'));
-			var isThirdBeforeSecond= moment(moment(moment(third_attempt_date, 'YYYY-MM-DD').toDate()).format('YYYY-MM-DD')).isBefore(moment(moment(second_attempt_date, 'YYYY-MM-DD').toDate()).format('YYYY-MM-DD'));*/
+
 			if (encounter !=null &amp;&amp; isFirstAttemptBeforeEncounter) {
 				getField('first_attempt.error').html('First tracing date should not be earlier than encounter date.').show();
 				jq("#first_attempt input").val('');
@@ -189,37 +146,17 @@
 			else{
 				getField('first_attempt.error').html('First tracing date should not be earlier than encounter date.').hide();
 			}
-			/*if(iaSecondBeforeFirst || isFirstAttemptBeforeEncounter &amp;&amp; isFirstAttemptBeforeEncounter!=null){
-				getField('second_attempt.error').html('Second tracing date should not be earlier than first tracing date.').show();
-				jq("#second_attempt input").val('');
-			}
-			else{
-				getField('second_attempt.error').html('Second tracing date should not be earlier than first tracing date.').hide();
-			}
-			if(isThirdBeforeSecond || iaSecondBeforeFirst || isFirstAttemptBeforeEncounter &amp;&amp; iaSecondBeforeFirst!=null){
-				getField('third_attempt.error').html('Third tracing date should not be earlier than second tracing  date.').show();
-				jq("#third_attempt input").val('');
-			}
-			else{
-				getField('third_attempt.error').html('Third tracing date should not be earlier than second tracing  date.').hide();
-			}*/
+
 		}
 		$(document).ready(function () {
             jq("#not-attempted").hide();
             onTrackingAttemptedChange();
-/*
-			jq("#attempted-second input").prop("disabled", true);
-			jq("#attempted-third input").prop("disabled", true);
-*/
 
 			jq('#first_tracing-outcome').click(kpReached);
-	/*		jq('#second_tracing_outcome').click(Seecond_atempt_kpReached);*/
-
+			jq('#first_tracing-outcome').click(kpNotReached);
 			jq("#first_attempt input").change(dateValidations());
-
 			jq("#encounter-date input").change(dateValidations);
             jq("#comment-voluntary").hide();
-            /*jq("#not-attempted").show();*/
 
 			if(KEY_POP_TYPE == 105 ){
 				$('#w34_3').prop("disabled", true);
@@ -380,76 +317,6 @@ Cohort register/ peer outreach calendar reviewed and client not lost to follow u
 				</tr>
 			</table>
 		</fieldset>
-
-<!--		<fieldset id="attempted-second">
-			<legend>Second attempt of tracing by PE/Health care worker</legend>
-			<table class="simple-table">
-				<tr>
-					<td>Please specify the attempt number<br/> since last missed appointment (i.e. 1, 2, 3)</td>
-					<td>
-						<obs conceptId="1639AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true"/>
-					</td>
-				</tr>
-				<tr>
-					<td>Date</td>
-					<td>
-						<obs id="second_attempt" conceptId="160753" allowFutureDates="false"/>
-
-					</td>
-				</tr>
-				<tr>
-					<td>Tracing type</td>
-					<td>
-						<obs id="second_tracing-type" conceptId="164966"
-							 answerConceptIds="1650,164965"
-							 answerLabels="Phone,Physical"
-							 style="radio" />
-					</td>
-				</tr>
-				<tr>
-					<td>Tracing outcome</td>
-					<td>
-						<obs id="second_tracing_outcome" conceptId="164929"
-							 answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-							 answerLabels="KP reached,KP not reached but other informant reached,KP not reached"
-							 style="radio" />
-					</td>
-				</tr>
-
-			</table>
-		</fieldset>-->
-<!--		<fieldset id="attempted-third">
-			<legend>Third attempt of tracing by PE/Health care worker</legend>
-			<table class="simple-table">
-				<obsgroup groupingConceptId="165068">
-				<tr>
-					<td>Date</td>
-					<td>
-						<obs id="third_attempt" conceptId="160753" allowFutureDates="false"/>
-
-					</td>
-				</tr>
-				<tr>
-					<td>Tracing type</td>
-					<td>
-						<obs id="third_tracing-type" conceptId="164966"
-							 answerConceptIds="1650,164965"
-							 answerLabels="Phone,Physical"
-							 style="radio" />
-					</td>
-				</tr>
-				<tr>
-					<td>Tracing outcome</td>
-					<td>
-						<obs id="third_tracing-outcome" conceptId="164929"
-							 answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-							 answerLabels="KP reached,KP not reached but other informant reached,KP not reached"
-							 style="radio" />
-					</td>
-				</tr>
-				</obsgroup>
-			</table>
-		</fieldset>-->
 
 		<fieldset id="outcome-field">
 			<legend>Tracing outcome status</legend>
