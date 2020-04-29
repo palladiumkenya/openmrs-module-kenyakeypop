@@ -190,7 +190,7 @@ public class ClientContactFormFragmentController {
 				}
 			}
 		}
-
+		
 		identifier.append(county);
 		identifier.append(subCounty);
 		identifier.append(ward);

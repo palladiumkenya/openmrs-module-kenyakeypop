@@ -37,239 +37,140 @@
 
         //On Ready
         $(document).ready(function () {
-            // sti forms
             var pgender = "<lookup expression="patient.gender" />";
-            if(pgender=="M"){jq("#cervical_cancer").hide();
-                jq("#post_abortal").hide();
-            }else{jq("#cervical_cancer").show();
-                jq("#post_abortal").show();}
-            jq('#sti_screened').click(StiScreened);
-            jq('#sti_results').click(StiResults);
-            jq('#sti_referred').click(StiReferred);
-            // tb form
-            jq('#tb_screened').click(tbScreened);
-            jq('#tb_results').click(tbResults);
-            jq('#tb_referred').click(tbReferred);
-            // hepatitis c
-            jq('#hepc_screened').click(HepatitiscScreened);
-            jq('#hepc_results').click(HepatitiscResults);
-            jq('#hepc_referred').click(HepatiriscReferred);
-            //hep b
-            jq('#hepb_screened').click(HepatitisbScreened);
-            jq('#hepb_results').click(HepatitisbResults);
-            jq('#hepb_referred').click(HepatitisbReferred);
-            //Overdose validations
-            jq('#overdose_screened').click(OverdoseScreenedSelected);
-            jq('#overdose_treated').click(OverdoseTtreateddSelected);
-            jq('#overdose_results').click(OverdoseResultsSelected);
-            jq('#overdose_referred').click(OverdoseRefferredSelected);
+            jq('#name-of-support').hide();
+            jq('#support-group-value').hide();
+            jq('#yes-status').hide();
+            jq(".other-disclosure").hide();
+            jq('#who-status-disclosed').hide();
+            jq('#support-group :input[type=radio]').click(isOnSupportGroup);
+            jq('#status-disclosure :input[type=radio]').click(disclosedStatus);
+            jq('#other-disclosure-selected :input[type=checkbox]').click(onOtherDisclosureSelected);
 
-            //Alcohol validations
-            jq('#alcohol_screened').click(AlcoholScreenedSelected);
-            jq('#alcohol_results').click(AlcoholResultsSelected);
-            jq('#alcohol_referred').click(AlcoholReferredSelected);
+            //Before Submit
+            beforeSubmit.push(function() {
+                var pbirthdate = new Date("<lookup expression="patient.birthdate" />").getTime();
 
-            //Abscess validations
-            jq('#abscess_screened').click(AbscessScreenedSelected);
-            jq('#abscess_results').click(AbscessResultsSelected);
-            jq('#abscess_referred').click(AbscessReferredSelected);
+                var dateDiagnosed = new Date(getValue('date-diagnosed.value')).getTime();
+                var dateInitiatedOnart = new Date(getValue('date-initiated-on-art.value')).getTime();
+                var cd4TestDate = new Date(getValue('cd4-test-date.value')).getTime();
+                var vlTestDate = new Date(getValue('vl-test-date.value')).getTime();
+                var iptStartDate = new Date(getValue('ipt-start-date.value')).getTime();
+                var iptCompletionDate = new Date(getValue('ipt-completion-date.value')).getTime();
+                var ioDate = new Date(getValue('diagnosed-date-io.value')).getTime();
+                var rxStartDate = new Date(getValue('rx-onset-date.value')).getTime();
+                var rxEndDate = new Date(getValue('rx-end-date.value')).getTime();
+                var ccc_number = getField('ccc-number.value').val();
 
-            //Prep validations
-            jq('#prep_screened').click(prepScreened);
-            jq('#prep_results').click(prepResults);
-            jq('#prep_referred').click(prepReferred);
-
-            //Cervical validations selected
-            jq('#cerv_screened').click(CervicalScreeningSelected);
-            jq('#cerv_results').click(CervicalResulltsSelected);
-            jq('#cerv_referred').click(CervicalReferredSelected);
-
-            //Violence validations
-            jq('#vio_screened').click(vilenceScreened);
-            jq('#vio_exists').click(vilenceExists);
-
-            jq('#vio_results').click(violenceResults);
-            jq('#vio_referred').click(violenceReferred);
-
-            //Risk validations
-            jq('#risk_screened').click(riskScreened);
-            jq('#risk_results').click(riskResults);
-            jq('#risk_referred').click(riskReferred);
-
-            //Family validations
-            jq('#fam_screened').click(familyScreened);
-            jq('#fam_results').click(familyResults);
-            jq('#fam_treated').click(familyTreated);
-            jq('#fam_referred').click(familyReferred);
-
-            //Mental validations
-            jq('#men_screened').click(menScreened);
-            jq('#men_results').click(menResults);
-            jq('#men_referred').click(menReferred);
-            jq("#hiv_selfreported input").change(hivTesting);
-            jq("#hiv_tested input").change(hivTested);
-            //jq("#hiv_selftest input").change(numberOfSelfTest);
-            jq("#self_tested input").change(SelfTested);
-            jq("#selftestResults input").change(selfTestedResults);
-            jq("#confirm_test input").change(confirmTest);
-            jq("#facility input").change(confirmFacility);
-            jq("#linktoart input").change(linkToart);
-            jq("#care_provided input").change(providedElseWhere);
-            jq("#pep_selected input").change(onPEPSelected);
-            jq("#exposure_other input").change(onOtherExposureTypeSelected);
-            jq("#test_results input").change(test_resultsChanged);
-            jq("#linked_to_art input").change(linkTo_ART);
-            jq("#eligible_for_viral input").change(eligible_for_viral_load);
+                if (ccc_number != "") {
+                    if(/^[0-9]{10}$/.test(ccc_number) === false) {
+                        getField('ccc-number.value').val('');
+                        getField('ccc-number.error').html('CCC number can not be less than 10 digits.').show();
+                        return false;
+                    }
+                }
 
 
-            $("INPUT[type=text],TEXTAREA").attr("disabled", "disabled");
-            jq("#vio_results input").prop("disabled", true);
-            jq("#Client_visit input:radio").attr('disabled',true);
-            jq("#malecondoms input").prop("disabled", false);
-            jq("#femalecondoms input").prop("disabled", false);
-            jq("#lubes input").prop("disabled", false);
-            jq("#needles input").prop("disabled", false);
-            jq("#clinical input").prop("disabled", false);
-            jq("#lmp_date input").prop("disabled", false);
-            jq("#apointment input").prop("disabled", false);
-            jq("#edd input").prop("disabled", false);
-            jq("#encounter-date input").prop("disabled", false);
-            jq("#ConName input").prop("disabled", false);
-            jq("#ConDate input").prop("disabled", false);
-            jq("#sti_screened input").prop("disabled", false);
-            jq("#tb_screened input").prop("disabled", false);
-            jq("#hepb_screened input").prop("disabled", false);
-            jq("#hepc_screened input").prop("disabled", false);
-            jq("#overdose_screened input").prop("disabled", false);
-            jq("#abscess_screened input").prop("disabled", false);
-            jq("#alcohol_screened input").prop("disabled", false);
-            jq("#cerv_screened input").prop("disabled", false);
-            jq("#prep_screened input").prop("disabled", false);
-            jq("#vio_screened input").prop("disabled", false);
-            jq("#risk_screened input").prop("disabled", false);
-            jq("#fam_screened input").prop("disabled", false);
-            jq("#men_screened input").prop("disabled", false);
-            jq("#clinical textarea").prop("disabled", false);
-            jq("#tca input").prop("disabled", false);
-            jq("#selftxt input").prop("disabled", false);
-            jq("#disttxt input").prop("disabled", false);
-            jq("#partner input").prop("disabled", false);
-            jq("#care_provided input").prop("disabled", false);
-            jq("#famMethod select").attr('disabled', 'disabled');
+                if(dateDiagnosed &lt; pbirthdate){
+                    getField('date-diagnosed.error').html('Date diagnosed, should not be earlier than Birth date').show();
+                    return false;
+                }
+                if (dateInitiatedOnart &lt; pbirthdate){
+                    getField('date-initiated-on-art.error').html('Date initiated on art, should not be earlier than Birth date').show();
+                    return false;
+                }
+                if (dateInitiatedOnart &lt; dateDiagnosed){
+                    getField('date-initiated-on-art.error').html('Date initiated on art, should not be before diagnosed date').show();
+                    return false;
+                }
+                if (cd4TestDate &lt; pbirthdate){
+                    getField('cd4-test-date.error').html('CD4 test date, should not be earlier than Birth date').show();
+                    return false;
+                }
+                if ((cd4TestDate &lt; dateInitiatedOnart) || (cd4TestDate &lt; dateDiagnosed)){
+                    getField('cd4-test-date.error').html('CD4 test date, should not be before ART start/diagnosed date').show();
+                    return false;
+                }
+                if (vlTestDate &lt; pbirthdate){
+                    getField('vl-test-date.error').html('VL test date, should not be earlier than Birth date').show();
+                    return false;
+                }
+                if ((vlTestDate &lt; dateInitiatedOnart)||(vlTestDate &lt; dateDiagnosed)){
+                    getField('vl-test-date.error').html('VL test date, should not be before ART start/diagnosed date').show();
+                    return false;
+                }
+                if (iptStartDate &lt; pbirthdate){
+                    getField('ipt-start-date.error').html('IPT start date, should not be earlier than Birth date').show();
+                    return false;
+                }
+                if (iptStartDate &lt; dateDiagnosed || iptStartDate &lt; dateInitiatedOnart){
+                    getField('ipt-start-date.error').html('IPT start date, should not be before diagnosed/ ART start date').show();
+                    return false;
+                }
+                if (iptCompletionDate &lt; pbirthdate){
+                    getField('ipt-completion-date.error').html('IPT completion date, should not be earlier than Birth date').show();
+                    return false;
+                }
+                if (iptCompletionDate &lt; dateDiagnosed || iptCompletionDate &lt; dateInitiatedOnart ||iptCompletionDate &lt; iptStartDate){
+                    getField('ipt-completion-date.error').html('IPT completion date, should not be before ART start/diagnosed/IPT start date').show();
+                    return false;
+                }
+                if (ioDate &lt; pbirthdate){
+                    getField('diagnosed-date-io.error').html('IO diagnosed date, should not be earlier than Birth date').show();
+                    return false;
+                }
+                if (rxStartDate &lt; pbirthdate){
+                    getField('rx-onset-date.error').html('Rx start date, should not be earlier than Birth date').show();
+                    return false;
+                }
+                if (rxEndDate &lt; pbirthdate){
+                    getField('rx-end-date.error').html('Rx end date, should not be earlier than Birth date').show();
+                    return false;
+                }
+                return true;
+            });
 
 
-            jq("#self-test-demo input").prop("disabled" ,false);
 
         });
-        //Before Submit
-        beforeSubmit.push(function() {
-            var validated = /^([1-9]|[1-9][0-9]|[1-9][0-9][0-9])$/;
-            var sti_screened = getValue('sti_screened.value');
-            var tb_screened = getValue('tb_screened.value');
-            var hepb_screened = getValue('hepb_screened.value');
-            var hepc_screened = getValue('hepc_screened.value');
-            var overdose = getValue('overdose_screened.value');
-            var absces = getValue('abscess_screened.value');
-            var alcohol = getValue('alcohol_screened.value');
-            var cerv = getValue('cerv_screened.value');
-            var prep = getValue('prep_screened.value');
-            var violence = getValue('vio_screened.value');
-            var risk_reduction = getValue('risk_screened.value');
-            var family_planning = getValue('fam_screened.value');
-            var mental = getValue('men_screened.value');
+        function isOnSupportGroup() {
+            var val = jq(this).val();
+            if(val ==1065) {
+                jq('#name-of-support').show();
+                jq('#support-group-value').show();
+            } else {
+                jq('#name-of-support').hide();
+                jq('#support-group-value').hide();
+            }
+        }
 
-            var sti_results = getValue('sti_results.value');
-            var sti_results2 = getValue('sti_results.value');
-            var tb_results= getValue('tb_results.value');
-            var hepb_results = getValue('hepb_results.value');
-            var hepc_results = getValue('hepc_results.value');
-            var overdose_results = getValue('overdose_results.value');
-            var absces_results = getValue('abscess_results.value');
-            var alcohol_results = getValue('alcohol_results.value');
-            var cerv_results = getValue('cerv_results.value');
-            var prep_results = getValue('prep_results.value');
+        function disclosedStatus() {
+            var val = jq(this).val();
+            if(val ==1065) {
+                jq('#yes-status').show();
+                jq('#who-status-disclosed').show();
+            } else {
+                jq('#yes-status').hide();
+                jq('#who-status-disclosed').hide();
+                var disclosedToWho=jq('#who-status-disclosed');
+                clearHiddenSections([disclosedToWho]);
 
-            var NumberOfMaleCondomGiven = getField('malecondoms.value').val();
-            var NumberOfFemaleCondomsGiven = getField('femalecondoms.value').val();
-            var NumberOfSyringesGiven = getField('needles.value').val();
-            var NumberOfLubesGiven = getField('lubes.value').val();
+            }
+        }
+        function onOtherDisclosureSelected() {
+            var val = jq(this).val();
+            var otherDisclosureChecked = jq("#other-disclosure-selected input:checkbox:checked");
+            if(val == 5622 &amp;&amp; otherDisclosureChecked.length >0 ){
+                jq(".other-disclosure").show();
+            }
+            else{
 
-           // var violence_results  = getField('violence_results.value').val();
-            var risk_reduction_results = getValue('risk_results.value');
-            var family_planning_results = getValue('fam_results.value');
-            var mental_results = getValue('men_results.value');
+                jq(".other-disclosure").hide();
+            }
+        }
 
-            if(sti_screened==1065 &amp;&amp;  sti_results ==false){
-                getField('sti_results.error').html('Results required').show();
-                return false;
-            }
-            if(tb_screened==1065 &amp;&amp;  tb_results ==false){
-                getField('tb_results.error').html('Results required').show();
-                return false;
-            }
-            if(hepb_screened==1065 &amp;&amp;  hepb_results ==false){
-                getField('hepb_results.error').html('Results required').show();
-                return false;
-            }
-            if(hepc_screened==1065 &amp;&amp;  hepc_results ==false){
-                getField('hepc_results.error').html('Results required').show();
-                return false;
-            }
-            if(overdose==1065 &amp;&amp;  overdose_results ==false){
-                getField('overdose_results.error').html('Results required').show();
-                return false;
-            }
-            if(absces==1065 &amp;&amp;  absces_results ==false){
-                getField('abscess_results.error').html('Results required').show();
-                return false;
-            }
-            if(alcohol==1065 &amp;&amp;  alcohol_results ==false){
-                getField('alcohol_results.error').html('Results required').show();
-                return false;
-            }
-            if(cerv==1065 &amp;&amp;  cerv_results ==false){
-                getField('cerv_results.error').html('Results required').show();
-                return false;
-            }
-            if(prep==1065 &amp;&amp;  prep_results ==false){
-                getField('prep_results.error').html('Results required').show();
-                return false;
-            }
 
-            if(risk_reduction==1065 &amp;&amp;  risk_reduction_results ==false){
-                getField('risk_results.error').html('Results required').show();
-                return false;
-            }
-            if(family_planning==1065 &amp;&amp;  family_planning_results ==false){
-                getField('fam_results.error').html('Results required').show();
-                return false;
-            }
-            if(mental==1065 &amp;&amp;  mental_results ==false){
-                getField('men_results.error').html('Results required').show();
-                return false;
-            }
-
-            if (NumberOfMaleCondomGiven != "" &amp;&amp; !NumberOfMaleCondomGiven.match(validated)) {
-                getField('malecondoms.error').html('Should be between 1 and 200.').show();
-                return false;
-            }
-
-            if (NumberOfFemaleCondomsGiven != "" &amp;&amp; !NumberOfFemaleCondomsGiven.match(validated)) {
-                getField('femalecondoms.error').html('Should be between 1 and 200.').show();
-                return false;
-            }
-            if (NumberOfLubesGiven != "" &amp;&amp; !NumberOfLubesGiven.match(validated)) {
-                getField('lubes.error').html('Should be between 1 and 200.').show();
-                return false;
-            }
-            if (NumberOfSyringesGiven!= "" &amp;&amp; !NumberOfSyringesGiven.match(validated)) {
-                getField('needles.error').html('Should be between 1 and 200.').show();
-                return false;
-            }
-        });
         clearHiddenSections = function(parentObj) {
-
-
 
             for(var i=0; i &lt; parentObj.length; i++){
                 parentObj[i].find('input[type=radio]').each(function() {
@@ -326,216 +227,266 @@
             </tr>
         </table>
     </div>
-    <!--=============Work flow==================-->
-    <ifMode mode="VIEW" include="true">
-        <div>
-            <table style="width: 100%">
-                <tr>
-                    <td align="left">
-                        Observation Date:
-                    </td>
-                    <td>
-                        Unique Client Number
-                    </td>
-                    <td align="right">
-                        Gender Identity:
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        16-Jan-2019
-                    </td>
-                    <td>
-                        Test
-                    </td>
-                    <td align="right">
-                        Test
-                    </td>
-                </tr>
-            </table>
-        </div>
 
-    </ifMode>
     <!-- ============ end work flow =================-->
     <div class="ke-form-content">
 
-
         <fieldset>
-            <legend>Client details</legend>
+            <legend>HIV/ART History</legend>
             <table>
                 <tr>
-                    <td><p><b>CCC Number:</b></p></td>
-                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
-                    <td colspan="2"></td>
-                    <td><p><b>&#160;&#160;&#160;&#160; Typology:</b></p></td>
-                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
-                    <td></td>
-                    <td><p><b> &#160;&#160;&#160;&#160; Age:</b></p></td>
-                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
-                    <td></td>
-                    <td><p><b> &#160;&#160;&#160;&#160; Name of peer educator:</b></p></td>
-                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
+                    <td><p>Date diagnosed HIV positive</p></td>
+                    <td> <obs  conceptId="159948" required="true" id="date-diagnosed" allowFutureDates="false" /></td>
+
+                    <td><p> &#160;&#160;&#160;&#160; Name of health facility accessing ART:</p></td>
+                    <td> <obs id="health-facility" conceptId="162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  size="17" required="true"/></td>
+                    <td><p> &#160;&#160;&#160;&#160; CCC Number :</p></td>
+                    <td> <obs id="ccc-number" conceptId="162053"  size ="20" /></td>
+
 
                 </tr>
-
-            </table>
-
-        </fieldset>
-
-
-        <fieldset>
-            <legend>ART /HIV History</legend>
-            <table>
                 <tr>
-                    <td><p>Date diagonised HIV positive</p></td>
-                    <td> <obs  conceptId="159948" size="17"/></td>
-
-                    <td><p>&#160;&#160;&#160;&#160; verification source:</p></td>
-                    <td> <obs  conceptId="162568" style="dropdown" /></td>
-                </tr>
-                <tr>
-                    <td><p> Disclosed status:</p></td>
-                    <td> <obs conceptId="163524" style="radio" /></td>
-
-                    <td><p> &#160;&#160;&#160;&#160; If yes, to who:</p></td>
-                    <td> <obs  conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17" /></td>
-
-                    <td><p> &#160;&#160;&#160;&#160; Name of health facility:</p></td>
-                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
+                    <td><p>Is a PEPFAR site?</p></td>
+                    <td>
+                        <obs conceptId="1768AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="pepfar-site" required="true"
+                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Yes,No,Unknown"
+                             style="radio"/>
+                    </td>
                 </tr>
                 <tr>
                     <td><p>Date Initiated on ART</p></td>
-                    <td> <obs  conceptId="159599" size="17"/></td>
+                    <td> <obs  conceptId="159599" id="date-initiated-on-art" allowFutureDates="false"/></td>
 
                     <td><p>&#160;&#160;&#160;&#160; Current regimen:</p></td>
                     <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
-                </tr>
-            </table>
-
-        </fieldset>
-
-
-        <fieldset>
-            <legend>CD4 at enrollment</legend>
-            <table>
-                <tr>
-                    <td><p>1. Month and year test done:</p></td>
-                    <td> <obs conceptId="159376" size="17"/></td>
-
-                    <td><p>&#160;&#160;&#160;&#160; Levels:</p></td>
-                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
-                </tr>
-                <tr>
-                    <td><p>2. Month and year test done:</p></td>
-                    <td> <obs conceptId="159376" size="17"/></td>
-
-                    <td><p>&#160;&#160;&#160;&#160; Levels:</p></td>
-                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
-                </tr>
-                <tr>
-                    <td><p>3. Month and year test done:</p></td>
-                    <td> <obs conceptId="159376" size="17"/></td>
-
-                    <td><p>&#160;&#160;&#160;&#160; Levels:</p></td>
-                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
+                    <td><p>&#160;&#160;&#160;&#160; Source of information:</p></td>
+                    <td> <obs  conceptId="162568AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                               answerConceptIds="162969,163787,1238,162189,160526,165048"
+                               answerLabels="SMS, Verbal report,Written record,Phone call,EID dashboard,Appointment card"
+                               style="dropdown"  required="true"/></td>
                 </tr>
             </table>
 
         </fieldset>
 
         <fieldset>
-            <legend>Viral load</legend>
-            <table>
+            <legend>HIV Monitoring</legend>
+                <!--cd4-->
+                    <table id="tbl-cd4" style="width: 25%; float: left">
+                        <tr>
+                            <td colspan="2">Record any CD4 test(s)<br/>
+                                <table>
+                                    <tr>
+                                        <th>CD4 Test Date</th>
+                                        <th>CD4 Value</th>
+                                    </tr>
+                                    <repeat>
+                                        <template>
+                                            <obsgroup groupingConceptId="657AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
+                                                <tr>
+                                                    <td><obs class="cd4-test-date" id="cd4-test-date" conceptId="160103AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false" labelText=" " /></td>
 
-                <tr>
-                    <td><p>1. Date:</p></td>
-                    <td> <obs conceptId="163281" size="17"/></td>
+                                                    <td><obs class="cd4-value" id="cd4-test-value"
+                                                             conceptId="5497AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                                    />
+                                                    </td>
 
-                    <td><p> &#160;&#160;&#160;&#160; Levels:</p></td>
-                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
+                                                </tr>
+                                            </obsgroup>
+                                        </template>
+                                        <render n="1" concept=" " />
+                                        <render n="2" concept=" " />
+                                        <render n="3" concept=" " />
+                                        <render n="4" concept=" " />
+                                        <render n="5" concept=" " />
+                                    </repeat>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
 
-                    <td><p> &#160;&#160;&#160;&#160; Justification:</p></td>
-                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
-                </tr>
-                <tr>
-                    <td><p>2. Date:</p></td>
-                    <td> <obs conceptId="163281" size="17"/></td>
+
+                <!--Vl-->
+
+                    <table id="tbl-vl" style="width: 25%; float: left">
+                        <tr>
+                            <td colspan="2">Record any VL test(s)<br/>
+                                <table>
+                                    <tr>
+                                        <th>Viral Load Test Date</th>
+                                        <th>VL Value</th>
+                                    </tr>
+                                    <repeat>
+                                        <template>
+                                            <obsgroup groupingConceptId="165246">
+                                                <tr>
+                                                    <td><obs class="vl-test-date" id="vl-test-date" conceptId="163281AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false" labelText=" " /></td>
+
+                                                    <td><obs class="vl-value" conceptId="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+                                                    </td>
+
+                                                </tr>
+                                            </obsgroup>
+                                        </template>
+                                        <render n="1" concept=" " />
+                                        <render n="2" concept=" " />
+                                        <render n="3" concept=" " />
+                                        <render n="4" concept=" " />
+                                        <render n="5" concept=" " />
+                                    </repeat>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
 
 
-                    <td><p> &#160;&#160;&#160;&#160; Levels:</p></td>
-                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
+<div>
+    <table>
 
-                    <td><p> &#160;&#160;&#160;&#160; Justification:</p></td>
-                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
-                </tr>
-                <tr>
-                    <td><p>3. Date:</p></td>
-                    <td> <obs conceptId="163281" size="17"/></td>
+        <td><p> Disclosed status:</p></td>
+        <td> <obs conceptId="163524" id="status-disclosure"
+                  answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                  answerLabel="Yes,No" style="radio" /></td>
 
-                    <td><p> &#160;&#160;&#160;&#160; Levels:</p></td>
-                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
+        <td id="yes-status"><p> &#160;&#160;&#160;&#160; If yes, to who:</p></td>
+        <td id="who-status-disclosed">
 
-                    <td><p> &#160;&#160;&#160;&#160; Justification:</p></td>
-                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
-                </tr>
-            </table>
+            <obs conceptId="5616AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="sexual-partner"
+                 answerConceptId="159423AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                 answerLabel="Sexual Partner" style="checkbox"
+            />
+            <br />
+            <obs conceptId="5616AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="family-member"
+                 answerConceptId="1560AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                 answerLabel="Family member" style="checkbox"/>
+            <br />
+            <obs conceptId="5616AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="treatment-partner"
+                 answerConceptId="161642AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                 answerLabel="Treatment partner" style="checkbox"/>
+            <br />
+            <obs conceptId="5616AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="spiritual-leader"
+                 answerConceptId="160639AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                 answerLabel="Spiritual leader" style="checkbox"/>
+            <br />
+            <obs conceptId="5616AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                 answerConceptId="5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                 answerLabel="Other (Specify)" style="checkbox"  id="other-disclosure-selected"/>
+            <br />
+            <obs
+                    class="other-disclosure" id="other-disclosure"
+                    conceptId="163101AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            />
+
+
+        </td>
+    </table>
+</div>
+
 
         </fieldset>
+
 
         <fieldset>
             <legend>IPT</legend>
             <table>
                 <tr>
-                    <td><p>Date started:</p></td>
-                    <td> <obs id="ipt" conceptId="162320" size="17"/></td>
+                    <td><p>Date started on IPT:</p></td>
+                    <td> <obs id="ipt-start-date" conceptId="162320" allowFutureDates="false" /></td>
 
-                    <td><p>&#160;&#160;&#160;&#160; Date completed:</p></td>
-                    <td> <obs id="ipt_complete" conceptId="162279" size="17"/></td>
+                    <td><p>&#160;&#160;&#160;&#160; Date completed IPT:</p></td>
+                    <td> <obs id="ipt-completion-date" conceptId="162279" allowFutureDates="false" /></td>
                 </tr>
             </table>
 
         </fieldset>
 
-
         <fieldset>
-            <legend>Opportunistic infections (Specify OI)</legend>
-            <table class="simple-table">
+            <legend>Care Model</legend>
+            <table>
                 <tr>
-                    <td ><p><b>Opportunistic infection</b></p></td>
-                    <td ><p><b>Date diagnosed</b></p></td>
-                    <td ><p><b>Date initiated on OI treatment</b></p></td>
-                    <td ><p><b>Date completed treatment</b></p></td>
+                    <td><p>On differentiated care?</p></td>
+                    <td>
+                        <obs conceptId="164947" id="differentiated-care"
+                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Yes,No"
+                             style="radio"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td><p>Support group:</p></td>
+                    <td>
+                        <obs conceptId="165302" id="support-group"
+                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Yes,No"
+                             style="radio"/>
+                    </td>
 
-
+                    <td id="name-of-support"><p>&#160;&#160;&#160;&#160; Name:</p></td>
+                    <td id="support-group-value"> <obs id="support-group-name" conceptId="165137"/></td>
                 </tr>
-                <tr>
-                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
-                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
-                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
-                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
-                </tr>
-                <tr>
-                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
-                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
-                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
-                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
-                </tr>
-
-                <tr>
-                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
-                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
-                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
-                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
-                </tr>
-                <tr>
-                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
-                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
-                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
-                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
-                </tr>
-
             </table>
 
+        </fieldset>
+            <!--Opportunistic infections-->
+        <fieldset>
+                <legend>Opportunistic infections (Specify OI)</legend>
+                <table class="simple-table">
+
+                    <table id="tbl-opportunistic-infection">
+                        <tr>
+                            <td colspan="2">Record any OI<br/>
+                                <table>
+                                    <tr>
+                                        <th>Opportunistic infection</th>
+                                        <th>Date diagnosed</th>
+                                        <th>Rx start date</th>
+                                        <th>Rx end date</th>
+                                    </tr>
+                                    <repeat>
+                                        <template>
+                                            <obsgroup groupingConceptId="131768AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
+                                                <tr>
+                                                    <td><obs class="medicine-causing"
+                                                             conceptId="162634AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                                             answerConceptIds="112141AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,990AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,130021AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,114100AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,136326AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,123118AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,117543AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,154119AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1219AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,120939AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,116104AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                                             answerLabels="Tuberculosis,Toxoplasmosis,Pneumocystosis carinii pneumonia,Pneumonia,Kaposi Sarcoma ,HIV encephalitis,Herpes Zoster,Cytomegalovirus (CMV),Cryptococcosis,Candidiasis,Lymphoma,Other"
+                                                             style="dropdown" id="opportunistic-infections"
+                                                    />
+                                                    </td>
+
+                                                    <td><obs class="diagnosed-date" id="diagnosed-date-io" conceptId="159948AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false" labelText=" " /></td>
+                                                    <td><obs class="rx-onset-date" id="rx-onset-date" conceptId="160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false" labelText=" " /></td>
+                                                    <td><obs class="rx-end-date" id="rx-end-date" conceptId="162868AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false" labelText=" " /></td>
+
+                                                </tr>
+                                            </obsgroup>
+                                        </template>
+                                        <render n="1" concept=" " />
+                                        <render n="2" concept=" " />
+                                        <render n="3" concept=" " />
+                                        <render n="4" concept=" " />
+                                        <render n="5" concept=" " />
+                                    </repeat>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </table>
+            </fieldset>
+
+
+        <fieldset>
+            <legend>Comments</legend>
+            <table>
+                <tr>
+                    <td>Comment(s):</td>
+                    <td>
+                        <obs conceptId="161011AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="comments" rows="3" cols="100" size="50" style="textarea" />
+                    </td>
+
+                </tr>
+            </table>
         </fieldset>
 
     </div>
