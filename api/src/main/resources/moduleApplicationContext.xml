@@ -84,6 +84,7 @@
                 <ref bean="kenyaemr.kenyakeypop.kenyakeypop.report.moh731b" />
                 <ref bean="kenyaemr.kenyakeypop.kenyakeypop.report.outreachWorkerSummary" />
                 <ref bean="kenyaemr.kenyakeypop.kenyakeypop.report.cohort.analysis.kpRegister" />
+                <ref bean="kenyaemr.kenyakeypop.kenyakeypop.report.cohort.analysis.kpPeerTrackingRegister" />
             </set>
         </property>
 
@@ -194,6 +195,16 @@
                 <ref bean="kenyaemr.app.reports" />
             </set></property>
         <property name="template" value="kenyakeypop:MOH_731Plus_Template.xls" />
+    </bean>
+
+
+    <bean id="kenyaemr.kenyakeypop.kenyakeypop.report.cohort.analysis.kpPeerTrackingRegister" class="org.openmrs.module.kenyacore.report.HybridReportDescriptor">
+        <property name="targetUuid" value="e074b57d-78c3-43da-aa52-569d49ba2461" />
+        <property name="name" value="Peer Tracking register" />
+        <property name="description" value="Peer Tracking Register for KP" />
+        <property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
+        <property name="template" value="kenyakeypop:A3_Peer_Tracking_Register.xls" />
+        <property name="repeatingSection" value="sheet:1,row:10,dataset:PeerTrackingRegister" />
     </bean>
     <!-- kp Appointments -->
     <bean id="kenyakeypop.form.kpAppointmentCreation" class="org.openmrs.module.kenyacore.form.FormDescriptor">
