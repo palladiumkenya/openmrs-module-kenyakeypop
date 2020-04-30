@@ -189,64 +189,66 @@ $('#specify4 input').prop('disabled', true);
             </script>
         </ifMode>
         <!--Peer Educator/ORW Overdose Encounter Reporting Tool-->
-            <fieldset id="prep_verification_form">
-                <legend>
-                    Prep History
-                </legend>
-                <table class="simple-table" id="overdose-reporting-tool">
-                         <tr>
-                            <td><b>Enrollment Date</b></td>
-                            <td>
-                                <obs id="incident_date" conceptId="163526" allowFutureDates="false"  />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <b>Name of health facility accessing PrEP</b>
-                            </td>
-                            <td>
-                                <obs conceptId="162724"/>
+        <fieldset id="prep_verification_form">
+            <legend>
+                Prep History
+            </legend>
+            <table class="simple-table" id="overdose-reporting-tool">
+                <tr>
+                    <td><b>Enrollment Date</b></td>
+                    <td>
+                        <obs id="incident_date" conceptId="163526" allowFutureDates="false"  />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b>Name of health facility accessing PrEP</b>
+                    </td>
+                    <td>
+                        <obs conceptId="162724"/>
 
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <b>Is a PEPFAR site</b>
-                            </td>
-                            <td ><p>  <obs id="received_results" conceptId="1557"
-                                           answerConceptIds="1065,
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b>Is a PEPFAR site</b>
+                    </td>
+                    <td ><p>  <obs id="received_results" conceptId="1557"
+                                   answerConceptIds="1065,
                                                             1066,1067"  answerLabels="Yes,No, Unknown"
-                                           style="radio" answerSeparator="&lt;br /&gt;"  />
-                            </p></td>
-                        </tr>
-                    <tr>
-                        <td>
-                            <b>Date initiated on PrEP </b>
-                        </td>
+                                   style="radio" answerSeparator="&lt;br /&gt;"  />
+                    </p></td>
+                </tr>
+                <tr>
+                    <td>
+                        <b>Date initiated on PrEP </b>
+                    </td>
 
-                        <td><obs conceptId="160555" id="first-enrolled-date"/></td>
+                    <td><obs conceptId="160555" id="first-enrolled-date"/></td>
 
 
-                    </tr>
-                    <tr>
-                        <td>
-                            <b>PrEP Regimen</b>
-                        </td>
-                        <td id="regimen-options"><obs conceptId="164515" labelText=" " answerConceptIds="161364AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                </tr>
+                <tr>
+                    <td>
+                        <b>PrEP Regimen</b>
+                    </td>
+                    <td id="regimen-options"><obs conceptId="164515" labelText=" " answerConceptIds="161364AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
 						84795AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,104567AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                                                      answerLabels="TDF/3TC,TDF,TDF/FTC(Preferred)" />
-                        </td>
-                    </tr>
+                                                  answerLabels="TDF/3TC,TDF,TDF/FTC(Preferred)" />
+                    </td>
+                </tr>
 
-                    <tr>
-                        <td>
-                            <b>Source information</b>
-                        </td>
-                        <td>
-                            <obs conceptId="162568"/>
-                        </td>
-                    </tr>
-                </table>
+                <tr>
+                    <td>
+                        <b>Source information</b>
+                    </td>
+                    <td id="regimen-options"><obs conceptId="162568" labelText=" " answerConceptIds="163787,
+						1662,1650,1238,162969,160526"
+                                                  answerLabels="Verbal Report,Appointment Card,Phone Call, Written Record, Sms, EID Dashboard" />
+                    </td>
+
+                </tr>
+            </table>
         </fieldset>
 
         <fieldset id="prep_appointment">
@@ -256,6 +258,7 @@ $('#specify4 input').prop('disabled', true);
                     <td ><p><b>Verification Date</b></p></td>
                     <td ><p><b>PrEP Status</b></p></td>
                     <td ><p><b>PrEP Discontinuation Reasons</b></p></td>
+                    <td ><p><b>Specify</b></p></td>
                     <td ><p><b>Next PrEP Appointment</b></p></td>
 
                 </tr>
@@ -277,7 +280,7 @@ $('#specify4 input').prop('disabled', true);
                              answerLabels="HIV test is positive,Viral suppression of HIV+ Partner,
 							 Not adherent to PrEP,Too many HIV tests,Client request,
 							 Other-specify"  style="dropdown"/>
-                        <obs conceptId="165230" id="specify1"/>
+                    <td><obs conceptId="165230" id="specify1"/></td>
 
                     </td>
                     <td id="next-appointment-date"><obs id="next-appointment" conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true"/></td>
@@ -301,7 +304,7 @@ $('#specify4 input').prop('disabled', true);
                              answerLabels="HIV test is positive,Viral suppression of HIV+ Partner,
 							 Not adherent to PrEP,Too many HIV tests,Client request,
 							 Other-specify"  style="dropdown"/>
-                        <obs conceptId="165230" id="specify2"/>
+                    <td> <obs conceptId="165230" id="specify2"/></td>
                     </td>
                     <td id="next-appointment-date"><obs id="next-appointment" conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true"/></td>
 
@@ -324,7 +327,7 @@ $('#specify4 input').prop('disabled', true);
                              answerLabels="HIV test is positive,Viral suppression of HIV+ Partner,
 							 Not adherent to PrEP,Too many HIV tests,Client request,
 							 Other-specify"  style="dropdown"/>
-                        <obs conceptId="165230" id="specify3"/>
+                    <td> <obs conceptId="165230" id="specify3"/></td>
                     </td>
                     <td id="next-appointment-date"><obs id="next-appointment" conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true"/></td>
 
@@ -347,7 +350,7 @@ $('#specify4 input').prop('disabled', true);
                              answerLabels="HIV test is positive,Viral suppression of HIV+ Partner,
 							 Not adherent to PrEP,Too many HIV tests,Client request,
 							 Other-specify"  style="dropdown"/>
-                        <obs conceptId="165230" id="specify4"/>
+                    <td> <obs conceptId="165230" id="specify4"/></td>
 
                     </td>
                     <td id="next-appointment-date"><obs id="next-appointment" conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true"/></td>

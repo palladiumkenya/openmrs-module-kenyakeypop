@@ -42,21 +42,22 @@ text-shadow: 1px 1px 1px #fff;
       var PhysicalyAbusedClicked  = function () {
               var Slapped = getValue('physicalyAbused.value');
              if(Slapped=="1065"){
-					$('#slapped_other input').prop('disabled', false);
+					$('#slapped_select input').prop('disabled', false);
 				}
 				else if (Slapped != "1065"){
-                    $('#slapped_other input').prop('disabled', true);
+                    $('#slapped_select input').prop('disabled', true);
                     $('#other_slapped_specify input').prop('disabled', true);
                     $('#other_slapped_specify input').val('');
                 }
             }
-    var ForcefulCliked  = function () {
+            var ForcefulCliked  = function () {
 			var ForceFul = getValue('forceful.value');
              if (ForceFul == "1065"){
 
-                    $('#forceful_other input').prop('disabled', false);
+                    $('#forceful_select input').prop('disabled', false);
                    }
                 else if (ForceFul != '1065'){
+                    $('#forceful_select input').prop('disabled', true);
                     $('#ForceFullOther input').prop('disabled', true);
                     $('#other_forceful_specify input').prop('disabled', true);
                     $('#other_forceful_specify input').val('');
@@ -79,11 +80,11 @@ text-shadow: 1px 1px 1px #fff;
             var FrightensCliked  = function () {
             	var Frightens = getValue('frightens.value');
                if(Frightens=="1065"){
-					$('#frightens_other input').prop('disabled', false);
+					$('#frightens_select input').prop('disabled', false);
 
 				}
 				else if (Frightens != "1065"){
-                    $('#frightens_other input').prop('disabled', true);
+                    $('#frightens_select input').prop('disabled', true);
                     $('#other_frightens_specify input').prop('disabled', true);
                     $('#other_frightens_specify input').val('');
                 }
@@ -96,19 +97,19 @@ text-shadow: 1px 1px 1px #fff;
                    }
                 else if (FrightensOther != "5622"){
 
-                    $('#other_forceful_specify input').prop('disabled', true);
-                    $('#other_forceful_specify input').val('');
+                    $('#other_frightens_specify input').prop('disabled', true);
+                    $('#other_frightens_specify input').val('');
                     }
             }
 
               var BadRelationCliked  = function () {
               var BadRelation = getValue('badRelation.value');
                 if(BadRelation=="1065"){
-					$('#badRelation_other input').prop('disabled', false);
+					$('#badRelation_select input').prop('disabled', false);
 
 				}
 				else if (BadRelation != "1065"){
-                    $('#badRelation_other input').prop('disabled', true);
+                    $('#badRelation_select input').prop('disabled', true);
                     $('#other_badRelation_specify input').prop('disabled', true);
                     $('#other_badRelation_specify input').val('');
                 }
@@ -145,11 +146,11 @@ text-shadow: 1px 1px 1px #fff;
             var SomeOneCliked  = function () {
             var Someone = getValue('someone.value');
             if(Someone=="1065"){
-					$('#someone_other input').prop('disabled', false);
+					$('#someone_select input').prop('disabled', false);
 
 				}
 				else if (Someone != "1065"){
-                    $('#someone_other input').prop('disabled', true);
+                    $('#someone_select input').prop('disabled', true);
                     $('#other_someone_specify input').prop('disabled', true);
                     $('#other_someone_specify input').val('');
                 }
@@ -210,11 +211,11 @@ text-shadow: 1px 1px 1px #fff;
 
 $(document).ready(function () {
 
-$('#forceful_other input').prop('disabled', true);
-$('#frightens_other input').prop('disabled', true);
-$('#badRelation_other input').prop('disabled', true);
-$('#slapped_other input').prop('disabled', true);
-$('#someone_other input').prop('disabled', true);
+$('#forceful_select input').prop('disabled', true);
+$('#frightens_select input').prop('disabled', true);
+$('#badRelation_select input').prop('disabled', true);
+$('#slapped_select input').prop('disabled', true);
+$('#someone_select input').prop('disabled', true);
 
 $('#other_someone_specify input').prop('disabled', true);
 $('#other_slapped_specify input').prop('disabled', true);
@@ -297,17 +298,12 @@ $('#wheresoughtHelp input').prop('disabled', true);
                                      answerConceptIds="1065,1066"
                                      style="radio" answerLabels="Yes,No"/>
                             </td>
-                            <td colspan="4">
-                                <obs id="slapped_other" conceptId="159449AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                                     answerConceptIds="5617,
-                                        5618,
-                                         1067,
-                                         5622"
-                                     answerLabels="Sexual Partner,
-                                     Friend,
-                                    Stranger,
-                                    Other(Specify)"
-                                     style="radio" answerSeparator="&lt;br /&gt;"/>
+                            <td id="slapped_select" colspan="4">
+                                <obs conceptId="159449" answerConceptId="5617" answerLabel="Sexual Partner" style="checkbox" /><br />
+                                <obs conceptId="159449" answerConceptId="5618" answerLabel="Boy/Girl Friend" style="checkbox" /><br />
+                                <obs conceptId="159449" answerConceptId="1067"  answerLabel="Stranger" style="checkbox" /><br />
+                                <obs id="slapped_other" conceptId="159449" answerConceptId="5622"  answerLabel="Other" style="checkbox" /><br />
+
                             </td>
                             <td>Specify:
                                 <obs conceptId="165230" id="other_slapped_specify"/>
@@ -322,17 +318,11 @@ $('#wheresoughtHelp input').prop('disabled', true);
                                      answerConceptIds="1065,1066"
                                      style="radio" answerLabels="Yes,No"/>
                             </td>
-                            <td colspan="4">
-                                <obs id="badRelation_other" conceptId="164352"
-                                     answerConceptIds="5617,
-                                                         5618,
-                                                         5620,
-                                                         5622"
-                                     answerLabels="Spouse,
-                                                    Boy/Girl Friend,
-                                                    Relative,
-                                                    Other(Specify)"
-                                     style="radio" answerSeparator="&lt;br /&gt;"/>
+                            <td id="badRelation_select" colspan="4">
+                                <obs conceptId="164352" answerConceptId="5617" answerLabel="Sexual Partner" style="checkbox" /><br />
+                                <obs conceptId="164352" answerConceptId="5618" answerLabel="Boy/Girl Friend" style="checkbox" /><br />
+                                <obs conceptId="164352" answerConceptId="5620"  answerLabel="Relative" style="checkbox" /><br />
+                                <obs id="badRelation_other" conceptId="164352" answerConceptId="5622"  answerLabel="Other" style="checkbox" /><br />
                             </td>
                             <td> Specify:
                                 <obs conceptId="165230" id="other_badRelation_specify"/>
@@ -349,17 +339,11 @@ $('#wheresoughtHelp input').prop('disabled', true);
                                      answerConceptIds="1065,1066"
                                      style="radio" answerLabels="Yes,No"/>
                             </td>
-                            <td colspan="4">
-                                <obs id="frightens_other" conceptId="164352"
-                                     answerConceptIds="5617,
-                                                        5618,
-                                                        5620,
-                                                        5622"
-                                     answerLabels="Spouse,
-                                                    Boy/Girl Friend,
-                                                    Relative,
-              Other(Specify)"
-                                     style="radio" answerSeparator="&lt;br /&gt;"/>
+                            <td id="frightens_select" colspan="4">
+                                <obs conceptId="164352" answerConceptId="5617" answerLabel="Sexual Partner" style="checkbox" /><br />
+                                <obs conceptId="164352" answerConceptId="5618" answerLabel="Boy/Girl Friend" style="checkbox" /><br />
+                                <obs conceptId="164352" answerConceptId="5620"  answerLabel="Relative" style="checkbox" /><br />
+                                <obs id="frightens_other" conceptId="164352" answerConceptId="5622"  answerLabel="Other" style="checkbox" /><br />
                             </td>
                             <td> Specify:
                                 <obs conceptId="165230" id="other_frightens_specify"/>
@@ -376,17 +360,11 @@ $('#wheresoughtHelp input').prop('disabled', true);
                                      answerConceptIds="1065,1066"
                                      style="radio" answerLabels="Yes,No"/>
                             </td>
-                            <td colspan="4">
-                                <obs id="forceful_other" conceptId="164352"
-                                     answerConceptIds="5617,
-										5618,
-										5620,
-										5622"
-                                     answerLabels="Spouse,
-										Boy/Girl Friend,
-										Relative,
-										Other(Specify)"
-                                     style="radio" answerSeparator="&lt;br /&gt;"/>
+                            <td id="forceful_select" colspan="4">
+                                <obs conceptId="164352" answerConceptId="5617" answerLabel="Sexual Partner" style="checkbox" /><br />
+                                <obs conceptId="164352" answerConceptId="5618" answerLabel="Boy/Girl Friend" style="checkbox" /><br />
+                                <obs conceptId="164352" answerConceptId="5620"  answerLabel="Relative" style="checkbox" /><br />
+                                <obs id="forceful_other" conceptId="164352" answerConceptId="5622"  answerLabel="Other" style="checkbox" /><br />
                             </td>
                             <td> Specify:
                                 <obs conceptId="165230" id="other_forceful_specify"/>
@@ -403,17 +381,11 @@ $('#wheresoughtHelp input').prop('disabled', true);
                                      answerConceptIds="1065,1066"
                                      style="radio" answerLabels="Yes,No"/>
                             </td>
-                            <td colspan="4">
-                                <obs id="someone_other" conceptId="164352"
-                                     answerConceptIds="5617,
-										5618,
-										5620,
-										5622"
-                                     answerLabels="Spouse,
-										Boy/Girl Friend,
-										Relative,
-										Other(Specify)"
-                                     style="radio" answerSeparator="&lt;br /&gt;"/>
+                            <td id="someone_select" colspan="4">
+                                <obs conceptId="164352" answerConceptId="5617" answerLabel="Sexual Partner" style="checkbox" /><br />
+                                <obs conceptId="164352" answerConceptId="5618" answerLabel="Boy/Girl Friend" style="checkbox" /><br />
+                                <obs conceptId="164352" answerConceptId="5620"  answerLabel="Relative" style="checkbox" /><br />
+                                <obs id="someone_other" conceptId="164352" answerConceptId="5622"  answerLabel="Other" style="checkbox" /><br />
                             </td>
                             <td> Specify:
                                 <obs conceptId="165230" id="other_someone_specify"/>
