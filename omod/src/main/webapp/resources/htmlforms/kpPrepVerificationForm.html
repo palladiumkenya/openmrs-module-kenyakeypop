@@ -38,7 +38,126 @@
         }
     </style>
     <script type="text/javascript" src="../moduleResources/kenyaemr/scripts/moment.js"></script>
+    <script>
+      var FirstDiscontinuation  = function () {
+              var discontinue = getValue('treatment-plan1.value');
+             if(discontinue=="1260"){
+			   $('#discontinue1 select').attr('disabled', false);
+                   }
+                else if (discontinue != "1260"){
 
+                $("#discontinue1 select").attr('disabled', 'disabled');
+                $("#discontinue1 select").val("Select");
+                }
+            }
+                var SecondDiscontinuation  = function () {
+            var discontinue = getValue('treatment-plan2.value');
+             if(discontinue=="1260"){
+				   $('#discontinue2 select').attr('disabled', false);
+                   }
+                else if (discontinue != "1260"){
+
+                $("#discontinue2 select").attr('disabled', 'disabled');
+                $("#discontinue2 select").val("Select");
+                }
+            }
+                var ThirdDiscontinuation  = function () {
+              var discontinue = getValue('treatment-plan3.value');
+             if(discontinue=="1260"){
+				 $('#discontinue3 select').attr('disabled', false);
+                   }
+                else if (discontinue != "1260"){
+
+                $("#discontinue3 select").attr('disabled', 'disabled');
+                $("#discontinue3 select").val("Select");
+                }
+            }
+
+
+             var FourthDiscontinuation  = function () {
+            var discontinue = getValue('treatment-plan4.value');
+           if (discontinue == "1260"){
+                    $('#discontinue4 select').attr('disabled', false);
+                   }
+                else if (discontinue != "1260"){
+
+                $("#discontinue4 select").attr('disabled', 'disabled');
+                $("#discontinue4 select").val("Select");
+
+            }
+		}
+
+		  var SpecifyFirstDiscontinuation  = function () {
+            var discontinue = getValue('discontinue1.value');
+           if (discontinue == "5622"){
+                 $('#specify1 input').prop('disabled', false);
+                   }
+                else if (discontinue != "5622"){
+                    $('#specify1 input').prop('disabled', true);
+                    $('#specify1 input').val('');
+            }
+		}
+		  var SpecifySecondDiscontinuation  = function () {
+            var discontinue = getValue('discontinue2.value');
+           if (discontinue == "5622"){
+                 $('#specify2 input').prop('disabled', false);
+                   }
+                else if (discontinue != "5622"){
+                    $('#specify2 input').prop('disabled', true);
+                    $('#specify2 input').val('');
+            }
+		}
+
+		  var SpecifyThirdDiscontinuation  = function () {
+            var discontinue = getValue('discontinue3.value');
+           if (discontinue == "5622"){
+                 $('#specify3 input').prop('disabled', false);
+                   }
+                else if (discontinue != "5622"){
+                    $('#specify3 input').prop('disabled', true);
+                    $('#specify3 input').val('');
+            }
+		}
+
+		  var SpecifyFourthDiscontinuation  = function () {
+            var discontinue = getValue('discontinue4.value');
+           if (discontinue == "5622"){
+                 $('#specify4 input').prop('disabled', false);
+                   }
+                else if (discontinue != "5622"){
+                    $('#specify4 input').prop('disabled', true);
+                    $('#specify4 input').val('');
+            }
+		}
+
+
+
+$(document).ready(function () {
+
+
+jq("#discontinue1 select").attr('disabled', 'disabled');
+jq("#discontinue2 select").attr('disabled', 'disabled');
+jq("#discontinue3 select").attr('disabled', 'disabled');
+jq("#discontinue4 select").attr('disabled', 'disabled');
+
+$('#specify1 input').prop('disabled', true);
+$('#specify2 input').prop('disabled', true);
+$('#specify3 input').prop('disabled', true);
+$('#specify4 input').prop('disabled', true);
+
+            $('#treatment-plan1').click(FirstDiscontinuation);
+			$('#treatment-plan2').click(SecondDiscontinuation);
+			$('#treatment-plan3').click(ThirdDiscontinuation);
+			$('#treatment-plan4').click(FourthDiscontinuation);
+
+			$('#discontinue1').click(SpecifyFirstDiscontinuation);
+			$('#discontinue2').click(SpecifySecondDiscontinuation);
+			$('#discontinue3').click(SpecifyThirdDiscontinuation);
+			$('#discontinue4').click(SpecifyFourthDiscontinuation);
+
+});
+
+</script>
 
     <div class="ke-form-header">
         <table width="100%">
@@ -83,7 +202,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <b>Name of health facility accessing prep</b>
+                                <b>Name of health facility accessing PrEP</b>
                             </td>
                             <td>
                                 <obs conceptId="162724"/>
@@ -92,7 +211,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <b>is a PEPFAR site</b>
+                                <b>Is a PEPFAR site</b>
                             </td>
                             <td ><p>  <obs id="received_results" conceptId="1557"
                                            answerConceptIds="1065,
@@ -142,22 +261,23 @@
                 </tr>
                 <tr>
                     <td>
-                        <obs id="verification_date" conceptId="1711" allowFutureDates="false"  />
+                        <obs id="verification_date" conceptId="5096" allowFutureDates="true"  />
                     </td>
                     <td>
-                        <obs conceptId="165109" id="treatment-plan"
+                        <obs conceptId="165109" id="treatment-plan1"
                              answerConceptIds="1256AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1257AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162904AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1260AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                              answerLabels="Start,Continue,Restart,Discontinue"   answerSeparator="&lt;br /&gt;"
-                             style="radio" required="true" />
+                             style="radio" />
                     </td>
-                    <td><obs id="discontinue" conceptId="161555" labelText=" "   answerConceptIds="138571AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-						113338AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1302AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                    <td><obs id="discontinue1" conceptId="161555" labelText=" "   answerConceptIds="138571AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						1302AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
 						159598AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-						162696AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,150506AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-						978AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622"
-                             answerLabels="HIV test is positive,Renal dysfunction,Viral suppression of HIV+,
-							 Not adherent to PrEP,Too many HIV tests,Client request,Intimate partner violence,
-							 Self Discontinuation,Low risk of HIV,Other-specify"  style="dropdown"/>
+						162696AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						5622"
+                             answerLabels="HIV test is positive,Viral suppression of HIV+ Partner,
+							 Not adherent to PrEP,Too many HIV tests,Client request,
+							 Other-specify"  style="dropdown"/>
+                        <obs conceptId="165230" id="specify1"/>
 
                     </td>
                     <td id="next-appointment-date"><obs id="next-appointment" conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true"/></td>
@@ -165,68 +285,69 @@
                 </tr>
                 <tr>
                     <td>
-                        <obs id="verification_date" conceptId="1711" allowFutureDates="false"  />
+                        <obs id="verification_date" conceptId="5096" allowFutureDates="true"  />
                     </td>
                     <td>
-                        <obs conceptId="165109" id="treatment-plan"
+                        <obs conceptId="165109" id="treatment-plan2"
                              answerConceptIds="1256AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1257AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162904AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1260AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                              answerLabels="Start,Continue,Restart,Discontinue"   answerSeparator="&lt;br /&gt;"
-                             style="radio" required="true" />
+                             style="radio" />
                     </td>
-                    <td><obs id="discontinue" conceptId="161555" labelText=" "   answerConceptIds="138571AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-						113338AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1302AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                    <td><obs id="discontinue2" conceptId="161555" labelText=" "   answerConceptIds="138571AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						1302AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
 						159598AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-						162696AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,150506AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-						978AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622"
-                             answerLabels="HIV test is positive,Renal dysfunction,Viral suppression of HIV+,
-							 Not adherent to PrEP,Too many HIV tests,Client request,Intimate partner violence,
-							 Self Discontinuation,Low risk of HIV,Other-specify"  style="dropdown"/>
-
+						162696AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						5622"
+                             answerLabels="HIV test is positive,Viral suppression of HIV+ Partner,
+							 Not adherent to PrEP,Too many HIV tests,Client request,
+							 Other-specify"  style="dropdown"/>
+                        <obs conceptId="165230" id="specify2"/>
                     </td>
                     <td id="next-appointment-date"><obs id="next-appointment" conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true"/></td>
 
                 </tr>
                 <tr>
                     <td>
-                        <obs id="verification_date" conceptId="1711" allowFutureDates="false"  />
+                        <obs id="verification_date" conceptId="5096" allowFutureDates="true"  />
                     </td>
                     <td>
-                        <obs conceptId="165109" id="treatment-plan"
+                        <obs conceptId="165109" id="treatment-plan3"
                              answerConceptIds="1256AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1257AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162904AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1260AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                              answerLabels="Start,Continue,Restart,Discontinue"   answerSeparator="&lt;br /&gt;"
-                             style="radio" required="true" />
+                             style="radio" />
                     </td>
-                    <td><obs id="discontinue" conceptId="161555" labelText=" "   answerConceptIds="138571AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-						113338AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1302AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                    <td><obs id="discontinue3" conceptId="161555" labelText=" "   answerConceptIds="138571AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						1302AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
 						159598AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-						162696AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,150506AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-						978AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622"
-                             answerLabels="HIV test is positive,Renal dysfunction,Viral suppression of HIV+,
-							 Not adherent to PrEP,Too many HIV tests,Client request,Intimate partner violence,
-							 Self Discontinuation,Low risk of HIV,Other-specify"  style="dropdown"/>
-
+						162696AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						5622"
+                             answerLabels="HIV test is positive,Viral suppression of HIV+ Partner,
+							 Not adherent to PrEP,Too many HIV tests,Client request,
+							 Other-specify"  style="dropdown"/>
+                        <obs conceptId="165230" id="specify3"/>
                     </td>
                     <td id="next-appointment-date"><obs id="next-appointment" conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true"/></td>
 
                 </tr>
                 <tr>
                     <td>
-                        <obs id="verification_date" conceptId="1711" allowFutureDates="false"  />
+                        <obs id="verification_date" conceptId="5096" allowFutureDates="true"  />
                     </td>
                     <td>
-                        <obs conceptId="165109" id="treatment-plan"
+                        <obs conceptId="165109" id="treatment-plan4"
                              answerConceptIds="1256AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1257AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162904AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1260AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                              answerLabels="Start,Continue,Restart,Discontinue"   answerSeparator="&lt;br /&gt;"
-                             style="radio" required="true" />
+                             style="radio"  />
                     </td>
-                    <td><obs id="discontinue" conceptId="161555" labelText=" "   answerConceptIds="138571AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-						113338AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1302AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                    <td><obs id="discontinue4" conceptId="161555" labelText=" "   answerConceptIds="138571AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						1302AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
 						159598AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-						162696AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,150506AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-						978AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622"
-                             answerLabels="HIV test is positive,Renal dysfunction,Viral suppression of HIV+,
-							 Not adherent to PrEP,Too many HIV tests,Client request,Intimate partner violence,
-							 Self Discontinuation,Low risk of HIV,Other-specify"  style="dropdown"/>
+						162696AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						5622"
+                             answerLabels="HIV test is positive,Viral suppression of HIV+ Partner,
+							 Not adherent to PrEP,Too many HIV tests,Client request,
+							 Other-specify"  style="dropdown"/>
+                        <obs conceptId="165230" id="specify4"/>
 
                     </td>
                     <td id="next-appointment-date"><obs id="next-appointment" conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true"/></td>

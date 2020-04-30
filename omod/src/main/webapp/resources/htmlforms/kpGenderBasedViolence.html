@@ -155,10 +155,11 @@ text-shadow: 1px 1px 1px #fff;
                 }
             }
 
-              var Help  = function () {
+            var Help  = function () {
             var help = getValue('soughtHelp.value');
             if(help=="1065"){
 					$('#wheresoughtHelp input').prop('disabled', false);
+					$('#form_of_incident input').prop('disabled', true);
 					$('#form_of_incident input').prop('disabled', true);
 
 				}
@@ -168,6 +169,31 @@ text-shadow: 1px 1px 1px #fff;
 
                 }
             }
+
+             var Reason  = function () {
+            var reasons = getValue('reson.value');
+            if(reasons=="5622"){
+					$('#reason_specify input').prop('disabled', false);
+
+				}
+				else if (reasons != "5622"){
+                 $('#reason_specify input').prop('disabled', true);
+
+                }
+            }
+
+             var Outcome  = function () {
+            var outCome = getValue('outcome.value');
+            if(outCome=="5622"){
+					$('#outcome_specify input').prop('disabled', false);
+
+				}
+				else if (outCome != "5622"){
+                 $('#outcome_specify input').prop('disabled', true);
+
+                }
+            }
+
 
              var SomeOneOtherCliked  = function () {
              var SomeoneOther = getValue('someone_other.value');
@@ -196,7 +222,12 @@ $('#other_badRelation_specify input').prop('disabled', true);
 $('#other_frightens_specify input').prop('disabled', true);
 $('#other_forceful_specify input').prop('disabled', true);
 
+$('#reason_specify input').prop('disabled', true);
+$('#outcome_specify input').prop('disabled', true);
+$('#form_of_incident input').prop('disabled', true);
 $('#wheresoughtHelp input').prop('disabled', true);
+
+
 
 
 
@@ -210,8 +241,12 @@ $('#wheresoughtHelp input').prop('disabled', true);
 
 			$('#someone_other').click(SomeOneOtherCliked);
 			$('#someone').click(SomeOneCliked);
-$('#physicalyAbused').click(PhysicalyAbusedClicked);
-$('#soughtHelp').click(Help);
+            $('#physicalyAbused').click(PhysicalyAbusedClicked);
+            $('#soughtHelp').click(Help);
+            $('#reson').click(Reason);
+            $('#outcome').click(Outcome);
+
+
 
 	$('input[type=radio]').change( function()  {
 
@@ -540,9 +575,12 @@ $('#soughtHelp').click(Help);
                                         <obs conceptId="162875" answerConceptId="165200"  answerLabel="STI Prophylaxis" style="checkbox" /><br />
                                         <obs conceptId="162875" answerConceptId="165184"  answerLabel="Trauma counselling done" style="checkbox" /><br />
                                         <obs conceptId="162875" answerConceptId="1185"  answerLabel="Treatment" style="checkbox" /><br />
-                                        <obs conceptId="162875" answerConceptId="5622"  answerLabel="Other specify" style="checkbox" /><br />
+                                        <obs id="outcome" conceptId="162875" answerConceptId="5622"  answerLabel="Other specify" style="checkbox" /><br />
 
+
+                                        <obs conceptId="165230" id="outcome_specify"/>
                                     </td>
+
                                 </tr>
                                 <tr><td>
                                     Reason for not reporting
@@ -564,9 +602,13 @@ $('#soughtHelp').click(Help);
                                             <obs conceptId="6098" answerConceptId="143100" answerLabel="Not allowed culturally" style="checkbox" /><br />
                                             <obs conceptId="6098" answerConceptId="165161"  answerLabel="Perpetrator above the law" style="checkbox" /><br />
                                             <obs conceptId="6098" answerConceptId="163475"  answerLabel="Self blame" style="checkbox" /><br />
-                                            <obs conceptId="6098" answerConceptId="5622"  answerLabel="Other specify" style="checkbox" /><br />
+                                            <obs id="reson" conceptId="6098" answerConceptId="5622"  answerLabel="Other specify" style="checkbox" /><br />
 
                                         </div>
+                                    <td> Specify:
+                                        <obs conceptId="165230" id="reason_specify"/>
+
+                                    </td>
                                     </td>
                                 </tr>
                             </table>
