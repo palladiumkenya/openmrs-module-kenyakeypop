@@ -58,15 +58,15 @@ public class EligibleForPrEPTreatmentVerificationForm extends BaseEmrCalculation
 			    formService.getFormByUuid(KpMetadata._Form.KP_CLIENT_ENROLLMENT));
 			boolean eligible = false;
 			String hivStatus = null;
-
+			
 			int negativeConcept = 664;
-
+			
 			int hivStatusQuestionConcept = 165153;
 			if (lastClinicalEnrolmentEnc != null) {
 				for (Obs obs : lastClinicalEnrolmentEnc.getObs()) {
 					if (obs.getConcept().getConceptId() == hivStatusQuestionConcept
 					        && obs.getValueCoded().getConceptId() == negativeConcept) {
-
+						
 						hivStatus = "NEGATIVE";
 					}
 				}

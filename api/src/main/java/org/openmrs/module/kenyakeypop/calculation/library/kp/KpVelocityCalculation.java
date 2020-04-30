@@ -14,20 +14,22 @@ import org.apache.commons.logging.LogFactory;
 import org.openmrs.PersonAttribute;
 import org.openmrs.PersonAttributeType;
 import org.openmrs.Program;
-import org.openmrs.Encounter;
+import org.openmrs.Concept;
 import org.openmrs.Obs;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.PatientProgram;
 import org.openmrs.PatientIdentifier;
-import org.openmrs.api.EncounterService;
 import org.openmrs.api.PatientService;
 import org.openmrs.api.PersonService;
 import org.openmrs.api.ProgramWorkflowService;
+import org.openmrs.api.LocationService;
 import org.openmrs.api.context.Context;
 import org.openmrs.calculation.patient.PatientCalculationContext;
 import org.openmrs.calculation.result.CalculationResultMap;
 import org.openmrs.calculation.result.SimpleResult;
+import org.openmrs.module.kenyacore.calculation.Calculations;
 import org.openmrs.module.kenyaemr.calculation.BaseEmrCalculation;
+import org.openmrs.module.kenyaemr.calculation.EmrCalculationUtils;
 import org.openmrs.module.kenyaemr.util.EmrUtils;
 import org.openmrs.module.kenyakeypop.metadata.KpMetadata;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
@@ -45,6 +47,8 @@ public class KpVelocityCalculation extends BaseEmrCalculation {
 	@Override
 	public CalculationResultMap evaluate(Collection<Integer> cohort, Map<String, Object> parameterValues,
 	        PatientCalculationContext context) {
+		Concept locationConcept = Context.getConceptService().getConcept(162724);
+		CalculationResultMap currentLocation = Calculations.lastObs(locationConcept, cohort, context);
 		
 		CalculationResultMap ret = new CalculationResultMap();
 		StringBuilder sb = new StringBuilder();
@@ -56,7 +60,9 @@ public class KpVelocityCalculation extends BaseEmrCalculation {
 			    KpMetadata._PersonAttributeType.KP_CLIENT_ALIAS);
 			PersonService personService = Context.getPersonService();
 			PatientService patientService = Context.getPatientService();
+			LocationService locationService = Context.getLocationService();
 			kpAlias = personService.getPerson(ptId).getAttribute(pt.getId());
+			Obs locationObs = EmrCalculationUtils.obsResultForPatient(currentLocation, ptId);
 			
 			ProgramWorkflowService service = Context.getProgramWorkflowService();
 			List<PatientProgram> programs = service.getPatientPrograms(Context.getPatientService().getPatient(ptId),
@@ -69,6 +75,11 @@ public class KpVelocityCalculation extends BaseEmrCalculation {
 				PatientIdentifier pObject = patientService.getPatient(ptId).getPatientIdentifier(pit);
 				sb.append("idintifier:").append(pObject.getIdentifier()).append(",");
 				
+			}
+			if (locationObs != null) {
+				Integer locationId = Integer.parseInt(locationObs.getValueText());
+				locationService.getLocation(locationId);
+				sb.append("location:").append(locationService.getLocation(locationId).getName()).append(",");
 			}
 			
 			ret.put(ptId, new SimpleResult(sb.toString(), this, context));
