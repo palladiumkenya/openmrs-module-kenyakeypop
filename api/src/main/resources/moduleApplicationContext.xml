@@ -431,7 +431,7 @@
                 <ref bean="kenyakeypop.app.keypopulation.provider" />
             </set>
         </property>
-        <property name="showIfCalculation" value="org.openmrs.module.kenyakeypop.calculation.library.kp.EligibleForClinicalServices" />
+        <property name="showIfCalculation" value="org.openmrs.module.kenyakeypop.calculation.library.kp.EligibleForPrEPTreatmentVerificationForm" />
         <property name="icon" value="kenyaui:forms/generic.png" />
         <property name="htmlform" value="kenyakeypop:kpPrepVerificationForm.html" />
         <property name="order" value="201023" />
