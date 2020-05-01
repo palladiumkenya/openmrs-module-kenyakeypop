@@ -35,6 +35,9 @@
             });
         });
 
+        var kpVelocity = "<lookup expression="kenyakeypop.KpVelocityCalculation()" />";
+        var locationName = kpVelocity.split(",")[2].split(":")[1];
+
         //On Ready
         $(document).ready(function () {
             var pgender = "<lookup expression="patient.gender" />";
@@ -46,6 +49,8 @@
             jq('#support-group :input[type=radio]').click(isOnSupportGroup);
             jq('#status-disclosure :input[type=radio]').click(disclosedStatus);
             jq('#other-disclosure-selected :input[type=checkbox]').click(onOtherDisclosureSelected);
+            jq('#show-location').html(locationName).show();
+
 
             //Before Submit
             beforeSubmit.push(function() {
@@ -233,25 +238,28 @@
 
         <fieldset>
             <legend>HIV/ART History</legend>
-            <table>
+            <table class="simple-table">
                 <tr>
                     <td><p>Date diagnosed HIV positive</p></td>
                     <td> <obs  conceptId="159948" required="true" id="date-diagnosed" allowFutureDates="false" /></td>
-
-                    <td><p> &#160;&#160;&#160;&#160; Name of health facility accessing ART:</p></td>
-                    <td> <obs id="health-facility" conceptId="162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  size="17" required="true"/></td>
-                    <td>
-                        <span class="value"><recentObs conceptId="162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></span>
+                </tr>
+                <tr>
+                    <td><p>Name of health facility accessing ART</p></td>
+                    <td> <obs id="health-facility" conceptId="162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                            style="location"  required="true"/>
+                        <span class="value" id="show-location"></span>
                     </td>
-
-                    <td><p> &#160;&#160;&#160;&#160; CCC Number :</p></td>
-                    <td> <obs id="ccc-number" conceptId="162053"  size ="20" /></td>
-                    <td>
-                        <span class="value"><recentObs conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></span>
-                    </td>
-
 
                 </tr>
+                <tr>
+
+                    <td><p>CCC Number </p></td>
+                    <td> <obs id="ccc-number" conceptId="162053"  size ="20" />
+
+                        <span class="value"><recentObs conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></span>
+                    </td>
+                </tr>
+
                 <tr>
                     <td><p>Is a PEPFAR site?</p></td>
                     <td>
@@ -264,14 +272,32 @@
                 <tr>
                     <td><p>Date Initiated on ART</p></td>
                     <td> <obs  conceptId="159599" id="date-initiated-on-art" allowFutureDates="false"/></td>
+                </tr>
+                <tr>
+                    <td><p>Current regimen</p></td>
+                    <td> <obs id="current-regimen" conceptId="164515AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                              answerConceptIds="162565AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,164505AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1652AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160124AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+,792AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160104AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162561AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,164511AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+,164512AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162201AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162561AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,164511AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162201AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+,164512AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162560AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162200AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,98e38a9c-435d-4a94-9b66-5ca524159d0e
+,6dec7d7d-0fda-4e8d-8295-cb6ef426878d,9fb85385-b4fb-468c-b7c1-22f75834b4b0,4dc0119b-b2a6-4565-8d90-174b97ba31db,c421d8e7-4f43-43b4-8d2f-c7d4cfb976a4
+,337b6cfd-9fa7-47dc-82b4-d479c39ef355,7a6c51c4-2b68-4d5a-b5a2-7ba420dde203,dddd9cf2-2b9c-4c52-84b3-38cfe652529a,6dec7d7d-0fda-4e8d-8295-cb6ef426878d,9fb85385-b4fb-468c-b7c1-22f75834b4b0,4dc0119b-b2a6-4565-8d90-174b97ba31db
+,5b8e4955-897a-423b-ab66-7e202b9c304c,092604d3-e9cb-4589-824e-9e17e3cb4f5e,c6372744-9e06-40cf-83e5-c794c985b6bf,1995c4a1-a625-4449-ab28-aae88d0f80e6
+,5f429c76-2976-4374-a69e-d2d138dd16bf,9b9817dd-4c84-4093-95c3-690d65d24b99,f2acaf9b-3da9-4d71-b0cf-fd6af1073c9e"
+                              answerLabels="TDF/3TC/NVP,TDF/3TC/EFV,AZT/3TC/NVP,AZT/3TC/EFV,D4T/3TC/NVP,D4T/3TC/EFV,AZT/3TC/LPV/r,AZT/3TC/ATV/r
+,TDF/3TC/ATV/r,TDF/3TC/LPV/r,AZT/3TC/LPV/r,AZT/3TC/ATV/r,TDF/3TC/LPV/r,TDF/3TC/ATV/r,D4T/3TC/LPV/r,ABC/3TC/LPV/r,TDF/3TC/AZT,AZT/3TC/DTG,TDF/3TC/DTG,ABC/3TC/DTG
+,AZT/TDF/3TC/LPV/r,ETR/RAL/DRV/RTV,ETR/TDF/3TC/LPV/r,ABC/3TC/ATV/r,AZT/3TC/DTG,TDF/3TC/DTG,ABC/3TC/DTG,RAL/3TC/DRV/RTV,RAL/3TC/DRV/RTV/AZT,RAL/3TC/DRV/RTV/TDF,ETV/3TC/DRV/RTV
+,TDF/3TC/DTG/DRV/r,TDF/3TC/RAL/DRV/r,TDF/3TC/DTG/EFV/DRV/r"
+                              style="dropdown"
 
-                    <td><p>&#160;&#160;&#160;&#160; Current regimen:</p></td>
-                    <td> <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/></td>
-                    <td><p>&#160;&#160;&#160;&#160; Source of information:</p></td>
+                              /></td>
+                </tr>
+                <tr>
+                    <td><p>Source of information</p></td>
                     <td> <obs  conceptId="162568AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                                answerConceptIds="162969,163787,1238,162189,160526,165048"
                                answerLabels="SMS, Verbal report,Written record,Phone call,EID dashboard,Appointment card"
-                               style="dropdown"  required="true"/></td>
+                               style="radio"  required="true"/></td>
                 </tr>
             </table>
 
@@ -280,10 +306,10 @@
         <fieldset>
             <legend>HIV Monitoring</legend>
                 <!--cd4-->
-                    <table id="tbl-cd4" style="width: 25%; float: left">
+                    <table id="tbl-cd4">
                         <tr>
                             <td colspan="2">Record any CD4 test(s)<br/>
-                                <table>
+                                <table class="simple-table">
                                     <tr>
                                         <th>CD4 Test Date</th>
                                         <th>CD4 Value</th>
@@ -294,7 +320,7 @@
                                                 <tr>
                                                     <td><obs class="cd4-test-date" id="cd4-test-date" conceptId="160103AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false" labelText=" " /></td>
 
-                                                    <td><obs class="cd4-value" id="cd4-test-value"
+                                                    <td><obs class="cd4-value" id="cd4-test-value" size="20"
                                                              conceptId="5497AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                                                     />
                                                     </td>
@@ -316,10 +342,10 @@
 
                 <!--Vl-->
 
-                    <table id="tbl-vl" style="width: 25%; float: left">
+                    <table id="tbl-vl">
                         <tr>
                             <td colspan="2">Record any VL test(s)<br/>
-                                <table>
+                                <table class="simple-table">
                                     <tr>
                                         <th>Viral Load Test Date</th>
                                         <th>VL Value</th>
@@ -348,10 +374,10 @@
                     </table>
 
 
-<div>
-    <table>
+<div style="padding-top: 10px">
+    <table class="simple-table">
 
-        <td><p> Disclosed status:</p></td>
+        <td><p> Disclosed status</p></td>
         <td> <obs conceptId="163524" id="status-disclosure"
                   answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                   answerLabel="Yes,No" style="radio" /></td>
@@ -396,12 +422,13 @@
 
         <fieldset>
             <legend>IPT</legend>
-            <table>
+            <table class="simple-table">
                 <tr>
-                    <td><p>Date started on IPT:</p></td>
+                    <td><p>Date started on IPT</p></td>
                     <td> <obs id="ipt-start-date" conceptId="162320" allowFutureDates="false" /></td>
-
-                    <td><p>&#160;&#160;&#160;&#160; Date completed IPT:</p></td>
+                </tr>
+                <tr>
+                    <td><p>Date completed IPT</p></td>
                     <td> <obs id="ipt-completion-date" conceptId="162279" allowFutureDates="false" /></td>
                 </tr>
             </table>
@@ -410,7 +437,7 @@
 
         <fieldset>
             <legend>Care Model</legend>
-            <table>
+            <table class="simple-table">
                 <tr>
                     <td><p>On differentiated care?</p></td>
                     <td>
@@ -421,7 +448,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td><p>Support group:</p></td>
+                    <td><p>Support group</p></td>
                     <td>
                         <obs conceptId="165302" id="support-group"
                              answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
@@ -430,7 +457,7 @@
                     </td>
 
                     <td id="name-of-support"><p>&#160;&#160;&#160;&#160; Name:</p></td>
-                    <td id="support-group-value"> <obs id="support-group-name" conceptId="165137"/></td>
+                    <td id="support-group-value"> <obs id="support-group-name" conceptId="165137" size="40"/></td>
                 </tr>
             </table>
 
@@ -443,7 +470,7 @@
                     <table id="tbl-opportunistic-infection">
                         <tr>
                             <td colspan="2">Record any OI<br/>
-                                <table>
+                                <table class="simple-table">
                                     <tr>
                                         <th>Opportunistic infection</th>
                                         <th>Date diagnosed</th>
@@ -485,7 +512,7 @@
 
         <fieldset>
             <legend>Comments</legend>
-            <table>
+            <table class="simple-table">
                 <tr>
                     <td>Comment(s):</td>
                     <td>
