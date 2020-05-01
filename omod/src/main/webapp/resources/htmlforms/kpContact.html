@@ -52,6 +52,12 @@
         var kpVelocity = "<lookup expression="kenyakeypop.KpVelocityCalculation()" />";
         var kpAlias = kpVelocity.split(",")[0].split(":")[1];
         var idgen = kpVelocity.split(",")[1].split(":")[1];
+        var county = kpVelocity.split(",")[3].split(":")[1];
+
+        var subCounty = kpVelocity.split(",")[4].split(":")[1];
+        var ward = kpVelocity.split(",")[5].split(":")[1];
+        var implementingPartner = kpVelocity.split(",")[6].split(":")[1];
+
         var ctxPath = typeof openmrsContextPath === 'string' ? openmrsContextPath : OPENMRS_CONTEXT_PATH;
 
         var YEAR_STARTED_SEX_WORK = "<lookup expression="fn.latestObs(165030).getValueNumeric()"/>";
@@ -113,7 +119,9 @@
             jq("#mobile input").change(validateContactNumber);
             jq("#kp-id input").change(validateUpnNumber);
             jq("#alias-success-label").hide();
-            jq("#kp-id input").attr("size", "30");
+            jq("#kp-id input").attr("size", "35");
+            jq('#key_pop_type :input[type=radio]').click(kpTypeSelected);
+
 
 
             if(kpAlias !=null &amp;&amp; kpAlias !='null'){
@@ -132,6 +140,29 @@
                 jq("#btnGenerateIdentifier").attr("disabled", false);
 
             }
+
+            if(county !="0"){
+                jq('#txtCounty').val(parseInt(county));
+            }else {
+                jq('#txtCounty input[type=number]').val(" ");
+            }
+
+            if(subCounty !="0"){
+                jq('#txtSubCounty').val(parseInt(subCounty));
+            }else {
+                jq('#txtSubCounty').val(" ");
+            }
+            if(ward !="0"){
+                jq('#txtWard').val(parseInt(ward));
+            }else {
+                jq('#txtWard').val(" ");
+            }
+            if(implementingPartner !="0"){
+                jq('#txtPartner').val(implementingPartner);
+            }else {
+                jq('#txtPartner').val(" ");
+            }
+
 
 
             jq('.saveAlias').click(function (e) {
@@ -218,10 +249,18 @@
                             jq("#dlgIdentifier").dialog("close");
                         }
                     },
-                    height: 190,
-                    width: 350,
+                    height: 300,
+                    width: 900,
                     modal: true });
             });
+            function kpTypeSelected() {
+                jq('#kp-id input[type=text]').val(" ");
+                jq("#lblIdentifierStatus").text(" ").removeClass("ke-success-label");
+                jq('#kpTypeSelected').text(' ').removeClass("ke-error-label");
+
+
+
+            }
 
             function sexAct(number, textfield) {
                 if(!number==""){
@@ -394,7 +433,11 @@
         function generateIdentifier() {
             var patientId = <lookup expression="patient.patientId"/>;
             var encDate = getValue('encounter-date.value');
+            var ward = jq("#txtWard").val();
+            var subCounty = jq("#txtSubCounty").val();
             var hotSpot = jq("#txtHotspot").val();
+            var implementingPartner = jq("#txtPartner").val();
+            var county = jq("#txtCounty").val();
             var kpType = getValue('key_pop_type.value');
             var userId = <lookup expression="user.userId"/>;
 
@@ -403,14 +446,28 @@
             }
             if(kpType == null || kpType == ""){
                 jq('#kpTypeSelected').text('Key pop type required. Ensure Key Population Type is checked on the form').addClass("ke-error-label");
+            } else if(ward == null || ward == "") {
+                jq('#ward').text('Ward code required').addClass("ke-error-label");
+            } else if(subCounty =="" || subCounty ==null ) {
+                jq('#subCounty').text('Sub county code required').addClass("ke-error-label");
             } else if(hotSpot =="" || hotSpot == null ) {
                 jq('#hotspot').text('Hot spot required').addClass("ke-error-label");
+            }
+            else if(implementingPartner =="" || implementingPartner == null ) {
+                jq('#implementing-partner').text('Implementing partner code required').addClass("ke-error-label");
+            }
+            else if(county =="" || county == null ) {
+                jq('#county-code').text('County required').addClass("ke-error-label");
             } else {
 
                 jq.getJSON('/' + ctxPath + '/kenyakeypop/kpClient/clientContactForm/createIdentifier.action', {
                     encounterDate: encDate,
                     patientId: patientId,
                     hotSpot: hotSpot.toString(),
+                    ward: ward.toString(),
+                    subCounty: subCounty.toString(),
+                    implementingPartner: implementingPartner.toString(),
+                    county: county.toString(),
                     kpType: kpType,
                     userId: userId
                 }, function (data,e) {
@@ -418,7 +475,7 @@
                         jq("#lblIdentifierStatus").text(data.message).addClass("ke-success-label");
                         getGeneratedIdenitifier();
                         jq("#dlgIdentifier").dialog("close");
-                        jq("#btnGenerateIdentifier").attr("disabled", true);
+                      //  jq("#btnGenerateIdentifier").attr("disabled", true);
                     } else {
                         jq("#lblIdentifierStatus").text(data.message).addClass("ke-error-label");
                     }
@@ -611,6 +668,26 @@
             <div id="dlgIdentifier" style="display: none">
                 <table>
                     <tr>
+                        <td>County code</td>
+                        <td><input type="number" size="10" id="txtCounty" autocomplete="off"/><span class="error field-error" style="display: none" id="errortxtCounty"></span></td>
+                        <td><label id="county-code"></label></td>
+                    </tr>
+                    <tr>
+                        <td>Sub county code</td>
+                        <td><input type="number" size="10" id="txtSubCounty" autocomplete="off"/><span class="error field-error" style="display: none" id="errtxtSubCounty"></span></td>
+                        <td><label id="subCounty"></label></td>
+                    </tr>
+                    <tr>
+                        <td>Ward code</td>
+                        <td><input type="number" size="10" id="txtWard" autocomplete="off"/><span class="error field-error" style="display: none" id="errtxtWard"></span></td>
+                        <td><label id="ward"></label></td>
+                    </tr>
+                    <tr>
+                        <td>Implementing partner code</td>
+                        <td><input type="text" size="10" id="txtPartner" autocomplete="off"/><span class="error field-error" style="display: none" id="errtxtPartner"></span></td>
+                        <td><label id="implementing-partner"></label></td>
+                    </tr>
+                    <tr>
                         <td>Hot spot code</td>
                         <td><input type="number" size="10" id="txtHotspot" autocomplete="off"/><span class="error field-error" style="display: none" id="errtxtHotspot"></span></td>
                         <td><label id="hotspot"></label></td>
@@ -619,7 +696,6 @@
                     <tr>
                         <td><label id="kpTypeSelected"></label></td>
                     </tr>
-
 
                 </table>
             </div>

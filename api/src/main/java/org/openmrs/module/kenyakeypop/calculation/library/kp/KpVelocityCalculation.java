@@ -19,10 +19,11 @@ import org.openmrs.Obs;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.PatientProgram;
 import org.openmrs.PatientIdentifier;
-import org.openmrs.api.PatientService;
 import org.openmrs.api.PersonService;
+import org.openmrs.api.PatientService;
 import org.openmrs.api.ProgramWorkflowService;
 import org.openmrs.api.LocationService;
+import org.openmrs.api.AdministrationService;
 import org.openmrs.api.context.Context;
 import org.openmrs.calculation.patient.PatientCalculationContext;
 import org.openmrs.calculation.result.CalculationResultMap;
@@ -31,6 +32,7 @@ import org.openmrs.module.kenyacore.calculation.Calculations;
 import org.openmrs.module.kenyaemr.calculation.BaseEmrCalculation;
 import org.openmrs.module.kenyaemr.calculation.EmrCalculationUtils;
 import org.openmrs.module.kenyaemr.util.EmrUtils;
+import org.openmrs.module.kenyakeypop.KpConstant;
 import org.openmrs.module.kenyakeypop.metadata.KpMetadata;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
 
@@ -41,6 +43,8 @@ import java.util.Date;
 import java.util.Calendar;
 
 public class KpVelocityCalculation extends BaseEmrCalculation {
+	
+	private AdministrationService administrationService;
 	
 	protected static final Log log = LogFactory.getLog(KpVelocityCalculation.class);
 	
@@ -53,9 +57,16 @@ public class KpVelocityCalculation extends BaseEmrCalculation {
 		CalculationResultMap ret = new CalculationResultMap();
 		StringBuilder sb = new StringBuilder();
 		Program kpProgram = MetadataUtils.existing(Program.class, KpMetadata._Program.KEY_POPULATION);
+		administrationService = Context.getAdministrationService();
+		String county = administrationService.getGlobalProperty(KpConstant.GP_COUNTY_CODE);
+		String subCounty = administrationService.getGlobalProperty(KpConstant.GP_SUB_COUNTY_CODE);
+		String ward = administrationService.getGlobalProperty(KpConstant.GP_WARD_CODE);
+		String implementingPartner = administrationService.getGlobalProperty(KpConstant.GP_IMPLEMENTING_PARTNER_CODE);
 		
 		for (Integer ptId : cohort) {
 			PersonAttribute kpAlias = null;
+			String locationName = null;
+			String identifier = null;
 			PersonAttributeType pt = Context.getPersonService().getPersonAttributeTypeByUuid(
 			    KpMetadata._PersonAttributeType.KP_CLIENT_ALIAS);
 			PersonService personService = Context.getPersonService();
@@ -73,14 +84,22 @@ public class KpVelocityCalculation extends BaseEmrCalculation {
 				PatientIdentifierType pit = MetadataUtils.existing(PatientIdentifierType.class,
 				    KpMetadata._PatientIdentifierType.KP_UNIQUE_PATIENT_NUMBER);
 				PatientIdentifier pObject = patientService.getPatient(ptId).getPatientIdentifier(pit);
-				sb.append("idintifier:").append(pObject.getIdentifier()).append(",");
+				identifier = pObject.getIdentifier();
 				
 			}
+			sb.append("idintifier:").append(identifier).append(",");
 			if (locationObs != null) {
-				Integer locationId = Integer.parseInt(locationObs.getValueText());
-				locationService.getLocation(locationId);
-				sb.append("location:").append(locationService.getLocation(locationId).getName()).append(",");
+				if (locationObs.getValueText() != null) {
+					Integer locationId = Integer.parseInt(locationObs.getValueText());
+					locationName = locationService.getLocation(locationId).getName();
+					locationService.getLocation(locationId);
+				}
 			}
+			sb.append("location:").append(locationName).append(",");
+			sb.append("county:").append(county).append(",");
+			sb.append("subCounty:").append(subCounty).append(",");
+			sb.append("ward:").append(ward).append(",");
+			sb.append("implementingPartner:").append(implementingPartner).append(",");
 			
 			ret.put(ptId, new SimpleResult(sb.toString(), this, context));
 		}

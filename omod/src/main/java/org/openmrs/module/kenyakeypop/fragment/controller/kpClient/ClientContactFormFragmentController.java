@@ -54,8 +54,6 @@ public class ClientContactFormFragmentController {
 	
 	static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
 	
-	private AdministrationService administrationService;
-	
 	public void controller(@FragmentParam("patient") Patient patient, @SpringBean FormManager formManager,
 	        @SpringBean KenyaUiUtils kenyaUi, PageRequest pageRequest, UiUtils ui, FragmentModel model) {
 		
@@ -160,19 +158,26 @@ public class ClientContactFormFragmentController {
 		Program kpProgram = MetadataUtils.existing(Program.class, KpMetadata._Program.KEY_POPULATION);
 		String hotSpotCode = null;
 		String kpTypeCode = null;
-		administrationService = Context.getAdministrationService();
-		String county = administrationService.getGlobalProperty(KpConstant.GP_COUNTY_CODE);
-		String subCounty = administrationService.getGlobalProperty(KpConstant.GP_SUB_COUNTY_CODE);
-		String ward = administrationService.getGlobalProperty(KpConstant.GP_WARD_CODE);
-		String implementingPartner = administrationService.getGlobalProperty(KpConstant.GP_IMPLEMENTING_PARTNER_CODE);
+		String wardCode = null;
+		String subCountyCode = null;
+		String countyCode = null;
+		String implementingPartnerCode = null;
 		StringBuilder identifier = new StringBuilder();
 		
 		Encounter lastEnc = EmrUtils.lastEncounter(patient,
 		    encounterService.getEncounterTypeByUuid(KpMetadata._EncounterType.KP_IDENTIFIER));
 		if (lastEnc != null) {
 			for (Obs obs : lastEnc.getObs()) {
-				if (obs.getConcept().getConceptId() == 165006) {
+				if (obs.getConcept().getConceptId() == 164829) {
+					wardCode = obs.getValueText();
+				} else if (obs.getConcept().getConceptId() == 161564) {
+					subCountyCode = obs.getValueText();
+				} else if (obs.getConcept().getConceptId() == 165006) {
 					hotSpotCode = obs.getValueText();
+				} else if (obs.getConcept().getConceptId() == 165347) {
+					implementingPartnerCode = obs.getValueText().toUpperCase();
+				} else if (obs.getConcept().getConceptId() == 162725) {
+					countyCode = obs.getValueText();
 				} else if (obs.getConcept().getConceptId() == 164929 && obs.getValueCoded().getConceptId() == 165083) {
 					kpTypeCode = "01";
 				} else if (obs.getConcept().getConceptId() == 164929 && obs.getValueCoded().getConceptId() == 160578) {
@@ -191,10 +196,10 @@ public class ClientContactFormFragmentController {
 			}
 		}
 		
-		identifier.append(county);
-		identifier.append(subCounty);
-		identifier.append(ward);
-		identifier.append(implementingPartner.toUpperCase());
+		identifier.append(countyCode);
+		identifier.append(subCountyCode);
+		identifier.append(wardCode);
+		identifier.append(implementingPartnerCode.toUpperCase());
 		identifier.append(hotSpotCode);
 		identifier.append(kpTypeCode);
 		
@@ -237,10 +242,16 @@ public class ClientContactFormFragmentController {
 	
 	public SimpleObject createIdentifier(@RequestParam("patientId") Patient patient,
 	        @RequestParam("userId") User loggedInUser, @RequestParam("encounterDate") Date encounterDate,
-	        @RequestParam("hotSpot") String hotSpot, @RequestParam("kpType") Concept kpType) {
+	        @RequestParam("ward") String ward, @RequestParam("subCounty") String subCounty,
+	        @RequestParam("hotSpot") String hotSpot, @RequestParam("implementingPartner") String implementingPartner,
+	        @RequestParam("county") String county, @RequestParam("kpType") Concept kpType) {
 		
 		Integer hotSpotConcept = 165006;
 		Integer KpTypeConcept = 164929;
+		Integer implementingPartnerConcept = 165347;
+		String wardConcept = "164829AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+		String subCountyConcept = "161564AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+		String countyConcept = "162725AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
 		ConceptService conceptService = Context.getConceptService();
 		
 		Encounter enc = new Encounter();
@@ -253,6 +264,42 @@ public class ClientContactFormFragmentController {
 		
 		// set obs
 		
+		if (ward != null) {
+			Obs wardObs = new Obs();
+			wardObs.setConcept(conceptService.getConceptByUuid(wardConcept));
+			wardObs.setDateCreated(new Date());
+			wardObs.setCreator(loggedInUser);
+			wardObs.setLocation(enc.getLocation());
+			wardObs.setObsDatetime(enc.getEncounterDatetime());
+			wardObs.setPerson(patient);
+			wardObs.setValueText(ward);
+			enc.addObs(wardObs);
+		}
+		
+		if (subCounty != null) {
+			Obs subCountyObs = new Obs();
+			subCountyObs.setConcept(conceptService.getConceptByUuid(subCountyConcept));
+			subCountyObs.setDateCreated(new Date());
+			subCountyObs.setCreator(loggedInUser);
+			subCountyObs.setLocation(enc.getLocation());
+			subCountyObs.setObsDatetime(enc.getEncounterDatetime());
+			subCountyObs.setPerson(patient);
+			subCountyObs.setValueText(subCounty);
+			enc.addObs(subCountyObs);
+		}
+		
+		if (county != null) {
+			Obs countyObs = new Obs();
+			countyObs.setConcept(conceptService.getConceptByUuid(countyConcept));
+			countyObs.setDateCreated(new Date());
+			countyObs.setCreator(loggedInUser);
+			countyObs.setLocation(enc.getLocation());
+			countyObs.setObsDatetime(enc.getEncounterDatetime());
+			countyObs.setPerson(patient);
+			countyObs.setValueText(county);
+			enc.addObs(countyObs);
+		}
+		
 		if (hotSpot != null) {
 			Obs implementingPartnerObs = new Obs();
 			implementingPartnerObs.setConcept(conceptService.getConcept(hotSpotConcept));
@@ -263,6 +310,18 @@ public class ClientContactFormFragmentController {
 			implementingPartnerObs.setPerson(patient);
 			implementingPartnerObs.setValueText(hotSpot);
 			enc.addObs(implementingPartnerObs);
+		}
+		
+		if (implementingPartner != null) {
+			Obs hotspotObs = new Obs();
+			hotspotObs.setConcept(conceptService.getConcept(implementingPartnerConcept));
+			hotspotObs.setDateCreated(new Date());
+			hotspotObs.setCreator(loggedInUser);
+			hotspotObs.setLocation(enc.getLocation());
+			hotspotObs.setObsDatetime(enc.getEncounterDatetime());
+			hotspotObs.setPerson(patient);
+			hotspotObs.setValueText(implementingPartner);
+			enc.addObs(hotspotObs);
 		}
 		
 		if (kpType != null) {
