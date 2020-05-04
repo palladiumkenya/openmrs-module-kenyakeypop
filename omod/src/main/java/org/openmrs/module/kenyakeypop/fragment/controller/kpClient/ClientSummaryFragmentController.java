@@ -9,97 +9,104 @@
  */
 package org.openmrs.module.kenyakeypop.fragment.controller.kpClient;
 
-import org.openmrs.EncounterType;
-import org.openmrs.Form;
-import org.openmrs.Patient;
 import org.openmrs.Encounter;
 import org.openmrs.Obs;
-import org.openmrs.Program;
-import org.openmrs.Person;
-import org.openmrs.PersonAttribute;
-import org.openmrs.api.ConceptService;
-import org.openmrs.api.ObsService;
-import org.openmrs.api.PersonService;
+import org.openmrs.Patient;
+import org.openmrs.api.EncounterService;
+import org.openmrs.api.FormService;
 import org.openmrs.api.context.Context;
 import org.openmrs.calculation.result.CalculationResult;
-import org.openmrs.calculation.result.CalculationResultMap;
-import org.openmrs.module.kenyacore.calculation.Calculations;
 import org.openmrs.module.kenyacore.form.FormManager;
-import org.openmrs.module.kenyaemr.Dictionary;
 import org.openmrs.module.kenyaemr.calculation.EmrCalculationUtils;
-import org.openmrs.module.kenyaemr.calculation.library.hiv.LastReturnVisitDateCalculation;
-import org.openmrs.module.kenyaemr.calculation.library.models.PatientSummary;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.art.PatientArtOutComeCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.art.ViralLoadAndLdlCalculation;
+import org.openmrs.module.kenyaemr.metadata.HivMetadata;
 import org.openmrs.module.kenyaemr.util.EmrUtils;
-import org.openmrs.module.kenyakeypop.calculation.library.kp.NextAppointmentDateCalculation;
 import org.openmrs.module.kenyakeypop.metadata.KpMetadata;
 import org.openmrs.module.kenyaui.KenyaUiUtils;
-import org.openmrs.module.metadatadeploy.MetadataUtils;
-import org.openmrs.module.reporting.common.DateUtil;
-import org.openmrs.module.reporting.common.DurationUnit;
-import org.openmrs.ui.framework.SimpleObject;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.FragmentParam;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
 import org.openmrs.ui.framework.page.PageRequest;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-import java.util.Set;
-
-import static org.apache.http.impl.cookie.DateUtils.formatDate;
 
 /**
  * Patient summary fragment
  */
 public class ClientSummaryFragmentController {
 	
+	Integer APPOINTMENT_DATE_CONCEPT = 5096;
+	
+	Date nextAppointmentDate = null;
+	
+	String vlResults = "";
+	
+	String artStatus = "";
+	
+	Integer STATUS_IN_PROGRAM_CONCEPT = 161641;
+	
+	Integer VL_RESULTS_CONCEPT = 165246;
+	
+	Integer ACTIVE_ON_ART_CONCEPT = 160119;
+	
 	static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
 	
-	ObsService obsService = Context.getObsService();
+	EncounterService encounterService = Context.getEncounterService();
 	
-	ConceptService conceptService = Context.getConceptService();
+	FormService formService = Context.getFormService();
 	
 	public void controller(@FragmentParam("patient") Patient patient, @SpringBean FormManager formManager,
 	        @SpringBean KenyaUiUtils kenyaUi, PageRequest pageRequest, UiUtils ui, FragmentModel model) {
 		
-		EncounterType encKPClientTracing = MetadataUtils.existing(EncounterType.class,
-		    KpMetadata._EncounterType.KP_CLIENT_TRACING);
-		Form formKPClientTracing = MetadataUtils.existing(Form.class, KpMetadata._Form.KP_CLIENT_TRACING_FORM);
-		Program kpProgram = MetadataUtils.existing(Program.class, KpMetadata._Program.KEY_POPULATION);
+		String statusInProgram = null;
 		
-		/*List<Encounter> encs = EmrUtils.AllEncounters(patient, encSocialStatus, formSocialStatus);
-		List<SimpleObject> simplifiedEncData = new ArrayList<SimpleObject>();
-		for (Encounter e : encs) {
-			SimpleObject o = buildEncounterData(e.getObs(), e);
-			simplifiedEncData.add(o);
-		}*/
-		List<Encounter> encs = EmrUtils.AllEncounters(patient, encKPClientTracing, formKPClientTracing);
-		List<SimpleObject> simplifiedEncData = new ArrayList<SimpleObject>();
-		for (Encounter e : encs) {
-			SimpleObject o = buildEncounterData(e.getObs());
-			simplifiedEncData.add(o);
+		Encounter lastTracingEnc = EmrUtils.lastEncounter(patient,
+		    encounterService.getEncounterTypeByUuid(KpMetadata._EncounterType.KP_CLIENT_TRACING),
+		    formService.getFormByUuid(KpMetadata._Form.KP_CLIENT_TRACING_FORM));
+		
+		if (lastTracingEnc != null) {
+			
+			for (Obs obs : lastTracingEnc.getObs()) {
+				if (obs.getConcept().getConceptId().equals(STATUS_IN_PROGRAM_CONCEPT)) {
+					if (obs.getValueCoded().getConceptId().equals(5240)) {
+						statusInProgram = "Lost to follow up";
+					} else if (obs.getValueCoded().getConceptId().equals(160031)) {
+						statusInProgram = "Defaulted";
+					} else if (obs.getValueCoded().getConceptId().equals(161636)) {
+						statusInProgram = "Active";
+					} else if (obs.getValueCoded().getConceptId().equals(160432)) {
+						statusInProgram = "Dead";
+					}
+				}
+			}
+		} else {
+			
+			statusInProgram = "Undocumented";
 		}
 		
-		CalculationResult nextAppointmentResults = EmrCalculationUtils.evaluateForPatient(
-		    NextAppointmentDateCalculation.class, null, patient);
-		String nextVisitDate;
+		Encounter lastVisitEnc = EmrUtils.lastEncounter(patient,
+		    encounterService.getEncounterTypeByUuid(KpMetadata._EncounterType.KP_CLINICAL_VISIT_FORM),
+		    formService.getFormByUuid(KpMetadata._Form.KP_CLINICAL_VISIT_FORM));
 		
-		nextVisitDate = this.formatDate((Date) nextAppointmentResults.getValue());
-		/*	if (nextAppointmentResults.isEmpty()) {
-				//System.out.println("=======================" + nextAppointmentDate.getValue());
-				nextVisitDate = "None";
-			} else {
-				nextVisitDate = formatDate((Date) nextAppointmentResults.getValue());
-			}*/
+		if (lastVisitEnc != null) {
+			
+			for (Obs obs : lastVisitEnc.getObs()) {
+				if (obs.getConcept().getConceptId().equals(APPOINTMENT_DATE_CONCEPT)) {
+					nextAppointmentDate = obs.getValueDatetime();
+				}
+				
+			}
+		}
 		
 		model.addAttribute("patient", patient);
-		model.addAttribute("encounters", simplifiedEncData);
-		model.addAttribute("nextVisitDate", nextVisitDate);
+		model.addAttribute("statusInProgram", statusInProgram);
+		model.addAttribute("artStatus", getArtStatus(patient));
+		model.addAttribute("nextAppointmentDate", formatDate(nextAppointmentDate));
 	}
 	
 	private String formatDate(Date date) {
@@ -107,45 +114,94 @@ public class ClientSummaryFragmentController {
 		return date == null ? "" : dateFormatter.format(date);
 	}
 	
-	public static SimpleObject buildEncounterData(Set<Obs> obsList) {
-		/*			CalculationResultMap nextAppointmentMap = Calculations.lastObs(Dictionary.getConcept(Dictionary.RETURN_VISIT_DATE), cohort, context);
-					Obs nextOfVisitObs = EmrCalculationUtils.obsResultForPatient(nextAppointmentMap, ptId);
-					Date notAlostToFollowPatient = DateUtil.adjustDate(nextOfVisitObs.getValueDatetime(), 90, DurationUnit.DAYS);*/
-		
-		int STATUS_IN_PROGRAM = 161641;
-		
-		String statusInProgram = null;
-		/*String nextAppointmentDate = null;
-		String frequentedHotspot = null;
-		Integer weeklySexActs = null;
-		Integer weeklyAnalSexActs = null;
-		Integer dailyDrugInjections = null;
-		Integer weeklyDrugInjections = null;*/
-		// next appointment date
-		/*	CalculationResult returnVisitResults = EmrCalculationUtils.evaluateForPatient(LastReturnVisitDateCalculation.class, null, patient);
-			if(returnVisitResults != null){
-				patientSummary.setNextAppointmentDate(formatDate((Date) returnVisitResults.getValue()));
-			}
-			else {
-				patientSummary.setNextAppointmentDate("");
-			}*/
-		
-		//String encDate = e != null ? DATE_FORMAT.format(e.getEncounterDatetime()) : "";
-		
-		for (Obs obs : obsList) {
-			if (obs.getConcept().getConceptId().equals(STATUS_IN_PROGRAM)) {
-				if (obs.getValueCoded().getConceptId().equals(5240)) {
-					statusInProgram = "Lost to follow up";
-				} else if (obs.getValueCoded().getConceptId().equals(160031)) {
-					statusInProgram = "Defaulted";
-				} else if (obs.getValueCoded().getConceptId().equals(161636)) {
-					statusInProgram = "Active";
-				} else if (obs.getValueCoded().getConceptId().equals(160432)) {
-					statusInProgram = "Dead";
-				}
-			}
-		}
-		return SimpleObject.create("statusInProgram", statusInProgram != null ? statusInProgram : "");
+	public boolean enrolledForHiv(Patient patient) {
+		Encounter enrolledForHIVenc = EmrUtils.lastEncounter(patient,
+		    encounterService.getEncounterTypeByUuid(HivMetadata._EncounterType.HIV_ENROLLMENT),
+		    formService.getFormByUuid(HivMetadata._Form.HIV_ENROLLMENT));
+		return (enrolledForHIVenc != null ? true : false);
 		
 	}
+	
+	private String getArtStatus(Patient patient) {
+		String artResultValue = "None";
+		String viralLoadValue = "None";
+		String viralLoadDate = "None";
+		String pattern;
+		String toDate;
+		String dateSplit;
+		
+		if (enrolledForHiv(patient)) {
+			CalculationResult vlResults = EmrCalculationUtils.evaluateForPatient(ViralLoadAndLdlCalculation.class,
+			    (String) null, patient);
+			CalculationResult artStatusResults = EmrCalculationUtils.evaluateForPatient(PatientArtOutComeCalculation.class,
+			    (String) null, patient);
+			
+			if (!vlResults.isEmpty()) {
+				String viralLoad = vlResults.getValue().toString();
+				pattern = viralLoad.replaceAll("\\{", "").replaceAll("\\}", "");
+				if (!pattern.isEmpty()) {
+					String[] splitByEqualSign = pattern.split("=");
+					viralLoadValue = splitByEqualSign[0];
+					String dateSplitedBySpace = splitByEqualSign[1].split(" ")[0].trim();
+					toDate = dateSplitedBySpace.split("-")[0].trim();
+					dateSplit = dateSplitedBySpace.split("-")[1].trim();
+					String dayPart = dateSplitedBySpace.split("-")[2].trim();
+					Calendar calendar = Calendar.getInstance();
+					calendar.set(1, Integer.parseInt(toDate));
+					calendar.set(2, Integer.parseInt(dateSplit) - 1);
+					calendar.set(5, Integer.parseInt(dayPart));
+					viralLoadDate = this.formatDate(calendar.getTime());
+				}
+				if (!artStatusResults.isEmpty()) {
+					artResultValue = artStatusResults.getValue().toString();
+				} else {
+					artResultValue = "No ART outcome";
+				}
+				
+				return new StringBuilder().append(artResultValue).append(" - ").append(viralLoadValue).append(" on ")
+				        .append(viralLoadDate).toString();
+			} else {
+				
+				return new StringBuilder().append(artResultValue).append(viralLoadValue).append(viralLoadDate).toString();
+			}
+		} else {
+			StringBuilder sb = new StringBuilder();
+			Encounter lastVisitEnc = EmrUtils.lastEncounter(patient,
+			    encounterService.getEncounterTypeByUuid(KpMetadata._EncounterType.KP_CLINICAL_VISIT_FORM),
+			    formService.getFormByUuid(KpMetadata._Form.KP_CLINICAL_VISIT_FORM));
+			if (lastVisitEnc != null) {
+				for (Obs obs : lastVisitEnc.getObs()) {
+					
+					if (obs.getConcept().getConceptId().equals(VL_RESULTS_CONCEPT)) {
+						
+						if (obs.getValueCoded().getConceptId().equals(165244)) {
+							vlResults = "Suppressed";
+						} else if (obs.getValueCoded().getConceptId().equals(165244)) {
+							vlResults = "Not Suppressed";
+						} else if (obs.getValueCoded().getConceptId().equals(165244)) {
+							vlResults = "Awaiting Results";
+						} else if (obs.getValueCoded().getConceptId().equals(165244)) {
+							vlResults = "N/A";
+						}
+					} else {
+						vlResults = "-";
+					}
+					if (obs.getConcept().getConceptId().equals(ACTIVE_ON_ART_CONCEPT)) {
+						if (obs.getValueCoded().getConceptId().equals(1065)) {
+							artStatus = "Active";
+						} else if (obs.getValueCoded().getConceptId().equals(1066)) {
+							artStatus = "Inactive";
+						} else if (obs.getValueCoded().getConceptId().equals(1175)) {
+							artStatus = "N/A";
+						}
+					} else {
+						artStatus = "-";
+					}
+					
+				}
+			}
+			return sb.append(artStatus).append(":").append(vlResults).toString();
+		}
+	}
+	
 }

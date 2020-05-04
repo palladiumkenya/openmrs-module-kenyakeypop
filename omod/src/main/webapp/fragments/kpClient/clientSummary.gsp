@@ -9,22 +9,17 @@
 		<table>
 			<tr>
 				<th rowspan="2">Status In program</th>
-				<th rowspan="2">ART Status</th>
+				<th rowspan="2">ART Status/Latest viral load</th>
 				<th rowspan="2">Next Appointment Date</th>
-
 			</tr>
 	<tr></tr>
 
 			<tr>
-			 <td width="80px">${encounters.statusInProgram}</td>
-			<td>${nextVisitDate}</td>
-			<td>${nextVisitDate}</td>
+			 <td width="140px">${statusInProgram}</td>
+			<td>${artStatus}</td>
+			<td>${nextAppointmentDate}</td>
 
 			</tr>
-
-
 		</table>
-
-
 	</div>
 </div>
