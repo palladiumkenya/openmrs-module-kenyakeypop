@@ -4,9 +4,9 @@
     ui.includeCss("kenyaemrorderentry", "font-awesome.min.css")
     ui.includeCss("kenyaemrorderentry", "font-awesome.css.map")
     ui.includeCss("kenyaemrorderentry", "../fontawesome-webfont.svg")
-    def triageUuid ="37f6bd8d-586a-4169-95fa-5781f987fe62";
+    def triageUuid = "37f6bd8d-586a-4169-95fa-5781f987fe62";
 
-    def addTriageFormLink = ui.pageLink("kenyakeypop", "enterForm", [patientId: currentPatient.patientId, formUuid: triageUuid, appId:currentApp.id, returnUrl: ui.thisUrl()])
+    def addTriageFormLink = ui.pageLink("kenyakeypop", "enterForm", [patientId: currentPatient.patientId, formUuid: triageUuid, appId: currentApp.id, returnUrl: ui.thisUrl()])
 
 %>
 <script type="text/javascript">
@@ -22,10 +22,12 @@
 .dashboard .info-header {
     border-bottom: 6px solid #7f7b72 !important;
 }
+
 .dashboard .info-header i {
     font-size: 1.3em;
     color: #7f7b72 !important;
 }
+
 .dashboard .info-header h3 {
     display: inline-block;
     font-family: "OpenSansBold";
@@ -85,13 +87,24 @@
                         <h3>Enrollment status</h3>
                     </div>
 
-                          ${ ui.includeFragment("kenyakeypop", "program/programHistories", [ patient: currentPatient, showClinicalData: true ]) }
+                    ${ui.includeFragment("kenyakeypop", "program/programHistories", [patient: currentPatient, showClinicalData: true])}
                 </div>
 
             </div>
 
             <div class="info-container column">
                 <div class="info-section allergies">
+                    <div class="info-section">
+                        <div class="info-header">
+                            <i class="fa fa-list-ul fa-2x"></i>
+
+                            <h3>Client Summary</h3>
+                        </div>
+
+                        ${ui.includeFragment("kenyakeypop", "kpClient/clientSummary", [patient: currentPatient])}
+                        <br>
+                    </div>
+
                     <div class="info-header">
                         <i class="icon-stethoscope"></i>
 
@@ -103,10 +116,11 @@
                     <div class="info-body">
                         ${ui.includeFragment("kenyakeypop", "kpClient/currentVitals", [patient: currentPatient])}
                     </div>
+
                 </div>
             </div>
 
-                ${ui.includeFragment("kenyakeypop", "kpClient/actionsPanel", [visit: visit])}
+            ${ui.includeFragment("kenyakeypop", "kpClient/actionsPanel", [visit: visit])}
 
         </div>
     </div>
