@@ -41,20 +41,14 @@ import java.util.Date;
 public class ClientSummaryFragmentController {
 	
 	Integer APPOINTMENT_DATE_CONCEPT = 5096;
-	
-	Date nextAppointmentDate = null;
-	
-	String vlResults = "";
-	
-	String artStatus = "";
-	
+
 	Integer STATUS_IN_PROGRAM_CONCEPT = 161641;
 	
 	Integer VL_RESULTS_CONCEPT = 165246;
 	
 	Integer ACTIVE_ON_ART_CONCEPT = 160119;
-	
-	static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
+
+	Date nextAppointmentDate = null;
 	
 	EncounterService encounterService = Context.getEncounterService();
 	
@@ -106,6 +100,7 @@ public class ClientSummaryFragmentController {
 		model.addAttribute("patient", patient);
 		model.addAttribute("statusInProgram", statusInProgram);
 		model.addAttribute("artStatus", getArtStatus(patient));
+		model.addAttribute("viralLoad", getLastVl(patient));
 		model.addAttribute("nextAppointmentDate", formatDate(nextAppointmentDate));
 	}
 	
@@ -123,17 +118,54 @@ public class ClientSummaryFragmentController {
 	}
 	
 	private String getArtStatus(Patient patient) {
-		String artResultValue = "None";
-		String viralLoadValue = "None";
-		String viralLoadDate = "None";
+		String artStatus = "";
+		if (enrolledForHiv(patient)) {
+			
+			CalculationResult artStatusResults = EmrCalculationUtils.evaluateForPatient(PatientArtOutComeCalculation.class,
+			    (String) null, patient);
+			
+			if (!artStatusResults.isEmpty()) {
+				return artStatusResults.getValue().toString();
+			} else {
+				return "No ART outcome";
+			}
+		} else {
+			
+			Encounter lastVisitEnc = EmrUtils.lastEncounter(patient,
+			    encounterService.getEncounterTypeByUuid(KpMetadata._EncounterType.KP_CLINICAL_VISIT_FORM),
+			    formService.getFormByUuid(KpMetadata._Form.KP_CLINICAL_VISIT_FORM));
+			if (lastVisitEnc != null) {
+				for (Obs obs : lastVisitEnc.getObs()) {
+					
+					if (obs.getConcept().getConceptId().equals(ACTIVE_ON_ART_CONCEPT)) {
+						if (obs.getValueCoded().getConceptId().equals(1065)) {
+							artStatus = "Active";
+						} else if (obs.getValueCoded().getConceptId().equals(1066)) {
+							artStatus = "Inactive";
+						} else if (obs.getValueCoded().getConceptId().equals(1175)) {
+							artStatus = "N/A";
+						}
+					} else {
+						artStatus = "No ART outcome";
+					}
+					
+				}
+			}
+			return artStatus;
+		}
+		
+	}
+	
+	private String getLastVl(Patient patient) {
+		String vl = "";
+		String viralLoadValue = "";
+		String viralLoadDate = "";
 		String pattern;
 		String toDate;
 		String dateSplit;
 		
 		if (enrolledForHiv(patient)) {
 			CalculationResult vlResults = EmrCalculationUtils.evaluateForPatient(ViralLoadAndLdlCalculation.class,
-			    (String) null, patient);
-			CalculationResult artStatusResults = EmrCalculationUtils.evaluateForPatient(PatientArtOutComeCalculation.class,
 			    (String) null, patient);
 			
 			if (!vlResults.isEmpty()) {
@@ -152,20 +184,14 @@ public class ClientSummaryFragmentController {
 					calendar.set(5, Integer.parseInt(dayPart));
 					viralLoadDate = this.formatDate(calendar.getTime());
 				}
-				if (!artStatusResults.isEmpty()) {
-					artResultValue = artStatusResults.getValue().toString();
-				} else {
-					artResultValue = "No ART outcome";
-				}
 				
-				return new StringBuilder().append(artResultValue).append(" - ").append(viralLoadValue).append(" on ")
-				        .append(viralLoadDate).toString();
+				return new StringBuilder().append(viralLoadValue).append(" on ").append(viralLoadDate).toString();
 			} else {
 				
-				return new StringBuilder().append(artResultValue).append(viralLoadValue).append(viralLoadDate).toString();
+				return "None";
 			}
 		} else {
-			StringBuilder sb = new StringBuilder();
+			
 			Encounter lastVisitEnc = EmrUtils.lastEncounter(patient,
 			    encounterService.getEncounterTypeByUuid(KpMetadata._EncounterType.KP_CLINICAL_VISIT_FORM),
 			    formService.getFormByUuid(KpMetadata._Form.KP_CLINICAL_VISIT_FORM));
@@ -175,32 +201,21 @@ public class ClientSummaryFragmentController {
 					if (obs.getConcept().getConceptId().equals(VL_RESULTS_CONCEPT)) {
 						
 						if (obs.getValueCoded().getConceptId().equals(165244)) {
-							vlResults = "Suppressed";
+							vl = "Suppressed";
 						} else if (obs.getValueCoded().getConceptId().equals(165244)) {
-							vlResults = "Not Suppressed";
+							vl = "Not Suppressed";
 						} else if (obs.getValueCoded().getConceptId().equals(165244)) {
-							vlResults = "Awaiting Results";
+							vl = "Awaiting Results";
 						} else if (obs.getValueCoded().getConceptId().equals(165244)) {
-							vlResults = "N/A";
+							vl = "N/A";
 						}
 					} else {
-						vlResults = "-";
-					}
-					if (obs.getConcept().getConceptId().equals(ACTIVE_ON_ART_CONCEPT)) {
-						if (obs.getValueCoded().getConceptId().equals(1065)) {
-							artStatus = "Active";
-						} else if (obs.getValueCoded().getConceptId().equals(1066)) {
-							artStatus = "Inactive";
-						} else if (obs.getValueCoded().getConceptId().equals(1175)) {
-							artStatus = "N/A";
-						}
-					} else {
-						artStatus = "-";
+						vl = "None";
 					}
 					
 				}
 			}
-			return sb.append(artStatus).append(":").append(vlResults).toString();
+			return vl;
 		}
 	}
 	
