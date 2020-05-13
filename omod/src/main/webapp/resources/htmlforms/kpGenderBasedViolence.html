@@ -399,7 +399,7 @@ $('#wheresoughtHelp input').prop('disabled', true);
                 <legend>
                     Action
                 </legend>
-                <table class="simple-table" id="questions">
+                <table id="questions">
 
                     <tr>
                         <td>
@@ -414,12 +414,12 @@ $('#wheresoughtHelp input').prop('disabled', true);
                                              style="radio" answerLabels="Yes,No"/>
                                     </td>
                                 </tr>
-                                <tr id="wheresoughtHelp">
+                                <tr  id="wheresoughtHelp">
                                     <td>
                                         Where you sought help
                                     </td>
                                     <td>
-                                        <table>
+                                        <table class="simple-table" >
 
 
                                             <tr>
@@ -524,11 +524,11 @@ $('#wheresoughtHelp input').prop('disabled', true);
                                             </tr>
                                         </table>
                                     </td>
-                                    <td>
+                                    <td class="simple-table" >
                                         what was the outcome
                                     </td>
 
-                                    <td>
+                                    <td class="simple-table" >
                                         <obs conceptId="162875" answerConceptId="1066"  answerLabel="No action taken" style="checkbox" /><br />
                                         <obs conceptId="162875" answerConceptId="165070"  answerLabel="Counselling" style="checkbox" /><br />
                                         <obs conceptId="162875" answerConceptId="160570"  answerLabel="Emergency pills" style="checkbox" /><br />
@@ -554,10 +554,11 @@ $('#wheresoughtHelp input').prop('disabled', true);
                                     </td>
 
                                 </tr>
+                                <tr>
                                 <tr><td>
                                     Reason for not reporting
                                 </td>
-                                    <td id="form_of_incident">
+                                    <td colspan="2" class="simple-table" id="form_of_incident">
                                         <div style="float: left; padding-right: 50px">
                                             <obs conceptId="6098" answerConceptId="162951" answerLabel="Did not know where to report" style="checkbox" /><br />
                                             <obs conceptId="6098" answerConceptId="1811" answerLabel="Distance" style="checkbox" /><br />
@@ -576,12 +577,11 @@ $('#wheresoughtHelp input').prop('disabled', true);
                                             <obs conceptId="6098" answerConceptId="163475"  answerLabel="Self blame" style="checkbox" /><br />
                                             <obs id="reson" conceptId="6098" answerConceptId="5622"  answerLabel="Other specify" style="checkbox" /><br />
 
+                                            Specify:  <obs conceptId="165230" id="reason_specify"/>
                                         </div>
-                                    <td> Specify:
-                                        <obs conceptId="165230" id="reason_specify"/>
 
                                     </td>
-                                    </td>
+                                </tr>
                                 </tr>
                             </table>
                         </td>
