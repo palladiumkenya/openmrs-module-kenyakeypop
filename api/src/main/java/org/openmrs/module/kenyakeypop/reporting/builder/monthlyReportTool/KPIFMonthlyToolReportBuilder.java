@@ -509,6 +509,235 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.currOnARTKP("Transwoman"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
+		//TX_RTT
+		EmrReportingUtils.addRow(cohortDsd, "TX_RTT_FSW", "Returned to treatment",
+		    ReportUtils.map(monthlyReportIndicator.kplhivTXRtt("FSW"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "TX_RTT_MSM", "Returned to treatment",
+		    ReportUtils.map(monthlyReportIndicator.kplhivTXRtt("MSM"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "TX_RTT_MSW", "Returned to treatment",
+		    ReportUtils.map(monthlyReportIndicator.kplhivTXRtt("MSW"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "TX_RTT_PWUD", "Returned to treatment",
+		    ReportUtils.map(monthlyReportIndicator.kplhivTXRtt("PWUD"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "TX_RTT_PWID", "Returned to treatment",
+		    ReportUtils.map(monthlyReportIndicator.kplhivTXRtt("PWID"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "TX_RTT_Transman", "Returned to treatment",
+		    ReportUtils.map(monthlyReportIndicator.kplhivTXRtt("Transman"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "TX_RTT_Transwoman", "Returned to treatment",
+		    ReportUtils.map(monthlyReportIndicator.kplhivTXRtt("Transwoman"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		
+		//RETEST_ELIGIBLE
+		EmrReportingUtils.addRow(cohortDsd, "RETEST_ELIGIBLE_FSW", "Eligible for Retest",
+		    ReportUtils.map(monthlyReportIndicator.eligibleForRetest("FSW"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "RETEST_ELIGIBLE_MSM", "Eligible for Retest",
+		    ReportUtils.map(monthlyReportIndicator.eligibleForRetest("MSM"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "RETEST_ELIGIBLE_MSW", "Eligible for Retest",
+		    ReportUtils.map(monthlyReportIndicator.eligibleForRetest("MSW"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "RETEST_ELIGIBLE_PWUD", "Eligible for Retest",
+		    ReportUtils.map(monthlyReportIndicator.eligibleForRetest("PWUD"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "RETEST_ELIGIBLE_PWID", "Eligible for Retest",
+		    ReportUtils.map(monthlyReportIndicator.eligibleForRetest("PWID"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "RETEST_ELIGIBLE_Transman", "Eligible for Retest",
+		    ReportUtils.map(monthlyReportIndicator.eligibleForRetest("Transman"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "RETEST_ELIGIBLE_Transwoman", "Eligible for Retest",
+		    ReportUtils.map(monthlyReportIndicator.eligibleForRetest("Transwoman"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		
+		//RETEST_HTS_TST
+		EmrReportingUtils.addRow(cohortDsd, "RETEST_HTS_TST_FSW", "Retested for HIV",
+		    ReportUtils.map(monthlyReportIndicator.htsTstEligibleRetested("FSW"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "RETEST_HTS_TST_MSM", "Retested for HIV",
+		    ReportUtils.map(monthlyReportIndicator.htsTstEligibleRetested("MSM"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "RETEST_HTS_TST_MSW", "Retested for HIV",
+		    ReportUtils.map(monthlyReportIndicator.htsTstEligibleRetested("MSW"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "RETEST_HTS_TST_PWUD", "Retested for HIV",
+		    ReportUtils.map(monthlyReportIndicator.htsTstEligibleRetested("PWUD"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "RETEST_HTS_TST_PWID", "Retested for HIV",
+		    ReportUtils.map(monthlyReportIndicator.htsTstEligibleRetested("PWID"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "RETEST_HTS_TST_Transman", "Retested for HIV",
+		    ReportUtils.map(monthlyReportIndicator.htsTstEligibleRetested("Transman"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "RETEST_HTS_TST_Transwoman", "Retested for HIV",
+		    ReportUtils.map(monthlyReportIndicator.htsTstEligibleRetested("Transwoman"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		
+		//RETEST_HTS_TST_POS
+		EmrReportingUtils.addRow(cohortDsd, "RETEST_HTS_TST_POS_FSW", "Retested HIV Positive",
+		    ReportUtils.map(monthlyReportIndicator.retestedHIVPositive("FSW"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "RETEST_HTS_TST_POS_MSM", "Retested HIV Positive",
+		    ReportUtils.map(monthlyReportIndicator.retestedHIVPositive("MSM"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "RETEST_HTS_TST_POS_MSW", "Retested HIV Positive",
+		    ReportUtils.map(monthlyReportIndicator.retestedHIVPositive("MSW"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "RETEST_HTS_TST_POS_PWUD", "Retested HIV Positive",
+		    ReportUtils.map(monthlyReportIndicator.retestedHIVPositive("PWUD"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "RETEST_HTS_TST_POS_PWID", "Retested HIV Positive",
+		    ReportUtils.map(monthlyReportIndicator.retestedHIVPositive("PWID"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "RETEST_HTS_TST_POS_Transman", "Retested HIV Positive",
+		    ReportUtils.map(monthlyReportIndicator.retestedHIVPositive("Transman"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "RETEST_HTS_TST_POS_Transwoman", "Retested HIV Positive",
+		    ReportUtils.map(monthlyReportIndicator.retestedHIVPositive("Transwoman"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		
+		//PNS_OFFERED
+		EmrReportingUtils.addRow(cohortDsd, "PNS_OFFERED_FSW", "Offered PNS",
+		    ReportUtils.map(monthlyReportIndicator.offeredPNS("FSW"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PNS_OFFERED_MSM", "Offered PNS",
+		    ReportUtils.map(monthlyReportIndicator.offeredPNS("MSM"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PNS_OFFERED_MSW", "Offered PNS",
+		    ReportUtils.map(monthlyReportIndicator.offeredPNS("MSW"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PNS_OFFERED_PWUD", "Offered PNS",
+		    ReportUtils.map(monthlyReportIndicator.offeredPNS("PWUD"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PNS_OFFERED_PWID", "Offered PNS",
+		    ReportUtils.map(monthlyReportIndicator.offeredPNS("PWID"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PNS_OFFERED_Transman", "Offered PNS",
+		    ReportUtils.map(monthlyReportIndicator.offeredPNS("Transman"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PNS_OFFERED_Transwoman", "Offered PNS",
+		    ReportUtils.map(monthlyReportIndicator.offeredPNS("Transwoman"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		
+		//PNS_ACCEPTED
+		EmrReportingUtils.addRow(cohortDsd, "PNS_ACCEPTED_FSW", "Accepted PNS",
+		    ReportUtils.map(monthlyReportIndicator.acceptedPNS("FSW"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PNS_ACCEPTED_MSM", "Accepted PNS",
+		    ReportUtils.map(monthlyReportIndicator.acceptedPNS("MSM"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PNS_ACCEPTED_MSW", "Accepted PNS",
+		    ReportUtils.map(monthlyReportIndicator.acceptedPNS("MSW"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PNS_ACCEPTED_PWUD", "Accepted PNS",
+		    ReportUtils.map(monthlyReportIndicator.acceptedPNS("PWUD"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PNS_ACCEPTED_PWID", "Accepted PNS",
+		    ReportUtils.map(monthlyReportIndicator.acceptedPNS("PWID"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PNS_ACCEPTED_Transman", "Accepted PNS",
+		    ReportUtils.map(monthlyReportIndicator.acceptedPNS("Transman"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PNS_ACCEPTED_Transwoman", "Accepted PNS",
+		    ReportUtils.map(monthlyReportIndicator.acceptedPNS("Transwoman"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		
+		//PNS_ELICITED
+		EmrReportingUtils.addRow(cohortDsd, "PNS_ELICITED_FSW", "Elicited PNS",
+		    ReportUtils.map(monthlyReportIndicator.elicitedPNS("FSW"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PNS_ELICITED_MSM", "Elicited PNS",
+		    ReportUtils.map(monthlyReportIndicator.elicitedPNS("MSM"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PNS_ELICITED_MSW", "Elicited PNS",
+		    ReportUtils.map(monthlyReportIndicator.elicitedPNS("MSW"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PNS_ELICITED_PWUD", "Elicited PNS",
+		    ReportUtils.map(monthlyReportIndicator.elicitedPNS("PWUD"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PNS_ELICITED_PWID", "Elicited PNS",
+		    ReportUtils.map(monthlyReportIndicator.elicitedPNS("PWID"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PNS_ELICITED_Transman", "Elicited PNS",
+		    ReportUtils.map(monthlyReportIndicator.elicitedPNS("Transman"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PNS_ELICITED_Transwoman", "Elicited PNS",
+		    ReportUtils.map(monthlyReportIndicator.elicitedPNS("Transwoman"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		
+		//KNOWN_POSITIVE_AT_ENTRY
+		EmrReportingUtils.addRow(cohortDsd, "PNS_KNOWN_POSITIVE_ENTRY_FSW", "PNS known positive at entry",
+		    ReportUtils.map(monthlyReportIndicator.pnsKnownPositiveAtEntry("FSW"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PNS_KNOWN_POSITIVE_ENTRY_MSM", "PNS known positive at entry",
+		    ReportUtils.map(monthlyReportIndicator.pnsKnownPositiveAtEntry("MSM"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PNS_KNOWN_POSITIVE_ENTRY_MSW", "PNS known positive at entry",
+		    ReportUtils.map(monthlyReportIndicator.pnsKnownPositiveAtEntry("MSW"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PNS_KNOWN_POSITIVE_ENTRY_PWUD", "PNS known positive at entry",
+		    ReportUtils.map(monthlyReportIndicator.pnsKnownPositiveAtEntry("PWUD"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PNS_KNOWN_POSITIVE_ENTRY_PWID", "PNS known positive at entry",
+		    ReportUtils.map(monthlyReportIndicator.pnsKnownPositiveAtEntry("PWID"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PNS_KNOWN_POSITIVE_ENTRY_Transman", "PNS known positive at entry",
+		    ReportUtils.map(monthlyReportIndicator.pnsKnownPositiveAtEntry("Transman"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PNS_KNOWN_POSITIVE_ENTRY_Transwoman", "PNS known positive at entry",
+		    ReportUtils.map(monthlyReportIndicator.pnsKnownPositiveAtEntry("Transwoman"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		
+		//PNS_NEW_HIV_POS
+		EmrReportingUtils.addRow(cohortDsd, "PNS_NEW_HIV_POS_FSW", "PNS tested Positive",
+		    ReportUtils.map(monthlyReportIndicator.pnsTestedPositive("FSW"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PNS_NEW_HIV_POS_MSM", "PNS tested Positive",
+		    ReportUtils.map(monthlyReportIndicator.pnsTestedPositive("MSM"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PNS_NEW_HIV_POS_MSW", "PNS tested Positive",
+		    ReportUtils.map(monthlyReportIndicator.pnsTestedPositive("MSW"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PNS_NEW_HIV_POS_PWUD", "PNS tested Positive",
+		    ReportUtils.map(monthlyReportIndicator.pnsTestedPositive("PWUD"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PNS_NEW_HIV_POS_PWID", "PNS tested Positive",
+		    ReportUtils.map(monthlyReportIndicator.pnsTestedPositive("PWID"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PNS_NEW_HIV_POS_Transman", "PNS tested Positive",
+		    ReportUtils.map(monthlyReportIndicator.pnsTestedPositive("Transman"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PNS_NEW_HIV_POS_Transwoman", "PNS tested Positive",
+		    ReportUtils.map(monthlyReportIndicator.pnsTestedPositive("Transwoman"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		
+		// PNS_NEW_HIV_NEG
+		EmrReportingUtils.addRow(cohortDsd, "PNS_NEW_HIV_NEG_FSW", "PNS tested Negative",
+		    ReportUtils.map(monthlyReportIndicator.pnsTestedNegative("FSW"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PNS_NEW_HIV_NEG_MSM", "PNS tested Negative",
+		    ReportUtils.map(monthlyReportIndicator.pnsTestedNegative("MSM"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PNS_NEW_HIV_NEG_MSW", "PNS tested Negative",
+		    ReportUtils.map(monthlyReportIndicator.pnsTestedNegative("MSW"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PNS_NEW_HIV_NEG_PWUD", "PNS tested Negative",
+		    ReportUtils.map(monthlyReportIndicator.pnsTestedNegative("PWUD"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PNS_NEW_HIV_NEG_PWID", "PNS tested Negative",
+		    ReportUtils.map(monthlyReportIndicator.pnsTestedNegative("PWID"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PNS_NEW_HIV_NEG_Transman", "PNS tested Negative",
+		    ReportUtils.map(monthlyReportIndicator.pnsTestedNegative("Transman"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PNS_NEW_HIV_NEG_Transwoman", "PNS tested Negative",
+		    ReportUtils.map(monthlyReportIndicator.pnsTestedNegative("Transwoman"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
 		return cohortDsd;
 		
 	}
