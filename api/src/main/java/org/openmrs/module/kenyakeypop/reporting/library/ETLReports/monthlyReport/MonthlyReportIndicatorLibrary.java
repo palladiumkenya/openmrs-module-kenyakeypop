@@ -156,8 +156,8 @@ public class MonthlyReportIndicatorLibrary {
 		    "startDate=${startDate},endDate=${endDate}"));
 	}
 	
-	public CohortIndicator htsTstEligibleForRetest(String kpType) {
-		return cohortIndicator("", ReportUtils.map(monthlyReportCohortLibrary.htsTstEligibleForRetest(kpType),
+	public CohortIndicator htsTstEligibleRetested(String kpType) {
+		return cohortIndicator("", ReportUtils.map(monthlyReportCohortLibrary.htsTstEligibleRetested(kpType),
 		    "startDate=${startDate},endDate=${endDate}"));
 	}
 	
@@ -255,14 +255,14 @@ public class MonthlyReportIndicatorLibrary {
 		return cohortIndicator("",
 		    ReportUtils.map(monthlyReportCohortLibrary.acceptedPNS(kpType), "startDate=${startDate},endDate=${endDate}"));
 	}
-	
-	public CohortIndicator elicitedAndAcceptedPNS(String kpType) {
-		return cohortIndicator("", ReportUtils.map(monthlyReportCohortLibrary.elicitedAndAcceptedPNS(kpType),
+
+	public CohortIndicator elicitedPNS(String kpType) {
+		return cohortIndicator("", ReportUtils.map(monthlyReportCohortLibrary.elicitedPNS(kpType),
 		    "startDate=${startDate},endDate=${endDate}"));
 	}
 	
-	public CohortIndicator pnsKnownPositieAtEntry(String kpType) {
-		return cohortIndicator("", ReportUtils.map(monthlyReportCohortLibrary.pnsKnownPositieAtEntry(kpType),
+	public CohortIndicator pnsKnownPositiveAtEntry(String kpType) {
+		return cohortIndicator("", ReportUtils.map(monthlyReportCohortLibrary.pnsKnownPositiveAtEntry(kpType),
 		    "startDate=${startDate},endDate=${endDate}"));
 	}
 	
