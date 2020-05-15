@@ -255,10 +255,10 @@ public class MonthlyReportIndicatorLibrary {
 		return cohortIndicator("",
 		    ReportUtils.map(monthlyReportCohortLibrary.acceptedPNS(kpType), "startDate=${startDate},endDate=${endDate}"));
 	}
-
+	
 	public CohortIndicator elicitedPNS(String kpType) {
-		return cohortIndicator("", ReportUtils.map(monthlyReportCohortLibrary.elicitedPNS(kpType),
-		    "startDate=${startDate},endDate=${endDate}"));
+		return cohortIndicator("",
+		    ReportUtils.map(monthlyReportCohortLibrary.elicitedPNS(kpType), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	public CohortIndicator pnsKnownPositiveAtEntry(String kpType) {
