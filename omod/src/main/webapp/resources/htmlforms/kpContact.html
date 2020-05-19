@@ -240,7 +240,15 @@
             });
 
             jq("#btnGenerateIdentifier").click(function(e){
+
                 e.preventDefault();
+                jq('#ward').text(' ').removeClass("ke-error-label");
+                jq('#subCounty').text(' ').removeClass("ke-error-label");
+                jq('#county-code').text(' ').removeClass("ke-error-label");
+                jq('#implementing-partner').text(' ').removeClass("ke-error-label");
+                jq('#hotspot').text(' ').removeClass("ke-error-label");
+
+
                 jq("#dlgIdentifier").dialog({bgiframe: true,
                     title : "Generate unique patient identifier",
                     buttons: {
@@ -444,6 +452,27 @@
             if(encDate == null) {
                 encDate = new Date();
             }
+            if(county.length !== 2){
+                jq('#county-code').text('County code is supposed to be 2 digits').addClass("ke-error-label");
+                return false;
+            }
+            if(subCounty.length !== 3){
+                jq('#subCounty').text('Sub county code is supposed to be 3 digits').addClass("ke-error-label");
+                return false;
+            }
+            if(ward.length !== 4){
+                jq('#ward').text('Ward code is supposed to be 4 digits').addClass("ke-error-label");
+                return false;
+            }
+            if(implementingPartner.trim().length !== 3){
+                jq('#implementing-partner').text('Implementing partner code is supposed to be 3 characters').addClass("ke-error-label");
+                return false;
+            }
+            if(hotSpot.length !== 3){
+                jq('#hotspot').text('Hotspot code is supposed to be 3 digits').addClass("ke-error-label");
+                return false;
+            }
+
             if(kpType == null || kpType == ""){
                 jq('#kpTypeSelected').text('Key pop type required. Ensure Key Population Type is checked on the form').addClass("ke-error-label");
             } else if(ward == null || ward == "") {
