@@ -185,7 +185,8 @@ public class ClientSummaryFragmentController {
 					viralLoadDate = this.formatDate(calendar.getTime());
 				}
 				
-				return new StringBuilder().append(viralLoadValue).append(" on ").append(viralLoadDate).toString();
+				return new StringBuilder().append(viralLoadValue).append((viralLoadValue != null ? " on " : "-"))
+				        .append(viralLoadDate).toString();
 			} else {
 				
 				return "None";
@@ -202,20 +203,20 @@ public class ClientSummaryFragmentController {
 						
 						if (obs.getValueCoded().getConceptId().equals(165244)) {
 							vl = "Suppressed";
-						} else if (obs.getValueCoded().getConceptId().equals(165244)) {
+						} else if (obs.getValueCoded().getConceptId().equals(165245)) {
 							vl = "Not Suppressed";
-						} else if (obs.getValueCoded().getConceptId().equals(165244)) {
+						} else if (obs.getValueCoded().getConceptId().equals(164369)) {
 							vl = "Awaiting Results";
-						} else if (obs.getValueCoded().getConceptId().equals(165244)) {
+						} else if (obs.getValueCoded().getConceptId().equals(1175)) {
 							vl = "N/A";
 						}
-					} else {
-						vl = "None";
 					}
-					
 				}
+				return vl;
+			} else {
+				return "None";
 			}
-			return vl;
+			
 		}
 	}
 	
