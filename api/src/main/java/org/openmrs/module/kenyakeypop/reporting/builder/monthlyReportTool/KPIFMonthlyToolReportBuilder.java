@@ -951,6 +951,255 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.kplhivVlResultArtNonPEPFARSite("Transwoman"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
 		
+		//PrEP_CURR_VERIFY_PEPFAR_SITE
+		EmrReportingUtils.addRow(cohortDsd, "PrEP_CURR_VERIFY_PEPFAR_SITE_FSW",
+		    "Clients initiated on PrEP from another PEPFAR site",
+		    ReportUtils.map(monthlyReportIndicator.referredAndInitiatedPrEPPepfar("FSW"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PrEP_CURR_VERIFY_PEPFAR_SITE_MSM",
+		    "Clients initiated on PrEP from another PEPFAR site",
+		    ReportUtils.map(monthlyReportIndicator.referredAndInitiatedPrEPPepfar("MSM"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PrEP_CURR_VERIFY_PEPFAR_SITE_MSW",
+		    "Clients initiated on PrEP from another PEPFAR site",
+		    ReportUtils.map(monthlyReportIndicator.referredAndInitiatedPrEPPepfar("MSW"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PrEP_CURR_VERIFY_PEPFAR_SITE_PWUD",
+		    "Clients initiated on PrEP from another PEPFAR site",
+		    ReportUtils.map(monthlyReportIndicator.referredAndInitiatedPrEPPepfar("PWUD"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PrEP_CURR_VERIFY_PEPFAR_SITE_PWID",
+		    "Clients initiated on PrEP from another PEPFAR site",
+		    ReportUtils.map(monthlyReportIndicator.referredAndInitiatedPrEPPepfar("PWID"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PrEP_CURR_VERIFY_PEPFAR_SITE_Transman",
+		    "Clients initiated on PrEP from another PEPFAR site",
+		    ReportUtils.map(monthlyReportIndicator.referredAndInitiatedPrEPPepfar("Transman"), indParams),
+		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PrEP_CURR_VERIFY_PEPFAR_SITE_Transwoman",
+		    "Clients initiated on PrEP from another PEPFAR site",
+		    ReportUtils.map(monthlyReportIndicator.referredAndInitiatedPrEPPepfar("Transwoman"), indParams),
+		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
+		
+		//PrEP_CURR_VERIFY_NON_PEPFAR_SITE
+		EmrReportingUtils.addRow(cohortDsd, "PrEP_CURR_VERIFY_NON_PEPFAR_SITE_FSW",
+		    "Clients initiated on PrEP from other non PEPFAR site",
+		    ReportUtils.map(monthlyReportIndicator.referredAndInitiatedPrEPNonPepfar("FSW"), indParams),
+		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PrEP_CURR_VERIFY_NON_PEPFAR_SITE_MSM",
+		    "Clients initiated on PrEP from other non PEPFAR site",
+		    ReportUtils.map(monthlyReportIndicator.referredAndInitiatedPrEPNonPepfar("MSM"), indParams),
+		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PrEP_CURR_VERIFY_NON_PEPFAR_SITE_MSW",
+		    "Clients initiated on PrEP from other non PEPFAR site",
+		    ReportUtils.map(monthlyReportIndicator.referredAndInitiatedPrEPNonPepfar("MSW"), indParams),
+		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PrEP_CURR_VERIFY_NON_PEPFAR_SITE_PWUD",
+		    "Clients initiated on PrEP from other non PEPFAR site",
+		    ReportUtils.map(monthlyReportIndicator.referredAndInitiatedPrEPNonPepfar("PWUD"), indParams),
+		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PrEP_CURR_VERIFY_NON_PEPFAR_SITE_PWID",
+		    "Clients initiated on PrEP from other non PEPFAR site",
+		    ReportUtils.map(monthlyReportIndicator.referredAndInitiatedPrEPNonPepfar("PWID"), indParams),
+		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PrEP_CURR_VERIFY_NON_PEPFAR_SITE_Transman",
+		    "Clients initiated on PrEP from other non PEPFAR site",
+		    ReportUtils.map(monthlyReportIndicator.referredAndInitiatedPrEPNonPepfar("Transman"), indParams),
+		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "PrEP_CURR_VERIFY_NON_PEPFAR_SITE_Transwoman",
+		    "Clients initiated on PrEP from other non PEPFAR site",
+		    ReportUtils.map(monthlyReportIndicator.referredAndInitiatedPrEPNonPepfar("Transwoman"), indParams),
+		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
+		
+		//TX_NEW_VERIFY_PEPFAR_SITE
+		EmrReportingUtils.addRow(cohortDsd, "TX_NEW_VERIFY_PEPFAR_SITE_FSW",
+		    "Clients initiated on ART from other PEPFAR site",
+		    ReportUtils.map(monthlyReportIndicator.kplhivInitiatedARTOtherPEPFAR("FSW"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "TX_NEW_VERIFY_PEPFAR_SITE_MSM",
+		    "Clients initiated on ART from other PEPFAR site",
+		    ReportUtils.map(monthlyReportIndicator.kplhivInitiatedARTOtherPEPFAR("MSM"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "TX_NEW_VERIFY_PEPFAR_SITE_MSW",
+		    "Clients initiated on ART from other PEPFAR site",
+		    ReportUtils.map(monthlyReportIndicator.kplhivInitiatedARTOtherPEPFAR("MSW"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "TX_NEW_VERIFY_PEPFAR_SITE_PWUD",
+		    "Clients initiated on ART from other PEPFAR site",
+		    ReportUtils.map(monthlyReportIndicator.kplhivInitiatedARTOtherPEPFAR("PWUD"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "TX_NEW_VERIFY_PEPFAR_SITE_PWID",
+		    "Clients initiated on ART from other PEPFAR site",
+		    ReportUtils.map(monthlyReportIndicator.kplhivInitiatedARTOtherPEPFAR("PWID"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "TX_NEW_VERIFY_PEPFAR_SITE_Transman",
+		    "Clients initiated on ART from other PEPFAR site",
+		    ReportUtils.map(monthlyReportIndicator.kplhivInitiatedARTOtherPEPFAR("Transman"), indParams),
+		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "TX_NEW_VERIFY_PEPFAR_SITE_Transwoman",
+		    "Clients initiated on ART from other PEPFAR site",
+		    ReportUtils.map(monthlyReportIndicator.kplhivInitiatedARTOtherPEPFAR("Transwoman"), indParams),
+		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
+		
+		//TX_NEW_VERIFY_NON_PEPFAR
+		EmrReportingUtils.addRow(cohortDsd, "TX_NEW_VERIFY_NON_PEPFAR_FSW",
+		    "Clients initiated on ART from other non PEPFAR site",
+		    ReportUtils.map(monthlyReportIndicator.kplhivInitiatedARTNonPEPFAR("FSW"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "TX_NEW_VERIFY_NON_PEPFAR_MSM",
+		    "Clients initiated on ART from other non PEPFAR site",
+		    ReportUtils.map(monthlyReportIndicator.kplhivInitiatedARTNonPEPFAR("MSM"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "TX_NEW_VERIFY_NON_PEPFAR_MSW",
+		    "Clients initiated on ART from other non PEPFAR site",
+		    ReportUtils.map(monthlyReportIndicator.kplhivInitiatedARTNonPEPFAR("MSW"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "TX_NEW_VERIFY_NON_PEPFAR_PWUD",
+		    "Clients initiated on ART from other non PEPFAR site",
+		    ReportUtils.map(monthlyReportIndicator.kplhivInitiatedARTNonPEPFAR("PWUD"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "TX_NEW_VERIFY_NON_PEPFAR_PWID",
+		    "Clients initiated on ART from other non PEPFAR site",
+		    ReportUtils.map(monthlyReportIndicator.kplhivInitiatedARTNonPEPFAR("PWID"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "TX_NEW_VERIFY_NON_PEPFAR_Transman",
+		    "Clients initiated on ART from other non PEPFAR site",
+		    ReportUtils.map(monthlyReportIndicator.kplhivInitiatedARTNonPEPFAR("Transman"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "TX_NEW_VERIFY_NON_PEPFAR_Transwoman",
+		    "Clients initiated on ART from other non PEPFAR site",
+		    ReportUtils.map(monthlyReportIndicator.kplhivInitiatedARTNonPEPFAR("Transwoman"), indParams),
+		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
+		
+		//TX_CURR_VERIFY_PEPFAR_SITE
+		EmrReportingUtils.addRow(cohortDsd, "TX_CURR_VERIFY_PEPFAR_SITE_FSW",
+		    "Clients Current on ART from other PEPFAR site",
+		    ReportUtils.map(monthlyReportIndicator.kplhivCurrentOnARTOtherPEPFAR("FSW"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "TX_CURR_VERIFY_PEPFAR_SITE_MSM",
+		    "Clients Current on ART from other PEPFAR site",
+		    ReportUtils.map(monthlyReportIndicator.kplhivCurrentOnARTOtherPEPFAR("MSM"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "TX_CURR_VERIFY_PEPFAR_SITE_MSW",
+		    "Clients Current on ART from other PEPFAR site",
+		    ReportUtils.map(monthlyReportIndicator.kplhivCurrentOnARTOtherPEPFAR("MSW"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "TX_CURR_VERIFY_PEPFAR_SITE_PWUD",
+		    "Clients Current on ART from other PEPFAR site",
+		    ReportUtils.map(monthlyReportIndicator.kplhivCurrentOnARTOtherPEPFAR("PWUD"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "TX_CURR_VERIFY_PEPFAR_SITE_PWID",
+		    "Clients Current on ART from other PEPFAR site",
+		    ReportUtils.map(monthlyReportIndicator.kplhivCurrentOnARTOtherPEPFAR("PWID"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "TX_CURR_VERIFY_PEPFAR_SITE_Transman",
+		    "Clients Current on ART from other PEPFAR site",
+		    ReportUtils.map(monthlyReportIndicator.kplhivCurrentOnARTOtherPEPFAR("Transman"), indParams),
+		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "TX_CURR_VERIFY_PEPFAR_SITE_Transwoman",
+		    "Clients Current on ART from other PEPFAR site",
+		    ReportUtils.map(monthlyReportIndicator.kplhivCurrentOnARTOtherPEPFAR("Transwoman"), indParams),
+		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
+		
+		//TX_CURR_VERIFY_NON_PEPFAR_SITE
+		EmrReportingUtils.addRow(cohortDsd, "TX_CURR_VERIFY_NON_PEPFAR_SITE_FSW",
+		    "Clients Current on ART from other non PEPFAR site",
+		    ReportUtils.map(monthlyReportIndicator.kplhivCurrentOnARTNonPEPFAR("FSW"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "TX_CURR_VERIFY_NON_PEPFAR_SITE_MSM",
+		    "Clients Current on ART from other non PEPFAR site",
+		    ReportUtils.map(monthlyReportIndicator.kplhivCurrentOnARTNonPEPFAR("MSM"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "TX_CURR_VERIFY_NON_PEPFAR_SITE_MSW",
+		    "Clients Current on ART from other non PEPFAR site",
+		    ReportUtils.map(monthlyReportIndicator.kplhivCurrentOnARTNonPEPFAR("MSW"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "TX_CURR_VERIFY_NON_PEPFAR_SITE_PWUD",
+		    "Clients Current on ART from other non PEPFAR site",
+		    ReportUtils.map(monthlyReportIndicator.kplhivCurrentOnARTNonPEPFAR("PWUD"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "TX_CURR_VERIFY_NON_PEPFAR_SITE_PWID",
+		    "Clients Current on ART from other non PEPFAR site",
+		    ReportUtils.map(monthlyReportIndicator.kplhivCurrentOnARTNonPEPFAR("PWID"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "TX_CURR_VERIFY_NON_PEPFAR_SITE_Transman",
+		    "Clients Current on ART from other non PEPFAR site",
+		    ReportUtils.map(monthlyReportIndicator.kplhivCurrentOnARTNonPEPFAR("Transman"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "TX_CURR_VERIFY_NON_PEPFAR_SITE_Transwoman",
+		    "Clients Current on ART from other non PEPFAR site",
+		    ReportUtils.map(monthlyReportIndicator.kplhivCurrentOnARTNonPEPFAR("Transwoman"), indParams),
+		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
+		
+		//KP_CURR
+		EmrReportingUtils.addRow(cohortDsd, "KP_CURR_FSW", "Cuurent on KP",
+		    ReportUtils.map(monthlyReportIndicator.kpCurr("FSW"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "KP_CURR_MSM", "Cuurent on KP",
+		    ReportUtils.map(monthlyReportIndicator.kpCurr("MSM"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "KP_CURR_MSW", "Cuurent on KP",
+		    ReportUtils.map(monthlyReportIndicator.kpCurr("MSW"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "KP_CURR_PWUD", "Cuurent on KP",
+		    ReportUtils.map(monthlyReportIndicator.kpCurr("PWUD"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "KP_CURR_PWID", "Cuurent on KP",
+		    ReportUtils.map(monthlyReportIndicator.kpCurr("PWID"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "KP_CURR_Transman", "Cuurent on KP",
+		    ReportUtils.map(monthlyReportIndicator.kpCurr("Transman"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "KP_CURR_Transwoman", "Cuurent on KP",
+		    ReportUtils.map(monthlyReportIndicator.kpCurr("Transwoman"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		
+		//KPLHIV_CURR
+		EmrReportingUtils.addRow(cohortDsd, "KPLHIV_CURR_FSW", "KP - Current living with HIV",
+		    ReportUtils.map(monthlyReportIndicator.kpLHIVCurr("FSW"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "KPLHIV_CURR_MSM", "KP - Current living with HIV",
+		    ReportUtils.map(monthlyReportIndicator.kpLHIVCurr("MSM"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "KPLHIV_CURR_MSW", "KP - Current living with HIV",
+		    ReportUtils.map(monthlyReportIndicator.kpLHIVCurr("MSW"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "KPLHIV_CURR_PWUD", "KP - Current living with HIV",
+		    ReportUtils.map(monthlyReportIndicator.kpLHIVCurr("PWUD"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "KPLHIV_CURR_PWID", "KP - Current living with HIV",
+		    ReportUtils.map(monthlyReportIndicator.kpLHIVCurr("PWID"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "KPLHIV_CURR_Transman", "KP - Current living with HIV",
+		    ReportUtils.map(monthlyReportIndicator.kpLHIVCurr("Transman"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "KPLHIV_CURR_Transwoman", "KP - Current living with HIV",
+		    ReportUtils.map(monthlyReportIndicator.kpLHIVCurr("Transwoman"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		
+		//TX_LTFU_RECENT
+		EmrReportingUtils.addRow(cohortDsd, "TX_LTFU_RECENT_FSW", "Recently lost to followup",
+		    ReportUtils.map(monthlyReportIndicator.kplhivLTFURecently("FSW"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "TX_LTFU_RECENT_MSM", "Recently lost to followup",
+		    ReportUtils.map(monthlyReportIndicator.kplhivLTFURecently("MSM"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "TX_LTFU_RECENT_MSW", "Recently lost to followup",
+		    ReportUtils.map(monthlyReportIndicator.kplhivLTFURecently("MSW"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "TX_LTFU_RECENT_PWUD", "Recently lost to followup",
+		    ReportUtils.map(monthlyReportIndicator.kplhivLTFURecently("PWUD"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "TX_LTFU_RECENT_PWID", "Recently lost to followup",
+		    ReportUtils.map(monthlyReportIndicator.kplhivLTFURecently("PWID"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "TX_LTFU_RECENT_Transman", "Recently lost to followup",
+		    ReportUtils.map(monthlyReportIndicator.kplhivLTFURecently("Transman"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "TX_LTFU_RECENT_Transwoman", "Recently lost to followup",
+		    ReportUtils.map(monthlyReportIndicator.kplhivLTFURecently("Transwoman"), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		
 		return cohortDsd;
 		
 	}
