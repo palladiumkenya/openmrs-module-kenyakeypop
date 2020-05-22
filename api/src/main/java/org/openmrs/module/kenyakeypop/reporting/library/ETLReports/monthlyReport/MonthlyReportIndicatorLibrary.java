@@ -45,7 +45,12 @@ public class MonthlyReportIndicatorLibrary {
 		return cohortIndicator("",
 		    ReportUtils.map(monthlyReportCohortLibrary.contactNew(kpType), "startDate=${startDate},endDate=${endDate}"));
 	}
-	
+
+	public CohortIndicator contactHCW(String kpType) {
+		return cohortIndicator("",
+				ReportUtils.map(monthlyReportCohortLibrary.contactHCW(kpType), "startDate=${startDate},endDate=${endDate}"));
+	}
+
 	public CohortIndicator netEnroll(String kpType) {
 		return cohortIndicator("",
 		    ReportUtils.map(monthlyReportCohortLibrary.netEnroll(kpType), "startDate=${startDate},endDate=${endDate}"));
@@ -274,6 +279,56 @@ public class MonthlyReportIndicatorLibrary {
 	public CohortIndicator pnsTestedNegative(String kpType) {
 		return cohortIndicator("", ReportUtils.map(monthlyReportCohortLibrary.pnsTestedNegative(kpType),
 		    "startDate=${startDate},endDate=${endDate}"));
+	}
+
+	public CohortIndicator kpEverPos(String kpType) {
+		return cohortIndicator("", ReportUtils.map(monthlyReportCohortLibrary.kpEverPos(kpType),
+				"startDate=${startDate},endDate=${endDate}"));
+	}
+
+	public CohortIndicator txEverDice(String kpType) {
+		return cohortIndicator("", ReportUtils.map(monthlyReportCohortLibrary.txEverDice(kpType),
+				"startDate=${startDate},endDate=${endDate}"));
+	}
+
+	public CohortIndicator txEverVerifyPEPFAR(String kpType) {
+		return cohortIndicator("", ReportUtils.map(monthlyReportCohortLibrary.txEverVerifyPEPFAR(kpType),
+				"startDate=${startDate},endDate=${endDate}"));
+	}
+
+	public CohortIndicator txEverVerifyNonPEPFAR(String kpType) {
+		return cohortIndicator("", ReportUtils.map(monthlyReportCohortLibrary.txEverVerifyNonPEPFAR(kpType),
+				"startDate=${startDate},endDate=${endDate}"));
+	}
+
+	public CohortIndicator txPvlsEligibleDice(String kpType) {
+		return cohortIndicator("", ReportUtils.map(monthlyReportCohortLibrary.txPvlsEligibleDice(kpType),
+				"startDate=${startDate},endDate=${endDate}"));
+	}
+
+	public CohortIndicator txPvlsEligibleDoneDice(String kpType) {
+		return cohortIndicator("", ReportUtils.map(monthlyReportCohortLibrary.txPvlsEligibleDoneDice(kpType),
+				"startDate=${startDate},endDate=${endDate}"));
+	}
+
+	public CohortIndicator txPvlsEligibleVerifyPEPFAR(String kpType) {
+		return cohortIndicator("", ReportUtils.map(monthlyReportCohortLibrary.txPvlsEligibleVerifyPEPFAR(kpType),
+				"startDate=${startDate},endDate=${endDate}"));
+	}
+
+	public CohortIndicator txPvlsEligibleDoneVerifyPEPFAR(String kpType) {
+		return cohortIndicator("", ReportUtils.map(monthlyReportCohortLibrary.txPvlsEligibleDoneVerifyPEPFAR(kpType),
+				"startDate=${startDate},endDate=${endDate}"));
+	}
+
+	public CohortIndicator txPvlsEligibleVerifyNonPEPFAR(String kpType) {
+		return cohortIndicator("", ReportUtils.map(monthlyReportCohortLibrary.txPvlsEligibleVerifyNonPEPFAR(kpType),
+				"startDate=${startDate},endDate=${endDate}"));
+	}
+
+	public CohortIndicator txPvlsEligibleDoneVerifyNonPEPFAR(String kpType) {
+		return cohortIndicator("", ReportUtils.map(monthlyReportCohortLibrary.txPvlsEligibleDoneVerifyNonPEPFAR(kpType),
+				"startDate=${startDate},endDate=${endDate}"));
 	}
 	
 }
