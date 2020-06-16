@@ -32,7 +32,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select  en.client_id  from kenyaemr_etl.etl_client_enrollment en  inner join kenyaemr_etl.etl_clinical_visit v on en.client_id = v.client_id\n"
 		        + "                                                            inner join kenyaemr_etl.etl_contact c on en.client_id = c.client_id\n"
-		        + "where c.key_population_type = \"Female sex worker\"  and en.voided = 0\n"
+		        + "where c.key_population_type = \"FSW\"  and en.voided = 0\n"
 		        + "group by en.client_id\n"
 		        + "    having timestampdiff(MONTH,Max(date(v.visit_date)),date(:endDate))<=3;";
 		cd.setName("activeFsw");
@@ -49,8 +49,9 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select  en.client_id  from kenyaemr_etl.etl_client_enrollment en  inner join kenyaemr_etl.etl_clinical_visit v on en.client_id = v.client_id\n"
 		        + "                                                            inner join kenyaemr_etl.etl_contact c on en.client_id = c.client_id\n"
-		        + "where c.key_population_type = \"Men who have sex with men\"  and en.voided = 0\n"
-		        + "group by en.client_id\n" + "having timestampdiff(MONTH,Max(date(v.visit_date)),date(:endDate))<=3;";
+		        + "where c.key_population_type = \"MSM\"  and en.voided = 0\n"
+		        + "group by en.client_id\n"
+		        + "having timestampdiff(MONTH,Max(date(v.visit_date)),date(:endDate))<=3;";
 		cd.setName("activeMsm");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -64,7 +65,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select  en.client_id  from kenyaemr_etl.etl_client_enrollment en  inner join kenyaemr_etl.etl_clinical_visit v on en.client_id = v.client_id\n"
 		        + "                                                            inner join kenyaemr_etl.etl_contact c on en.client_id = c.client_id\n"
-		        + "where c.key_population_type = \"Male sex worker\"  and en.voided = 0\n"
+		        + "where c.key_population_type = \"MSW\"  and en.voided = 0\n"
 		        + "group by en.client_id\n"
 		        + "having timestampdiff(MONTH,Max(date(v.visit_date)),date(:endDate))<=3;";
 		cd.setName("activeMsw");
@@ -80,8 +81,9 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select  en.client_id  from kenyaemr_etl.etl_client_enrollment en  inner join kenyaemr_etl.etl_clinical_visit v on en.client_id = v.client_id\n"
 		        + "                                                            inner join kenyaemr_etl.etl_contact c on en.client_id = c.client_id\n"
-		        + "where c.key_population_type = \"People who inject drugs\"  and en.voided = 0\n"
-		        + "group by en.client_id\n" + "having timestampdiff(MONTH,Max(date(v.visit_date)),date(:endDate))<=3;";
+		        + "where c.key_population_type = \"PWID\"  and en.voided = 0\n"
+		        + "group by en.client_id\n"
+		        + "having timestampdiff(MONTH,Max(date(v.visit_date)),date(:endDate))<=3;";
 		cd.setName("activePwid");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -95,7 +97,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select  en.client_id  from kenyaemr_etl.etl_client_enrollment en  inner join kenyaemr_etl.etl_clinical_visit v on en.client_id = v.client_id\n"
 		        + "                                                            inner join kenyaemr_etl.etl_contact c on en.client_id = c.client_id\n"
-		        + "where c.key_population_type = \"People who use drugs\"  and en.voided = 0\n"
+		        + "where c.key_population_type = \"PWUD\"  and en.voided = 0\n"
 		        + "group by en.client_id\n"
 		        + "having timestampdiff(MONTH,Max(date(v.visit_date)),date(:endDate))<=3;";
 		cd.setName("activePwud");
@@ -143,7 +145,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select h.patient_id from kenyaemr_etl.etl_hts_test h inner join kenyaemr_etl.etl_client_enrollment e on h.patient_id = e.client_id\n"
 		        + "                inner join kenyaemr_etl.etl_contact c on h.patient_id = c.client_id\n"
-		        + "                where date(h.visit_date) between date(:startDate) and date(:endDate) and c.key_population_type = \"Female sex worker\"\n"
+		        + "                where date(h.visit_date) between date(:startDate) and date(:endDate) and c.key_population_type = \"FSW\"\n"
 		        + "    group by h.patient_id;";
 		cd.setName("hivTestedFsw");
 		cd.setQuery(sqlQuery);
@@ -158,7 +160,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select h.patient_id from kenyaemr_etl.etl_hts_test h inner join kenyaemr_etl.etl_client_enrollment e on h.patient_id = e.client_id\n"
 		        + "                                              inner join kenyaemr_etl.etl_contact c on h.patient_id = c.client_id\n"
-		        + "where date(h.visit_date) between date(:startDate) and date(:endDate) and c.key_population_type = \"Men who have sex with men\"\n"
+		        + "where date(h.visit_date) between date(:startDate) and date(:endDate) and c.key_population_type = \"MSM\"\n"
 		        + "group by h.patient_id;";
 		cd.setName("hivTestedMsm");
 		cd.setQuery(sqlQuery);
@@ -173,7 +175,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select h.patient_id from kenyaemr_etl.etl_hts_test h inner join kenyaemr_etl.etl_client_enrollment e on h.patient_id = e.client_id\n"
 		        + "                                              inner join kenyaemr_etl.etl_contact c on h.patient_id = c.client_id\n"
-		        + "where date(h.visit_date) between date(:startDate) and date(:endDate) and c.key_population_type = \"Male sex worker\"\n"
+		        + "where date(h.visit_date) between date(:startDate) and date(:endDate) and c.key_population_type = \"MSW\"\n"
 		        + "group by h.patient_id;";
 		cd.setName("hivTestedMsw");
 		cd.setQuery(sqlQuery);
@@ -188,7 +190,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select h.patient_id from kenyaemr_etl.etl_hts_test h inner join kenyaemr_etl.etl_client_enrollment e on h.patient_id = e.client_id\n"
 		        + "                                              inner join kenyaemr_etl.etl_contact c on h.patient_id = c.client_id\n"
-		        + "where date(h.visit_date) between date(:startDate) and date(:endDate) and c.key_population_type = \"People who inject drugs\"\n"
+		        + "where date(h.visit_date) between date(:startDate) and date(:endDate) and c.key_population_type = \"PWID\"\n"
 		        + "group by h.patient_id;";
 		cd.setName("hivTestedPwid");
 		cd.setQuery(sqlQuery);
@@ -203,7 +205,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select h.patient_id from kenyaemr_etl.etl_hts_test h inner join kenyaemr_etl.etl_client_enrollment e on h.patient_id = e.client_id\n"
 		        + "                                              inner join kenyaemr_etl.etl_contact c on h.patient_id = c.client_id\n"
-		        + "where date(h.visit_date) between date(:startDate) and date(:endDate) and c.key_population_type = \"People who use drugs\"\n"
+		        + "where date(h.visit_date) between date(:startDate) and date(:endDate) and c.key_population_type = \"PWUD\"\n"
 		        + "group by h.patient_id;";
 		cd.setName("hivTestedPwud");
 		cd.setQuery(sqlQuery);
@@ -248,7 +250,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select h.patient_id from kenyaemr_etl.etl_hts_test h inner join kenyaemr_etl.etl_client_enrollment e on h.patient_id = e.client_id\n"
 		        + "                                                     inner join kenyaemr_etl.etl_contact c on h.patient_id = c.client_id\n"
-		        + "where c.key_population_type = \"Female sex worker\"\n"
+		        + "where c.key_population_type = \"FSW\"\n"
 		        + "  and date(h.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "  and h.hts_entry_point in (\"In Patient Department(IPD)\",\n"
 		        + "                            \"Out Patient Department(OPD)Peadiatric Clinic\",\n"
@@ -270,7 +272,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select h.patient_id from kenyaemr_etl.etl_hts_test h inner join kenyaemr_etl.etl_client_enrollment e on h.patient_id = e.client_id\n"
 		        + "                                              inner join kenyaemr_etl.etl_contact c on h.patient_id = c.client_id\n"
-		        + "where c.key_population_type = \"Men who have sex with men\"\n"
+		        + "where c.key_population_type = \"MSM\"\n"
 		        + "  and date(h.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "  and h.hts_entry_point in (\"In Patient Department(IPD)\",\n"
 		        + "                            \"Out Patient Department(OPD)Peadiatric Clinic\",\n"
@@ -292,7 +294,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select h.patient_id from kenyaemr_etl.etl_hts_test h inner join kenyaemr_etl.etl_client_enrollment e on h.patient_id = e.client_id\n"
 		        + "                                              inner join kenyaemr_etl.etl_contact c on h.patient_id = c.client_id\n"
-		        + "where c.key_population_type = \"Male sex worker\"\n"
+		        + "where c.key_population_type = \"MSW\"\n"
 		        + "  and date(h.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "  and h.hts_entry_point in (\"In Patient Department(IPD)\",\n"
 		        + "                            \"Out Patient Department(OPD)Peadiatric Clinic\",\n"
@@ -314,7 +316,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select h.patient_id from kenyaemr_etl.etl_hts_test h inner join kenyaemr_etl.etl_client_enrollment e on h.patient_id = e.client_id\n"
 		        + "                                              inner join kenyaemr_etl.etl_contact c on h.patient_id = c.client_id\n"
-		        + "where c.key_population_type = \"People who inject drugs\"\n"
+		        + "where c.key_population_type = \"PWID\"\n"
 		        + "  and date(h.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "  and h.hts_entry_point in (\"In Patient Department(IPD)\",\n"
 		        + "                            \"Out Patient Department(OPD)Peadiatric Clinic\",\n"
@@ -336,7 +338,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select h.patient_id from kenyaemr_etl.etl_hts_test h inner join kenyaemr_etl.etl_client_enrollment e on h.patient_id = e.client_id\n"
 		        + "                                              inner join kenyaemr_etl.etl_contact c on h.patient_id = c.client_id\n"
-		        + "where c.key_population_type = \"People who use drugs\"\n"
+		        + "where c.key_population_type = \"PWUD\"\n"
 		        + "  and date(h.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "  and h.hts_entry_point in (\"In Patient Department(IPD)\",\n"
 		        + "                            \"Out Patient Department(OPD)Peadiatric Clinic\",\n"
@@ -403,7 +405,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select h.patient_id from kenyaemr_etl.etl_hts_test h inner join kenyaemr_etl.etl_client_enrollment e on h.patient_id = e.client_id\n"
 		        + "                                                     inner join kenyaemr_etl.etl_contact c on h.patient_id = c.client_id\n"
-		        + "where c.key_population_type = \"Female sex worker\"\n"
+		        + "where c.key_population_type = \"FSW\"\n"
 		        + "  and date(h.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "  and h.hts_entry_point in (\"Home Based Testing\",\n"
 		        + "                            \"Mobile Outreach\",\n"
@@ -423,7 +425,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select h.patient_id from kenyaemr_etl.etl_hts_test h inner join kenyaemr_etl.etl_client_enrollment e on h.patient_id = e.client_id\n"
 		        + "                                              inner join kenyaemr_etl.etl_contact c on h.patient_id = c.client_id\n"
-		        + "where c.key_population_type = \"Men who have sex with men\"\n"
+		        + "where c.key_population_type = \"MSM\"\n"
 		        + "  and date(h.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "  and h.hts_entry_point in (\"Home Based Testing\",\n"
 		        + "                            \"Mobile Outreach\",\n"
@@ -443,7 +445,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select h.patient_id from kenyaemr_etl.etl_hts_test h inner join kenyaemr_etl.etl_client_enrollment e on h.patient_id = e.client_id\n"
 		        + "                                              inner join kenyaemr_etl.etl_contact c on h.patient_id = c.client_id\n"
-		        + "where c.key_population_type = \"Male sex worker\"\n"
+		        + "where c.key_population_type = \"MSW\"\n"
 		        + "  and date(h.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "  and h.hts_entry_point in (\"Home Based Testing\",\n"
 		        + "                            \"Mobile Outreach\",\n"
@@ -463,7 +465,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select h.patient_id from kenyaemr_etl.etl_hts_test h inner join kenyaemr_etl.etl_client_enrollment e on h.patient_id = e.client_id\n"
 		        + "                                              inner join kenyaemr_etl.etl_contact c on h.patient_id = c.client_id\n"
-		        + "where c.key_population_type = \"People who inject drugs\"\n"
+		        + "where c.key_population_type = \"PWID\"\n"
 		        + "  and date(h.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "  and h.hts_entry_point in (\"Home Based Testing\",\n"
 		        + "                            \"Mobile Outreach\",\n"
@@ -483,7 +485,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select h.patient_id from kenyaemr_etl.etl_hts_test h inner join kenyaemr_etl.etl_client_enrollment e on h.patient_id = e.client_id\n"
 		        + "                                              inner join kenyaemr_etl.etl_contact c on h.patient_id = c.client_id\n"
-		        + "where c.key_population_type = \"People who use drugs\"\n"
+		        + "where c.key_population_type = \"PWUD\"\n"
 		        + "  and date(h.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "  and h.hts_entry_point in (\"Home Based Testing\",\n"
 		        + "                            \"Mobile Outreach\",\n"
@@ -543,7 +545,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select t.patient_id from kenyaemr_etl.etl_hts_test t inner join kenyaemr_etl.etl_client_enrollment e on t.patient_id = e.client_id\n"
 		        + "                                              inner join kenyaemr_etl.etl_contact c on t.patient_id = c.client_id\n"
-		        + "where c.key_population_type = \"Female sex worker\"\n"
+		        + "where c.key_population_type = \"FSW\"\n"
 		        + "group by t.patient_id\n"
 		        + "having min(date(t.visit_date)) between  date(:startDate) and date(:endDate);";
 		cd.setName("testedNewFsw");
@@ -560,7 +562,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select t.patient_id from kenyaemr_etl.etl_hts_test t inner join kenyaemr_etl.etl_client_enrollment e on t.patient_id = e.client_id\n"
 		        + "                                              inner join kenyaemr_etl.etl_contact c on t.patient_id = c.client_id\n"
-		        + "where c.key_population_type = \"Men who have sex with men\"\n"
+		        + "where c.key_population_type = \"MSM\"\n"
 		        + "group by t.patient_id\n"
 		        + "having min(date(t.visit_date)) between  date(:startDate) and date(:endDate);";
 		cd.setName("testedNewMsm");
@@ -577,7 +579,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select t.patient_id from kenyaemr_etl.etl_hts_test t inner join kenyaemr_etl.etl_client_enrollment e on t.patient_id = e.client_id\n"
 		        + "                                              inner join kenyaemr_etl.etl_contact c on t.patient_id = c.client_id\n"
-		        + "where c.key_population_type = \"Male sex worker\"\n"
+		        + "where c.key_population_type = \"MSW\"\n"
 		        + "group by t.patient_id\n"
 		        + "having min(date(t.visit_date)) between  date(:startDate) and date(:endDate);";
 		cd.setName("testedNewMsw");
@@ -594,7 +596,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select t.patient_id from kenyaemr_etl.etl_hts_test t inner join kenyaemr_etl.etl_client_enrollment e on t.patient_id = e.client_id\n"
 		        + "                                              inner join kenyaemr_etl.etl_contact c on t.patient_id = c.client_id\n"
-		        + "where c.key_population_type = \"People who inject drugs\"\n"
+		        + "where c.key_population_type = \"PWID\"\n"
 		        + "group by t.patient_id\n"
 		        + "having min(date(t.visit_date)) between  date(:startDate) and date(:endDate);";
 		cd.setName("testedNewPwid");
@@ -611,7 +613,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select t.patient_id from kenyaemr_etl.etl_hts_test t inner join kenyaemr_etl.etl_client_enrollment e on t.patient_id = e.client_id\n"
 		        + "                                              inner join kenyaemr_etl.etl_contact c on t.patient_id = c.client_id\n"
-		        + "where c.key_population_type = \"People who use drugs\"\n"
+		        + "where c.key_population_type = \"PWUD\"\n"
 		        + "group by t.patient_id\n"
 		        + "having min(date(t.visit_date)) between  date(:startDate) and date(:endDate);";
 		cd.setName("testedNewPwud");
@@ -662,8 +664,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select t.patient_id from kenyaemr_etl.etl_hts_test t inner join kenyaemr_etl.etl_client_enrollment e on t.patient_id = e.client_id\n"
 		        + "                                              inner join kenyaemr_etl.etl_contact c on t.patient_id = e.client_id\n"
-		        + "where c.key_population_type = \"Female sex worker\"\n"
-		        + "group by t.patient_id having count(distinct(t.visit_id)) >1;";
+		        + "where c.key_population_type = \"FSW\"\n" + "group by t.patient_id having count(distinct(t.visit_id)) >1;";
 		cd.setName("testedRepeatFsw");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -678,8 +679,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select t.patient_id from kenyaemr_etl.etl_hts_test t inner join kenyaemr_etl.etl_client_enrollment e on t.patient_id = e.client_id\n"
 		        + "                                              inner join kenyaemr_etl.etl_contact c on t.patient_id = e.client_id\n"
-		        + "where c.key_population_type = \"Men who have sex with men\"\n"
-		        + "group by t.patient_id having count(distinct(t.visit_id)) >1;";
+		        + "where c.key_population_type = \"MSM\"\n" + "group by t.patient_id having count(distinct(t.visit_id)) >1;";
 		cd.setName("testedRepeatMsm");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -694,8 +694,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select t.patient_id from kenyaemr_etl.etl_hts_test t inner join kenyaemr_etl.etl_client_enrollment e on t.patient_id = e.client_id\n"
 		        + "                                              inner join kenyaemr_etl.etl_contact c on t.patient_id = e.client_id\n"
-		        + "where c.key_population_type = \"Male sex worker\"\n"
-		        + "group by t.patient_id having count(distinct(t.visit_id)) >1;";
+		        + "where c.key_population_type = \"MSW\"\n" + "group by t.patient_id having count(distinct(t.visit_id)) >1;";
 		cd.setName("testedRepeatMsw");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -710,7 +709,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select t.patient_id from kenyaemr_etl.etl_hts_test t inner join kenyaemr_etl.etl_client_enrollment e on t.patient_id = e.client_id\n"
 		        + "                                              inner join kenyaemr_etl.etl_contact c on t.patient_id = e.client_id\n"
-		        + "where c.key_population_type = \"People who inject drugs\"\n"
+		        + "where c.key_population_type = \"PWID\"\n"
 		        + "group by t.patient_id having count(distinct(t.visit_id)) >1;";
 		cd.setName("testedRepeatPwid");
 		cd.setQuery(sqlQuery);
@@ -726,7 +725,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select t.patient_id from kenyaemr_etl.etl_hts_test t inner join kenyaemr_etl.etl_client_enrollment e on t.patient_id = e.client_id\n"
 		        + "                                              inner join kenyaemr_etl.etl_contact c on t.patient_id = e.client_id\n"
-		        + "where c.key_population_type = \"People who use drugs\"\n"
+		        + "where c.key_population_type = \"PWUD\"\n"
 		        + "group by t.patient_id having count(distinct(t.visit_id)) >1;";
 		cd.setName("testedRepeatPwud");
 		cd.setQuery(sqlQuery);
@@ -774,7 +773,7 @@ public class ETLMoh731PlusCohortLibrary {
 		        + "                          inner join kenyaemr_etl.etl_contact c on e.client_id = c.client_id\n"
 		        + "                          inner join kenyaemr_etl.etl_clinical_visit v on e.client_id = v.client_id\n"
 		        + "                          left outer join kenyaemr_etl.etl_hts_test t on e.client_id = t.patient_id\n"
-		        + "where c.key_population_type = \"Female sex worker\" and  coalesce(v.test_results = \"Positive\" ,v.hiv_self_rep_status=\"Positive\",e.share_test_results =\"Yes I tested positive\",\n"
+		        + "where c.key_population_type = \"FSW\" and  coalesce(v.test_results = \"Positive\" ,v.hiv_self_rep_status=\"Positive\",e.share_test_results =\"Yes I tested positive\",\n"
 		        + "                                                                t.final_test_result =\"Positive\")\n"
 		        + "group by e.client_id\n" + "having timestampdiff(MONTH,Max(date(v.visit_date)),date(:endDate))<=3;";
 		cd.setName("knownPositiveFsw");
@@ -793,7 +792,7 @@ public class ETLMoh731PlusCohortLibrary {
 		        + "                          inner join kenyaemr_etl.etl_contact c on e.client_id = c.client_id\n"
 		        + "                          inner join kenyaemr_etl.etl_clinical_visit v on e.client_id = v.client_id\n"
 		        + "                          left outer join kenyaemr_etl.etl_hts_test t on e.client_id = t.patient_id\n"
-		        + "where c.key_population_type = \"Men who have sex with men\" and  coalesce(v.test_results = \"Positive\" ,v.hiv_self_rep_status=\"Positive\",e.share_test_results =\"Yes I tested positive\",\n"
+		        + "where c.key_population_type = \"MSM\" and  coalesce(v.test_results = \"Positive\" ,v.hiv_self_rep_status=\"Positive\",e.share_test_results =\"Yes I tested positive\",\n"
 		        + "                                                                t.final_test_result =\"Positive\")\n"
 		        + "group by e.client_id\n" + "having timestampdiff(MONTH,Max(date(v.visit_date)),date(:endDate))<=3;";
 		cd.setName("knownPositiveMsm");
@@ -812,7 +811,7 @@ public class ETLMoh731PlusCohortLibrary {
 		        + "                          inner join kenyaemr_etl.etl_contact c on e.client_id = c.client_id\n"
 		        + "                          inner join kenyaemr_etl.etl_clinical_visit v on e.client_id = v.client_id\n"
 		        + "                          left outer join kenyaemr_etl.etl_hts_test t on e.client_id = t.patient_id\n"
-		        + "where c.key_population_type = \"Male sex worker\" and  coalesce(v.test_results = \"Positive\" ,v.hiv_self_rep_status=\"Positive\",e.share_test_results =\"Yes I tested positive\",\n"
+		        + "where c.key_population_type = \"MSW\" and  coalesce(v.test_results = \"Positive\" ,v.hiv_self_rep_status=\"Positive\",e.share_test_results =\"Yes I tested positive\",\n"
 		        + "                                                                        t.final_test_result =\"Positive\")\n"
 		        + "group by e.client_id\n" + "having timestampdiff(MONTH,Max(date(v.visit_date)),date(:endDate))<=3;";
 		cd.setName("knownPositiveMsw");
@@ -831,7 +830,7 @@ public class ETLMoh731PlusCohortLibrary {
 		        + "                          inner join kenyaemr_etl.etl_contact c on e.client_id = c.client_id\n"
 		        + "                          inner join kenyaemr_etl.etl_clinical_visit v on e.client_id = v.client_id\n"
 		        + "                          left outer join kenyaemr_etl.etl_hts_test t on e.client_id = t.patient_id\n"
-		        + "where c.key_population_type = \"People who inject drugs\" and  coalesce(v.test_results = \"Positive\" ,v.hiv_self_rep_status=\"Positive\",e.share_test_results =\"Yes I tested positive\",\n"
+		        + "where c.key_population_type = \"PWID\" and  coalesce(v.test_results = \"Positive\" ,v.hiv_self_rep_status=\"Positive\",e.share_test_results =\"Yes I tested positive\",\n"
 		        + "                                                              t.final_test_result =\"Positive\")\n"
 		        + "group by e.client_id\n" + "having timestampdiff(MONTH,Max(date(v.visit_date)),date(:endDate))<=3;";
 		cd.setName("knownPositivePwid");
@@ -850,7 +849,7 @@ public class ETLMoh731PlusCohortLibrary {
 		        + "                          inner join kenyaemr_etl.etl_contact c on e.client_id = c.client_id\n"
 		        + "                          inner join kenyaemr_etl.etl_clinical_visit v on e.client_id = v.client_id\n"
 		        + "                          left outer join kenyaemr_etl.etl_hts_test t on e.client_id = t.patient_id\n"
-		        + "where c.key_population_type = \"People who use drugs\" and  coalesce(v.test_results = \"Positive\" ,v.hiv_self_rep_status=\"Positive\",e.share_test_results =\"Yes I tested positive\",\n"
+		        + "where c.key_population_type = \"PWUD\" and  coalesce(v.test_results = \"Positive\" ,v.hiv_self_rep_status=\"Positive\",e.share_test_results =\"Yes I tested positive\",\n"
 		        + "                                                                      t.final_test_result =\"Positive\")\n"
 		        + "group by e.client_id\n" + "having timestampdiff(MONTH,Max(date(v.visit_date)),date(:endDate))<=3;";
 		cd.setName("knownPositivePwud");
@@ -903,7 +902,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select h.patient_id from kenyaemr_etl.etl_hts_test h inner join kenyaemr_etl.etl_client_enrollment e on h.patient_id = e.client_id\n"
 		        + "                                              inner join kenyaemr_etl.etl_contact c on h.patient_id = c.client_id\n"
-		        + "                                              where c.key_population_type = \"Female sex worker\" and h.final_test_result =\"Positive\" and h.patient_given_result = \"Yes\"\n"
+		        + "                                              where c.key_population_type = \"FSW\" and h.final_test_result =\"Positive\" and h.patient_given_result = \"Yes\"\n"
 		        + "and  date(h.visit_date) between date(:startDate) and date(:endDate)\n" + "group by h.patient_id;";
 		cd.setName("receivedPositiveResultsFsw");
 		cd.setQuery(sqlQuery);
@@ -935,7 +934,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select h.patient_id from kenyaemr_etl.etl_hts_test h inner join kenyaemr_etl.etl_client_enrollment e on h.patient_id = e.client_id\n"
 		        + "                                              inner join kenyaemr_etl.etl_contact c on h.patient_id = c.client_id\n"
-		        + "where c.key_population_type = \"Male sex worker\" and h.final_test_result =\"Positive\" and h.patient_given_result = \"Yes\"\n"
+		        + "where c.key_population_type = \"MSW\" and h.final_test_result =\"Positive\" and h.patient_given_result = \"Yes\"\n"
 		        + "  and  date(h.visit_date) between date(:startDate) and date(:endDate)\n" + "group by h.patient_id;";
 		cd.setName("receivedPositiveResultsMsw");
 		cd.setQuery(sqlQuery);
@@ -951,7 +950,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select h.patient_id from kenyaemr_etl.etl_hts_test h inner join kenyaemr_etl.etl_client_enrollment e on h.patient_id = e.client_id\n"
 		        + "                                              inner join kenyaemr_etl.etl_contact c on h.patient_id = c.client_id\n"
-		        + "where c.key_population_type = \"People who inject drugs\" and h.final_test_result =\"Positive\" and h.patient_given_result = \"Yes\"\n"
+		        + "where c.key_population_type = \"PWID\" and h.final_test_result =\"Positive\" and h.patient_given_result = \"Yes\"\n"
 		        + "  and  date(h.visit_date) between date(:startDate) and date(:endDate)\n" + "group by h.patient_id;";
 		cd.setName("receivedPositiveResultsPwid");
 		cd.setQuery(sqlQuery);
@@ -967,7 +966,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select h.patient_id from kenyaemr_etl.etl_hts_test h inner join kenyaemr_etl.etl_client_enrollment e on h.patient_id = e.client_id\n"
 		        + "                                              inner join kenyaemr_etl.etl_contact c on h.patient_id = c.client_id\n"
-		        + "where c.key_population_type = \"People who use drugs\" and h.final_test_result =\"Positive\" and h.patient_given_result = \"Yes\"\n"
+		        + "where c.key_population_type = \"PWUD\" and h.final_test_result =\"Positive\" and h.patient_given_result = \"Yes\"\n"
 		        + "  and  date(h.visit_date) between date(:startDate) and date(:endDate)\n" + "group by h.patient_id;";
 		cd.setName("receivedPositiveResultsPwud");
 		cd.setQuery(sqlQuery);
@@ -1017,7 +1016,7 @@ public class ETLMoh731PlusCohortLibrary {
 		        + "                          inner join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
 		        + "                          inner join kenyaemr_etl.etl_hts_test t on v.client_id = t.patient_id\n"
 		        + " and (v.hiv_care_facility is not null or v.other_hiv_care_facility is not null)\n"
-		        + "where c.key_population_type =\"Female sex worker\"\n" + "group by v.client_id\n"
+		        + "where c.key_population_type =\"FSW\"\n" + "group by v.client_id\n"
 		        + "having timestampdiff(MONTH,Max(date(v.visit_date)),date(:endDate))<=3 and\n"
 		        + "       timestampdiff(MONTH,Max(date(v.visit_date)),date(:endDate))<=3;";
 		cd.setName("linkedFsw");
@@ -1036,7 +1035,7 @@ public class ETLMoh731PlusCohortLibrary {
 		        + "                          inner join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
 		        + "                          inner join kenyaemr_etl.etl_hts_test t on v.client_id = t.patient_id\n"
 		        + "                                                         and (v.hiv_care_facility is not null or v.other_hiv_care_facility is not null)\n"
-		        + "where c.key_population_type =\"Men who have sex with men\"\n" + "group by v.client_id\n"
+		        + "where c.key_population_type =\"MSM\"\n" + "group by v.client_id\n"
 		        + "having timestampdiff(MONTH,Max(date(v.visit_date)),date(:endDate))<=3;";
 		cd.setName("linkedMsm");
 		cd.setQuery(sqlQuery);
@@ -1054,7 +1053,7 @@ public class ETLMoh731PlusCohortLibrary {
 		        + "                          inner join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
 		        + "                          inner join kenyaemr_etl.etl_hts_test t on v.client_id = t.patient_id\n"
 		        + " and (v.hiv_care_facility is not null or v.other_hiv_care_facility is not null)\n"
-		        + "where c.key_population_type =\"Male sex worker\"\n" + "group by v.client_id\n"
+		        + "where c.key_population_type =\"MSW\"\n" + "group by v.client_id\n"
 		        + "having timestampdiff(MONTH,Max(date(v.visit_date)),date(:endDate))<=3;";
 		cd.setName("linkedMsw");
 		cd.setQuery(sqlQuery);
@@ -1072,7 +1071,7 @@ public class ETLMoh731PlusCohortLibrary {
 		        + "                          inner join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
 		        + "                          inner join kenyaemr_etl.etl_hts_test t on v.client_id = t.patient_id\n"
 		        + "                                                         and (v.hiv_care_facility is not null or v.other_hiv_care_facility is not null)\n"
-		        + "where c.key_population_type =\"People who inject drugs\"\n" + "group by v.client_id\n"
+		        + "where c.key_population_type =\"PWID\"\n" + "group by v.client_id\n"
 		        + "having timestampdiff(MONTH,Max(date(v.visit_date)),date(:endDate))<=3;";
 		cd.setName("linkedPwid");
 		cd.setQuery(sqlQuery);
@@ -1090,7 +1089,7 @@ public class ETLMoh731PlusCohortLibrary {
 		        + "                          inner join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
 		        + "                          inner join kenyaemr_etl.etl_hts_test t on v.client_id = t.patient_id\n"
 		        + "                                                         and (v.hiv_care_facility is not null or v.other_hiv_care_facility is not null)\n"
-		        + "where c.key_population_type =\"People who use drugs\"\n" + "group by v.client_id\n"
+		        + "where c.key_population_type =\"PWUD\"\n" + "group by v.client_id\n"
 		        + "having timestampdiff(MONTH,Max(date(v.visit_date)),date(:endDate))<=3;";
 		cd.setName("linkedPwud");
 		cd.setQuery(sqlQuery);
@@ -1144,7 +1143,7 @@ public class ETLMoh731PlusCohortLibrary {
 		        + "                              kenyaemr_etl.etl_peer_calendar p on c.client_id = p.client_id and date(p.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "                              left outer join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "                              left outer join kenyaemr_etl.etl_sti_treatment s on c.client_id = s.client_id and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "                         where c.key_population_type = \"Female sex worker\" group by c.client_id\n"
+		        + "                         where c.key_population_type = \"FSW\" group by c.client_id\n"
 		        + "                         having condoms_distributed >=1 )k;";
 		cd.setName("receivingCondomsFsw");
 		cd.setQuery(sqlQuery);
@@ -1162,7 +1161,7 @@ public class ETLMoh731PlusCohortLibrary {
 		        + "                              kenyaemr_etl.etl_peer_calendar p on c.client_id = p.client_id and date(p.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "                              left outer join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "                              left outer join kenyaemr_etl.etl_sti_treatment s on c.client_id = s.client_id and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "                         where c.key_population_type = \"Men who have sex with men\" group by c.client_id\n"
+		        + "                         where c.key_population_type = \"MSM\" group by c.client_id\n"
 		        + "                         having condoms_distributed >=1 )k;";
 		cd.setName("receivingCondomsMsm");
 		cd.setQuery(sqlQuery);
@@ -1180,7 +1179,7 @@ public class ETLMoh731PlusCohortLibrary {
 		        + "                              kenyaemr_etl.etl_peer_calendar p on c.client_id = p.client_id and date(p.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "                              left outer join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "                              left outer join kenyaemr_etl.etl_sti_treatment s on c.client_id = s.client_id and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "                         where c.key_population_type = \"Male sex worker\" group by c.client_id\n"
+		        + "                         where c.key_population_type = \"MSW\" group by c.client_id\n"
 		        + "                         having condoms_distributed >=1 )k;";
 		cd.setName("receivingCondomsMsw");
 		cd.setQuery(sqlQuery);
@@ -1198,7 +1197,7 @@ public class ETLMoh731PlusCohortLibrary {
 		        + "                              kenyaemr_etl.etl_peer_calendar p on c.client_id = p.client_id and date(p.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "                              left outer join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "                              left outer join kenyaemr_etl.etl_sti_treatment s on c.client_id = s.client_id and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "                         where c.key_population_type = \"People who inject drugs\" group by c.client_id\n"
+		        + "                         where c.key_population_type = \"PWID\" group by c.client_id\n"
 		        + "                         having condoms_distributed >=1 )k;";
 		cd.setName("receivingCondomsPwid");
 		cd.setQuery(sqlQuery);
@@ -1216,7 +1215,7 @@ public class ETLMoh731PlusCohortLibrary {
 		        + "                              kenyaemr_etl.etl_peer_calendar p on c.client_id = p.client_id and date(p.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "                              left outer join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "                              left outer join kenyaemr_etl.etl_sti_treatment s on c.client_id = s.client_id and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "                         where c.key_population_type = \"People who use drugs\" group by c.client_id\n"
+		        + "                         where c.key_population_type = \"PWUD\" group by c.client_id\n"
 		        + "                         having condoms_distributed >=1 )k;";
 		cd.setName("receivingCondomsPwud");
 		cd.setQuery(sqlQuery);
@@ -1272,7 +1271,7 @@ public class ETLMoh731PlusCohortLibrary {
 		        + "           kenyaemr_etl.etl_peer_calendar p on c.client_id = p.client_id and date(p.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "           left outer join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "           left outer join kenyaemr_etl.etl_sti_treatment s on c.client_id = s.client_id and  date(s.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "where c.key_population_type = \"Female sex worker\"\n"
+		        + "where c.key_population_type = \"FSW\"\n"
 		        + " group by c.client_id\n"
 		        + "having condoms_distributed>=monthly_condom_requirement and condoms_distributed !=0) k;";
 		cd.setName("receivingCondomsPerNeedPerNeedFsw");
@@ -1293,7 +1292,7 @@ public class ETLMoh731PlusCohortLibrary {
 		        + "           kenyaemr_etl.etl_peer_calendar p on c.client_id = p.client_id and date(p.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "           left outer join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "           left outer join kenyaemr_etl.etl_sti_treatment s on c.client_id = s.client_id and  date(s.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "where c.key_population_type = \"Men who have sex with men\"\n"
+		        + "where c.key_population_type = \"MSM\"\n"
 		        + " group by c.client_id\n"
 		        + "having condoms_distributed>=monthly_condom_requirement and condoms_distributed !=0) k;";
 		cd.setName("receivingCondomsPerNeedMsm");
@@ -1314,7 +1313,7 @@ public class ETLMoh731PlusCohortLibrary {
 		        + "           kenyaemr_etl.etl_peer_calendar p on c.client_id = p.client_id and date(p.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "           left outer join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "           left outer join kenyaemr_etl.etl_sti_treatment s on c.client_id = s.client_id and  date(s.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "where c.key_population_type = \"Male sex worker\"\n"
+		        + "where c.key_population_type = \"MSW\"\n"
 		        + " group by c.client_id\n"
 		        + "having condoms_distributed>=monthly_condom_requirement and condoms_distributed !=0) k;";
 		cd.setName("receivingCondomsPerNeedMsw");
@@ -1335,7 +1334,7 @@ public class ETLMoh731PlusCohortLibrary {
 		        + "           kenyaemr_etl.etl_peer_calendar p on c.client_id = p.client_id and date(p.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "           left outer join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "           left outer join kenyaemr_etl.etl_sti_treatment s on c.client_id = s.client_id and  date(s.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "where c.key_population_type = \"People who inject drugs\"\n"
+		        + "where c.key_population_type = \"PWID\"\n"
 		        + " group by c.client_id\n"
 		        + "having condoms_distributed>=monthly_condom_requirement and condoms_distributed !=0) k;";
 		cd.setName("receivingCondomsPerNeedPwid");
@@ -1356,7 +1355,7 @@ public class ETLMoh731PlusCohortLibrary {
 		        + "           kenyaemr_etl.etl_peer_calendar p on c.client_id = p.client_id and date(p.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "           left outer join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "           left outer join kenyaemr_etl.etl_sti_treatment s on c.client_id = s.client_id and  date(s.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "where c.key_population_type = \"People who use drugs\"\n"
+		        + "where c.key_population_type = \"PWUD\"\n"
 		        + " group by c.client_id\n"
 		        + "having condoms_distributed>=monthly_condom_requirement and condoms_distributed !=0) k;";
 		cd.setName("receivingCondomsPerNeedPwud");
@@ -1415,7 +1414,7 @@ public class ETLMoh731PlusCohortLibrary {
 		String sqlQuery = "select k.client_id from (select c.client_id,(coalesce(sum(v.syringes_needles_no),0) + p.monthly_n_and_s_distributed) as needles_and_syringes_given from kenyaemr_etl.etl_contact c left outer join\n"
 		        + "                            kenyaemr_etl.etl_peer_calendar p on c.client_id = p.client_id and date(p.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "                                             left outer join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "                                             where c.key_population_type = \"Female sex worker\" group by c.client_id\n"
+		        + "                                             where c.key_population_type = \"FSW\" group by c.client_id\n"
 		        + "    having needles_and_syringes_given >=1 )k;";
 		cd.setName("receivingNeedlesAndSyringesPerNeedFsw");
 		cd.setQuery(sqlQuery);
@@ -1431,7 +1430,7 @@ public class ETLMoh731PlusCohortLibrary {
 		String sqlQuery = "select k.client_id from (select c.client_id,(coalesce(sum(v.syringes_needles_no),0) + p.monthly_n_and_s_distributed) as needles_and_syringes_given from kenyaemr_etl.etl_contact c left outer join\n"
 		        + "                            kenyaemr_etl.etl_peer_calendar p on c.client_id = p.client_id and date(p.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "                                             left outer join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "                                             where c.key_population_type = \"Men who have sex with men\" group by c.client_id\n"
+		        + "                                             where c.key_population_type = \"MSM\" group by c.client_id\n"
 		        + "    having needles_and_syringes_given >=1 )k;";
 		cd.setName("receivingNeedlesAndSyringesMsm");
 		cd.setQuery(sqlQuery);
@@ -1447,7 +1446,7 @@ public class ETLMoh731PlusCohortLibrary {
 		String sqlQuery = "select k.client_id from (select c.client_id,(coalesce(sum(v.syringes_needles_no),0) + p.monthly_n_and_s_distributed) as needles_and_syringes_given from kenyaemr_etl.etl_contact c left outer join\n"
 		        + "                            kenyaemr_etl.etl_peer_calendar p on c.client_id = p.client_id and date(p.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "                                             left outer join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "                                             where c.key_population_type = \"Male sex worker\" group by c.client_id\n"
+		        + "                                             where c.key_population_type = \"MSW\" group by c.client_id\n"
 		        + "    having needles_and_syringes_given >=1 )k;";
 		cd.setName("receivingNeedlesAndSyringesMsw");
 		cd.setQuery(sqlQuery);
@@ -1463,7 +1462,7 @@ public class ETLMoh731PlusCohortLibrary {
 		String sqlQuery = "select k.client_id from (select c.client_id,(coalesce(sum(v.syringes_needles_no),0) + p.monthly_n_and_s_distributed) as needles_and_syringes_given from kenyaemr_etl.etl_contact c left outer join\n"
 		        + "                            kenyaemr_etl.etl_peer_calendar p on c.client_id = p.client_id and date(p.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "                                             left outer join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "                                             where c.key_population_type = \"People who inject drugs\" group by c.client_id\n"
+		        + "                                             where c.key_population_type = \"PWID\" group by c.client_id\n"
 		        + "    having needles_and_syringes_given >=1 )k;";
 		cd.setName("receivingNeedlesAndSyringesPwid");
 		cd.setQuery(sqlQuery);
@@ -1479,7 +1478,7 @@ public class ETLMoh731PlusCohortLibrary {
 		String sqlQuery = "select k.client_id from (select c.client_id,(coalesce(sum(v.syringes_needles_no),0) + p.monthly_n_and_s_distributed) as needles_and_syringes_given from kenyaemr_etl.etl_contact c left outer join\n"
 		        + "                            kenyaemr_etl.etl_peer_calendar p on c.client_id = p.client_id and date(p.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "                                             left outer join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "                                             where c.key_population_type = \"People who use drugs\" group by c.client_id\n"
+		        + "                                             where c.key_population_type = \"PWUD\" group by c.client_id\n"
 		        + "    having needles_and_syringes_given >=1 )k;";
 		cd.setName("receivingNeedlesAndSyringesPwud");
 		cd.setQuery(sqlQuery);
@@ -1530,7 +1529,7 @@ public class ETLMoh731PlusCohortLibrary {
 		        + "                         from kenyaemr_etl.etl_contact c left outer join\n"
 		        + "                                  kenyaemr_etl.etl_peer_calendar p on c.client_id = p.client_id and date(p.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "                                                   left outer join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "                                                   where c.key_population_type = \"Female sex worker\"\n"
+		        + "                                                   where c.key_population_type = \"FSW\"\n"
 		        + "                         group by c.client_id\n"
 		        + "                         having needles_syringes_distributed>=monthly_needles_syringes_requirements and needles_syringes_distributed !=0 ) k;";
 		cd.setName("receivingNeedlesAndSyringesPerNeedFsw");
@@ -1550,7 +1549,7 @@ public class ETLMoh731PlusCohortLibrary {
 		        + "                         from kenyaemr_etl.etl_contact c left outer join\n"
 		        + "                                  kenyaemr_etl.etl_peer_calendar p on c.client_id = p.client_id and date(p.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "                                                   left outer join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "                                                   where c.key_population_type = \"Men who have sex with men\"\n"
+		        + "                                                   where c.key_population_type = \"MSM\"\n"
 		        + "                         group by c.client_id\n"
 		        + "                         having needles_syringes_distributed>=monthly_needles_syringes_requirements and needles_syringes_distributed !=0 ) k;";
 		cd.setName("receivingNeedlesAndSyringesPerNeedPerNeedMsm");
@@ -1570,7 +1569,7 @@ public class ETLMoh731PlusCohortLibrary {
 		        + "                         from kenyaemr_etl.etl_contact c left outer join\n"
 		        + "                                  kenyaemr_etl.etl_peer_calendar p on c.client_id = p.client_id and date(p.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "                                                   left outer join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "                                                   where c.key_population_type = \"Male sex worker\"\n"
+		        + "                                                   where c.key_population_type = \"MSW\"\n"
 		        + "                         group by c.client_id\n"
 		        + "                         having needles_syringes_distributed>=monthly_needles_syringes_requirements and needles_syringes_distributed !=0 ) k;";
 		cd.setName("receivingNeedlesAndSyringesPerNeedPerNeedMsw");
@@ -1590,7 +1589,7 @@ public class ETLMoh731PlusCohortLibrary {
 		        + "                         from kenyaemr_etl.etl_contact c left outer join\n"
 		        + "                                  kenyaemr_etl.etl_peer_calendar p on c.client_id = p.client_id and date(p.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "                                                   left outer join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "                                                   where c.key_population_type = \"People who inject drugs\"\n"
+		        + "                                                   where c.key_population_type = \"PWID\"\n"
 		        + "                         group by c.client_id\n"
 		        + "                         having needles_syringes_distributed>=monthly_needles_syringes_requirements and needles_syringes_distributed !=0 ) k;";
 		cd.setName("receivingNeedlesAndSyringesPerNeedPwid");
@@ -1610,7 +1609,7 @@ public class ETLMoh731PlusCohortLibrary {
 		        + "                         from kenyaemr_etl.etl_contact c left outer join\n"
 		        + "                                  kenyaemr_etl.etl_peer_calendar p on c.client_id = p.client_id and date(p.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "                                                   left outer join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "                                                   where c.key_population_type = \"People who use drugs\"\n"
+		        + "                                                   where c.key_population_type = \"PWUD\"\n"
 		        + "                         group by c.client_id\n"
 		        + "                         having needles_syringes_distributed>=monthly_needles_syringes_requirements and needles_syringes_distributed !=0 ) k;";
 		cd.setName("receivingNeedlesAndSyringesPerNeedPwud");
@@ -1668,7 +1667,7 @@ public class ETLMoh731PlusCohortLibrary {
 		        + "                                                                                                                                                            kenyaemr_etl.etl_peer_calendar p on c.client_id = p.client_id and date(p.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "                                                                                                                                                                             left outer join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "                                                                                                                                                                             left outer join kenyaemr_etl.etl_sti_treatment t on c.client_id = t.client_id and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "                         where c.key_population_type = \"Female sex worker\" group by c.client_id\n"
+		        + "                         where c.key_population_type = \"FSW\" group by c.client_id\n"
 		        + "                         having lubes_given >=1 )k;";
 		cd.setName("receivingLubricantsFsw");
 		cd.setQuery(sqlQuery);
@@ -1685,7 +1684,7 @@ public class ETLMoh731PlusCohortLibrary {
 		        + "                                                                                                                                                            kenyaemr_etl.etl_peer_calendar p on c.client_id = p.client_id and date(p.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "                                                                                                                                                                             left outer join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "                                                                                                                                                                             left outer join kenyaemr_etl.etl_sti_treatment t on c.client_id = t.client_id and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "                         where c.key_population_type = \"Men who have sex with men\" group by c.client_id\n"
+		        + "                         where c.key_population_type = \"MSM\" group by c.client_id\n"
 		        + "                         having lubes_given >=1 )k;";
 		cd.setName("receivingLubricantsMsm");
 		cd.setQuery(sqlQuery);
@@ -1702,7 +1701,7 @@ public class ETLMoh731PlusCohortLibrary {
 		        + "                                                                                                                                                            kenyaemr_etl.etl_peer_calendar p on c.client_id = p.client_id and date(p.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "                                                                                                                                                                             left outer join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "                                                                                                                                                                             left outer join kenyaemr_etl.etl_sti_treatment t on c.client_id = t.client_id and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "                         where c.key_population_type = \"Male sex worker\" group by c.client_id\n"
+		        + "                         where c.key_population_type = \"MSW\" group by c.client_id\n"
 		        + "                         having lubes_given >=1 )k;";
 		cd.setName("receivingLubricantsMsw");
 		cd.setQuery(sqlQuery);
@@ -1719,7 +1718,7 @@ public class ETLMoh731PlusCohortLibrary {
 		        + "                                                                                                                                                            kenyaemr_etl.etl_peer_calendar p on c.client_id = p.client_id and date(p.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "                                                                                                                                                                             left outer join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "                                                                                                                                                                             left outer join kenyaemr_etl.etl_sti_treatment t on c.client_id = t.client_id and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "                         where c.key_population_type = \"People who inject drugs\" group by c.client_id\n"
+		        + "                         where c.key_population_type = \"PWID\" group by c.client_id\n"
 		        + "                         having lubes_given >=1 )k;";
 		cd.setName("receivingLubricantsPwid");
 		cd.setQuery(sqlQuery);
@@ -1736,7 +1735,7 @@ public class ETLMoh731PlusCohortLibrary {
 		        + "                                                                                                                                                            kenyaemr_etl.etl_peer_calendar p on c.client_id = p.client_id and date(p.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "                                                                                                                                                                             left outer join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "                                                                                                                                                                             left outer join kenyaemr_etl.etl_sti_treatment t on c.client_id = t.client_id and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "                         where c.key_population_type = \"People who use drugs\" group by c.client_id\n"
+		        + "                         where c.key_population_type = \"PWUD\" group by c.client_id\n"
 		        + "                         having lubes_given >=1 )k;";
 		cd.setName("receivingLubricantsPwud");
 		cd.setQuery(sqlQuery);
@@ -1789,7 +1788,7 @@ public class ETLMoh731PlusCohortLibrary {
 		        + "                         from kenyaemr_etl.etl_contact c left outer join\n"
 		        + "                                  kenyaemr_etl.etl_peer_calendar p on c.client_id = p.client_id and date(p.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "                                                   left outer join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "                         where c.key_population_type = \"Female sex worker\"\n"
+		        + "                         where c.key_population_type = \"FSW\"\n"
 		        + "                         group by c.client_id\n"
 		        + "                         having lubes_distributed >=monthly_lubes_requirements and lubes_distributed !=0 ) k;";
 		cd.setName("receivingLubricantsPerNeedFsw");
@@ -1809,7 +1808,7 @@ public class ETLMoh731PlusCohortLibrary {
 		        + "                         from kenyaemr_etl.etl_contact c left outer join\n"
 		        + "                                  kenyaemr_etl.etl_peer_calendar p on c.client_id = p.client_id and date(p.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "                                                   left outer join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "                         where c.key_population_type = \"Men who have sex with men\"\n"
+		        + "                         where c.key_population_type = \"MSM\"\n"
 		        + "                         group by c.client_id\n"
 		        + "                         having lubes_distributed >=monthly_lubes_requirements and lubes_distributed !=0 ) k;";
 		cd.setName("receivingLubricantsPerNeedMsm");
@@ -1829,7 +1828,7 @@ public class ETLMoh731PlusCohortLibrary {
 		        + "                         from kenyaemr_etl.etl_contact c left outer join\n"
 		        + "                                  kenyaemr_etl.etl_peer_calendar p on c.client_id = p.client_id and date(p.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "                                                   left outer join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "                         where c.key_population_type = \"Male sex worker\"\n"
+		        + "                         where c.key_population_type = \"MSW\"\n"
 		        + "                         group by c.client_id\n"
 		        + "                         having lubes_distributed >=monthly_lubes_requirements and lubes_distributed !=0 ) k;";
 		cd.setName("receivingLubricantsPerNeedMsw");
@@ -1849,7 +1848,7 @@ public class ETLMoh731PlusCohortLibrary {
 		        + "                         from kenyaemr_etl.etl_contact c left outer join\n"
 		        + "                                  kenyaemr_etl.etl_peer_calendar p on c.client_id = p.client_id and date(p.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "                                                   left outer join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "                         where c.key_population_type = \"People who inject drugs\"\n"
+		        + "                         where c.key_population_type = \"PWID\"\n"
 		        + "                         group by c.client_id\n"
 		        + "                         having lubes_distributed >=monthly_lubes_requirements and lubes_distributed !=0 ) k;";
 		cd.setName("receivingLubricantsPerNeedPwid");
@@ -1869,7 +1868,7 @@ public class ETLMoh731PlusCohortLibrary {
 		        + "                         from kenyaemr_etl.etl_contact c left outer join\n"
 		        + "                                  kenyaemr_etl.etl_peer_calendar p on c.client_id = p.client_id and date(p.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "                                                   left outer join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "                         where c.key_population_type = \"People who use drugs\"\n"
+		        + "                         where c.key_population_type = \"PWUD\"\n"
 		        + "                         group by c.client_id\n"
 		        + "                         having lubes_distributed >=monthly_lubes_requirements and lubes_distributed !=0 ) k;";
 		cd.setName("receivingLubricantsPerNeedPwud");
@@ -1926,7 +1925,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c\n"
 		        + "on c.client_id = v.client_id\n"
-		        + "where c.key_population_type=\"Female sex worker\" and v.sti_screened = \"Y\" and v.visit_date\n"
+		        + "where c.key_population_type=\"FSW\" and v.sti_screened = \"Y\" and v.visit_date\n"
 		        + "between date(:startDate) and date(:endDate) and v.voided = 0 group by v.client_id;";
 		cd.setName("screenedForSTIFsw");
 		cd.setQuery(sqlQuery);
@@ -1942,7 +1941,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c\n"
 		        + "on c.client_id = v.client_id\n"
-		        + "where c.key_population_type=\"Men who have sex with men\" and v.sti_screened = \"Y\" and v.visit_date\n"
+		        + "where c.key_population_type=\"MSM\" and v.sti_screened = \"Y\" and v.visit_date\n"
 		        + "between date(:startDate) and date(:endDate) and v.voided = 0 group by v.client_id;";
 		cd.setName("screenedForSTIMsm");
 		cd.setQuery(sqlQuery);
@@ -1958,7 +1957,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c\n"
 		        + "on c.client_id = v.client_id\n"
-		        + "where c.key_population_type=\"Male sex worker\" and v.sti_screened = \"Y\" and v.visit_date\n"
+		        + "where c.key_population_type=\"MSW\" and v.sti_screened = \"Y\" and v.visit_date\n"
 		        + "between date(:startDate) and date(:endDate) and v.voided = 0 group by v.client_id;";
 		cd.setName("screenedForSTIMsw");
 		cd.setQuery(sqlQuery);
@@ -1973,7 +1972,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c\n"
 		        + "on c.client_id = v.client_id\n"
-		        + "where c.key_population_type=\"People who inject drugs\" and v.sti_screened = \"Y\" and v.visit_date\n"
+		        + "where c.key_population_type=\"PWID\" and v.sti_screened = \"Y\" and v.visit_date\n"
 		        + "between date(:startDate) and date(:endDate) and v.voided = 0 group by v.client_id;";
 		cd.setName("screenedForSTIPwid");
 		cd.setQuery(sqlQuery);
@@ -1988,7 +1987,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c\n"
 		        + "on c.client_id = v.client_id\n"
-		        + "where c.key_population_type=\"People who use drugs\" and v.sti_screened = \"Y\" and v.visit_date\n"
+		        + "where c.key_population_type=\"PWUD\" and v.sti_screened = \"Y\" and v.visit_date\n"
 		        + "between date(:startDate) and date(:endDate) and v.voided = 0 group by v.client_id;";
 		cd.setName("screenedForSTIPwud");
 		cd.setQuery(sqlQuery);
@@ -2034,7 +2033,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c\n"
 		        + "                            on c.client_id = v.client_id\n"
-		        + "where c.key_population_type=\"Female sex worker\" and v.hepatitisC_screened = \"Y\" and v.visit_date\n"
+		        + "where c.key_population_type=\"FSW\" and v.hepatitisC_screened = \"Y\" and v.visit_date\n"
 		        + "    between date(:startDate) and date(:endDate) and v.voided = 0 group by v.client_id;";
 		cd.setName("screenedForHCVFsw");
 		cd.setQuery(sqlQuery);
@@ -2050,7 +2049,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c\n"
 		        + "                            on c.client_id = v.client_id\n"
-		        + "where c.key_population_type=\"Men who have sex with men\" and v.hepatitisC_screened = \"Y\" and v.visit_date\n"
+		        + "where c.key_population_type=\"MSM\" and v.hepatitisC_screened = \"Y\" and v.visit_date\n"
 		        + "    between date(:startDate) and date(:endDate) and v.voided = 0 group by v.client_id;";
 		cd.setName("screenedForHCVMsm");
 		cd.setQuery(sqlQuery);
@@ -2066,7 +2065,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c\n"
 		        + "                            on c.client_id = v.client_id\n"
-		        + "where c.key_population_type=\"Male sex worker\" and v.hepatitisC_screened = \"Y\" and v.visit_date\n"
+		        + "where c.key_population_type=\"MSW\" and v.hepatitisC_screened = \"Y\" and v.visit_date\n"
 		        + "    between date(:startDate) and date(:endDate) and v.voided = 0 group by v.client_id;";
 		cd.setName("screenedForHCVMsw");
 		cd.setQuery(sqlQuery);
@@ -2082,7 +2081,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c\n"
 		        + "                            on c.client_id = v.client_id\n"
-		        + "where c.key_population_type=\"People who inject drugs\" and v.hepatitisC_screened = \"Y\" and v.visit_date\n"
+		        + "where c.key_population_type=\"PWID\" and v.hepatitisC_screened = \"Y\" and v.visit_date\n"
 		        + "    between date(:startDate) and date(:endDate) and v.voided = 0 group by v.client_id;";
 		cd.setName("screenedForHCVPwid");
 		cd.setQuery(sqlQuery);
@@ -2098,7 +2097,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c\n"
 		        + "                            on c.client_id = v.client_id\n"
-		        + "where c.key_population_type=\"People who use drugs\" and v.hepatitisC_screened = \"Y\" and v.visit_date\n"
+		        + "where c.key_population_type=\"PWUD\" and v.hepatitisC_screened = \"Y\" and v.visit_date\n"
 		        + "    between date(:startDate) and date(:endDate) and v.voided = 0 group by v.client_id;";
 		cd.setName("screenedForHCVPwud");
 		cd.setQuery(sqlQuery);
@@ -2146,7 +2145,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c\n"
 		        + "                            on c.client_id = v.client_id\n"
-		        + "where c.key_population_type=\"Female sex worker\" and v.hepatitisB_screened = \"Y\" and v.visit_date\n"
+		        + "where c.key_population_type=\"FSW\" and v.hepatitisB_screened = \"Y\" and v.visit_date\n"
 		        + "    between date(:startDate) and date(:endDate) and v.voided = 0 group by v.client_id;";
 		cd.setName("screenedForHBVFsw");
 		cd.setQuery(sqlQuery);
@@ -2162,7 +2161,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c\n"
 		        + "                            on c.client_id = v.client_id\n"
-		        + "where c.key_population_type=\"Men who have sex with men\" and v.hepatitisB_screened = \"Y\" and v.visit_date\n"
+		        + "where c.key_population_type=\"MSM\" and v.hepatitisB_screened = \"Y\" and v.visit_date\n"
 		        + "    between date(:startDate) and date(:endDate) and v.voided = 0 group by v.client_id;";
 		cd.setName("screenedForHBVMsm");
 		cd.setQuery(sqlQuery);
@@ -2178,7 +2177,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c\n"
 		        + "                            on c.client_id = v.client_id\n"
-		        + "where c.key_population_type=\"Male sex worker\" and v.hepatitisB_screened = \"Y\" and v.visit_date\n"
+		        + "where c.key_population_type=\"MSW\" and v.hepatitisB_screened = \"Y\" and v.visit_date\n"
 		        + "    between date(:startDate) and date(:endDate) and v.voided = 0 group by v.client_id;";
 		cd.setName("screenedForHBVMsw");
 		cd.setQuery(sqlQuery);
@@ -2194,7 +2193,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c\n"
 		        + "                            on c.client_id = v.client_id\n"
-		        + "where c.key_population_type=\"People who inject drugs\" and v.hepatitisB_screened = \"Y\" and v.visit_date\n"
+		        + "where c.key_population_type=\"PWID\" and v.hepatitisB_screened = \"Y\" and v.visit_date\n"
 		        + "    between date(:startDate) and date(:endDate) and v.voided = 0 group by v.client_id;";
 		cd.setName("screenedForHBVPwid");
 		cd.setQuery(sqlQuery);
@@ -2210,7 +2209,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c\n"
 		        + "                            on c.client_id = v.client_id\n"
-		        + "where c.key_population_type=\"People who use drugs\" and v.hepatitisB_screened = \"Y\" and v.visit_date\n"
+		        + "where c.key_population_type=\"PWUD\" and v.hepatitisB_screened = \"Y\" and v.visit_date\n"
 		        + "    between date(:startDate) and date(:endDate) and v.voided = 0 group by v.client_id;";
 		cd.setName("screenedForHBVPwud");
 		cd.setQuery(sqlQuery);
@@ -2258,7 +2257,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c\n"
 		        + "                            on c.client_id = v.client_id\n"
-		        + "where c.key_population_type=\"Female sex worker\" and v.hepatitisB_results=\"P\" and v.visit_date\n"
+		        + "where c.key_population_type=\"FSW\" and v.hepatitisB_results=\"P\" and v.visit_date\n"
 		        + "    between date(:startDate) and date(:endDate) and v.voided = 0 group by v.client_id;";
 		cd.setName("positiveHBVFsw");
 		cd.setQuery(sqlQuery);
@@ -2274,7 +2273,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c\n"
 		        + "                            on c.client_id = v.client_id\n"
-		        + "where c.key_population_type=\"Men who have sex with men\" and v.hepatitisB_results=\"P\" and v.visit_date\n"
+		        + "where c.key_population_type=\"MSM\" and v.hepatitisB_results=\"P\" and v.visit_date\n"
 		        + "    between date(:startDate) and date(:endDate) and v.voided = 0 group by v.client_id;";
 		cd.setName("positiveHBVMsm");
 		cd.setQuery(sqlQuery);
@@ -2290,7 +2289,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c\n"
 		        + "                            on c.client_id = v.client_id\n"
-		        + "where c.key_population_type=\"Male sex worker\" and v.hepatitisB_results=\"P\" and v.visit_date\n"
+		        + "where c.key_population_type=\"MSW\" and v.hepatitisB_results=\"P\" and v.visit_date\n"
 		        + "    between date(:startDate) and date(:endDate) and v.voided = 0 group by v.client_id;";
 		cd.setName("positiveHBVMsw");
 		cd.setQuery(sqlQuery);
@@ -2306,7 +2305,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c\n"
 		        + "                            on c.client_id = v.client_id\n"
-		        + "where c.key_population_type=\"People who inject drugs\" and v.hepatitisB_results=\"P\" and v.visit_date\n"
+		        + "where c.key_population_type=\"PWID\" and v.hepatitisB_results=\"P\" and v.visit_date\n"
 		        + "    between date(:startDate) and date(:endDate) and v.voided = 0 group by v.client_id;";
 		cd.setName("completedPEPWithin28Days");
 		cd.setQuery(sqlQuery);
@@ -2322,7 +2321,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c\n"
 		        + "                            on c.client_id = v.client_id\n"
-		        + "where c.key_population_type=\"People who use drugs\" and v.hepatitisB_results=\"P\" and v.visit_date\n"
+		        + "where c.key_population_type=\"PWUD\" and v.hepatitisB_results=\"P\" and v.visit_date\n"
 		        + "    between date(:startDate) and date(:endDate) and v.voided = 0 group by v.client_id;";
 		cd.setName("positiveHBVPwud");
 		cd.setQuery(sqlQuery);
@@ -2370,7 +2369,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c\n"
 		        + "                            on c.client_id = v.client_id\n"
-		        + "where c.key_population_type=\"Female sex worker\" and v.hepatitisB_treated=\"Y\" and v.visit_date\n"
+		        + "where c.key_population_type=\"FSW\" and v.hepatitisB_treated=\"Y\" and v.visit_date\n"
 		        + "    between date(:startDate) and date(:endDate) and v.voided = 0 group by v.client_id;";
 		cd.setName("treatedHBVFsw");
 		cd.setQuery(sqlQuery);
@@ -2386,7 +2385,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c\n"
 		        + "                            on c.client_id = v.client_id\n"
-		        + "where c.key_population_type=\"Men who have sex with men\" and v.hepatitisB_treated=\"Y\" and v.visit_date\n"
+		        + "where c.key_population_type=\"MSM\" and v.hepatitisB_treated=\"Y\" and v.visit_date\n"
 		        + "    between date(:startDate) and date(:endDate) and v.voided = 0 group by v.client_id;";
 		cd.setName("treatedHBVMsm");
 		cd.setQuery(sqlQuery);
@@ -2402,7 +2401,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c\n"
 		        + "                            on c.client_id = v.client_id\n"
-		        + "where c.key_population_type=\"Male sex worker\" and v.hepatitisB_treated=\"Y\" and v.visit_date\n"
+		        + "where c.key_population_type=\"MSW\" and v.hepatitisB_treated=\"Y\" and v.visit_date\n"
 		        + "    between date(:startDate) and date(:endDate) and v.voided = 0 group by v.client_id;";
 		cd.setName("treatedHBVMsw");
 		cd.setQuery(sqlQuery);
@@ -2418,7 +2417,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c\n"
 		        + "                            on c.client_id = v.client_id\n"
-		        + "where c.key_population_type=\"People who inject drugs\" and v.hepatitisB_treated=\"Y\" and v.visit_date\n"
+		        + "where c.key_population_type=\"PWID\" and v.hepatitisB_treated=\"Y\" and v.visit_date\n"
 		        + "    between date(:startDate) and date(:endDate) and v.voided = 0 group by v.client_id;";
 		cd.setName("treatedHBVPwid");
 		cd.setQuery(sqlQuery);
@@ -2434,7 +2433,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c\n"
 		        + "                            on c.client_id = v.client_id\n"
-		        + "where c.key_population_type=\"People who use drugs\" and v.hepatitisB_treated=\"Y\" and v.visit_date\n"
+		        + "where c.key_population_type=\"PWUD\" and v.hepatitisB_treated=\"Y\" and v.visit_date\n"
 		        + "    between date(:startDate) and date(:endDate) and v.voided = 0 group by v.client_id;";
 		cd.setName("treatedHBVPwud");
 		cd.setQuery(sqlQuery);
@@ -2479,7 +2478,7 @@ public class ETLMoh731PlusCohortLibrary {
 	public CohortDefinition negativeHBVVaccinatedFsw() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select hp.client_id from kenyaemr_etl.etl_hepatitis_screening hp inner join kenyaemr_etl.etl_contact c on ss.client_id = hp.client_id\n"
-		        + "where hp.hepatitis_screening_done = \"Hepatitis B\" and results =\"Vaccinated\" and treated =\"Yes\" and c.key_population_type = \"Female sex worker\" and hp.voided = 0\n"
+		        + "where hp.hepatitis_screening_done = \"Hepatitis B\" and results =\"Vaccinated\" and treated =\"Yes\" and c.key_population_type = \"FSW\" and hp.voided = 0\n"
 		        + "  and date(hp.visit_date) between date(:startDate) and date(:endDate);";
 		cd.setName("negativeHBVVaccinatedFsw");
 		cd.setQuery(sqlQuery);
@@ -2509,7 +2508,7 @@ public class ETLMoh731PlusCohortLibrary {
 	public CohortDefinition negativeHBVVaccinatedMsw() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select hp.client_id from kenyaemr_etl.etl_hepatitis_screening hp inner join kenyaemr_etl.etl_contact c on ss.client_id = hp.client_id\n"
-		        + "where hp.hepatitis_screening_done = \"Hepatitis B\" and results =\"Vaccinated\" and treated =\"Yes\" and c.key_population_type = \"Male sex worker\" and hp.voided = 0\n"
+		        + "where hp.hepatitis_screening_done = \"Hepatitis B\" and results =\"Vaccinated\" and treated =\"Yes\" and c.key_population_type = \"MSW\" and hp.voided = 0\n"
 		        + "  and date(hp.visit_date) between date(:startDate) and date(:endDate);";
 		cd.setName("negativeHBVVaccinatedMsw");
 		cd.setQuery(sqlQuery);
@@ -2524,7 +2523,7 @@ public class ETLMoh731PlusCohortLibrary {
 	public CohortDefinition negativeHBVVaccinatedPwid() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select hp.client_id from kenyaemr_etl.etl_hepatitis_screening hp inner join kenyaemr_etl.etl_contact c on ss.client_id = hp.client_id\n"
-		        + "where hp.hepatitis_screening_done = \"Hepatitis B\" and results =\"Vaccinated\" and treated =\"Yes\" and c.key_population_type = \"People who inject drugs\" and hp.voided = 0\n"
+		        + "where hp.hepatitis_screening_done = \"Hepatitis B\" and results =\"Vaccinated\" and treated =\"Yes\" and c.key_population_type = \"PWID\" and hp.voided = 0\n"
 		        + "and date(hp.visit_date) between date(:startDate) and date(:endDate);";
 		cd.setName("negativeHBVVaccinatedPwid");
 		cd.setQuery(sqlQuery);
@@ -2539,7 +2538,7 @@ public class ETLMoh731PlusCohortLibrary {
 	public CohortDefinition negativeHBVVaccinatedPwud() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select hp.client_id from kenyaemr_etl.etl_hepatitis_screening hp inner join kenyaemr_etl.etl_contact c on ss.client_id = hp.client_id\n"
-		        + "where hp.hepatitis_screening_done = \"Hepatitis B\" and results =\"Vaccinated\" and treated =\"Yes\" and c.key_population_type = \"People who use drugs\" and hp.voided = 0\n"
+		        + "where hp.hepatitis_screening_done = \"Hepatitis B\" and results =\"Vaccinated\" and treated =\"Yes\" and c.key_population_type = \"PWUD\" and hp.voided = 0\n"
 		        + "and date(hp.visit_date) between date(:startDate) and date(:endDate);";
 		cd.setName("negativeHBVVaccinatedPwud");
 		cd.setQuery(sqlQuery);
@@ -2583,7 +2582,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c\n"
 		        + "                            on c.client_id = v.client_id\n"
-		        + "where c.key_population_type=\"Female sex worker\" and v.tb_screened=\"Y\" and v.visit_date\n"
+		        + "where c.key_population_type=\"FSW\" and v.tb_screened=\"Y\" and v.visit_date\n"
 		        + "    between date(:startDate) and date(:endDate) and v.voided = 0 group by v.client_id;";
 		cd.setName("screenedTBFsw");
 		cd.setQuery(sqlQuery);
@@ -2599,7 +2598,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c\n"
 		        + "                            on c.client_id = v.client_id\n"
-		        + "where c.key_population_type=\"Men who have sex with men\" and v.tb_screened=\"Y\" and v.visit_date\n"
+		        + "where c.key_population_type=\"MSM\" and v.tb_screened=\"Y\" and v.visit_date\n"
 		        + "    between date(:startDate) and date(:endDate) and v.voided = 0 group by v.client_id;";
 		cd.setName("screenedTBMsm");
 		cd.setQuery(sqlQuery);
@@ -2615,7 +2614,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c\n"
 		        + "                            on c.client_id = v.client_id\n"
-		        + "where c.key_population_type=\"Male sex worker\" and v.tb_screened=\"Y\" and v.visit_date\n"
+		        + "where c.key_population_type=\"MSW\" and v.tb_screened=\"Y\" and v.visit_date\n"
 		        + "    between date(:startDate) and date(:endDate) and v.voided = 0 group by v.client_id;";
 		cd.setName("screenedTBMsw");
 		cd.setQuery(sqlQuery);
@@ -2631,7 +2630,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c\n"
 		        + "                            on c.client_id = v.client_id\n"
-		        + "where c.key_population_type=\"People who inject drugs\" and v.tb_screened=\"Y\" and v.visit_date\n"
+		        + "where c.key_population_type=\"PWID\" and v.tb_screened=\"Y\" and v.visit_date\n"
 		        + "    between date(:startDate) and date(:endDate) and v.voided = 0 group by v.client_id;";
 		cd.setName("screenedTBPwid");
 		cd.setQuery(sqlQuery);
@@ -2647,7 +2646,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c\n"
 		        + "                            on c.client_id = v.client_id\n"
-		        + "where c.key_population_type=\"People who use drugs\" and v.tb_screened=\"Y\" and v.visit_date\n"
+		        + "where c.key_population_type=\"PWUD\" and v.tb_screened=\"Y\" and v.visit_date\n"
 		        + "    between date(:startDate) and date(:endDate) and v.voided = 0 group by v.client_id;";
 		cd.setName("completedPEPWithin28Days");
 		cd.setQuery(sqlQuery);
@@ -2693,7 +2692,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c\n"
 		        + "                            on c.client_id = v.client_id\n"
-		        + "where c.key_population_type=\"Female sex worker\" and v.tb_results =\"Positive\" and v.visit_date\n"
+		        + "where c.key_population_type=\"FSW\" and v.tb_results =\"Positive\" and v.visit_date\n"
 		        + "    between date(:startDate) and date(:endDate) and v.voided = 0 group by v.client_id;";
 		cd.setName("diagnosedTBFsw");
 		cd.setQuery(sqlQuery);
@@ -2709,7 +2708,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c\n"
 		        + "                            on c.client_id = v.client_id\n"
-		        + "where c.key_population_type=\"Men who have sex with men\" and v.tb_results =\"Positive\" and v.visit_date\n"
+		        + "where c.key_population_type=\"MSM\" and v.tb_results =\"Positive\" and v.visit_date\n"
 		        + "    between date(:startDate) and date(:endDate) and v.voided = 0 group by v.client_id;";
 		cd.setName("diagnosedTBMsm");
 		cd.setQuery(sqlQuery);
@@ -2725,7 +2724,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c\n"
 		        + "                            on c.client_id = v.client_id\n"
-		        + "where c.key_population_type=\"Male sex worker\" and v.tb_results =\"Positive\" and v.visit_date\n"
+		        + "where c.key_population_type=\"MSW\" and v.tb_results =\"Positive\" and v.visit_date\n"
 		        + "    between date(:startDate) and date(:endDate) and v.voided = 0 group by v.client_id;";
 		cd.setName("diagnosedTBMsw");
 		cd.setQuery(sqlQuery);
@@ -2741,7 +2740,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c\n"
 		        + "                            on c.client_id = v.client_id\n"
-		        + "where c.key_population_type=\"People who inject drugs\" and v.tb_results =\"Positive\" and v.visit_date\n"
+		        + "where c.key_population_type=\"PWID\" and v.tb_results =\"Positive\" and v.visit_date\n"
 		        + "    between date(:startDate) and date(:endDate) and v.voided = 0 group by v.client_id;";
 		cd.setName("diagnosedTBPwid");
 		cd.setQuery(sqlQuery);
@@ -2757,7 +2756,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c\n"
 		        + "                            on c.client_id = v.client_id\n"
-		        + "where c.key_population_type=\"People who use drugs\" and v.tb_results =\"Positive\" and v.visit_date\n"
+		        + "where c.key_population_type=\"PWUD\" and v.tb_results =\"Positive\" and v.visit_date\n"
 		        + "    between date(:startDate) and date(:endDate) and v.voided = 0 group by v.client_id;";
 		cd.setName("diagnosedTBPwud");
 		cd.setQuery(sqlQuery);
@@ -2805,7 +2804,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c\n"
 		        + "                            on c.client_id = v.client_id\n"
-		        + "where c.key_population_type=\"Female sex worker\" and v.tb_treated =\"Y\" and v.visit_date\n"
+		        + "where c.key_population_type=\"FSW\" and v.tb_treated =\"Y\" and v.visit_date\n"
 		        + "    between date(:startDate) and date(:endDate) and v.voided = 0 group by v.client_id;";
 		cd.setName("startedOnTBTxFsw");
 		cd.setQuery(sqlQuery);
@@ -2821,7 +2820,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c\n"
 		        + "                            on c.client_id = v.client_id\n"
-		        + "where c.key_population_type=\"Men who have sex with men\" and v.tb_treated =\"Y\" and v.visit_date\n"
+		        + "where c.key_population_type=\"MSM\" and v.tb_treated =\"Y\" and v.visit_date\n"
 		        + "    between date(:startDate) and date(:endDate) and v.voided = 0 group by v.client_id;";
 		cd.setName("startedOnTBTxMsm");
 		cd.setQuery(sqlQuery);
@@ -2837,7 +2836,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c\n"
 		        + "                            on c.client_id = v.client_id\n"
-		        + "where c.key_population_type=\"Male sex worker\" and v.tb_treated =\"Y\" and v.visit_date\n"
+		        + "where c.key_population_type=\"MSW\" and v.tb_treated =\"Y\" and v.visit_date\n"
 		        + "    between date(:startDate) and date(:endDate) and v.voided = 0 group by v.client_id;";
 		cd.setName("startedOnTBTxMsw");
 		cd.setQuery(sqlQuery);
@@ -2853,7 +2852,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c\n"
 		        + "                            on c.client_id = v.client_id\n"
-		        + "where c.key_population_type=\"People who inject drugs\" and v.tb_treated =\"Y\" and v.visit_date\n"
+		        + "where c.key_population_type=\"PWID\" and v.tb_treated =\"Y\" and v.visit_date\n"
 		        + "    between date(:startDate) and date(:endDate) and v.voided = 0 group by v.client_id;";
 		cd.setName("startedOnTBTxPwid");
 		cd.setQuery(sqlQuery);
@@ -2869,7 +2868,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c\n"
 		        + "                            on c.client_id = v.client_id\n"
-		        + "where c.key_population_type=\"People who use drugs\" and v.tb_treated =\"Y\" and v.visit_date\n"
+		        + "where c.key_population_type=\"PWUD\" and v.tb_treated =\"Y\" and v.visit_date\n"
 		        + "    between date(:startDate) and date(:endDate) and v.voided = 0 group by v.client_id;";
 		cd.setName("startedOnTBTxPwud");
 		cd.setQuery(sqlQuery);
@@ -2917,7 +2916,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
 		        + "where (v.tb_results = \"Positive\" and v.active_art =\"Yes\") or (v.tb_results = \"Positive\" and v.initiated_art_this_month = \"Yes\")\n"
-		        + "                                                               and c.key_population_type = \"Female sex worker\"\n"
+		        + "                                                               and c.key_population_type = \"FSW\"\n"
 		        + "                                                               and date(v.visit_date) between date(:startDate) and date(:endDate) group by v.client_id;";
 		cd.setName("tbClientsOnHAARTFsw");
 		cd.setQuery(sqlQuery);
@@ -2933,7 +2932,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
 		        + "where (v.tb_results = \"Positive\" and v.active_art =\"Yes\") or (v.tb_results = \"Positive\" and v.initiated_art_this_month = \"Yes\")\n"
-		        + "                                                               and c.key_population_type = \"Men who have sex with men\"\n"
+		        + "                                                               and c.key_population_type = \"MSM\"\n"
 		        + "                                                               and date(v.visit_date) between date(:startDate) and date(:endDate) group by v.client_id;";
 		cd.setName("tbClientsOnHAARTMsm");
 		cd.setQuery(sqlQuery);
@@ -2949,7 +2948,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
 		        + "where (v.tb_results = \"Positive\" and v.active_art =\"Yes\") or (v.tb_results = \"Positive\" and v.initiated_art_this_month = \"Yes\")\n"
-		        + "                                                               and c.key_population_type = \"Male sex worker\"\n"
+		        + "                                                               and c.key_population_type = \"MSW\"\n"
 		        + "                                                               and date(v.visit_date) between date(:startDate) and date(:endDate) group by v.client_id;";
 		cd.setName("tbClientsOnHAARTMsw");
 		cd.setQuery(sqlQuery);
@@ -2965,7 +2964,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
 		        + "where (v.tb_results = \"Positive\" and v.active_art =\"Yes\") or (v.tb_results = \"Positive\" and v.initiated_art_this_month = \"Yes\")\n"
-		        + "                                                               and c.key_population_type = \"People who inject drugs\"\n"
+		        + "                                                               and c.key_population_type = \"PWID\"\n"
 		        + "                                                               and date(v.visit_date) between date(:startDate) and date(:endDate) group by v.client_id;";
 		cd.setName("tbClientsOnHAARTPwid");
 		cd.setQuery(sqlQuery);
@@ -2981,7 +2980,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
 		        + "where (v.tb_results = \"Positive\" and v.active_art =\"Yes\") or (v.tb_results = \"Positive\" and v.initiated_art_this_month = \"Yes\")\n"
-		        + "                                                               and c.key_population_type = \"People who use drugs\"\n"
+		        + "                                                               and c.key_population_type = \"PWUD\"\n"
 		        + "                                                               and date(v.visit_date) between date(:startDate) and date(:endDate) group by v.client_id;";
 		cd.setName("tbClientsOnHAARTPwud");
 		cd.setQuery(sqlQuery);
@@ -3027,7 +3026,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_hts_test t on v.client_id = t.patient_id\n"
 		        + "                                                    inner join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
-		        + "where c.key_population_type = \"People who use drugs\"\n"
+		        + "where c.key_population_type = \"PWUD\"\n"
 		        + "  and v.prep_treated =\"Y\"\n"
 		        + "  and date(t.visit_date) >date(v.visit_date) and t.final_test_result=\"Positive\"\n"
 		        + "  and date(v.visit_date) between date(:startDate) and date(:endDate)\n" + "group by v.client_id;";
@@ -3044,7 +3043,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_hts_test t on v.client_id = t.patient_id\n"
 		        + "                                                    inner join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
-		        + "where c.key_population_type = \"People who use drugs\"\n"
+		        + "where c.key_population_type = \"PWUD\"\n"
 		        + "  and v.prep_treated =\"Y\"\n"
 		        + "  and date(t.visit_date) >date(v.visit_date) and t.final_test_result=\"Positive\"\n"
 		        + "  and date(v.visit_date) between date(:startDate) and date(:endDate)\n" + "group by v.client_id;";
@@ -3062,7 +3061,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_hts_test t on v.client_id = t.patient_id\n"
 		        + "                                                    inner join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
-		        + "where c.key_population_type = \"People who use drugs\"\n"
+		        + "where c.key_population_type = \"PWUD\"\n"
 		        + "  and v.prep_treated =\"Y\"\n"
 		        + "  and date(t.visit_date) >date(v.visit_date) and t.final_test_result=\"Positive\"\n"
 		        + "  and date(v.visit_date) between date(:startDate) and date(:endDate)\n" + "group by v.client_id;";
@@ -3080,7 +3079,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_hts_test t on v.client_id = t.patient_id\n"
 		        + "                                                    inner join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
-		        + "where c.key_population_type = \"People who use drugs\"\n"
+		        + "where c.key_population_type = \"PWUD\"\n"
 		        + "  and v.prep_treated =\"Y\"\n"
 		        + "  and date(t.visit_date) >date(v.visit_date) and t.final_test_result=\"Positive\"\n"
 		        + "  and date(v.visit_date) between date(:startDate) and date(:endDate)\n" + "group by v.client_id;";
@@ -3098,7 +3097,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_hts_test t on v.client_id = t.patient_id\n"
 		        + "                                                    inner join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
-		        + "where c.key_population_type = \"People who use drugs\"\n"
+		        + "where c.key_population_type = \"PWUD\"\n"
 		        + "  and v.prep_treated =\"Y\"\n"
 		        + "  and date(t.visit_date) >date(v.visit_date) and t.final_test_result=\"Positive\"\n"
 		        + "  and date(v.visit_date) between date(:startDate) and date(:endDate)\n" + "group by v.client_id;";
@@ -3150,7 +3149,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v\n"
 		        + "           inner join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
-		        + "where c.key_population_type = \"Female sex worker\"\n"
+		        + "where c.key_population_type = \"FSW\"\n"
 		        + "  and date(v.visit_date) between date(:startDate) and date(:endDate)\n" + "group by v.client_id\n"
 		        + "having max(v.prep_treated =\"Y\");";
 		cd.setName("currentOnPrEPFsw");
@@ -3167,7 +3166,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v\n"
 		        + "           inner join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
-		        + "where c.key_population_type = \"Men who have sex with men\"\n"
+		        + "where c.key_population_type = \"MSM\"\n"
 		        + "  and date(v.visit_date) between date(:startDate) and date(:endDate)\n" + "group by v.client_id\n"
 		        + "having max(v.prep_treated =\"Y\");";
 		cd.setName("currentOnPrEPMsm");
@@ -3183,7 +3182,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v\n"
 		        + "           inner join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
-		        + "where c.key_population_type = \"Male sex worker\"\n"
+		        + "where c.key_population_type = \"MSW\"\n"
 		        + "  and date(v.visit_date) between date(:startDate) and date(:endDate)\n" + "group by v.client_id\n"
 		        + "having max(v.prep_treated =\"Y\");";
 		cd.setName("currentOnPrEPMsw");
@@ -3199,7 +3198,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v\n"
 		        + "           inner join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
-		        + "where c.key_population_type = \"People who inject drugs\"\n"
+		        + "where c.key_population_type = \"PWID\"\n"
 		        + "  and date(v.visit_date) between date(:startDate) and date(:endDate)\n" + "group by v.client_id\n"
 		        + "having max(v.prep_treated =\"Y\");";
 		cd.setName("currentOnPrEPPwid");
@@ -3215,7 +3214,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v\n"
 		        + "           inner join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
-		        + "where c.key_population_type = \"People who use drugs\"\n"
+		        + "where c.key_population_type = \"PWUD\"\n"
 		        + "  and date(v.visit_date) between date(:startDate) and date(:endDate)\n" + "group by v.client_id\n"
 		        + "having max(v.prep_treated =\"Y\");";
 		cd.setName("currentOnPrEPPwud");
@@ -3264,7 +3263,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_hts_test t on v.client_id = t.patient_id\n"
 		        + "                                                    inner join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
-		        + "where c.key_population_type = \"Female sex worker\"\n"
+		        + "where c.key_population_type = \"FSW\"\n"
 		        + "  and v.prep_treated =\"Y\"\n"
 		        + "  and date(t.visit_date) >date(v.visit_date) and t.final_test_result=\"Positive\"\n"
 		        + "  and date(v.visit_date) between date(:startDate) and date(:endDate)\n" + "group by v.client_id;";
@@ -3282,7 +3281,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_hts_test t on v.client_id = t.patient_id\n"
 		        + "                                                    inner join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
-		        + "where c.key_population_type = \"Men who have sex with men\"\n"
+		        + "where c.key_population_type = \"MSM\"\n"
 		        + "  and v.prep_treated =\"Y\"\n"
 		        + "  and date(t.visit_date) >date(v.visit_date) and t.final_test_result=\"Positive\"\n"
 		        + "  and date(v.visit_date) between date(:startDate) and date(:endDate)\n" + "group by v.client_id;";
@@ -3300,7 +3299,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_hts_test t on v.client_id = t.patient_id\n"
 		        + "                                                    inner join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
-		        + "where c.key_population_type = \"Male sex worker\"\n"
+		        + "where c.key_population_type = \"MSW\"\n"
 		        + "  and v.prep_treated =\"Y\"\n"
 		        + "  and date(t.visit_date) >date(v.visit_date) and t.final_test_result=\"Positive\"\n"
 		        + "  and date(v.visit_date) between date(:startDate) and date(:endDate)\n" + "group by v.client_id;";
@@ -3318,7 +3317,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_hts_test t on v.client_id = t.patient_id\n"
 		        + "                                                    inner join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
-		        + "where c.key_population_type = \"People who inject drugs\"\n"
+		        + "where c.key_population_type = \"PWID\"\n"
 		        + "  and v.prep_treated =\"Y\"\n"
 		        + "  and date(t.visit_date) >date(v.visit_date) and t.final_test_result=\"Positive\"\n"
 		        + "  and date(v.visit_date) between date(:startDate) and date(:endDate)\n" + "group by v.client_id;";
@@ -3336,7 +3335,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v inner join kenyaemr_etl.etl_hts_test t on v.client_id = t.patient_id\n"
 		        + "                                                    inner join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
-		        + "where c.key_population_type = \"People who use drugs\"\n"
+		        + "where c.key_population_type = \"PWUD\"\n"
 		        + "  and v.prep_treated =\"Y\"\n"
 		        + "  and date(t.visit_date) >date(v.visit_date) and t.final_test_result=\"Positive\"\n"
 		        + "  and date(v.visit_date) between date(:startDate) and date(:endDate)\n" + "group by v.client_id;";
@@ -3390,7 +3389,7 @@ public class ETLMoh731PlusCohortLibrary {
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v\n"
 		        + "                          join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
 		        + "where v.violence_results in (\"Verbal abuse\",\"Physical abuse\",\"Discrimination\",\"Sexual abuse/Rape\",\"illegal arrest\",\"other\")\n"
-		        + "  and c.key_population_type =\"Female sex worker\"\n"
+		        + "  and c.key_population_type =\"FSW\"\n"
 		        + "    and date(v.visit_date) between date(:startDate) and date(:endDate) group by v.client_id;";
 		cd.setName("experiencingViolenceFsw");
 		cd.setQuery(sqlQuery);
@@ -3406,7 +3405,7 @@ public class ETLMoh731PlusCohortLibrary {
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v\n"
 		        + "                          join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
 		        + "where v.violence_results in (\"Verbal abuse\",\"Physical abuse\",\"Discrimination\",\"Sexual abuse/Rape\",\"illegal arrest\",\"other\")\n"
-		        + "  and c.key_population_type =\"Men who have sex with men\"\n"
+		        + "  and c.key_population_type =\"MSM\"\n"
 		        + "    and date(v.visit_date) between date(:startDate) and date(:endDate) group by v.client_id;";
 		cd.setName("experiencingViolenceMsm");
 		cd.setQuery(sqlQuery);
@@ -3422,7 +3421,7 @@ public class ETLMoh731PlusCohortLibrary {
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v\n"
 		        + "                          join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
 		        + "where v.violence_results in (\"Verbal abuse\",\"Physical abuse\",\"Discrimination\",\"Sexual abuse/Rape\",\"illegal arrest\",\"other\")\n"
-		        + "  and c.key_population_type =\"Male sex worker\"\n"
+		        + "  and c.key_population_type =\"MSW\"\n"
 		        + "    and date(v.visit_date) between date(:startDate) and date(:endDate) group by v.client_id;";
 		cd.setName("experiencingViolenceMsw");
 		cd.setQuery(sqlQuery);
@@ -3438,7 +3437,7 @@ public class ETLMoh731PlusCohortLibrary {
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v\n"
 		        + "                          join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
 		        + "where v.violence_results in (\"Verbal abuse\",\"Physical abuse\",\"Discrimination\",\"Sexual abuse/Rape\",\"illegal arrest\",\"other\")\n"
-		        + "  and c.key_population_type =\"People who inject drugs\"\n"
+		        + "  and c.key_population_type =\"PWID\"\n"
 		        + "    and date(v.visit_date) between date(:startDate) and date(:endDate) group by v.client_id;";
 		cd.setName("experiencingViolencePwid");
 		cd.setQuery(sqlQuery);
@@ -3454,7 +3453,7 @@ public class ETLMoh731PlusCohortLibrary {
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v\n"
 		        + "                          join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
 		        + "where v.violence_results in (\"Verbal abuse\",\"Physical abuse\",\"Discrimination\",\"Sexual abuse/Rape\",\"illegal arrest\",\"other\")\n"
-		        + "  and c.key_population_type =\"People who use drugs\"\n"
+		        + "  and c.key_population_type =\"PWUD\"\n"
 		        + "    and date(v.visit_date) between date(:startDate) and date(:endDate) group by v.client_id;";
 		cd.setName("experiencingViolencePwud");
 		cd.setQuery(sqlQuery);
@@ -3501,7 +3500,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v\n"
 		        + "                          join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
-		        + "where v.violence_treated = \"Supported\"\n" + "  and c.key_population_type =\"Female sex worker\"\n"
+		        + "where v.violence_treated = \"Supported\"\n" + "  and c.key_population_type =\"FSW\"\n"
 		        + "  and date(v.visit_date) between date(:startDate) and date(:endDate) group by v.client_id;";
 		cd.setName("receivingViolenceSupportFsw");
 		cd.setQuery(sqlQuery);
@@ -3516,8 +3515,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v\n"
 		        + "                          join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
-		        + "where v.violence_treated = \"Supported\"\n"
-		        + "  and c.key_population_type =\"Men who have sex with men\"\n"
+		        + "where v.violence_treated = \"Supported\"\n" + "  and c.key_population_type =\"MSM\"\n"
 		        + "  and date(v.visit_date) between date(:startDate) and date(:endDate) group by v.client_id;";
 		cd.setName("receivingViolenceSupportMsm");
 		cd.setQuery(sqlQuery);
@@ -3532,7 +3530,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v\n"
 		        + "                          join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
-		        + "where v.violence_treated = \"Supported\"\n" + "  and c.key_population_type =\"Male sex worker\"\n"
+		        + "where v.violence_treated = \"Supported\"\n" + "  and c.key_population_type =\"MSW\"\n"
 		        + "  and date(v.visit_date) between date(:startDate) and date(:endDate) group by v.client_id;";
 		cd.setName("receivingViolenceSupportMsw");
 		cd.setQuery(sqlQuery);
@@ -3547,8 +3545,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v\n"
 		        + "                          join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
-		        + "where v.violence_treated = \"Supported\"\n"
-		        + "  and c.key_population_type =\"People who inject drugs\"\n"
+		        + "where v.violence_treated = \"Supported\"\n" + "  and c.key_population_type =\"PWID\"\n"
 		        + "  and date(v.visit_date) between date(:startDate) and date(:endDate) group by v.client_id;";
 		cd.setName("receivingViolenceSupportPwid");
 		cd.setQuery(sqlQuery);
@@ -3563,7 +3560,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v\n"
 		        + "                          join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
-		        + "where v.violence_treated = \"Supported\"\n" + "  and c.key_population_type =\"People who use drugs\"\n"
+		        + "where v.violence_treated = \"Supported\"\n" + "  and c.key_population_type =\"PWUD\"\n"
 		        + "  and date(v.visit_date) between date(:startDate) and date(:endDate) group by v.client_id;";
 		cd.setName("receivingViolenceSupportPwud");
 		cd.setQuery(sqlQuery);
@@ -3608,7 +3605,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v\n"
 		        + "                          join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
-		        + "where c.key_population_type=\"Female sex worker\" and (v.exposure_type in (\"Rape\",\"Condom burst\",\"Others\") or v.other_exposure_type is not null)  and c.key_population_type =\"Female sex worker\"\n"
+		        + "where c.key_population_type=\"FSW\" and (v.exposure_type in (\"Rape\",\"Condom burst\",\"Others\") or v.other_exposure_type is not null)  and c.key_population_type =\"FSW\"\n"
 		        + "  and date(v.visit_date) between date(:startDate) and date(:endDate) group by v.client_id;";
 		cd.setName("numberExposedFsw");
 		cd.setQuery(sqlQuery);
@@ -3623,7 +3620,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v\n"
 		        + "                          join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
-		        + "where c.key_population_type=\"Men who have sex with men\" and (v.exposure_type in (\"Rape\",\"Condom burst\",\"Others\") or v.other_exposure_type is not null)  and c.key_population_type =\"Female sex worker\"\n"
+		        + "where c.key_population_type=\"MSM\" and (v.exposure_type in (\"Rape\",\"Condom burst\",\"Others\") or v.other_exposure_type is not null)  and c.key_population_type =\"FSW\"\n"
 		        + "  and date(v.visit_date) between date(:startDate) and date(:endDate) group by v.client_id;";
 		cd.setName("numberExposedMsm");
 		cd.setQuery(sqlQuery);
@@ -3638,7 +3635,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v\n"
 		        + "                          join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
-		        + "where c.key_population_type=\"Male sex worker\" and (v.exposure_type in (\"Rape\",\"Condom burst\",\"Others\") or v.other_exposure_type is not null)  and c.key_population_type =\"Female sex worker\"\n"
+		        + "where c.key_population_type=\"MSW\" and (v.exposure_type in (\"Rape\",\"Condom burst\",\"Others\") or v.other_exposure_type is not null)  and c.key_population_type =\"FSW\"\n"
 		        + "  and date(v.visit_date) between date(:startDate) and date(:endDate) group by v.client_id;";
 		cd.setName("numberExposedMsw");
 		cd.setQuery(sqlQuery);
@@ -3653,7 +3650,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v\n"
 		        + "                          join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
-		        + "where c.key_population_type=\"People who inject drugs\" and (v.exposure_type in (\"Rape\",\"Condom burst\",\"Others\") or v.other_exposure_type is not null)  and c.key_population_type =\"Female sex worker\"\n"
+		        + "where c.key_population_type=\"PWID\" and (v.exposure_type in (\"Rape\",\"Condom burst\",\"Others\") or v.other_exposure_type is not null)  and c.key_population_type =\"FSW\"\n"
 		        + "  and date(v.visit_date) between date(:startDate) and date(:endDate) group by v.client_id;";
 		cd.setName("numberExposedPwid");
 		cd.setQuery(sqlQuery);
@@ -3668,7 +3665,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v\n"
 		        + "                          join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
-		        + "where c.key_population_type=\"People who use drugs\" and (v.exposure_type in (\"Rape\",\"Condom burst\",\"Others\") or v.other_exposure_type is not null)  and c.key_population_type =\"Female sex worker\"\n"
+		        + "where c.key_population_type=\"PWUD\" and (v.exposure_type in (\"Rape\",\"Condom burst\",\"Others\") or v.other_exposure_type is not null)  and c.key_population_type =\"FSW\"\n"
 		        + "  and date(v.visit_date) between date(:startDate) and date(:endDate) group by v.client_id;";
 		cd.setName("numberExposedPwud");
 		cd.setQuery(sqlQuery);
@@ -3683,7 +3680,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v\n"
 		        + "                          join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
-		        + "where c.key_population_type=\"Transman\" and (v.exposure_type in (\"Rape\",\"Condom burst\",\"Others\") or v.other_exposure_type is not null)  and c.key_population_type =\"Female sex worker\"\n"
+		        + "where c.key_population_type=\"Transman\" and (v.exposure_type in (\"Rape\",\"Condom burst\",\"Others\") or v.other_exposure_type is not null)  and c.key_population_type =\"FSW\"\n"
 		        + "  and date(v.visit_date) between date(:startDate) and date(:endDate) group by v.client_id;";
 		cd.setName("numberExposedTransman");
 		cd.setQuery(sqlQuery);
@@ -3698,7 +3695,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v\n"
 		        + "                          join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
-		        + "where c.key_population_type=\"Transwoman\" and (v.exposure_type in (\"Rape\",\"Condom burst\",\"Others\") or v.other_exposure_type is not null)  and c.key_population_type =\"Female sex worker\"\n"
+		        + "where c.key_population_type=\"Transwoman\" and (v.exposure_type in (\"Rape\",\"Condom burst\",\"Others\") or v.other_exposure_type is not null)  and c.key_population_type =\"FSW\"\n"
 		        + "  and date(v.visit_date) between date(:startDate) and date(:endDate) group by v.client_id;";
 		cd.setName("numberExposedTranswoman");
 		cd.setQuery(sqlQuery);
@@ -3713,7 +3710,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v\n"
 		        + "                          join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
-		        + "where v.pep_eligible= \"Y\"\n" + "  and c.key_population_type =\"Female sex worker\"\n"
+		        + "where v.pep_eligible= \"Y\"\n" + "  and c.key_population_type =\"FSW\"\n"
 		        + "  and date(v.visit_date) between date(:startDate) and date(:endDate) group by v.client_id;\n";
 		cd.setName("receivingPEPWithin72HrsFsw");
 		cd.setQuery(sqlQuery);
@@ -3728,7 +3725,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v\n"
 		        + "                          join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
-		        + "where v.pep_eligible= \"Y\"\n" + "  and c.key_population_type =\"Men who have sex with men\"\n"
+		        + "where v.pep_eligible= \"Y\"\n" + "  and c.key_population_type =\"MSM\"\n"
 		        + "  and date(v.visit_date) between date(:startDate) and date(:endDate) group by v.client_id;\n";
 		cd.setName("receivingPEPWithin72HrsMsm");
 		cd.setQuery(sqlQuery);
@@ -3743,7 +3740,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v\n"
 		        + "                          join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
-		        + "where v.pep_eligible= \"Y\"\n" + "  and c.key_population_type =\"Male sex worker\"\n"
+		        + "where v.pep_eligible= \"Y\"\n" + "  and c.key_population_type =\"MSW\"\n"
 		        + "  and date(v.visit_date) between date(:startDate) and date(:endDate) group by v.client_id;\n";
 		cd.setName("receivingPEPWithin72HrsMsw");
 		cd.setQuery(sqlQuery);
@@ -3758,7 +3755,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v\n"
 		        + "                          join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
-		        + "where v.pep_eligible= \"Y\"\n" + "  and c.key_population_type =\"People who inject drugs\"\n"
+		        + "where v.pep_eligible= \"Y\"\n" + "  and c.key_population_type =\"PWID\"\n"
 		        + "  and date(v.visit_date) between date(:startDate) and date(:endDate) group by v.client_id;\n";
 		cd.setName("receivingPEPWithin72HrsPwid");
 		cd.setQuery(sqlQuery);
@@ -3773,7 +3770,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v\n"
 		        + "                          join kenyaemr_etl.etl_contact c on v.client_id = c.client_id\n"
-		        + "where v.pep_eligible= \"Y\"\n" + "  and c.key_population_type =\"People who use drugs\"\n"
+		        + "where v.pep_eligible= \"Y\"\n" + "  and c.key_population_type =\"PWUD\"\n"
 		        + "  and date(v.visit_date) between date(:startDate) and date(:endDate) group by v.client_id;\n";
 		cd.setName("receivingPEPWithin72HrsPwud");
 		cd.setQuery(sqlQuery);
