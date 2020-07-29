@@ -65,17 +65,71 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 	@Override
 	protected List<Mapped<DataSetDefinition>> buildDataSets(ReportDescriptor reportDescriptor,
 	        ReportDefinition reportDefinition) {
-		return Arrays.asList(ReportUtils.map(kpDataSet(), "startDate=${startDate},endDate=${endDate}"));
+		return Arrays.asList(ReportUtils.map(kpContactDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpEverEnrolledDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpContactNewDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpContactHCWDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpNetEnrolledDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpKnownPositiveDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpNewlyEnrolledDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpHtsTestedNegDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpEnrolledAndTestedHIVDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpEnrolledTestedPosDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpScreenedForSTIDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpAssistedSelfTestedDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpUnAssistedSelfTestedDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpHtsTstSelfConfirmedPositive(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpScreenedPositiveForSTIDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpStartedSTITxDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpScreenedForGbvDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpExperiencedGbvDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpReceivedGbvLegalSupportDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpNewOnARTDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpCurrOnARTDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpHIVTXRttDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpEligibleForRetestDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpHTSTstEligibleRetestedDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpRetestedHIVPositiveDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpOfferedPNSDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpAcceptedPNSDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpElicitedPNSDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpPNSKnownPositiveAtEntryDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpPNSTestedPositiveDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpPNSTestedNegativeDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpEnrolledInARTSupportGroupDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpReceivedGbvClinicalCareDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpHIVSuppressedVlDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kplhivWithVlResultDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kplhivSuppressedVlArtOtherPEPFARSiteDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kplhivVlResultArtOtherPEPFARSiteDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kplhivSuppressedVlArtNonPEPFARSiteDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kplhivVlResultArtNonPEPFARSiteDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpReferredAndInitiatedPrEPPepfarDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpReferredAndInitiatedPrEPNonPepfarDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kplhivInitiatedARTOtherPEPFARDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kplhivInitiatedARTNonPEPFARDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kplhivCurrentOnARTOtherPEPFARDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kplhivCurrentOnARTNonPEPFARDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpCurrDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpLHIVCurrDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kplhivLTFURecentlyDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpEverPosDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(txEverDiceDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpTxEverVerifyPEPFARDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpTxEverVerifyNonPEPFARDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpTxPvlsEligibleDiceDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpTxPvlsEligibleDoneDiceDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpTxPvlsEligibleVerifyPEPFARDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpTxPvlsEligibleDoneVerifyPEPFARDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpTxPvlsEligibleVerifyNonPEPFARDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpTxPvlsEligibleDoneVerifyNonPEPFARDataset(), "startDate=${startDate},endDate=${endDate}"),
+		    ReportUtils.map(kpOnMultiMonthARTDataset(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
-	/**
-	 * KP Dataset
-	 * 
-	 * @return the dataset
-	 */
-	protected DataSetDefinition kpDataSet() {
+	//1. CONTACT_ALL - r8QR7Iqit3z
+	protected DataSetDefinition kpContactDataset() {
 		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
-		cohortDsd.setName("monthlyReportingDataset");
+		cohortDsd.setName("1");
 		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
@@ -104,6 +158,22 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		EmrReportingUtils.addRow(cohortDsd, "CONTACT_ALL_Transwoman", "All KP Contact",
 		    ReportUtils.map(monthlyReportIndicator.contactAll("Transwoman"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
+		
+		return cohortDsd;
+		
+	}
+	
+	//2. KP_EVER_ENROL - azaGW41sWgz
+	protected DataSetDefinition kpEverEnrolledDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("2");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
+		
 		EmrReportingUtils.addRow(cohortDsd, "KP_EVER_ENROLLED_FSW", "Ever enrolled",
 		    ReportUtils.map(monthlyReportIndicator.everEnroll("FSW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -125,6 +195,21 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		EmrReportingUtils.addRow(cohortDsd, "KP_EVER_ENROLLED_Transwoman", "Ever enrolled",
 		    ReportUtils.map(monthlyReportIndicator.everEnroll("Transwoman"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
+		
+		return cohortDsd;
+		
+	}
+	
+	//3. CONTACT_NEW - nFg8SCUal7w
+	protected DataSetDefinition kpContactNewDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("3");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "KP_CONTACT_NEW_FSW", "New KP Contact",
 		    ReportUtils.map(monthlyReportIndicator.contactNew("FSW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -147,7 +232,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.contactNew("Transwoman"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//CONTACT_HCW
+		return cohortDsd;
+		
+	}
+	
+	//4. CONTACT_HCW - WnS2CYAnhhg
+	protected DataSetDefinition kpContactHCWDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("4");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "CONTACT_HCW_FSW", "Had contact with a health care worker",
 		    ReportUtils.map(monthlyReportIndicator.contactHCW("FSW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -170,7 +268,21 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.contactHCW("Transwoman"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//KP_NET_ENROLLED
+		return cohortDsd;
+		
+	}
+	
+	//5. KP_NET_ENROLLED n35ZQZJ9qYj
+	
+	protected DataSetDefinition kpNetEnrolledDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("5");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "KP_NET_ENROLLED_FSW", "Net Enrolled KP",
 		    ReportUtils.map(monthlyReportIndicator.netEnroll("FSW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -193,7 +305,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.netEnroll("Transwoman"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//ENROL_KNOWN POSITIVE
+		return cohortDsd;
+		
+	}
+	
+	//6. ENROL_KNOWN POSITIVE - pbIycq1Q1aR
+	protected DataSetDefinition kpKnownPositiveDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("6");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "ENROL_KNOWN POSITIVE_FSW", "Known positive at enrolment",
 		    ReportUtils.map(monthlyReportIndicator.kpKnownPositiveEnrolled("FSW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -216,6 +341,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.kpKnownPositiveEnrolled("Transwoman"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
+		return cohortDsd;
+		
+	}
+	
+	//7. ENROL_NEW - VhJ7miYpzzZ
+	protected DataSetDefinition kpNewlyEnrolledDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("7");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "ENROL_NEW_FSW", "Newly Enrolled",
 		    ReportUtils.map(monthlyReportIndicator.enrollNew("FSW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -238,6 +377,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.enrollNew("Transwoman"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
+		return cohortDsd;
+		
+	}
+	
+	//8. HTS_TST_NEG - K4NPVo3Ee1E
+	protected DataSetDefinition kpHtsTestedNegDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("8");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "HTS_TST_NEG_FSW", "Tested HIV -ve",
 		    ReportUtils.map(monthlyReportIndicator.htsTestedNegative("FSW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -260,6 +413,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.htsTestedNegative("Transwoman"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
+		return cohortDsd;
+		
+	}
+	
+	//9. ENROL_HTS_TST - cakCs9wAFh1
+	protected DataSetDefinition kpEnrolledAndTestedHIVDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("9");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "ENROL_HTS_TST_FSW", "Newly enrolled and Tested for HIV",
 		    ReportUtils.map(monthlyReportIndicator.enrollHtsTst("FSW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -282,6 +449,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.enrollHtsTst("Transwoman"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
+		return cohortDsd;
+		
+	}
+	
+	//10.ENROL_HTS_TST_POS - cakCs9wAFh1
+	protected DataSetDefinition kpEnrolledTestedPosDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("10");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "ENROL_HTS_TST_POS_FSW", "Newly enrolled and Tested for HIV+",
 		    ReportUtils.map(monthlyReportIndicator.enrollHtsTstPos("FSW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -304,7 +485,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.enrollHtsTstPos("Transwoman"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//STI_SCREEN
+		return cohortDsd;
+		
+	}
+	
+	//11.STI_SCREEN - D1UmxuQdovX
+	protected DataSetDefinition kpScreenedForSTIDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("11");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "STI_SCREEN_FSW", "Screened for STI",
 		    ReportUtils.map(monthlyReportIndicator.screenedForSTI("FSW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -327,7 +521,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.screenedForSTI("Transwoman"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//HTS_SELF_ASSISTED
+		return cohortDsd;
+		
+	}
+	
+	//12.HTS_SELF_ASSISTED - tePCfFFkby5
+	protected DataSetDefinition kpAssistedSelfTestedDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("12");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "HTS_SELF_ASSISTED_FSW", "Self Assisted HIV Testing",
 		    ReportUtils.map(monthlyReportIndicator.assistedSelfTested("FSW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -350,7 +557,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.assistedSelfTested("Transwoman"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//HTS_SELF_UNASSISTED
+		return cohortDsd;
+		
+	}
+	
+	//13. HTS_SELF_UNASSISTED - f9yUfz3UW7m
+	protected DataSetDefinition kpUnAssistedSelfTestedDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("13");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "HTS_SELF_UNASSISTED_FSW", "Unassisted HIV self testing",
 		    ReportUtils.map(monthlyReportIndicator.unAssistedSelfTested("FSW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -373,7 +593,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.unAssistedSelfTested("Transwoman"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//HTS_SELF_CONFIRMED_+VE
+		return cohortDsd;
+		
+	}
+	
+	//14. HTS_SELF_CONFIRMED_+VE - oeX7WkboEik
+	protected DataSetDefinition kpHtsTstSelfConfirmedPositive() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("14");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "HTS_SELF_CONFIRMED_+VE_FSW", "Confirmed HIV+ on Self Test",
 		    ReportUtils.map(monthlyReportIndicator.htsTstSelfConfirmedPositive("FSW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -396,7 +629,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.htsTstSelfConfirmedPositive("Transwoman"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//STI_SCREEN_POS
+		return cohortDsd;
+		
+	}
+	
+	//15.STI_SCREEN_POS - cccAY22KB4P
+	protected DataSetDefinition kpScreenedPositiveForSTIDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("15");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "STI_SCREEN_POS_FSW", "Screened +ve for STI",
 		    ReportUtils.map(monthlyReportIndicator.screenedPositiveForSTI("FSW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -419,7 +665,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.screenedPositiveForSTI("Transwoman"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//STI_TX
+		return cohortDsd;
+		
+	}
+	
+	//16. STI_TX - EbkN2jKcxym
+	protected DataSetDefinition kpStartedSTITxDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("16");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "STI_TX_FSW", "Started STI Treatment",
 		    ReportUtils.map(monthlyReportIndicator.startedSTITx("FSW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -442,7 +701,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.startedSTITx("Transwoman"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//GBV_SCREEN
+		return cohortDsd;
+		
+	}
+	
+	//17. GBV_SCREEN - mrSyW3UFeWI
+	protected DataSetDefinition kpScreenedForGbvDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("17");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "GBV_SCREEN_FSW", "Screened for GBV",
 		    ReportUtils.map(monthlyReportIndicator.screenedForGbv("FSW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -465,7 +737,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.screenedForGbv("Transwoman"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//GBV_POS
+		return cohortDsd;
+		
+	}
+	
+	//18. GBV_POS - J8GBNrQbDs7
+	protected DataSetDefinition kpExperiencedGbvDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("18");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "GBV_POS_FSW", "Experienced GBV",
 		    ReportUtils.map(monthlyReportIndicator.experiencedGbv("FSW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -488,7 +773,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.experiencedGbv("Transwoman"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//GBV_LEGAL_SUPPORT
+		return cohortDsd;
+		
+	}
+	
+	//19. GBV_LEGAL_SUPPORT - vY1Uy4cUKiG
+	protected DataSetDefinition kpReceivedGbvLegalSupportDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("19");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "GBV_LEGAL_SUPPORT_FSW", "Received Legal support for GBV",
 		    ReportUtils.map(monthlyReportIndicator.receivedGbvLegalSupport("FSW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -511,7 +809,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.receivedGbvLegalSupport("Transwoman"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//TX_NEW_DICE
+		return cohortDsd;
+		
+	}
+	
+	//20. TX_NEW_DICE - ayMFkwavWB7
+	protected DataSetDefinition kpNewOnARTDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("20");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "TX_NEW_DICE_FSW", "Started ART this month",
 		    ReportUtils.map(monthlyReportIndicator.newOnARTKP("FSW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -534,7 +845,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.newOnARTKP("Transwoman"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//TX_CURR_DICE
+		return cohortDsd;
+		
+	}
+	
+	//21. TX_CURR_DICE - bVnurJnr7SM
+	protected DataSetDefinition kpCurrOnARTDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("21");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "TX_CURR_DICE_FSW", "Current on ART",
 		    ReportUtils.map(monthlyReportIndicator.currOnARTKP("FSW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -557,7 +881,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.currOnARTKP("Transwoman"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//TX_RTT
+		return cohortDsd;
+		
+	}
+	
+	//22. TX_RTT - Hm9jOlXPqlx
+	protected DataSetDefinition kpHIVTXRttDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("22");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "TX_RTT_FSW", "Returned to treatment",
 		    ReportUtils.map(monthlyReportIndicator.kplhivTXRtt("FSW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -580,7 +917,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.kplhivTXRtt("Transwoman"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//RETEST_ELIGIBLE
+		return cohortDsd;
+		
+	}
+	
+	//23. RETEST_ELIGIBLE - kOmj7azOXf0
+	protected DataSetDefinition kpEligibleForRetestDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("23");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "RETEST_ELIGIBLE_FSW", "Eligible for Retest",
 		    ReportUtils.map(monthlyReportIndicator.eligibleForRetest("FSW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -603,7 +953,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.eligibleForRetest("Transwoman"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//RETEST_HTS_TST
+		return cohortDsd;
+		
+	}
+	
+	//24. RETEST_HTS_TST - KxPBLMcMfXX
+	protected DataSetDefinition kpHTSTstEligibleRetestedDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("24");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "RETEST_HTS_TST_FSW", "Retested for HIV",
 		    ReportUtils.map(monthlyReportIndicator.htsTstEligibleRetested("FSW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -626,7 +989,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.htsTstEligibleRetested("Transwoman"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//RETEST_HTS_TST_POS
+		return cohortDsd;
+		
+	}
+	
+	//25. RETEST_HTS_TST_POS - wHTtM3KK8xt
+	protected DataSetDefinition kpRetestedHIVPositiveDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("25");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "RETEST_HTS_TST_POS_FSW", "Retested HIV Positive",
 		    ReportUtils.map(monthlyReportIndicator.retestedHIVPositive("FSW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -649,7 +1025,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.retestedHIVPositive("Transwoman"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//PNS_OFFERED
+		return cohortDsd;
+		
+	}
+	
+	//26. PNS_OFFERED - IRLMFsFMPeE
+	protected DataSetDefinition kpOfferedPNSDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("26");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "PNS_OFFERED_FSW", "Offered PNS",
 		    ReportUtils.map(monthlyReportIndicator.offeredPNS("FSW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -672,7 +1061,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.offeredPNS("Transwoman"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//PNS_ACCEPTED
+		return cohortDsd;
+		
+	}
+	
+	//27. PNS_ACCEPTED - Aj6vP6Zlw7A
+	protected DataSetDefinition kpAcceptedPNSDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("27");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "PNS_ACCEPTED_FSW", "Accepted PNS",
 		    ReportUtils.map(monthlyReportIndicator.acceptedPNS("FSW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -695,7 +1097,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.acceptedPNS("Transwoman"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//PNS_ELICITED
+		return cohortDsd;
+		
+	}
+	
+	//28. PNS_ELICITED - Om2TkuDV50S
+	protected DataSetDefinition kpElicitedPNSDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("28");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "PNS_ELICITED_FSW", "Elicited PNS",
 		    ReportUtils.map(monthlyReportIndicator.elicitedPNS("FSW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -718,7 +1133,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.elicitedPNS("Transwoman"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//KNOWN_POSITIVE_AT_ENTRY
+		return cohortDsd;
+		
+	}
+	
+	//29. PNS_KNOWN_POSITIVE_ENTRY - KMxOHc1sq6A
+	protected DataSetDefinition kpPNSKnownPositiveAtEntryDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("29");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "PNS_KNOWN_POSITIVE_ENTRY_FSW", "PNS known positive at entry",
 		    ReportUtils.map(monthlyReportIndicator.pnsKnownPositiveAtEntry("FSW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -741,7 +1169,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.pnsKnownPositiveAtEntry("Transwoman"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//PNS_NEW_HIV_POS
+		return cohortDsd;
+		
+	}
+	
+	//30. PNS_NEW_HIV_POS - FZJvTrHEG9I
+	protected DataSetDefinition kpPNSTestedPositiveDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("30");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "PNS_NEW_HIV_POS_FSW", "PNS tested Positive",
 		    ReportUtils.map(monthlyReportIndicator.pnsTestedPositive("FSW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -764,7 +1205,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.pnsTestedPositive("Transwoman"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
-		// PNS_NEW_HIV_NEG
+		return cohortDsd;
+		
+	}
+	
+	//31. PNS_NEW_HIV_NEG - zJTUyNwTvCX
+	protected DataSetDefinition kpPNSTestedNegativeDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("31");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "PNS_NEW_HIV_NEG_FSW", "PNS tested Negative",
 		    ReportUtils.map(monthlyReportIndicator.pnsTestedNegative("FSW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -787,7 +1241,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.pnsTestedNegative("Transwoman"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//SUPPORT_GROUPS
+		return cohortDsd;
+		
+	}
+	
+	//32. SUPPORT_GROUPS - zfiXKEUJgR8
+	protected DataSetDefinition kpEnrolledInARTSupportGroupDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("32");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "SUPPORT_GROUPS_FSW", "Enrolled in support group",
 		    ReportUtils.map(monthlyReportIndicator.kpEnrolledInARTSupportGroup("FSW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -810,7 +1277,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.kpEnrolledInARTSupportGroup("Transwoman"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//GBV_CLINICAL
+		return cohortDsd;
+		
+	}
+	
+	//33. GBV_CLINICAL - ZgJZbVBlRTP
+	protected DataSetDefinition kpReceivedGbvClinicalCareDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("33");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "GBV_CLINICAL_FSW", "Received Clinical services for GBV case",
 		    ReportUtils.map(monthlyReportIndicator.receivedGbvClinicalCare("FSW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -833,7 +1313,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.receivedGbvClinicalCare("Transwoman"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//TX_PVLS_DICE_(N)
+		return cohortDsd;
+		
+	}
+	
+	//34. TX_PVLS_DICE_(N) - gKzh3U8KiEF
+	protected DataSetDefinition kpHIVSuppressedVlDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("34");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_DICE_(N)_FSW", "KPLHIV with Suppressed VL ",
 		    ReportUtils.map(monthlyReportIndicator.kplhivSuppressedVl("FSW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -856,7 +1349,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.kplhivSuppressedVl("Transwoman"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//TX_PVLS_DICE_(D)
+		return cohortDsd;
+		
+	}
+	
+	//35. TX_PVLS_DICE (D) - Ob0tw9E09m6
+	protected DataSetDefinition kplhivWithVlResultDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("35");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_DICE_(D)_FSW", "KPLHIV with VL result ",
 		    ReportUtils.map(monthlyReportIndicator.kplhivWithVlResult("FSW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -879,7 +1385,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.kplhivWithVlResult("Transwoman"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//TX_PVLS_VERIFY_PEPFAR_SITE_(N)
+		return cohortDsd;
+		
+	}
+	
+	//36. TX_PVLS_VERIFY_PEPFAR_SITE_(N) - HDX9dYK1S8C
+	protected DataSetDefinition kplhivSuppressedVlArtOtherPEPFARSiteDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("36");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_VERIFY_PEPFAR_SITE_(N)_FSW",
 		    "KPLHIV with suppressed VL result  from other PEPFAR site",
 		    ReportUtils.map(monthlyReportIndicator.kplhivSuppressedVlArtOtherPEPFARSite("FSW"), indParams),
@@ -909,7 +1428,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.kplhivSuppressedVlArtOtherPEPFARSite("Transwoman"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//TX_PVLS_VERIFY_PEPFAR_SITE_(D)
+		return cohortDsd;
+		
+	}
+	
+	//37. TX_PVLS_VERIFY_PEPFAR_SITE_(D) - FNVxVWLWSlP
+	protected DataSetDefinition kplhivVlResultArtOtherPEPFARSiteDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("37");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_VERIFY_PEPFAR_SITE_(D)_FSW",
 		    "KPLHIV with VL result from other PEPFAR site",
 		    ReportUtils.map(monthlyReportIndicator.kplhivVlResultArtOtherPEPFARSite("FSW"), indParams), kpAgeDisaggregation,
@@ -939,7 +1471,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.kplhivVlResultArtOtherPEPFARSite("Transwoman"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//TX_PVLS_VERIFY_NON_PEPFAR_SITE_(N)
+		return cohortDsd;
+		
+	}
+	
+	//38.TX_PVLS_VERIFY_NON_PEPFAR_SITE_(N) -  YFVW39TeCC5
+	protected DataSetDefinition kplhivSuppressedVlArtNonPEPFARSiteDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("38");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_VERIFY_NON_PEPFAR_SITE_(N)_FSW",
 		    "KPLHIV with VL result from other non PEPFAR site",
 		    ReportUtils.map(monthlyReportIndicator.kplhivSuppressedVlArtNonPEPFARSite("FSW"), indParams),
@@ -969,7 +1514,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.kplhivSuppressedVlArtNonPEPFARSite("Transwoman"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//TX_PVLS_VERIFY_NON_PEPFAR_SITE_(D)
+		return cohortDsd;
+		
+	}
+	
+	//39. TX_PVLS_VERIFY_NON_PEPFAR_SITE_(D) - MyaBDZA5l8o
+	protected DataSetDefinition kplhivVlResultArtNonPEPFARSiteDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("39");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_VERIFY_NON_PEPFAR_SITE_(D)_FSW",
 		    "KPLHIV with VL result from other non PEPFAR site",
 		    ReportUtils.map(monthlyReportIndicator.kplhivVlResultArtNonPEPFARSite("FSW"), indParams), kpAgeDisaggregation,
@@ -999,7 +1557,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.kplhivVlResultArtNonPEPFARSite("Transwoman"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//PrEP_CURR_VERIFY_PEPFAR_SITE
+		return cohortDsd;
+		
+	}
+	
+	//40. PrEP_CURR_VERIFY_PEPFAR_SITE - CCdVD9plUwm
+	protected DataSetDefinition kpReferredAndInitiatedPrEPPepfarDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("40");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "PrEP_CURR_VERIFY_PEPFAR_SITE_FSW",
 		    "Clients initiated on PrEP from another PEPFAR site",
 		    ReportUtils.map(monthlyReportIndicator.referredAndInitiatedPrEPPepfar("FSW"), indParams), kpAgeDisaggregation,
@@ -1029,7 +1600,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.referredAndInitiatedPrEPPepfar("Transwoman"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//PrEP_CURR_VERIFY_NON_PEPFAR_SITE
+		return cohortDsd;
+		
+	}
+	
+	//41. PrEP_CURR_VERIFY_NON_PEPFAR_SITE - nWMnSfWQw3F
+	protected DataSetDefinition kpReferredAndInitiatedPrEPNonPepfarDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("41");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "PrEP_CURR_VERIFY_NON_PEPFAR_SITE_FSW",
 		    "Clients initiated on PrEP from other non PEPFAR site",
 		    ReportUtils.map(monthlyReportIndicator.referredAndInitiatedPrEPNonPepfar("FSW"), indParams),
@@ -1059,7 +1643,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.referredAndInitiatedPrEPNonPepfar("Transwoman"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//TX_NEW_VERIFY_PEPFAR_SITE
+		return cohortDsd;
+		
+	}
+	
+	//42. TX_NEW_VERIFY_PEPFAR_SITE - bVPCYIWpJAs
+	protected DataSetDefinition kplhivInitiatedARTOtherPEPFARDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("42");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "TX_NEW_VERIFY_PEPFAR_SITE_FSW",
 		    "Clients initiated on ART from other PEPFAR site",
 		    ReportUtils.map(monthlyReportIndicator.kplhivInitiatedARTOtherPEPFAR("FSW"), indParams), kpAgeDisaggregation,
@@ -1089,7 +1686,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.kplhivInitiatedARTOtherPEPFAR("Transwoman"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//TX_NEW_VERIFY_NON_PEPFAR
+		return cohortDsd;
+		
+	}
+	
+	//43. TX_NEW_VERIFY_NON_PEPFAR - zYZe7ERpD0Z
+	protected DataSetDefinition kplhivInitiatedARTNonPEPFARDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("43");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "TX_NEW_VERIFY_NON_PEPFAR_FSW",
 		    "Clients initiated on ART from other non PEPFAR site",
 		    ReportUtils.map(monthlyReportIndicator.kplhivInitiatedARTNonPEPFAR("FSW"), indParams), kpAgeDisaggregation,
@@ -1119,7 +1729,21 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.kplhivInitiatedARTNonPEPFAR("Transwoman"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//TX_CURR_VERIFY_PEPFAR_SITE
+		return cohortDsd;
+		
+	}
+	
+	//44. TX_CURR_VERIFY_PEPFAR_SITE - mKinaTjSI8O
+	
+	protected DataSetDefinition kplhivCurrentOnARTOtherPEPFARDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("44");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "TX_CURR_VERIFY_PEPFAR_SITE_FSW",
 		    "Clients Current on ART from other PEPFAR site",
 		    ReportUtils.map(monthlyReportIndicator.kplhivCurrentOnARTOtherPEPFAR("FSW"), indParams), kpAgeDisaggregation,
@@ -1149,7 +1773,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.kplhivCurrentOnARTOtherPEPFAR("Transwoman"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//TX_CURR_VERIFY_NON_PEPFAR_SITE
+		return cohortDsd;
+		
+	}
+	
+	//45. TX_CURR_VERIFY_NON_PEPFAR_SITE - UG1nFQQ7Yz2
+	protected DataSetDefinition kplhivCurrentOnARTNonPEPFARDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("45");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "TX_CURR_VERIFY_NON_PEPFAR_SITE_FSW",
 		    "Clients Current on ART from other non PEPFAR site",
 		    ReportUtils.map(monthlyReportIndicator.kplhivCurrentOnARTNonPEPFAR("FSW"), indParams), kpAgeDisaggregation,
@@ -1179,7 +1816,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.kplhivCurrentOnARTNonPEPFAR("Transwoman"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//KP_CURR
+		return cohortDsd;
+		
+	}
+	
+	//46. KP_CURR - IfZnCTNMiec
+	protected DataSetDefinition kpCurrDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("46");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "KP_CURR_FSW", "Cuurent on KP",
 		    ReportUtils.map(monthlyReportIndicator.kpCurr("FSW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -1202,7 +1852,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.kpCurr("Transwoman"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//KPLHIV_CURR
+		return cohortDsd;
+		
+	}
+	
+	//47. KPLHIV_CURR - U8ah8a3Up1f
+	protected DataSetDefinition kpLHIVCurrDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("47");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "KPLHIV_CURR_FSW", "KP - Current living with HIV",
 		    ReportUtils.map(monthlyReportIndicator.kpLHIVCurr("FSW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -1225,7 +1888,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.kpLHIVCurr("Transwoman"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//TX_LTFU_RECENT
+		return cohortDsd;
+		
+	}
+	
+	//48. TX_LTFU_RECENT - ayMFkwavWB7
+	protected DataSetDefinition kplhivLTFURecentlyDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("48");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "TX_LTFU_RECENT_FSW", "Recently lost to followup",
 		    ReportUtils.map(monthlyReportIndicator.kplhivLTFURecently("FSW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -1248,7 +1924,21 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.kplhivLTFURecently("Transwoman"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//KP_EVER_POS
+		return cohortDsd;
+		
+	}
+	
+	//49. KP_EVER_POS - vKtYvZGWdQ3
+	
+	protected DataSetDefinition kpEverPosDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("49");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "KP_EVER_POS_FSW", " KP Ever Positive",
 		    ReportUtils.map(monthlyReportIndicator.kpEverPos("FSW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -1271,7 +1961,21 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.kpEverPos("Transwoman"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//TX_EVER_DICE
+		return cohortDsd;
+		
+	}
+	
+	//50. TX_EVER_DICE - PhOOi3jpyU5
+	
+	protected DataSetDefinition txEverDiceDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("50");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "TX_EVER_DICE_FSW", "Ever on ART in this DICE",
 		    ReportUtils.map(monthlyReportIndicator.txEverDice("FSW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -1294,7 +1998,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.txEverDice("Transwoman"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//TX_EVER_VERIFY_PEPFAR_SITE
+		return cohortDsd;
+		
+	}
+	
+	//51. TX_EVER_VERIFY_PEPFAR_SITE - E26PZb2eocw
+	protected DataSetDefinition kpTxEverVerifyPEPFARDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("51");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "TX_EVER_VERIFY_PEPFAR_SITE_FSW", "Ever on ART in other PEPFAR site",
 		    ReportUtils.map(monthlyReportIndicator.txEverVerifyPEPFAR("FSW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -1317,7 +2034,21 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.txEverVerifyPEPFAR("Transwoman"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//TX_EVER_VERIFY_NON_PEPFAR_SITE
+		return cohortDsd;
+		
+	}
+	
+	//52. TX_EVER_VERIFY_NON_PEPFAR_SITE - hotT1X2G7Ss
+	
+	protected DataSetDefinition kpTxEverVerifyNonPEPFARDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("52");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "TX_EVER_VERIFY_NON_PEPFAR_SITE_FSW", "Ever on ART in other non PEPFAR site",
 		    ReportUtils.map(monthlyReportIndicator.txEverVerifyNonPEPFAR("FSW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -1342,7 +2073,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.txEverVerifyNonPEPFAR("Transwoman"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//TX_PVLS_ELIGIBLE_DICE
+		return cohortDsd;
+		
+	}
+	
+	//53. TX_PVLS_ELIGIBLE_DICE - wEATMdiockB
+	protected DataSetDefinition kpTxPvlsEligibleDiceDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("53");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_ELIGIBLE_DICE_FSW",
 		    "On ART in this DICE and Eligible for VL within last 12 months",
 		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleDice("FSW"), indParams), kpAgeDisaggregation,
@@ -1372,7 +2116,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleDice("Transwoman"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//TX_PVLS_ELIGIBLE_DONE_DICE
+		return cohortDsd;
+		
+	}
+	
+	//54. TX_PVLS_ELIGIBLE_DONE_DICE- mhkO6IPf1nE
+	protected DataSetDefinition kpTxPvlsEligibleDoneDiceDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("54");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_ELIGIBLE_DONE_DICE_FSW",
 		    "On ART in this DICE and Eligible for VL within last 12 months whose samples were taken",
 		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleDoneDice("FSW"), indParams), kpAgeDisaggregation,
@@ -1402,7 +2159,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleDoneDice("Transwoman"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//TX_PVLS_ELIGIBLE_VERIFY_PEPFAR_SITE
+		return cohortDsd;
+		
+	}
+	
+	//55.TX_PVLS_ELIGIBLE_VERIFY_PEPFAR_SITE - tcKlzWxQG6w
+	protected DataSetDefinition kpTxPvlsEligibleVerifyPEPFARDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("55");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_ELIGIBLE_VERIFY_PEPFAR_SITE_FSW",
 		    "On ART in other PEPFAR sites Eligible for VL within last 12 months",
 		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleVerifyPEPFAR("FSW"), indParams), kpAgeDisaggregation,
@@ -1432,7 +2202,21 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleVerifyPEPFAR("Transwoman"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//TX_PVLS_ELIGIBLE_DONE_VERIFY_PEPFAR_SITE
+		return cohortDsd;
+		
+	}
+	
+	//56. TX_PVLS_ELIGIBLE_DONE_VERIFY_PEPFAR_SITE - cn1u70K6fMZ
+	
+	protected DataSetDefinition kpTxPvlsEligibleDoneVerifyPEPFARDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("56");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_ELIGIBLE_DONE_VERIFY_PEPFAR_SITE_FSW",
 		    "On ART in other PEPFAR sites Eligible for VL within last 12 months whose samples were taken",
 		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleDoneVerifyPEPFAR("FSW"), indParams), kpAgeDisaggregation,
@@ -1462,7 +2246,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleDoneVerifyPEPFAR("Transwoman"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//TX_PVLS_ELIGIBLE_VERIFY_NON_PEPFAR_SITE
+		return cohortDsd;
+		
+	}
+	
+	//57. TX_PVLS_ELIGIBLE_VERIFY_NON_PEPFAR_SITE - b5pkOaXA4d7
+	protected DataSetDefinition kpTxPvlsEligibleVerifyNonPEPFARDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("57");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_ELIGIBLE_VERIFY_NON_PEPFAR_SITE_FSW",
 		    "On ART in other non PEPFAR sites Eligible for VL within last 12 months",
 		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleVerifyNonPEPFAR("FSW"), indParams), kpAgeDisaggregation,
@@ -1492,8 +2289,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleVerifyNonPEPFAR("Transwoman"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//TX_PVLS_ELIGIBLE_DONE_VERIFY_NON_PEPFAR_SITE
+		return cohortDsd;
 		
+	}
+	
+	//58. TX_PVLS_ELIGIBLE_DONE_VERIFY_NON_PEPFAR_SITE - O4M0FcApmzi
+	protected DataSetDefinition kpTxPvlsEligibleDoneVerifyNonPEPFARDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("58");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_ELIGIBLE_DONE_VERIFY_NON_PEPFAR_SITE_FSW",
 		    "On ART in other non PEPFAR sites Eligible for VL within last 12 months whose samples were taken",
 		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleDoneVerifyNonPEPFAR("FSW"), indParams),
@@ -1523,7 +2332,20 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleDoneVerifyNonPEPFAR("Transwoman"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
 		
-		//MMD
+		return cohortDsd;
+		
+	}
+	
+	//59. MMD - xCjs0ES6xwx
+	protected DataSetDefinition kpOnMultiMonthARTDataset() {
+		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
+		cohortDsd.setName("59");
+		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
+		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		
+		String indParams = "startDate=${startDate},endDate=${endDate}";
 		EmrReportingUtils.addRow(cohortDsd, "MMD_FSW", "Multi month appointments",
 		    ReportUtils.map(monthlyReportIndicator.kpOnMultiMonthART("FSW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
