@@ -18,6 +18,8 @@
     <script type="text/javascript">
         var LATEST_SELF_REPORTED_STATUS = "<lookup expression="fn.latestObs(165153).getValueCoded()"/>";
         var LATEST_TEST_TYPE = "<lookup expression="fn.latestObs(164956).getValueCoded()"/>";
+        var pgender = "<lookup expression="patient.gender" />";
+
 
         $.fn.noText = function () {/*use the jquery prototype technology to make a chainable clear field method*/
             if (this.is('clinicVisit_form')) { /*check to c if you the element type is an input*/
@@ -963,7 +965,6 @@
         //On Ready
         $(document).ready(function () {
             // sti forms
-            var pgender = "<lookup expression="patient.gender" />";
             if (pgender == "M") {
                 jq("#cervical_cancer").hide();
                 jq("#post_abortal").hide();
@@ -1194,6 +1195,11 @@
             }
             if (NumberOfSyringesGiven != "" &amp;&amp; !NumberOfSyringesGiven.match(validated)) {
                 getField('needles.error').html('Should be between 1 and 200.').show();
+                return false;
+            }
+
+            if(pgender =='F' &amp;&amp; family_planning == "") {
+                getField('fam_screened.error').html('Please specify family planning screening').show();
                 return false;
             }
         });
@@ -1788,7 +1794,7 @@
                 </tr>
                 <tr  id="family-planning">
                     <td ><p>Family Planning</p></td>
-                    <td ><p>  <obs id="fam_screened" conceptId="1382" required="true"
+                    <td ><p>  <obs id="fam_screened" conceptId="1382"
                                    style="radio" answerConceptIds="1065,1066" /></p></td>
                     <td ><p>  <obs id="fam_results" conceptId="165209"
                                    answerConceptIds="165087,
