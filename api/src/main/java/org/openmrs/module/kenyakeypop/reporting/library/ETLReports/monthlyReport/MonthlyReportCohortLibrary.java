@@ -29,7 +29,17 @@ public class MonthlyReportCohortLibrary {
 	
 	static String startOfYear = "0000-10-01";
 	
+	final String TRANSGENDER_SW = "(\"Transman\",\"Transwoman\") and c.year_started_sex_work is not null";
+	
+	final String TRANSGENDER_NOT_SW = "(\"Transman\",\"Transwoman\") and c.year_started_sex_work is null";
+	
 	public CohortDefinition contactAll(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
+		
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select p.client_id from kenyaemr_etl.etl_peer_calendar p inner join kenyaemr_etl.etl_contact c on p.client_id = c.client_id where date(c.visit_date) between date(:startDate) and date(:endDate) and c.key_population_type in"
 		        + kpType + " group by c.client_id;";
@@ -44,6 +54,11 @@ public class MonthlyReportCohortLibrary {
 	
 	//everEnroll
 	public CohortDefinition everEnroll(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select e.client_id from kenyaemr_etl.etl_client_enrollment e inner join kenyaemr_etl.etl_contact c on e.client_id = c.client_id\n"
 		        + "    where e.voided = 0 and c.key_population_type in"
@@ -59,6 +74,11 @@ public class MonthlyReportCohortLibrary {
 	}
 	
 	public CohortDefinition contactNew(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select p.client_id from kenyaemr_etl.etl_peer_calendar p inner join kenyaemr_etl.etl_contact c on c.client_id = p.client_id\n"
 		        + "where c.key_population_type in" + kpType + " group by p.client_id having count(p.client_id)=1;";
@@ -72,6 +92,11 @@ public class MonthlyReportCohortLibrary {
 	}
 	
 	public CohortDefinition contactHCW(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c join kenyaemr_etl.etl_client_enrollment e on c.client_id = e.client_id and e.voided = 0\n"
 		        + "left join (select v.client_id from kenyaemr_etl.etl_clinical_visit v where v.voided = 0 and v.date_created between date(:startDate) and date(:endDate) group by v.client_id ) v on c.client_id=v.client_id\n"
@@ -88,6 +113,11 @@ public class MonthlyReportCohortLibrary {
 	}
 	
 	public CohortDefinition netEnroll(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select e.client_id from kenyaemr_etl.etl_client_enrollment e inner join kenyaemr_etl.etl_contact c on e.client_id = c.client_id\n"
 		        + "left join (select d.patient_id, mid(max(concat(date(d.visit_date),d.discontinuation_reason)),11) as latest_disc_reason from kenyaemr_etl.etl_patient_program_discontinuation d group by d.patient_id)d  on d.patient_id = e.client_id\n"
@@ -104,6 +134,11 @@ public class MonthlyReportCohortLibrary {
 	}
 	
 	public CohortDefinition kpPrev(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c\n"
@@ -214,6 +249,11 @@ public class MonthlyReportCohortLibrary {
 	}
 	
 	public CohortDefinition kpCurr(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c join kenyaemr_etl.etl_client_enrollment e on c.client_id = e.client_id and e.voided = 0\n"
 		        + "join (select p.client_id from kenyaemr_etl.etl_peer_calendar p where p.voided = 0 group by p.client_id having max(p.visit_date) between date_sub(date(:endDate), INTERVAL 3 MONTH ) and date(:endDate)) p on c.client_id=p.client_id\n"
@@ -230,6 +270,11 @@ public class MonthlyReportCohortLibrary {
 	}
 	
 	public CohortDefinition enrollNew(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c\n"
 		        + "inner join (select e.client_id,max(e.visit_date) as enrolment_date,mid(max(concat(e.visit_date,e.ever_tested_for_hiv)),11) as ever_tested_for_hiv,mid(max(concat(e.visit_date,e.share_test_results)),11) as hiv_status_at_enrolment from kenyaemr_etl.etl_client_enrollment e group by e.client_id ) e on c.client_id = e.client_id\n"
@@ -336,6 +381,11 @@ public class MonthlyReportCohortLibrary {
 	}
 	
 	public CohortDefinition kpKnownPositiveEnrolled(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select e.client_id from kenyaemr_etl.etl_client_enrollment e inner join kenyaemr_etl.etl_contact c on e.client_id = c.client_id\n"
 		        + "where c.key_population_type in"
@@ -351,6 +401,11 @@ public class MonthlyReportCohortLibrary {
 	}
 	
 	public CohortDefinition enrollHtsTst(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select e.client_id from kenyaemr_etl.etl_client_enrollment e inner join kenyaemr_etl.etl_contact c on e.client_id = c.client_id\n"
 		        + "inner join kenyaemr_etl.etl_hts_test t on e.client_id = t.patient_id  where c.key_population_type in"
@@ -369,6 +424,11 @@ public class MonthlyReportCohortLibrary {
 	}
 	
 	public CohortDefinition enrollHtsTstPos(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select e.client_id from kenyaemr_etl.etl_client_enrollment e inner join kenyaemr_etl.etl_contact c on e.client_id = c.client_id\n"
 		        + "left join kenyaemr_etl.etl_hts_test t on e.client_id = t.patient_id  where e.voided = 0 and c.key_population_type in"
@@ -389,6 +449,11 @@ public class MonthlyReportCohortLibrary {
 	}
 	
 	public CohortDefinition assistedSelfTested(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c inner join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id\n"
 		        + "where c.key_population_type in "
@@ -406,6 +471,11 @@ public class MonthlyReportCohortLibrary {
 	}
 	
 	public CohortDefinition unAssistedSelfTested(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c inner join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id\n"
 		        + "where c.key_population_type in "
@@ -423,6 +493,11 @@ public class MonthlyReportCohortLibrary {
 	}
 	
 	public CohortDefinition htsTstSelfConfirmedPositive(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c inner join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id\n"
 		        + "where c.key_population_type in "
@@ -440,6 +515,11 @@ public class MonthlyReportCohortLibrary {
 	}
 	
 	public CohortDefinition htsTestedNegative(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c inner join kenyaemr_etl.etl_hts_test t on c.client_id = t.patient_id\n"
 		        + "where c.key_population_type in"
@@ -457,6 +537,11 @@ public class MonthlyReportCohortLibrary {
 	}
 	
 	public CohortDefinition kpLHIVCurr(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c join kenyaemr_etl.etl_client_enrollment e on c.client_id = e.client_id and e.voided = 0\n"
 		        + "join (select p.client_id from kenyaemr_etl.etl_peer_calendar p where p.voided = 0 group by p.client_id having max(p.visit_date) between date_sub(date(:endDate), INTERVAL 3 MONTH ) and date(:endDate)) p on c.client_id=p.client_id\n"
@@ -473,6 +558,11 @@ public class MonthlyReportCohortLibrary {
 	}
 	
 	public CohortDefinition newOnARTKP(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c left join\n"
 		        + "(select v.client_id,mid(max(concat(v.visit_date,v.initiated_art_this_month)),11) as started_art_this_month from kenyaemr_etl.etl_clinical_visit v where v.voided = 0 group by v.client_id)v on c.client_id = v.client_id\n"
@@ -491,6 +581,11 @@ public class MonthlyReportCohortLibrary {
 	}
 	
 	public CohortDefinition currOnARTKP(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c\n"
 		        + "left join (select v.client_id from kenyaemr_etl.etl_clinical_visit v where v.voided = 0 group by v.client_id having mid(max(concat(v.visit_date,v.active_art)),11)='Yes')v on c.client_id = v.client_id\n"
@@ -524,6 +619,11 @@ public class MonthlyReportCohortLibrary {
 	}
 	
 	public CohortDefinition screenedForSTI(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c inner join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id where c.key_population_type in "
 		        + kpType
@@ -539,6 +639,11 @@ public class MonthlyReportCohortLibrary {
 	}
 	
 	public CohortDefinition screenedPositiveForSTI(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c inner join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id where c.key_population_type in "
 		        + kpType
@@ -554,6 +659,11 @@ public class MonthlyReportCohortLibrary {
 	}
 	
 	public CohortDefinition startedSTITx(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c inner join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id where c.key_population_type in "
 		        + kpType
@@ -569,6 +679,11 @@ public class MonthlyReportCohortLibrary {
 	}
 	
 	public CohortDefinition screenedForGbv(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c inner join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id where c.key_population_type in "
 		        + kpType
@@ -585,6 +700,11 @@ public class MonthlyReportCohortLibrary {
 	
 	//experiencedGbv
 	public CohortDefinition experiencedGbv(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c inner join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id where c.key_population_type in "
 		        + kpType
@@ -602,6 +722,11 @@ public class MonthlyReportCohortLibrary {
 	
 	//receivedGbvClinicalCare
 	public CohortDefinition receivedGbvClinicalCare(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c inner join kenyaemr_etl.etl_gender_based_violence v on c.client_id = v.client_id\n"
 		        + "where v.help_outcome in ('Counselling','PrEP given','Emergency pills','Hiv testing','STI Prophylaxis','Treatment','PEP given','Post rape care') and c.key_population_type in "
@@ -619,6 +744,11 @@ public class MonthlyReportCohortLibrary {
 	
 	//receivedGbvLegalSupport
 	public CohortDefinition receivedGbvLegalSupport(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c\n"
 		        + "inner join kenyaemr_etl.etl_gender_based_violence v on c.client_id = v.client_id\n"
@@ -638,6 +768,11 @@ public class MonthlyReportCohortLibrary {
 	
 	//eligibleForRetest
 	public CohortDefinition eligibleForRetest(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c inner join\n"
 		        + "(select t.patient_id,max(t.visit_date) as last_test_date,mid(max(concat(t.visit_date,t.final_test_result)),11) as last_test_result from kenyaemr_etl.etl_hts_test t where voided = 0 group by t.patient_id)t  on c.client_id = t.patient_id\n"
@@ -654,6 +789,11 @@ public class MonthlyReportCohortLibrary {
 	
 	//htsTstEligibleForRetest
 	public CohortDefinition htsTstEligibleRetested(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c inner join\n"
 		        + "(select pt.patient_id from (select pt.patient_id,max(pt.visit_date) as prev_test_date,mid(max(concat(pt.visit_date,pt.final_test_result)),11) as prev_test_result from kenyaemr_etl.etl_hts_test pt\n"
@@ -672,6 +812,11 @@ public class MonthlyReportCohortLibrary {
 	
 	//retestedHIVPositive
 	public CohortDefinition retestedHIVPositive(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c inner join\n"
 		        + "(select pt.patient_id from (select pt.patient_id,max(pt.visit_date) as prev_test_date,mid(max(concat(pt.visit_date,pt.final_test_result)),11) as prev_test_result from kenyaemr_etl.etl_hts_test pt\n"
@@ -690,6 +835,11 @@ public class MonthlyReportCohortLibrary {
 	
 	//referredAndInitiatedPrEPPepfar
 	public CohortDefinition referredAndInitiatedPrEPPepfar(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c inner join\n"
 		        + "(select p.client_id from kenyaemr_etl.etl_PrEP_verification p group by p.client_id having max(p.visit_date) <= date(:endDate)\n"
@@ -706,6 +856,11 @@ public class MonthlyReportCohortLibrary {
 	
 	//referredAndInitiatedPrEPNonPepfar
 	public CohortDefinition referredAndInitiatedPrEPNonPepfar(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c inner join\n"
 		        + "(select p.client_id from kenyaemr_etl.etl_PrEP_verification p group by p.client_id having max(p.visit_date) <= date(:endDate)\n"
@@ -722,6 +877,11 @@ public class MonthlyReportCohortLibrary {
 	
 	//kplhivInitiatedARTOtherPEPFAR
 	public CohortDefinition kplhivInitiatedARTOtherPEPFAR(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c inner join\n"
 		        + "(select t.client_id from kenyaemr_etl.etl_treatment_verification t group by t.client_id having mid(max(concat(t.visit_date,t.date_initiated_art)),11) between date(:startDate) and date(:endDate)\n"
@@ -738,6 +898,11 @@ public class MonthlyReportCohortLibrary {
 	
 	//kplhivInitiatedARTNonPEPFAR
 	public CohortDefinition kplhivInitiatedARTNonPEPFAR(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c inner join\n"
 		        + "(select t.client_id from kenyaemr_etl.etl_treatment_verification t group by t.client_id having mid(max(concat(t.visit_date,t.date_initiated_art)),11) between date(:startDate) and date(:endDate)\n"
@@ -754,6 +919,11 @@ public class MonthlyReportCohortLibrary {
 	
 	//kplhivCurrentOnARTOtherPEPFAR
 	public CohortDefinition kplhivCurrentOnARTOtherPEPFAR(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c inner join\n"
 		        + "(select t.client_id from kenyaemr_etl.etl_treatment_verification t group by t.client_id having mid(max(concat(t.visit_date,t.date_initiated_art)),11) <= date(:endDate)\n"
@@ -770,6 +940,11 @@ public class MonthlyReportCohortLibrary {
 	
 	//kplhivCurrentOnARTNonPEPFAR
 	public CohortDefinition kplhivCurrentOnARTNonPEPFAR(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c inner join\n"
 		        + "(select t.client_id from kenyaemr_etl.etl_treatment_verification t group by t.client_id having mid(max(concat(t.visit_date,t.date_initiated_art)),11) <= date(:endDate)\n"
@@ -786,6 +961,11 @@ public class MonthlyReportCohortLibrary {
 	
 	//kplhivLTFURecently
 	public CohortDefinition kplhivLTFURecently(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c\n"
 		        + "join  kenyaemr_etl.etl_hiv_enrollment e on c.client_id = e.patient_id\n"
@@ -807,6 +987,11 @@ public class MonthlyReportCohortLibrary {
 	
 	//kplhivTXRtt
 	public CohortDefinition kplhivTXRtt(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c inner join\n"
 		        + "(select k.patient_id from (select e.patient_id,e.latest_tca,e.latest_vis_date,e.date_discontinued,f.visit_date as rtt_date,r.visit_date as ltca_after_return\n"
@@ -846,6 +1031,11 @@ public class MonthlyReportCohortLibrary {
 	
 	//TX_PVLS_N
 	public CohortDefinition kplhivSuppressedVl(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c inner join\n"
 		        + "kenyaemr_etl.etl_drug_event e on c.client_id = e.patient_id\n"
@@ -869,6 +1059,11 @@ public class MonthlyReportCohortLibrary {
 	
 	//kplhivWithVlResult
 	public CohortDefinition kplhivWithVlResult(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c inner join\n"
 		        + "kenyaemr_etl.etl_drug_event e on c.client_id = e.patient_id\n"
@@ -892,6 +1087,11 @@ public class MonthlyReportCohortLibrary {
 	
 	//kplhivSuppressedVlArtOtherPEPFARSite
 	public CohortDefinition kplhivSuppressedVlArtOtherPEPFARSite(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c inner join\n"
 		        + "(select t.client_id from kenyaemr_etl.etl_treatment_verification t group by t.client_id having mid(max(concat(t.visit_date,t.is_pepfar_site)),11)='Yes'\n"
@@ -909,6 +1109,11 @@ public class MonthlyReportCohortLibrary {
 	
 	//kplhivVlResultArtOtherPEPFARSite
 	public CohortDefinition kplhivVlResultArtOtherPEPFARSite(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c inner join\n"
 		        + "(select t.client_id from kenyaemr_etl.etl_treatment_verification t group by t.client_id having mid(max(concat(t.visit_date,t.is_pepfar_site)),11)='Yes'\n"
@@ -926,6 +1131,11 @@ public class MonthlyReportCohortLibrary {
 	
 	//kplhivSuppressedVlArtNonPEPFARSite
 	public CohortDefinition kplhivSuppressedVlArtNonPEPFARSite(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c inner join\n"
 		        + "(select t.client_id from kenyaemr_etl.etl_treatment_verification t group by t.client_id having mid(max(concat(t.visit_date,t.is_pepfar_site)),11)='No'\n"
@@ -942,6 +1152,11 @@ public class MonthlyReportCohortLibrary {
 	}
 	
 	public CohortDefinition kplhivVlResultArtNonPEPFARSite(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c inner join\n"
 		        + "(select t.client_id from kenyaemr_etl.etl_treatment_verification t group by t.client_id having mid(max(concat(t.visit_date,t.is_pepfar_site)),11)='No'\n"
@@ -958,6 +1173,11 @@ public class MonthlyReportCohortLibrary {
 	}
 	
 	public CohortDefinition kpOnMultiMonthART(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c left join\n"
 		        + "(select t.client_id, max(t.visit_date) as visit_date from kenyaemr_etl.etl_treatment_verification t where t.on_diff_care = 'Yes' group by t.client_id) t on c.client_id = t.client_id\n"
@@ -977,6 +1197,11 @@ public class MonthlyReportCohortLibrary {
 	
 	//kpEnrolledInARTSupportGroup
 	public CohortDefinition kpEnrolledInARTSupportGroup(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c inner join kenyaemr_etl.etl_treatment_verification v on c.client_id = v.client_id\n"
 		        + "where v.in_support_group = 'Yes' and c.key_population_type in "
@@ -994,6 +1219,11 @@ public class MonthlyReportCohortLibrary {
 	
 	//offeredPNS
 	public CohortDefinition offeredPNS(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c inner join\n"
 		        + "(select c.patient_related_to from kenyaemr_hiv_testing_patient_contact c where c.relationship_type in(971, 972, 1528, 162221, 163565, 970, 5617)\n"
@@ -1010,6 +1240,11 @@ public class MonthlyReportCohortLibrary {
 	
 	//acceptedPNS
 	public CohortDefinition acceptedPNS(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c inner join\n"
 		        + "(select c.patient_related_to from kenyaemr_hiv_testing_patient_contact c inner join kenyaemr_etl.etl_hts_test t\n"
@@ -1027,6 +1262,11 @@ public class MonthlyReportCohortLibrary {
 	
 	//elicitedPNS
 	public CohortDefinition elicitedPNS(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c inner join\n"
 		        + "(select c.patient_id from kenyaemr_hiv_testing_patient_contact c\n"
@@ -1044,6 +1284,11 @@ public class MonthlyReportCohortLibrary {
 	
 	//pnsKnownPositiveAtEntry
 	public CohortDefinition pnsKnownPositiveAtEntry(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c inner join\n"
 		        + "(select c.patient_id from kenyaemr_hiv_testing_patient_contact c\n"
@@ -1062,6 +1307,11 @@ public class MonthlyReportCohortLibrary {
 	}
 	
 	public CohortDefinition pnsTestedPositive(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c inner join\n"
 		        + "(select c.patient_id from kenyaemr_hiv_testing_patient_contact c\n"
@@ -1082,6 +1332,11 @@ public class MonthlyReportCohortLibrary {
 	}
 	
 	public CohortDefinition pnsTestedNegative(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c inner join\n"
 		        + "(select c.patient_id from kenyaemr_hiv_testing_patient_contact c\n"
@@ -1103,6 +1358,11 @@ public class MonthlyReportCohortLibrary {
 	
 	//KP_EVER_POS
 	public CohortDefinition kpEverPos(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from  kenyaemr_etl.etl_contact c\n"
 		        + "    inner join (select t.patient_id,max(t.visit_date) as test_date from kenyaemr_etl.etl_hts_test t where t.voided = 0 group by t.patient_id having mid(max(concat(t.visit_date,t.final_test_result)),11)='Positive')t on c.client_id = t.patient_id\n"
@@ -1118,6 +1378,11 @@ public class MonthlyReportCohortLibrary {
 	
 	//TX_EVER_DICE
 	public CohortDefinition txEverDice(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from  kenyaemr_etl.etl_contact c\n"
 		        + "inner join (select e.patient_id,mid(min(concat(e.visit_date,e.date_started)),11) as date_started from kenyaemr_etl.etl_drug_event e where e.voided is null group by e.patient_id)e on c.client_id = e.patient_id\n"
@@ -1133,6 +1398,11 @@ public class MonthlyReportCohortLibrary {
 	
 	//TX_EVER_VERIFY_PEPFAR_SITE
 	public CohortDefinition txEverVerifyPEPFAR(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c inner join\n"
 		        + "(select t.client_id from kenyaemr_etl.etl_treatment_verification t group by t.client_id having mid(max(concat(t.visit_date,t.date_initiated_art)),11) <= date(:endDate)\n"
@@ -1149,6 +1419,11 @@ public class MonthlyReportCohortLibrary {
 	
 	//TX_EVER_VERIFY_NON_PEPFAR_SITE
 	public CohortDefinition txEverVerifyNonPEPFAR(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c inner join\n"
 		        + "(select t.client_id from kenyaemr_etl.etl_treatment_verification t group by t.client_id having mid(max(concat(t.visit_date,t.date_initiated_art)),11) <= date(:endDate)\n"
@@ -1165,6 +1440,11 @@ public class MonthlyReportCohortLibrary {
 	
 	//TX_PVLS_ELIGIBLE_DICE
 	public CohortDefinition txPvlsEligibleDice(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select client_id\n"
 		        + "from\n"
@@ -1213,6 +1493,11 @@ public class MonthlyReportCohortLibrary {
 	
 	//TX_PVLS_ELIGIBLE_DONE_DICE
 	public CohortDefinition txPvlsEligibleDoneDice(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select client_id\n"
 		        + "from\n"
@@ -1263,6 +1548,11 @@ public class MonthlyReportCohortLibrary {
 	
 	//TX_PVLS_ELIGIBLE_VERIFY_PEPFAR_SITE
 	public CohortDefinition txPvlsEligibleVerifyPEPFAR(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select client_id\n"
 		        + "from\n"
@@ -1300,6 +1590,11 @@ public class MonthlyReportCohortLibrary {
 	
 	//TX_PVLS_ELIGIBLE_VERIFY_NON_PEPFAR_SITE
 	public CohortDefinition txPvlsEligibleVerifyNonPEPFAR(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select client_id\n"
 		        + "from\n"
@@ -1337,6 +1632,11 @@ public class MonthlyReportCohortLibrary {
 	
 	//TX_PVLS_ELIGIBLE_DONE_VERIFY_PEPFAR_SITE
 	public CohortDefinition txPvlsEligibleDoneVerifyPEPFAR(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select client_id\n"
 		        + "from\n"
@@ -1375,6 +1675,11 @@ public class MonthlyReportCohortLibrary {
 	
 	//TX_PVLS_ELIGIBLE_DONE_VERIFY_NON_PEPFAR_SITE
 	public CohortDefinition txPvlsEligibleDoneVerifyNonPEPFAR(String kpType) {
+		if (kpType.equals("TRANSGENDER_SW")) {
+			kpType = TRANSGENDER_SW;
+		} else if (kpType.equals("TRANSGENDER_NOT_SW")) {
+			kpType = TRANSGENDER_NOT_SW;
+		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select client_id\n"
 		        + "from\n"

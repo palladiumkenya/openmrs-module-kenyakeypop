@@ -98,9 +98,6 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		
 		String indParams = "startDate=${startDate},endDate=${endDate}";
 		
-		final String TRANSGENDER_SW = "(\"Transman,Transwoman\") and c.year_started_sex_work is not null";
-		final String TRANSGENDER_NOT_SW = "(\"Transman,Transwoman\") and c.year_started_sex_work is null";
-		
 		//1. CONTACT_ALL - r8QR7Iqit3z
 		EmrReportingUtils.addRow(cohortDsd, "CONTACT_ALL_FSW", "All KP Contact",
 		    ReportUtils.map(monthlyReportIndicator.contactAll("(\"FSW\")"), indParams), kpAgeDisaggregation,
@@ -118,12 +115,11 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.contactAll("(\"PWID\")"), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "CONTACT_ALL_TG_SW", "All KP Contact",
-		    ReportUtils.map(monthlyReportIndicator.contactAll(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.contactAll("TRANSGENDER_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "CONTACT_ALL_TG_NOT_SW", "All KP Contact",
-		    ReportUtils.map(monthlyReportIndicator.contactAll(TRANSGENDER_NOT_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.contactAll("TRANSGENDER_NOT_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
-		
 		//2. KP_EVER_ENROL - azaGW41sWgz
 		
 		EmrReportingUtils.addRow(cohortDsd, "KP_EVER_ENROLLED_FSW", "Ever enrolled",
@@ -142,10 +138,10 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.everEnroll("(\"PWID\")"), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "KP_EVER_ENROLLED_TG_SW", "Ever enrolled",
-		    ReportUtils.map(monthlyReportIndicator.everEnroll(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.everEnroll("TRANSGENDER_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "KP_EVER_ENROLLED_TG_NOT_SW", "Ever enrolled",
-		    ReportUtils.map(monthlyReportIndicator.everEnroll(TRANSGENDER_NOT_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.everEnroll("TRANSGENDER_NOT_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		
 		//3. KP_PREV
@@ -165,10 +161,10 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.kpPrev("(\"PWID\")"), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "KP_PREV_TG_SW", "Known positive at enrolment",
-		    ReportUtils.map(monthlyReportIndicator.kpPrev(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.kpPrev("TRANSGENDER_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "KP_PREV_TG_NOT_SW", "Known positive at enrolment",
-		    ReportUtils.map(monthlyReportIndicator.kpPrev(TRANSGENDER_NOT_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.kpPrev("TRANSGENDER_NOT_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		
 		//4. CONTACT_NEW - nFg8SCUal7w
@@ -189,10 +185,10 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.contactNew("(\"PWID\")"), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "KP_CONTACT_NEW_TG_SW", "New KP Contact",
-		    ReportUtils.map(monthlyReportIndicator.contactNew(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.contactNew("TRANSGENDER_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "KP_CONTACT_NEW_TG_NOT_SW", "New KP Contact",
-		    ReportUtils.map(monthlyReportIndicator.contactNew(TRANSGENDER_NOT_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.contactNew("TRANSGENDER_NOT_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		
 		//5. CONTACT_HCW - WnS2CYAnhhg
@@ -213,10 +209,10 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.contactHCW("(\"PWID\")"), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "CONTACT_HCW_TG_SW", "Had contact with a health care worker",
-		    ReportUtils.map(monthlyReportIndicator.contactHCW(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.contactHCW("TRANSGENDER_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "CONTACT_HCW_TG_NOT_SW", "Had contact with a health care worker",
-		    ReportUtils.map(monthlyReportIndicator.contactHCW(TRANSGENDER_NOT_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.contactHCW("TRANSGENDER_NOT_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		
 		//6. KP_NET_ENROLLED n35ZQZJ9qYj
@@ -237,10 +233,10 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.netEnroll("(\"PWID\")"), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "KP_NET_ENROLLED_TG_SW", "Net Enrolled KP",
-		    ReportUtils.map(monthlyReportIndicator.netEnroll(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.netEnroll("TRANSGENDER_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "KP_NET_ENROLLED_TG_NOT_SW", "Net Enrolled KP",
-		    ReportUtils.map(monthlyReportIndicator.netEnroll(TRANSGENDER_NOT_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.netEnroll("TRANSGENDER_NOT_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		
 		//7. ENROL_KNOWN POSITIVE - pbIycq1Q1aR
@@ -261,10 +257,10 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.kpKnownPositiveEnrolled("(\"PWID\")"), indParams),
 		    kpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "ENROL_KNOWN_POSITIVE_TG_SW", "Known positive at enrolment",
-		    ReportUtils.map(monthlyReportIndicator.kpKnownPositiveEnrolled(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04"));
+		    ReportUtils.map(monthlyReportIndicator.kpKnownPositiveEnrolled("TRANSGENDER_SW"), indParams),
+		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "ENROL_KNOWN_POSITIVE_TG_NOT_SW", "Known positive at enrolment",
-		    ReportUtils.map(monthlyReportIndicator.kpKnownPositiveEnrolled(TRANSGENDER_NOT_SW), indParams),
+		    ReportUtils.map(monthlyReportIndicator.kpKnownPositiveEnrolled("TRANSGENDER_NOT_SW"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		
 		//8. ENROL_NEW - VhJ7miYpzzZ
@@ -285,10 +281,10 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.enrollNew("(\"PWID\")"), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "ENROL_NEW_TG_SW", "Newly Enrolled",
-		    ReportUtils.map(monthlyReportIndicator.enrollNew(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.enrollNew("TRANSGENDER_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "ENROL_NEW_TG_NOT_SW", "Newly Enrolled",
-		    ReportUtils.map(monthlyReportIndicator.enrollNew(TRANSGENDER_NOT_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.enrollNew("TRANSGENDER_NOT_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		
 		//9. HTS_TST_NEG - K4NPVo3Ee1E
@@ -309,10 +305,10 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.htsTestedNegative("(\"PWID\")"), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "HTS_TST_NEG_TG_SW", "Tested HIV -ve",
-		    ReportUtils.map(monthlyReportIndicator.htsTestedNegative(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.htsTestedNegative("TRANSGENDER_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "HTS_TST_NEG_TG_NOT_SW", "Tested HIV -ve",
-		    ReportUtils.map(monthlyReportIndicator.htsTestedNegative(TRANSGENDER_NOT_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.htsTestedNegative("TRANSGENDER_NOT_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		
 		//10. ENROL_HTS_TST - cakCs9wAFh1
@@ -333,10 +329,10 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.enrollHtsTst("(\"PWID\")"), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "ENROL_HTS_TST_TG_SW", "Newly enrolled and Tested for HIV",
-		    ReportUtils.map(monthlyReportIndicator.enrollHtsTst(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.enrollHtsTst("TRANSGENDER_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "ENROL_HTS_TST_TG_NOT_SW", "Newly enrolled and Tested for HIV",
-		    ReportUtils.map(monthlyReportIndicator.enrollHtsTst(TRANSGENDER_NOT_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.enrollHtsTst("TRANSGENDER_NOT_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		
 		//11.ENROL_HTS_TST_POS - cakCs9wAFh1
@@ -357,10 +353,10 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.enrollHtsTstPos("(\"PWID\")"), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "ENROL_HTS_TST_POS_TG_SW", "Newly enrolled and Tested for HIV+",
-		    ReportUtils.map(monthlyReportIndicator.enrollHtsTstPos(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.enrollHtsTstPos("TRANSGENDER_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "ENROL_HTS_TST_POS_TG_NOT_SW", "Newly enrolled and Tested for HIV+",
-		    ReportUtils.map(monthlyReportIndicator.enrollHtsTstPos(TRANSGENDER_NOT_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.enrollHtsTstPos("TRANSGENDER_NOT_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		
 		//12.STI_SCREEN - D1UmxuQdovX
@@ -381,10 +377,10 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.screenedForSTI("(\"PWID\")"), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "STI_SCREEN_TG_SW", "Screened for STI",
-		    ReportUtils.map(monthlyReportIndicator.screenedForSTI(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.screenedForSTI("TRANSGENDER_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "STI_SCREEN_TG_NOT_SW", "Screened for STI",
-		    ReportUtils.map(monthlyReportIndicator.screenedForSTI(TRANSGENDER_NOT_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.screenedForSTI("TRANSGENDER_NOT_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		
 		//13.HTS_SELF_ASSISTED - tePCfFFkby5
@@ -405,11 +401,11 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.assistedSelfTested("(\"PWID\")"), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "HTS_SELF_ASSISTED_TG_SW", "Self Assisted HIV Testing",
-		    ReportUtils.map(monthlyReportIndicator.assistedSelfTested(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.assistedSelfTested("TRANSGENDER_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "HTS_SELF_ASSISTED_TG_NOT_SW", "Self Assisted HIV Testing",
-		    ReportUtils.map(monthlyReportIndicator.assistedSelfTested(TRANSGENDER_NOT_SW), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04"));
+		    ReportUtils.map(monthlyReportIndicator.assistedSelfTested("TRANSGENDER_NOT_SW"), indParams),
+		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		
 		//14. HTS_SELF_UNASSISTED - f9yUfz3UW7m
 		
@@ -429,10 +425,10 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.unAssistedSelfTested("(\"PWID\")"), indParams),
 		    kpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "HTS_SELF_UNASSISTED_TG_SW", "Unassisted HIV self testing",
-		    ReportUtils.map(monthlyReportIndicator.unAssistedSelfTested(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.unAssistedSelfTested("TRANSGENDER_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "HTS_SELF_UNASSISTED_TG_NOT_SW", "Unassisted HIV self testing",
-		    ReportUtils.map(monthlyReportIndicator.unAssistedSelfTested(TRANSGENDER_NOT_SW), indParams),
+		    ReportUtils.map(monthlyReportIndicator.unAssistedSelfTested("TRANSGENDER_NOT_SW"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		
 		//15. HTS_SELF_CONFIRMED_+VE - oeX7WkboEik
@@ -453,10 +449,10 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.htsTstSelfConfirmedPositive("(\"PWID\")"), indParams),
 		    kpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "HTS_SELF_CONFIRMED_+VE_TG_SW", "Confirmed HIV+ on Self Test",
-		    ReportUtils.map(monthlyReportIndicator.htsTstSelfConfirmedPositive(TRANSGENDER_SW), indParams),
+		    ReportUtils.map(monthlyReportIndicator.htsTstSelfConfirmedPositive("TRANSGENDER_SW"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "HTS_SELF_CONFIRMED_+VE_TG_NOT_SW", "Confirmed HIV+ on Self Test",
-		    ReportUtils.map(monthlyReportIndicator.htsTstSelfConfirmedPositive(TRANSGENDER_NOT_SW), indParams),
+		    ReportUtils.map(monthlyReportIndicator.htsTstSelfConfirmedPositive("TRANSGENDER_NOT_SW"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		
 		//16.STI_SCREEN_POS - cccAY22KB4P
@@ -477,10 +473,10 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.screenedPositiveForSTI("(\"PWID\")"), indParams),
 		    kpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "STI_SCREEN_POS_TG_SW", "Screened +ve for STI",
-		    ReportUtils.map(monthlyReportIndicator.screenedPositiveForSTI(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04"));
+		    ReportUtils.map(monthlyReportIndicator.screenedPositiveForSTI("TRANSGENDER_SW"), indParams),
+		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "STI_SCREEN_POS_TG_NOT_SW", "Screened +ve for STI",
-		    ReportUtils.map(monthlyReportIndicator.screenedPositiveForSTI(TRANSGENDER_NOT_SW), indParams),
+		    ReportUtils.map(monthlyReportIndicator.screenedPositiveForSTI("TRANSGENDER_NOT_SW"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		
 		//17. STI_TX - EbkN2jKcxym
@@ -501,10 +497,10 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.startedSTITx("(\"PWID\")"), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "STI_TX_TG_SW", "Started STI Treatment",
-		    ReportUtils.map(monthlyReportIndicator.startedSTITx(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.startedSTITx("TRANSGENDER_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "STI_TX_TG_NOT_SW", "Started STI Treatment",
-		    ReportUtils.map(monthlyReportIndicator.startedSTITx(TRANSGENDER_NOT_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.startedSTITx("TRANSGENDER_NOT_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		
 		//18. GBV_SCREEN - mrSyW3UFeWI
@@ -525,10 +521,10 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.screenedForGbv("(\"PWID\")"), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "GBV_SCREEN_TG_SW", "Screened for GBV",
-		    ReportUtils.map(monthlyReportIndicator.screenedForGbv(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.screenedForGbv("TRANSGENDER_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "GBV_SCREEN_TG_NOT_SW", "Screened for GBV",
-		    ReportUtils.map(monthlyReportIndicator.screenedForGbv(TRANSGENDER_NOT_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.screenedForGbv("TRANSGENDER_NOT_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		
 		//19. GBV_POS - J8GBNrQbDs7
@@ -549,10 +545,10 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.experiencedGbv("(\"PWID\")"), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "GBV_POS_TG_SW", "Experienced GBV",
-		    ReportUtils.map(monthlyReportIndicator.experiencedGbv(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.experiencedGbv("TRANSGENDER_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "GBV_POS_TG_NOT_SW", "Experienced GBV",
-		    ReportUtils.map(monthlyReportIndicator.experiencedGbv(TRANSGENDER_NOT_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.experiencedGbv("TRANSGENDER_NOT_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		
 		//20. GBV_LEGAL_SUPPORT - vY1Uy4cUKiG
@@ -573,10 +569,10 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.receivedGbvLegalSupport("(\"PWID\")"), indParams),
 		    kpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "GBV_LEGAL_SUPPORT_TG_SW", "Received Legal support for GBV",
-		    ReportUtils.map(monthlyReportIndicator.receivedGbvLegalSupport(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04"));
+		    ReportUtils.map(monthlyReportIndicator.receivedGbvLegalSupport("TRANSGENDER_SW"), indParams),
+		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "GBV_LEGAL_SUPPORT_TG_NOT_SW", "Received Legal support for GBV",
-		    ReportUtils.map(monthlyReportIndicator.receivedGbvLegalSupport(TRANSGENDER_NOT_SW), indParams),
+		    ReportUtils.map(monthlyReportIndicator.receivedGbvLegalSupport("TRANSGENDER_NOT_SW"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		
 		//21. TX_NEW_DICE - ayMFkwavWB7
@@ -597,10 +593,10 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.newOnARTKP("(\"PWID\")"), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_NEW_DICE_TG_SW", "Started ART this month",
-		    ReportUtils.map(monthlyReportIndicator.newOnARTKP(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.newOnARTKP("TRANSGENDER_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_NEW_DICE_TG_NOT_SW", "Started ART this month",
-		    ReportUtils.map(monthlyReportIndicator.newOnARTKP(TRANSGENDER_NOT_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.newOnARTKP("TRANSGENDER_NOT_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		
 		//22. TX_CURR_DICE - bVnurJnr7SM
@@ -621,10 +617,10 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.currOnARTKP("(\"PWID\")"), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_CURR_DICE_TG_SW", "Current on ART",
-		    ReportUtils.map(monthlyReportIndicator.currOnARTKP(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.currOnARTKP("TRANSGENDER_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_CURR_DICE_TG_NOT_SW", "Current on ART",
-		    ReportUtils.map(monthlyReportIndicator.currOnARTKP(TRANSGENDER_NOT_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.currOnARTKP("TRANSGENDER_NOT_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		
 		//23. TX_RTT - Hm9jOlXPqlx
@@ -645,10 +641,10 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.kplhivTXRtt("(\"PWID\")"), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_RTT_TG_SW", "Returned to treatment",
-		    ReportUtils.map(monthlyReportIndicator.kplhivTXRtt(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.kplhivTXRtt("TRANSGENDER_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_RTT_TG_NOT_SW", "Returned to treatment",
-		    ReportUtils.map(monthlyReportIndicator.kplhivTXRtt(TRANSGENDER_NOT_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.kplhivTXRtt("TRANSGENDER_NOT_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		
 		//24. RETEST_ELIGIBLE - kOmj7azOXf0
@@ -669,10 +665,10 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.eligibleForRetest("(\"PWID\")"), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "RETEST_ELIGIBLE_TG_SW", "Eligible for Retest",
-		    ReportUtils.map(monthlyReportIndicator.eligibleForRetest(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.eligibleForRetest("TRANSGENDER_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "RETEST_ELIGIBLE_TG_NOT_SW", "Eligible for Retest",
-		    ReportUtils.map(monthlyReportIndicator.eligibleForRetest(TRANSGENDER_NOT_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.eligibleForRetest("TRANSGENDER_NOT_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		
 		//25. RETEST_HTS_TST - KxPBLMcMfXX
@@ -693,10 +689,10 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.htsTstEligibleRetested("(\"PWID\")"), indParams),
 		    kpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "RETEST_HTS_TST_TG_SW", "Retested for HIV",
-		    ReportUtils.map(monthlyReportIndicator.htsTstEligibleRetested(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04"));
+		    ReportUtils.map(monthlyReportIndicator.htsTstEligibleRetested("TRANSGENDER_SW"), indParams),
+		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "RETEST_HTS_TST_TG_NOT_SW", "Retested for HIV",
-		    ReportUtils.map(monthlyReportIndicator.htsTstEligibleRetested(TRANSGENDER_NOT_SW), indParams),
+		    ReportUtils.map(monthlyReportIndicator.htsTstEligibleRetested("TRANSGENDER_NOT_SW"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		
 		//26. RETEST_HTS_TST_POS - wHTtM3KK8xt
@@ -717,11 +713,11 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.retestedHIVPositive("(\"PWID\")"), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "RETEST_HTS_TST_POS_TG_SW", "Retested HIV Positive",
-		    ReportUtils.map(monthlyReportIndicator.retestedHIVPositive(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.retestedHIVPositive("TRANSGENDER_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "RETEST_HTS_TST_POS_TG_NOT_SW", "Retested HIV Positive",
-		    ReportUtils.map(monthlyReportIndicator.retestedHIVPositive(TRANSGENDER_NOT_SW), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04"));
+		    ReportUtils.map(monthlyReportIndicator.retestedHIVPositive("TRANSGENDER_NOT_SW"), indParams),
+		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		
 		//27. PNS_OFFERED - IRLMFsFMPeE
 		
@@ -741,10 +737,10 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.offeredPNS("(\"PWID\")"), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "PNS_OFFERED_TG_SW", "Offered PNS",
-		    ReportUtils.map(monthlyReportIndicator.offeredPNS(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.offeredPNS("TRANSGENDER_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "PNS_OFFERED_TG_NOT_SW", "Offered PNS",
-		    ReportUtils.map(monthlyReportIndicator.offeredPNS(TRANSGENDER_NOT_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.offeredPNS("TRANSGENDER_NOT_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		
 		//28. PNS_ACCEPTED - Aj6vP6Zlw7A
@@ -765,10 +761,10 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.acceptedPNS("(\"PWID\")"), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "PNS_ACCEPTED_TG_SW", "Accepted PNS",
-		    ReportUtils.map(monthlyReportIndicator.acceptedPNS(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.acceptedPNS("TRANSGENDER_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "PNS_ACCEPTED_TG_NOT_SW", "Accepted PNS",
-		    ReportUtils.map(monthlyReportIndicator.acceptedPNS(TRANSGENDER_NOT_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.acceptedPNS("TRANSGENDER_NOT_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		
 		//29. PNS_ELICITED - Om2TkuDV50S
@@ -789,10 +785,10 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.elicitedPNS("(\"PWID\")"), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "PNS_ELICITED_TG_SW", "Elicited PNS",
-		    ReportUtils.map(monthlyReportIndicator.elicitedPNS(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.elicitedPNS("TRANSGENDER_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "PNS_ELICITED_TG_NOT_SW", "Elicited PNS",
-		    ReportUtils.map(monthlyReportIndicator.elicitedPNS(TRANSGENDER_NOT_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.elicitedPNS("TRANSGENDER_NOT_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		
 		//30. PNS_KNOWN_POSITIVE_ENTRY - KMxOHc1sq6A
@@ -813,10 +809,10 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.pnsKnownPositiveAtEntry("(\"PWID\")"), indParams),
 		    kpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "PNS_KNOWN_POSITIVE_ENTRY_TG_SW", "PNS known positive at entry",
-		    ReportUtils.map(monthlyReportIndicator.pnsKnownPositiveAtEntry(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04"));
+		    ReportUtils.map(monthlyReportIndicator.pnsKnownPositiveAtEntry("TRANSGENDER_SW"), indParams),
+		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "PNS_KNOWN_POSITIVE_ENTRY_TG_NOT_SW", "PNS known positive at entry",
-		    ReportUtils.map(monthlyReportIndicator.pnsKnownPositiveAtEntry(TRANSGENDER_NOT_SW), indParams),
+		    ReportUtils.map(monthlyReportIndicator.pnsKnownPositiveAtEntry("TRANSGENDER_NOT_SW"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		
 		//31. PNS_NEW_HIV_POS - FZJvTrHEG9I
@@ -837,10 +833,10 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.pnsTestedPositive("(\"PWID\")"), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "PNS_NEW_HIV_POS_TG_SW", "PNS tested Positive",
-		    ReportUtils.map(monthlyReportIndicator.pnsTestedPositive(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.pnsTestedPositive("TRANSGENDER_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "PNS_NEW_HIV_POS_TG_NOT_SW", "PNS tested Positive",
-		    ReportUtils.map(monthlyReportIndicator.pnsTestedPositive(TRANSGENDER_NOT_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.pnsTestedPositive("TRANSGENDER_NOT_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		
 		//32. PNS_NEW_HIV_NEG - zJTUyNwTvCX
@@ -861,10 +857,10 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.pnsTestedNegative("(\"PWID\")"), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "PNS_NEW_HIV_NEG_TG_SW", "PNS tested Negative",
-		    ReportUtils.map(monthlyReportIndicator.pnsTestedNegative(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.pnsTestedNegative("TRANSGENDER_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "PNS_NEW_HIV_NEG_TG_NOT_SW", "PNS tested Negative",
-		    ReportUtils.map(monthlyReportIndicator.pnsTestedNegative(TRANSGENDER_NOT_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.pnsTestedNegative("TRANSGENDER_NOT_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		
 		//33. SUPPORT_GROUPS - zfiXKEUJgR8
@@ -885,10 +881,10 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.kpEnrolledInARTSupportGroup("(\"PWID\")"), indParams),
 		    kpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "SUPPORT_GROUPS_TG_SW", "Enrolled in support group",
-		    ReportUtils.map(monthlyReportIndicator.kpEnrolledInARTSupportGroup(TRANSGENDER_SW), indParams),
+		    ReportUtils.map(monthlyReportIndicator.kpEnrolledInARTSupportGroup("TRANSGENDER_SW"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "SUPPORT_GROUPS_TG_NOT_SW", "Enrolled in support group",
-		    ReportUtils.map(monthlyReportIndicator.kpEnrolledInARTSupportGroup(TRANSGENDER_NOT_SW), indParams),
+		    ReportUtils.map(monthlyReportIndicator.kpEnrolledInARTSupportGroup("TRANSGENDER_NOT_SW"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		
 		//34. GBV_CLINICAL - ZgJZbVBlRTP
@@ -909,10 +905,10 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.receivedGbvClinicalCare("(\"PWID\")"), indParams),
 		    kpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "GBV_CLINICAL_TG_SW", "Received Clinical services for GBV case",
-		    ReportUtils.map(monthlyReportIndicator.receivedGbvClinicalCare(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04"));
+		    ReportUtils.map(monthlyReportIndicator.receivedGbvClinicalCare("TRANSGENDER_SW"), indParams),
+		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "GBV_CLINICAL_TG_NOT_SW", "Received Clinical services for GBV case",
-		    ReportUtils.map(monthlyReportIndicator.receivedGbvClinicalCare(TRANSGENDER_NOT_SW), indParams),
+		    ReportUtils.map(monthlyReportIndicator.receivedGbvClinicalCare("TRANSGENDER_NOT_SW"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		
 		//35. TX_PVLS_DICE_(N) - gKzh3U8KiEF
@@ -933,11 +929,11 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.kplhivSuppressedVl("(\"PWID\")"), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_DICE_(N)_TG_SW", "KPLHIV with Suppressed VL ",
-		    ReportUtils.map(monthlyReportIndicator.kplhivSuppressedVl(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.kplhivSuppressedVl("TRANSGENDER_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_DICE_(N)_TG_NOT_SW", "KPLHIV with Suppressed VL ",
-		    ReportUtils.map(monthlyReportIndicator.kplhivSuppressedVl(TRANSGENDER_NOT_SW), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04"));
+		    ReportUtils.map(monthlyReportIndicator.kplhivSuppressedVl("TRANSGENDER_NOT_SW"), indParams),
+		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		
 		//36. TX_PVLS_DICE (D) - Ob0tw9E09m6
 		
@@ -957,11 +953,11 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.kplhivWithVlResult("(\"PWID\")"), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_DICE_(D)_TG_SW", "KPLHIV with VL result ",
-		    ReportUtils.map(monthlyReportIndicator.kplhivWithVlResult(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.kplhivWithVlResult("TRANSGENDER_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_DICE_(D)_TG_NOT_SW", "KPLHIV with VL result ",
-		    ReportUtils.map(monthlyReportIndicator.kplhivWithVlResult(TRANSGENDER_NOT_SW), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04"));
+		    ReportUtils.map(monthlyReportIndicator.kplhivWithVlResult("TRANSGENDER_NOT_SW"), indParams),
+		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		
 		//37. TX_PVLS_VERIFY_PEPFAR_SITE_(N) - HDX9dYK1S8C
 		
@@ -987,11 +983,11 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_VERIFY_PEPFAR_SITE_(N)_TG_SW",
 		    "KPLHIV with suppressed VL result from other PEPFAR site",
-		    ReportUtils.map(monthlyReportIndicator.kplhivSuppressedVlArtOtherPEPFARSite(TRANSGENDER_SW), indParams),
+		    ReportUtils.map(monthlyReportIndicator.kplhivSuppressedVlArtOtherPEPFARSite("TRANSGENDER_SW"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_VERIFY_PEPFAR_SITE_(N)_TG_NOT_SW",
 		    "KPLHIV with suppressed VL result from other PEPFAR site",
-		    ReportUtils.map(monthlyReportIndicator.kplhivSuppressedVlArtOtherPEPFARSite(TRANSGENDER_NOT_SW), indParams),
+		    ReportUtils.map(monthlyReportIndicator.kplhivSuppressedVlArtOtherPEPFARSite("TRANSGENDER_NOT_SW"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		
 		//38. TX_PVLS_VERIFY_PEPFAR_SITE_(D) - FNVxVWLWSlP
@@ -1018,11 +1014,11 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_VERIFY_PEPFAR_SITE_(D)_TG_SW",
 		    "KPLHIV with VL result from other PEPFAR site",
-		    ReportUtils.map(monthlyReportIndicator.kplhivVlResultArtOtherPEPFARSite(TRANSGENDER_SW), indParams),
+		    ReportUtils.map(monthlyReportIndicator.kplhivVlResultArtOtherPEPFARSite("TRANSGENDER_SW"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_VERIFY_PEPFAR_SITE_(D)_TG_NOT_SW",
 		    "KPLHIV with VL result from other PEPFAR site",
-		    ReportUtils.map(monthlyReportIndicator.kplhivVlResultArtOtherPEPFARSite(TRANSGENDER_NOT_SW), indParams),
+		    ReportUtils.map(monthlyReportIndicator.kplhivVlResultArtOtherPEPFARSite("TRANSGENDER_NOT_SW"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		
 		//39.TX_PVLS_VERIFY_NON_PEPFAR_SITE_(N) -  YFVW39TeCC5
@@ -1049,11 +1045,11 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_VERIFY_NON_PEPFAR_SITE_(N)_TG_SW",
 		    "KPLHIV with VL result from other non PEPFAR site",
-		    ReportUtils.map(monthlyReportIndicator.kplhivSuppressedVlArtNonPEPFARSite(TRANSGENDER_SW), indParams),
+		    ReportUtils.map(monthlyReportIndicator.kplhivSuppressedVlArtNonPEPFARSite("TRANSGENDER_SW"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_VERIFY_NON_PEPFAR_SITE_(N)_TG_NOT_SW",
 		    "KPLHIV with VL result from other non PEPFAR site",
-		    ReportUtils.map(monthlyReportIndicator.kplhivSuppressedVlArtNonPEPFARSite(TRANSGENDER_NOT_SW), indParams),
+		    ReportUtils.map(monthlyReportIndicator.kplhivSuppressedVlArtNonPEPFARSite("TRANSGENDER_NOT_SW"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		
 		//40. TX_PVLS_VERIFY_NON_PEPFAR_SITE_(D) - MyaBDZA5l8o
@@ -1080,11 +1076,11 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    kpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_VERIFY_NON_PEPFAR_SITE_(D)_TG_SW",
 		    "KPLHIV with VL result from other non PEPFAR site",
-		    ReportUtils.map(monthlyReportIndicator.kplhivVlResultArtNonPEPFARSite(TRANSGENDER_SW), indParams),
+		    ReportUtils.map(monthlyReportIndicator.kplhivVlResultArtNonPEPFARSite("TRANSGENDER_SW"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_VERIFY_NON_PEPFAR_SITE_(D)_TG_NOT_SW",
 		    "KPLHIV with VL result from other non PEPFAR site",
-		    ReportUtils.map(monthlyReportIndicator.kplhivVlResultArtNonPEPFARSite(TRANSGENDER_NOT_SW), indParams),
+		    ReportUtils.map(monthlyReportIndicator.kplhivVlResultArtNonPEPFARSite("TRANSGENDER_NOT_SW"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		
 		//41. PrEP_CURR_VERIFY_PEPFAR_SITE - CCdVD9plUwm
@@ -1111,11 +1107,11 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    kpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "PrEP_CURR_VERIFY_PEPFAR_SITE_TG_SW",
 		    "Clients initiated on PrEP from another PEPFAR site",
-		    ReportUtils.map(monthlyReportIndicator.referredAndInitiatedPrEPPepfar(TRANSGENDER_SW), indParams),
+		    ReportUtils.map(monthlyReportIndicator.referredAndInitiatedPrEPPepfar("TRANSGENDER_SW"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "PrEP_CURR_VERIFY_PEPFAR_SITE_TG_NOT_SW",
 		    "Clients initiated on PrEP from another PEPFAR site",
-		    ReportUtils.map(monthlyReportIndicator.referredAndInitiatedPrEPPepfar(TRANSGENDER_NOT_SW), indParams),
+		    ReportUtils.map(monthlyReportIndicator.referredAndInitiatedPrEPPepfar("TRANSGENDER_NOT_SW"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		
 		//42. PrEP_CURR_VERIFY_NON_PEPFAR_SITE - nWMnSfWQw3F
@@ -1142,11 +1138,11 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "PrEP_CURR_VERIFY_NON_PEPFAR_SITE_TG_SW",
 		    "Clients initiated on PrEP from other non PEPFAR site",
-		    ReportUtils.map(monthlyReportIndicator.referredAndInitiatedPrEPNonPepfar(TRANSGENDER_SW), indParams),
+		    ReportUtils.map(monthlyReportIndicator.referredAndInitiatedPrEPNonPepfar("TRANSGENDER_SW"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "PrEP_CURR_VERIFY_NON_PEPFAR_SITE_TG_NOT_SW",
 		    "Clients initiated on PrEP from other non PEPFAR site",
-		    ReportUtils.map(monthlyReportIndicator.referredAndInitiatedPrEPNonPepfar(TRANSGENDER_NOT_SW), indParams),
+		    ReportUtils.map(monthlyReportIndicator.referredAndInitiatedPrEPNonPepfar("TRANSGENDER_NOT_SW"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		
 		//43. TX_NEW_VERIFY_PEPFAR_SITE - bVPCYIWpJAs
@@ -1173,11 +1169,11 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    kpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_NEW_VERIFY_PEPFAR_SITE_TG_SW",
 		    "Clients initiated on ART from other PEPFAR site",
-		    ReportUtils.map(monthlyReportIndicator.kplhivInitiatedARTOtherPEPFAR(TRANSGENDER_SW), indParams),
+		    ReportUtils.map(monthlyReportIndicator.kplhivInitiatedARTOtherPEPFAR("TRANSGENDER_SW"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_NEW_VERIFY_PEPFAR_SITE_TG_NOT_SW",
 		    "Clients initiated on ART from other PEPFAR site",
-		    ReportUtils.map(monthlyReportIndicator.kplhivInitiatedARTOtherPEPFAR(TRANSGENDER_NOT_SW), indParams),
+		    ReportUtils.map(monthlyReportIndicator.kplhivInitiatedARTOtherPEPFAR("TRANSGENDER_NOT_SW"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		
 		//44. TX_NEW_VERIFY_NON_PEPFAR - zYZe7ERpD0Z
@@ -1204,11 +1200,11 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    kpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_NEW_VERIFY_NON_PEPFAR_TG_SW",
 		    "Clients initiated on ART from other non PEPFAR site",
-		    ReportUtils.map(monthlyReportIndicator.kplhivInitiatedARTNonPEPFAR(TRANSGENDER_SW), indParams),
+		    ReportUtils.map(monthlyReportIndicator.kplhivInitiatedARTNonPEPFAR("TRANSGENDER_SW"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_NEW_VERIFY_NON_PEPFAR_TG_NOT_SW",
 		    "Clients initiated on ART from other non PEPFAR site",
-		    ReportUtils.map(monthlyReportIndicator.kplhivInitiatedARTNonPEPFAR(TRANSGENDER_NOT_SW), indParams),
+		    ReportUtils.map(monthlyReportIndicator.kplhivInitiatedARTNonPEPFAR("TRANSGENDER_NOT_SW"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		
 		//45. TX_CURR_VERIFY_PEPFAR_SITE - mKinaTjSI8O
@@ -1235,11 +1231,11 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    kpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_CURR_VERIFY_PEPFAR_SITE_TG_SW",
 		    "Clients Current on ART from other PEPFAR site",
-		    ReportUtils.map(monthlyReportIndicator.kplhivCurrentOnARTOtherPEPFAR(TRANSGENDER_SW), indParams),
+		    ReportUtils.map(monthlyReportIndicator.kplhivCurrentOnARTOtherPEPFAR("TRANSGENDER_SW"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_CURR_VERIFY_PEPFAR_SITE_TG_NOT_SW",
 		    "Clients Current on ART from other PEPFAR site",
-		    ReportUtils.map(monthlyReportIndicator.kplhivCurrentOnARTOtherPEPFAR(TRANSGENDER_NOT_SW), indParams),
+		    ReportUtils.map(monthlyReportIndicator.kplhivCurrentOnARTOtherPEPFAR("TRANSGENDER_NOT_SW"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		
 		//46. TX_CURR_VERIFY_NON_PEPFAR_SITE - UG1nFQQ7Yz2
@@ -1266,11 +1262,11 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    kpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_CURR_VERIFY_NON_PEPFAR_SITE_TG_SW",
 		    "Clients Current on ART from other non PEPFAR site",
-		    ReportUtils.map(monthlyReportIndicator.kplhivCurrentOnARTNonPEPFAR(TRANSGENDER_SW), indParams),
+		    ReportUtils.map(monthlyReportIndicator.kplhivCurrentOnARTNonPEPFAR("TRANSGENDER_SW"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_CURR_VERIFY_NON_PEPFAR_SITE_TG_NOT_SW",
 		    "Clients Current on ART from other non PEPFAR site",
-		    ReportUtils.map(monthlyReportIndicator.kplhivCurrentOnARTNonPEPFAR(TRANSGENDER_NOT_SW), indParams),
+		    ReportUtils.map(monthlyReportIndicator.kplhivCurrentOnARTNonPEPFAR("TRANSGENDER_NOT_SW"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		
 		//47. KP_CURR - IfZnCTNMiec
@@ -1291,10 +1287,10 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.kpCurr("(\"PWID\")"), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "KP_CURR_TG_SW", "Cuurent on KP",
-		    ReportUtils.map(monthlyReportIndicator.kpCurr(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.kpCurr("TRANSGENDER_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "KP_CURR_TG_NOT_SW", "Cuurent on KP",
-		    ReportUtils.map(monthlyReportIndicator.kpCurr(TRANSGENDER_NOT_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.kpCurr("TRANSGENDER_NOT_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		
 		//48. KPLHIV_CURR - U8ah8a3Up1f
@@ -1315,10 +1311,10 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.kpLHIVCurr("(\"PWID\")"), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "KPLHIV_CURR_TG_SW", "KP - Current living with HIV",
-		    ReportUtils.map(monthlyReportIndicator.kpLHIVCurr(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.kpLHIVCurr("TRANSGENDER_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "KPLHIV_CURR_TG_NOT_SW", "KP - Current living with HIV",
-		    ReportUtils.map(monthlyReportIndicator.kpLHIVCurr(TRANSGENDER_NOT_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.kpLHIVCurr("TRANSGENDER_NOT_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		
 		//49. TX_LTFU_RECENT - ayMFkwavWB7
@@ -1339,11 +1335,11 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.kplhivLTFURecently("(\"PWID\")"), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_LTFU_RECENT_TG_SW", "Recently lost to followup",
-		    ReportUtils.map(monthlyReportIndicator.kplhivLTFURecently(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.kplhivLTFURecently("TRANSGENDER_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_LTFU_RECENT_TG_NOT_SW", "Recently lost to followup",
-		    ReportUtils.map(monthlyReportIndicator.kplhivLTFURecently(TRANSGENDER_NOT_SW), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04"));
+		    ReportUtils.map(monthlyReportIndicator.kplhivLTFURecently("TRANSGENDER_NOT_SW"), indParams),
+		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		
 		//50. KP_EVER_POS - vKtYvZGWdQ3
 		
@@ -1363,10 +1359,10 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.kpEverPos("(\"PWID\")"), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "KP_EVER_POS_TG_SW", " KP Ever Positive",
-		    ReportUtils.map(monthlyReportIndicator.kpEverPos(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.kpEverPos("TRANSGENDER_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "KP_EVER_POS_TG_NOT_SW", " KP Ever Positive",
-		    ReportUtils.map(monthlyReportIndicator.kpEverPos(TRANSGENDER_NOT_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.kpEverPos("TRANSGENDER_NOT_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		
 		//51. TX_EVER_DICE - PhOOi3jpyU5
@@ -1387,10 +1383,10 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.txEverDice("(\"PWID\")"), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_EVER_DICE_TG_SW", "Ever on ART in this DICE",
-		    ReportUtils.map(monthlyReportIndicator.txEverDice(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.txEverDice("TRANSGENDER_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_EVER_DICE_TG_NOT_SW", "Ever on ART in this DICE",
-		    ReportUtils.map(monthlyReportIndicator.txEverDice(TRANSGENDER_NOT_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.txEverDice("TRANSGENDER_NOT_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		
 		//52. TX_EVER_VERIFY_PEPFAR_SITE - E26PZb2eocw
@@ -1411,11 +1407,11 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.txEverVerifyPEPFAR("(\"PWID\")"), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_EVER_VERIFY_PEPFAR_SITE_TG_SW", "Ever on ART in other PEPFAR site",
-		    ReportUtils.map(monthlyReportIndicator.txEverVerifyPEPFAR(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.txEverVerifyPEPFAR("TRANSGENDER_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_EVER_VERIFY_PEPFAR_SITE_TG_NOT_SW", "Ever on ART in other PEPFAR site",
-		    ReportUtils.map(monthlyReportIndicator.txEverVerifyPEPFAR(TRANSGENDER_NOT_SW), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04"));
+		    ReportUtils.map(monthlyReportIndicator.txEverVerifyPEPFAR("TRANSGENDER_NOT_SW"), indParams),
+		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		
 		//53. TX_EVER_VERIFY_NON_PEPFAR_SITE - hotT1X2G7Ss
 		
@@ -1435,11 +1431,11 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.txEverVerifyNonPEPFAR("(\"PWID\")"), indParams),
 		    kpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_EVER_VERIFY_NON_PEPFAR_SITE_TG_SW", "Ever on ART in other non PEPFAR site",
-		    ReportUtils.map(monthlyReportIndicator.txEverVerifyNonPEPFAR(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.txEverVerifyNonPEPFAR("TRANSGENDER_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_EVER_VERIFY_NON_PEPFAR_SITE_TG_NOT_SW",
 		    "Ever on ART in other non PEPFAR site",
-		    ReportUtils.map(monthlyReportIndicator.txEverVerifyNonPEPFAR(TRANSGENDER_NOT_SW), indParams),
+		    ReportUtils.map(monthlyReportIndicator.txEverVerifyNonPEPFAR("TRANSGENDER_NOT_SW"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		
 		//54. TX_PVLS_ELIGIBLE_DICE - wEATMdiockB
@@ -1466,12 +1462,12 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_ELIGIBLE_DICE_TG_SW",
 		    "On ART in this DICE and Eligible for VL within last 12 months",
-		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleDice(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleDice("TRANSGENDER_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_ELIGIBLE_DICE_TG_NOT_SW",
 		    "On ART in this DICE and Eligible for VL within last 12 months",
-		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleDice(TRANSGENDER_NOT_SW), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04"));
+		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleDice("TRANSGENDER_NOT_SW"), indParams),
+		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		
 		//55. TX_PVLS_ELIGIBLE_DONE_DICE- mhkO6IPf1nE
 		
@@ -1497,11 +1493,11 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    kpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_ELIGIBLE_DONE_DICE_TG_SW",
 		    "On ART in this DICE and Eligible for VL within last 12 months whose samples were taken",
-		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleDoneDice(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04"));
+		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleDoneDice("TRANSGENDER_SW"), indParams),
+		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_ELIGIBLE_DONE_DICE_TG_NOT_SW",
 		    "On ART in this DICE and Eligible for VL within last 12 months whose samples were taken",
-		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleDoneDice(TRANSGENDER_NOT_SW), indParams),
+		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleDoneDice("TRANSGENDER_NOT_SW"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		
 		//56.TX_PVLS_ELIGIBLE_VERIFY_PEPFAR_SITE - tcKlzWxQG6w
@@ -1528,11 +1524,11 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    kpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_ELIGIBLE_VERIFY_PEPFAR_SITE_TG_SW",
 		    "On ART in other PEPFAR sites Eligible for VL within last 12 months",
-		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleVerifyPEPFAR(TRANSGENDER_SW), indParams),
+		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleVerifyPEPFAR("TRANSGENDER_SW"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_ELIGIBLE_VERIFY_PEPFAR_SITE_TG_NOT_SW",
 		    "On ART in other PEPFAR sites Eligible for VL within last 12 months",
-		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleVerifyPEPFAR(TRANSGENDER_NOT_SW), indParams),
+		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleVerifyPEPFAR("TRANSGENDER_NOT_SW"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		
 		//57. TX_PVLS_ELIGIBLE_DONE_VERIFY_PEPFAR_SITE - cn1u70K6fMZ
@@ -1559,11 +1555,11 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    kpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_ELIGIBLE_DONE_VERIFY_PEPFAR_SITE_TG_SW",
 		    "On ART in other PEPFAR sites Eligible for VL within last 12 months whose samples were taken",
-		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleDoneVerifyPEPFAR(TRANSGENDER_SW), indParams),
+		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleDoneVerifyPEPFAR("TRANSGENDER_SW"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_ELIGIBLE_DONE_VERIFY_PEPFAR_SITE_TG_NOT_SW",
 		    "On ART in other PEPFAR sites Eligible for VL within last 12 months whose samples were taken",
-		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleDoneVerifyPEPFAR(TRANSGENDER_NOT_SW), indParams),
+		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleDoneVerifyPEPFAR("TRANSGENDER_NOT_SW"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		
 		//58. TX_PVLS_ELIGIBLE_VERIFY_NON_PEPFAR_SITE - b5pkOaXA4d7
@@ -1590,11 +1586,11 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    kpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_ELIGIBLE_VERIFY_NON_PEPFAR_SITE_TG_SW",
 		    "On ART in other non PEPFAR sites Eligible for VL within last 12 months",
-		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleVerifyNonPEPFAR(TRANSGENDER_SW), indParams),
+		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleVerifyNonPEPFAR("TRANSGENDER_SW"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_ELIGIBLE_VERIFY_NON_PEPFAR_SITE_TG_NOT_SW",
 		    "On ART in other non PEPFAR sites Eligible for VL within last 12 months",
-		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleVerifyNonPEPFAR(TRANSGENDER_NOT_SW), indParams),
+		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleVerifyNonPEPFAR("TRANSGENDER_NOT_SW"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		
 		//59. TX_PVLS_ELIGIBLE_DONE_VERIFY_NON_PEPFAR_SITE - O4M0FcApmzi
@@ -1621,11 +1617,11 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_ELIGIBLE_DONE_VERIFY_NON_PEPFAR_SITE_TG_SW",
 		    "On ART in other non PEPFAR sites Eligible for VL within last 12 months whose samples were taken",
-		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleDoneVerifyNonPEPFAR(TRANSGENDER_SW), indParams),
+		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleDoneVerifyNonPEPFAR("TRANSGENDER_SW"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_ELIGIBLE_DONE_VERIFY_NON_PEPFAR_SITE_TG_NOT_SW",
 		    "On ART in other non PEPFAR sites Eligible for VL within last 12 months whose samples were taken",
-		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleDoneVerifyNonPEPFAR(TRANSGENDER_NOT_SW), indParams),
+		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleDoneVerifyNonPEPFAR("TRANSGENDER_NOT_SW"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		
 		//60. MMD
@@ -1645,10 +1641,10 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.kpOnMultiMonthART("(\"PWID\")"), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "MMD_TG_SW", "Multi month appointments",
-		    ReportUtils.map(monthlyReportIndicator.kpOnMultiMonthART(TRANSGENDER_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.kpOnMultiMonthART("TRANSGENDER_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "MMD_TG_NOT_SW", "Multi month appointments",
-		    ReportUtils.map(monthlyReportIndicator.kpOnMultiMonthART(TRANSGENDER_NOT_SW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.kpOnMultiMonthART("TRANSGENDER_NOT_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		
 		return cohortDsd;
