@@ -145,25 +145,25 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    Arrays.asList("01", "02", "03", "04"));
 		
 		//3. KP_PREV
-		EmrReportingUtils.addRow(cohortDsd, "KP_PREV_FSW", "Known positive at enrolment",
+		EmrReportingUtils.addRow(cohortDsd, "KP_PREV_FSW", "Received care for the first time this year",
 		    ReportUtils.map(monthlyReportIndicator.kpPrev("(\"FSW\")"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
-		EmrReportingUtils.addRow(cohortDsd, "KP_PREV_MSM", "Known positive at enrolment",
+		EmrReportingUtils.addRow(cohortDsd, "KP_PREV_MSM", "Received care for the first time this year",
 		    ReportUtils.map(monthlyReportIndicator.kpPrev("(\"MSM\")"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
-		EmrReportingUtils.addRow(cohortDsd, "KP_PREV_MSW", "Known positive at enrolment",
+		EmrReportingUtils.addRow(cohortDsd, "KP_PREV_MSW", "Received care for the first time this year",
 		    ReportUtils.map(monthlyReportIndicator.kpPrev("(\"MSW\")"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
-		EmrReportingUtils.addRow(cohortDsd, "KP_PREV_PWUD", "Known positive at enrolment",
+		EmrReportingUtils.addRow(cohortDsd, "KP_PREV_PWUD", "Received care for the first time this year",
 		    ReportUtils.map(monthlyReportIndicator.kpPrev("(\"PWUD\")"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
-		EmrReportingUtils.addRow(cohortDsd, "KP_PREV_PWID", "Known positive at enrolment",
+		EmrReportingUtils.addRow(cohortDsd, "KP_PREV_PWID", "Received care for the first time this year",
 		    ReportUtils.map(monthlyReportIndicator.kpPrev("(\"PWID\")"), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
-		EmrReportingUtils.addRow(cohortDsd, "KP_PREV_TG_SW", "Known positive at enrolment",
+		EmrReportingUtils.addRow(cohortDsd, "KP_PREV_TG_SW", "Received care for the first time this year",
 		    ReportUtils.map(monthlyReportIndicator.kpPrev("TRANSGENDER_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
-		EmrReportingUtils.addRow(cohortDsd, "KP_PREV_TG_NOT_SW", "Known positive at enrolment",
+		EmrReportingUtils.addRow(cohortDsd, "KP_PREV_TG_NOT_SW", "Received care for the first time this year",
 		    ReportUtils.map(monthlyReportIndicator.kpPrev("TRANSGENDER_NOT_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		
@@ -980,7 +980,7 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_VERIFY_PEPFAR_SITE_(N)_PWID",
 		    "KPLHIV with suppressed VL result from other PEPFAR site",
 		    ReportUtils.map(monthlyReportIndicator.kplhivSuppressedVlArtOtherPEPFARSite("(\"PWID\")"), indParams),
-		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
+		    kpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_VERIFY_PEPFAR_SITE_(N)_TG_SW",
 		    "KPLHIV with suppressed VL result from other PEPFAR site",
 		    ReportUtils.map(monthlyReportIndicator.kplhivSuppressedVlArtOtherPEPFARSite("TRANSGENDER_SW"), indParams),
@@ -1011,7 +1011,7 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_VERIFY_PEPFAR_SITE_(D)_PWID",
 		    "KPLHIV with VL result from other PEPFAR site",
 		    ReportUtils.map(monthlyReportIndicator.kplhivVlResultArtOtherPEPFARSite("(\"PWID\")"), indParams),
-		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
+		    kpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_VERIFY_PEPFAR_SITE_(D)_TG_SW",
 		    "KPLHIV with VL result from other PEPFAR site",
 		    ReportUtils.map(monthlyReportIndicator.kplhivVlResultArtOtherPEPFARSite("TRANSGENDER_SW"), indParams),
@@ -1042,7 +1042,7 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_VERIFY_NON_PEPFAR_SITE_(N)_PWID",
 		    "KPLHIV with VL result from other non PEPFAR site",
 		    ReportUtils.map(monthlyReportIndicator.kplhivSuppressedVlArtNonPEPFARSite("(\"PWID\")"), indParams),
-		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
+		    kpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_VERIFY_NON_PEPFAR_SITE_(N)_TG_SW",
 		    "KPLHIV with VL result from other non PEPFAR site",
 		    ReportUtils.map(monthlyReportIndicator.kplhivSuppressedVlArtNonPEPFARSite("TRANSGENDER_SW"), indParams),
@@ -1135,7 +1135,7 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		EmrReportingUtils.addRow(cohortDsd, "PrEP_CURR_VERIFY_NON_PEPFAR_SITE_PWID",
 		    "Clients initiated on PrEP from other non PEPFAR site",
 		    ReportUtils.map(monthlyReportIndicator.referredAndInitiatedPrEPNonPepfar("(\"PWID\")"), indParams),
-		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
+		    kpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "PrEP_CURR_VERIFY_NON_PEPFAR_SITE_TG_SW",
 		    "Clients initiated on PrEP from other non PEPFAR site",
 		    ReportUtils.map(monthlyReportIndicator.referredAndInitiatedPrEPNonPepfar("TRANSGENDER_SW"), indParams),
@@ -1614,7 +1614,7 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_ELIGIBLE_DONE_VERIFY_NON_PEPFAR_SITE_PWID",
 		    "On ART in other non PEPFAR sites Eligible for VL within last 12 months whose samples were taken",
 		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleDoneVerifyNonPEPFAR("(\"PWID\")"), indParams),
-		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
+		    kpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_ELIGIBLE_DONE_VERIFY_NON_PEPFAR_SITE_TG_SW",
 		    "On ART in other non PEPFAR sites Eligible for VL within last 12 months whose samples were taken",
 		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleDoneVerifyNonPEPFAR("TRANSGENDER_SW"), indParams),
