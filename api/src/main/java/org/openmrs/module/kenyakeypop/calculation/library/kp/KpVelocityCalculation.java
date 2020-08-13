@@ -74,7 +74,6 @@ public class KpVelocityCalculation extends BaseEmrCalculation {
 			LocationService locationService = Context.getLocationService();
 			kpAlias = personService.getPerson(ptId).getAttribute(pt.getId());
 			Obs locationObs = EmrCalculationUtils.obsResultForPatient(currentLocation, ptId);
-			
 			ProgramWorkflowService service = Context.getProgramWorkflowService();
 			List<PatientProgram> programs = service.getPatientPrograms(Context.getPatientService().getPatient(ptId),
 			    kpProgram, null, null, null, null, true);
