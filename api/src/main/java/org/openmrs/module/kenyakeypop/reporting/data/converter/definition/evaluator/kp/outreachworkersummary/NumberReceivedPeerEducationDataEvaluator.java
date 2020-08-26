@@ -28,7 +28,7 @@ import java.util.Map;
  */
 @Handler(supports = NumberOfPeersReceivedPeerEducationDataDefinition.class, order = 50)
 public class NumberReceivedPeerEducationDataEvaluator implements PersonDataEvaluator {
-
+	
 	@Autowired
 	private EvaluationService evaluationService;
 	
@@ -36,8 +36,8 @@ public class NumberReceivedPeerEducationDataEvaluator implements PersonDataEvalu
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select r.person_a as peer_educator,p.health_edu as self_test_kits from openmrs.relationship r inner join kenyaemr_etl.etl_peer_calendar p on r.person_b= p.client_id where r.voided = 0\n" +
-				"group by peer_educator;";
+		String qry = "select r.person_a as peer_educator,p.health_edu as self_test_kits from openmrs.relationship r inner join kenyaemr_etl.etl_peer_calendar p on r.person_b= p.client_id where r.voided = 0\n"
+		        + "group by peer_educator;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);
