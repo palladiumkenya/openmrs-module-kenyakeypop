@@ -182,16 +182,11 @@
                 jq("#key_pop_type input[value=165084]").prop("checked", false);
                 jq("#key_pop_type input[value=160578]").prop("disabled", true);
                 jq("#key_pop_type input[value=165084]").prop("disabled", true);
-                jq("#key_pop_type input[value=165108]").prop("disabled", false);
-                jq("#key_pop_type input[value=165107]").prop("disabled", true);
-
-
             }
             if (pgender == 'M') {
                 jq("#key_pop_type input[value=165083]").prop("checked", false);
                 jq("#key_pop_type input[value=165083]").prop("disabled", true);
-                jq("#key_pop_type input[value=165108]").prop("disabled", true);
-                jq("#key_pop_type input[value=165107]").prop("disabled", false);
+
             }
 
             jq('input').on('click',function () {
@@ -537,8 +532,8 @@
                     <td>Key Population Type</td>
                     <td colspan="3">
                         <obs id="key_pop_type" conceptId="164929"
-                             answerConceptIds="165083,160578,165084,105,165085,165108,165107"
-                             answerLabels="FSW,MSM,MSW,PWID,PWUD,Transman,Transwoman"
+                             answerConceptIds="165083,160578,165084,105,165085,165100"
+                             answerLabels="FSW,MSM,MSW,PWID,PWUD,Transgender"
                              style="radio" />
                     </td>
 

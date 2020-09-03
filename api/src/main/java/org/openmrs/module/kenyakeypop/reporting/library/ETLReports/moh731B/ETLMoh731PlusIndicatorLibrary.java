@@ -51,14 +51,9 @@ public class ETLMoh731PlusIndicatorLibrary {
 		return cohortIndicator("", ReportUtils.map(moh731BCohorts.activePwud(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
-	public CohortIndicator activeTransman() {
+	public CohortIndicator activeTransgender() {
 		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.activeTransman(), "startDate=${startDate},endDate=${endDate}"));
-	}
-	
-	public CohortIndicator activeTranswoman() {
-		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.activeTranswoman(), "startDate=${startDate},endDate=${endDate}"));
+		    ReportUtils.map(moh731BCohorts.activeTransgender(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	public CohortIndicator hivTestedFsw() {
@@ -86,14 +81,9 @@ public class ETLMoh731PlusIndicatorLibrary {
 		    ReportUtils.map(moh731BCohorts.hivTestedPwud(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
-	public CohortIndicator hivTestedTransman() {
+	public CohortIndicator hivTestedTransgender() {
 		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.hivTestedTransman(), "startDate=${startDate},endDate=${endDate}"));
-	}
-	
-	public CohortIndicator hivTestedTranswoman() {
-		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.hivTestedTranswoman(), "startDate=${startDate},endDate=${endDate}"));
+		    ReportUtils.map(moh731BCohorts.hivTestedTransgender(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	public CohortIndicator testedAtFacilityFsw() {
@@ -121,14 +111,9 @@ public class ETLMoh731PlusIndicatorLibrary {
 		    ReportUtils.map(moh731BCohorts.testedAtFacilityPwud(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
-	public CohortIndicator testedAtFacilityTransman() {
+	public CohortIndicator testedAtFacilityTransgender() {
 		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.testedAtFacilityTransman(), "startDate=${startDate},endDate=${endDate}"));
-	}
-	
-	public CohortIndicator testedAtFacilityTranswoman() {
-		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.testedAtFacilityTranswoman(), "startDate=${startDate},endDate=${endDate}"));
+		    ReportUtils.map(moh731BCohorts.testedAtFacilityTransgender(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	public CohortIndicator testedAtCommunityFsw() {
@@ -156,14 +141,9 @@ public class ETLMoh731PlusIndicatorLibrary {
 		    ReportUtils.map(moh731BCohorts.testedAtCommunityPwud(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
-	public CohortIndicator testedAtCommunityTransman() {
+	public CohortIndicator testedAtCommunityTransgender() {
 		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.testedAtCommunityTransman(), "startDate=${startDate},endDate=${endDate}"));
-	}
-	
-	public CohortIndicator testedAtCommunityTranswoman() {
-		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.testedAtCommunityTranswoman(), "startDate=${startDate},endDate=${endDate}"));
+		    ReportUtils.map(moh731BCohorts.testedAtCommunityTransgender(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	public CohortIndicator testedNewFsw() {
@@ -191,14 +171,9 @@ public class ETLMoh731PlusIndicatorLibrary {
 		    ReportUtils.map(moh731BCohorts.testedNewPwud(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
-	public CohortIndicator testedAtNewTransman() {
+	public CohortIndicator testedAtNewTransgender() {
 		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.testedAtNewTransman(), "startDate=${startDate},endDate=${endDate}"));
-	}
-	
-	public CohortIndicator testedAtNewTranswoman() {
-		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.testedAtNewTranswoman(), "startDate=${startDate},endDate=${endDate}"));
+		    ReportUtils.map(moh731BCohorts.testedAtNewTransgender(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	public CohortIndicator testedRepeatFsw() {
@@ -226,14 +201,9 @@ public class ETLMoh731PlusIndicatorLibrary {
 		    ReportUtils.map(moh731BCohorts.testedRepeatPwud(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
-	public CohortIndicator testedRepeatTransman() {
+	public CohortIndicator testedRepeatTransgender() {
 		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.testedRepeatTransman(), "startDate=${startDate},endDate=${endDate}"));
-	}
-	
-	public CohortIndicator testedRepeatTranswoman() {
-		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.testedRepeatTranswoman(), "startDate=${startDate},endDate=${endDate}"));
+		    ReportUtils.map(moh731BCohorts.testedRepeatTransgender(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	public CohortIndicator knownPositiveFsw() {
@@ -261,14 +231,9 @@ public class ETLMoh731PlusIndicatorLibrary {
 		    ReportUtils.map(moh731BCohorts.knownPositivePwud(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
-	public CohortIndicator knownPositiveTransman() {
+	public CohortIndicator knownPositiveTransgender() {
 		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.knownPositiveTransman(), "startDate=${startDate},endDate=${endDate}"));
-	}
-	
-	public CohortIndicator knownPositiveTranswoman() {
-		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.knownPositiveTranswoman(), "startDate=${startDate},endDate=${endDate}"));
+		    ReportUtils.map(moh731BCohorts.knownPositiveTransgender(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	public CohortIndicator receivedPositiveResultsFsw() {
@@ -296,14 +261,9 @@ public class ETLMoh731PlusIndicatorLibrary {
 		    ReportUtils.map(moh731BCohorts.receivedPositiveResultsPwud(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
-	public CohortIndicator receivedPositiveResultsTransman() {
-		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.receivedPositiveResultsTransman(), "startDate=${startDate},endDate=${endDate}"));
-	}
-	
-	public CohortIndicator receivedPositiveResultsTranswoman() {
-		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.receivedPositiveResultsTranswoman(), "startDate=${startDate},endDate=${endDate}"));
+	public CohortIndicator receivedPositiveResultsTransgender() {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.receivedPositiveResultsTransgender(),
+		    "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	public CohortIndicator linkedFsw() {
@@ -326,14 +286,9 @@ public class ETLMoh731PlusIndicatorLibrary {
 		return cohortIndicator("", ReportUtils.map(moh731BCohorts.linkedPwud(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
-	public CohortIndicator linkedTransman() {
+	public CohortIndicator linkedTransgender() {
 		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.linkedTransman(), "startDate=${startDate},endDate=${endDate}"));
-	}
-	
-	public CohortIndicator linkedTranswoman() {
-		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.linkedTranswoman(), "startDate=${startDate},endDate=${endDate}"));
+		    ReportUtils.map(moh731BCohorts.linkedTransgender(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	public CohortIndicator receivingCondomsFsw() {
@@ -361,14 +316,9 @@ public class ETLMoh731PlusIndicatorLibrary {
 		    ReportUtils.map(moh731BCohorts.receivingCondomsPwud(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
-	public CohortIndicator receivingCondomsTransman() {
+	public CohortIndicator receivingCondomsTransgender() {
 		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.receivingCondomsTransman(), "startDate=${startDate},endDate=${endDate}"));
-	}
-	
-	public CohortIndicator receivingCondomsTranswoman() {
-		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.receivingCondomsTranswoman(), "startDate=${startDate},endDate=${endDate}"));
+		    ReportUtils.map(moh731BCohorts.receivingCondomsTransgender(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	public CohortIndicator receivingCondomsPerNeedPerNeedFsw() {
@@ -396,14 +346,9 @@ public class ETLMoh731PlusIndicatorLibrary {
 		    ReportUtils.map(moh731BCohorts.receivingCondomsPerNeedPwud(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
-	public CohortIndicator receivingCondomsPerNeedTransman() {
-		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.receivingCondomsPerNeedTransman(), "startDate=${startDate},endDate=${endDate}"));
-	}
-	
-	public CohortIndicator receivingCondomsPerNeedTranswoman() {
-		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.receivingCondomsPerNeedTranswoman(), "startDate=${startDate},endDate=${endDate}"));
+	public CohortIndicator receivingCondomsPerNeedTransgender() {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.receivingCondomsPerNeedTransgender(),
+		    "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	public CohortIndicator receivingNeedlesAndSyringesFsw() {
@@ -431,13 +376,8 @@ public class ETLMoh731PlusIndicatorLibrary {
 		    ReportUtils.map(moh731BCohorts.receivingNeedlesAndSyringesPwud(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
-	public CohortIndicator receivingNeedlesAndSyringesTransman() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.receivingNeedlesAndSyringesTransman(),
-		    "startDate=${startDate},endDate=${endDate}"));
-	}
-	
-	public CohortIndicator receivingNeedlesAndSyringesTranswoman() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.receivingNeedlesAndSyringesTranswoman(),
+	public CohortIndicator receivingNeedlesAndSyringesTransgender() {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.receivingNeedlesAndSyringesTransgender(),
 		    "startDate=${startDate},endDate=${endDate}"));
 	}
 	
@@ -466,13 +406,8 @@ public class ETLMoh731PlusIndicatorLibrary {
 		    "startDate=${startDate},endDate=${endDate}"));
 	}
 	
-	public CohortIndicator receivingNeedlesAndSyringesPerNeedTransman() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.receivingNeedlesAndSyringesPerNeedTransman(),
-		    "startDate=${startDate},endDate=${endDate}"));
-	}
-	
-	public CohortIndicator receivingNeedlesAndSyringesPerNeedTranswoman() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.receivingNeedlesAndSyringesPerNeedTranswoman(),
+	public CohortIndicator receivingNeedlesAndSyringesPerNeedTransgender() {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.receivingNeedlesAndSyringesPerNeedTransgender(),
 		    "startDate=${startDate},endDate=${endDate}"));
 	}
 	
@@ -501,14 +436,9 @@ public class ETLMoh731PlusIndicatorLibrary {
 		    ReportUtils.map(moh731BCohorts.receivingLubricantsPwud(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
-	public CohortIndicator receivingLubricantsTransman() {
+	public CohortIndicator receivingLubricantsTransgender() {
 		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.receivingLubricantsTransman(), "startDate=${startDate},endDate=${endDate}"));
-	}
-	
-	public CohortIndicator receivingLubricantsTranswoman() {
-		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.receivingLubricantsTranswoman(), "startDate=${startDate},endDate=${endDate}"));
+		    ReportUtils.map(moh731BCohorts.receivingLubricantsTransgender(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	public CohortIndicator receivingLubricantsPerNeedFsw() {
@@ -536,13 +466,8 @@ public class ETLMoh731PlusIndicatorLibrary {
 		    ReportUtils.map(moh731BCohorts.receivingLubricantsPerNeedPwud(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
-	public CohortIndicator receivingLubricantsPerNeedTransman() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.receivingLubricantsPerNeedTransman(),
-		    "startDate=${startDate},endDate=${endDate}"));
-	}
-	
-	public CohortIndicator receivingLubricantsPerNeedTranswoman() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.receivingLubricantsPerNeedTranswoman(),
+	public CohortIndicator receivingLubricantsPerNeedTransgender() {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.receivingLubricantsPerNeedTransgender(),
 		    "startDate=${startDate},endDate=${endDate}"));
 	}
 	
@@ -571,14 +496,9 @@ public class ETLMoh731PlusIndicatorLibrary {
 		    ReportUtils.map(moh731BCohorts.screenedForSTIPwud(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
-	public CohortIndicator screenedForSTITransman() {
+	public CohortIndicator screenedForSTITransgender() {
 		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.screenedForSTITransman(), "startDate=${startDate},endDate=${endDate}"));
-	}
-	
-	public CohortIndicator screenedForSTITranswoman() {
-		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.screenedForSTITranswoman(), "startDate=${startDate},endDate=${endDate}"));
+		    ReportUtils.map(moh731BCohorts.screenedForSTITransgender(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	public CohortIndicator screenedForHCVFsw() {
@@ -606,14 +526,9 @@ public class ETLMoh731PlusIndicatorLibrary {
 		    ReportUtils.map(moh731BCohorts.screenedForHCVPwud(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
-	public CohortIndicator screenedForHCVTransman() {
+	public CohortIndicator screenedForHCVTransgender() {
 		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.screenedForHCVTransman(), "startDate=${startDate},endDate=${endDate}"));
-	}
-	
-	public CohortIndicator screenedForHCVTranswoman() {
-		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.screenedForHCVTranswoman(), "startDate=${startDate},endDate=${endDate}"));
+		    ReportUtils.map(moh731BCohorts.screenedForHCVTransgender(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	public CohortIndicator screenedForHBVFsw() {
@@ -641,14 +556,9 @@ public class ETLMoh731PlusIndicatorLibrary {
 		    ReportUtils.map(moh731BCohorts.screenedForHBVPwud(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
-	public CohortIndicator screenedForHBVTransman() {
+	public CohortIndicator screenedForHBVTransgender() {
 		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.screenedForHBVTransman(), "startDate=${startDate},endDate=${endDate}"));
-	}
-	
-	public CohortIndicator screenedForHBVTranswoman() {
-		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.screenedForHBVTranswoman(), "startDate=${startDate},endDate=${endDate}"));
+		    ReportUtils.map(moh731BCohorts.screenedForHBVTransgender(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	public CohortIndicator positiveHBVFsw() {
@@ -676,14 +586,9 @@ public class ETLMoh731PlusIndicatorLibrary {
 		    ReportUtils.map(moh731BCohorts.positiveHBVPwud(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
-	public CohortIndicator positiveHBVTransman() {
+	public CohortIndicator positiveHBVTransgender() {
 		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.positiveHBVTransman(), "startDate=${startDate},endDate=${endDate}"));
-	}
-	
-	public CohortIndicator positiveHBVTranswoman() {
-		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.positiveHBVTranswoman(), "startDate=${startDate},endDate=${endDate}"));
+		    ReportUtils.map(moh731BCohorts.positiveHBVTransgender(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	public CohortIndicator treatedHBVFsw() {
@@ -711,14 +616,9 @@ public class ETLMoh731PlusIndicatorLibrary {
 		    ReportUtils.map(moh731BCohorts.treatedHBVPwud(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
-	public CohortIndicator treatedHBVTransman() {
+	public CohortIndicator treatedHBVTransgender() {
 		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.treatedHBVTransman(), "startDate=${startDate},endDate=${endDate}"));
-	}
-	
-	public CohortIndicator treatedHBVTranswoman() {
-		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.treatedHBVTranswoman(), "startDate=${startDate},endDate=${endDate}"));
+		    ReportUtils.map(moh731BCohorts.treatedHBVTransgender(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	public CohortIndicator negativeHBVVaccinatedFsw() {
@@ -746,14 +646,9 @@ public class ETLMoh731PlusIndicatorLibrary {
 		    ReportUtils.map(moh731BCohorts.negativeHBVVaccinatedPwud(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
-	public CohortIndicator negativeHBVVaccinatedTransman() {
+	public CohortIndicator negativeHBVVaccinatedTransgender() {
 		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.negativeHBVVaccinatedTransman(), "startDate=${startDate},endDate=${endDate}"));
-	}
-	
-	public CohortIndicator negativeHBVVaccinatedTranswoman() {
-		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.negativeHBVVaccinatedTranswoman(), "startDate=${startDate},endDate=${endDate}"));
+		    ReportUtils.map(moh731BCohorts.negativeHBVVaccinatedTransgender(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	public CohortIndicator screenedTBFsw() {
@@ -781,14 +676,9 @@ public class ETLMoh731PlusIndicatorLibrary {
 		    ReportUtils.map(moh731BCohorts.screenedTBPwud(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
-	public CohortIndicator screenedTBTransman() {
+	public CohortIndicator screenedTBTransgender() {
 		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.screenedTBTransman(), "startDate=${startDate},endDate=${endDate}"));
-	}
-	
-	public CohortIndicator screenedTBTranswoman() {
-		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.screenedTBTranswoman(), "startDate=${startDate},endDate=${endDate}"));
+		    ReportUtils.map(moh731BCohorts.screenedTBTransgender(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	public CohortIndicator diagnosedTBFsw() {
@@ -816,14 +706,9 @@ public class ETLMoh731PlusIndicatorLibrary {
 		    ReportUtils.map(moh731BCohorts.diagnosedTBPwud(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
-	public CohortIndicator diagnosedTBTransman() {
+	public CohortIndicator diagnosedTBTransgender() {
 		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.diagnosedTBTransman(), "startDate=${startDate},endDate=${endDate}"));
-	}
-	
-	public CohortIndicator diagnosedTBTranswoman() {
-		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.diagnosedTBTranswoman(), "startDate=${startDate},endDate=${endDate}"));
+		    ReportUtils.map(moh731BCohorts.diagnosedTBTransgender(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	public CohortIndicator startedOnTBTxFsw() {
@@ -851,14 +736,9 @@ public class ETLMoh731PlusIndicatorLibrary {
 		    ReportUtils.map(moh731BCohorts.startedOnTBTxPwud(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
-	public CohortIndicator startedOnTBTxTransman() {
+	public CohortIndicator startedOnTBTxTransgender() {
 		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.startedOnTBTxTransman(), "startDate=${startDate},endDate=${endDate}"));
-	}
-	
-	public CohortIndicator startedOnTBTxTranswoman() {
-		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.startedOnTBTxTranswoman(), "startDate=${startDate},endDate=${endDate}"));
+		    ReportUtils.map(moh731BCohorts.startedOnTBTxTransgender(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	public CohortIndicator tbClientsOnHAARTFsw() {
@@ -886,14 +766,9 @@ public class ETLMoh731PlusIndicatorLibrary {
 		    ReportUtils.map(moh731BCohorts.tbClientsOnHAARTPwud(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
-	public CohortIndicator tbClientsOnHAARTTransman() {
+	public CohortIndicator tbClientsOnHAARTTransgender() {
 		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.tbClientsOnHAARTTransman(), "startDate=${startDate},endDate=${endDate}"));
-	}
-	
-	public CohortIndicator tbClientsOnHAARTTranswoman() {
-		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.tbClientsOnHAARTTranswoman(), "startDate=${startDate},endDate=${endDate}"));
+		    ReportUtils.map(moh731BCohorts.tbClientsOnHAARTTransgender(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	public CohortIndicator initiatedPrEPFsw() {
@@ -921,14 +796,9 @@ public class ETLMoh731PlusIndicatorLibrary {
 		    ReportUtils.map(moh731BCohorts.initiatedPrEPPwud(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
-	public CohortIndicator initiatedPrEPTransman() {
+	public CohortIndicator initiatedPrEPTransgender() {
 		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.initiatedPrEPTransman(), "startDate=${startDate},endDate=${endDate}"));
-	}
-	
-	public CohortIndicator initiatedPrEPTranswoman() {
-		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.initiatedPrEPTranswoman(), "startDate=${startDate},endDate=${endDate}"));
+		    ReportUtils.map(moh731BCohorts.initiatedPrEPTransgender(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	public CohortIndicator currentOnPrEPFsw() {
@@ -956,14 +826,9 @@ public class ETLMoh731PlusIndicatorLibrary {
 		    ReportUtils.map(moh731BCohorts.currentOnPrEPPwud(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
-	public CohortIndicator currentOnPrEPTransman() {
+	public CohortIndicator currentOnPrEPTransgender() {
 		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.currentOnPrEPTransman(), "startDate=${startDate},endDate=${endDate}"));
-	}
-	
-	public CohortIndicator currentOnPrEPTranswoman() {
-		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.currentOnPrEPTranswoman(), "startDate=${startDate},endDate=${endDate}"));
+		    ReportUtils.map(moh731BCohorts.currentOnPrEPTransgender(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	public CohortIndicator turningPositiveWhileOnPrEPFsw() {
@@ -991,13 +856,8 @@ public class ETLMoh731PlusIndicatorLibrary {
 		    ReportUtils.map(moh731BCohorts.turningPositiveWhileOnPrEPPwud(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
-	public CohortIndicator turningPositiveWhileOnPrEPTransman() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.turningPositiveWhileOnPrEPTransman(),
-		    "startDate=${startDate},endDate=${endDate}"));
-	}
-	
-	public CohortIndicator turningPositiveWhileOnPrEPTranswoman() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.turningPositiveWhileOnPrEPTranswoman(),
+	public CohortIndicator turningPositiveWhileOnPrEPTransgender() {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.turningPositiveWhileOnPrEPTransgender(),
 		    "startDate=${startDate},endDate=${endDate}"));
 	}
 	
@@ -1026,14 +886,9 @@ public class ETLMoh731PlusIndicatorLibrary {
 		    ReportUtils.map(moh731BCohorts.experiencingViolencePwud(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
-	public CohortIndicator experiencingViolenceTransman() {
+	public CohortIndicator experiencingViolenceTransgender() {
 		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.experiencingViolenceTransman(), "startDate=${startDate},endDate=${endDate}"));
-	}
-	
-	public CohortIndicator experiencingViolenceTranswoman() {
-		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.experiencingViolenceTranswoman(), "startDate=${startDate},endDate=${endDate}"));
+		    ReportUtils.map(moh731BCohorts.experiencingViolenceTransgender(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	public CohortIndicator receivingViolenceSupportFsw() {
@@ -1061,13 +916,8 @@ public class ETLMoh731PlusIndicatorLibrary {
 		    ReportUtils.map(moh731BCohorts.receivingViolenceSupportPwud(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
-	public CohortIndicator receivingViolenceSupportTransman() {
-		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.receivingViolenceSupportTransman(), "startDate=${startDate},endDate=${endDate}"));
-	}
-	
-	public CohortIndicator receivingViolenceSupportTranswoman() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.receivingViolenceSupportTranswoman(),
+	public CohortIndicator receivingViolenceSupportTransgender() {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.receivingViolenceSupportTransgender(),
 		    "startDate=${startDate},endDate=${endDate}"));
 	}
 	
@@ -1096,14 +946,9 @@ public class ETLMoh731PlusIndicatorLibrary {
 		    ReportUtils.map(moh731BCohorts.numberExposedPwud(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
-	public CohortIndicator numberExposedTransman() {
+	public CohortIndicator numberExposedTransgender() {
 		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.numberExposedTransman(), "startDate=${startDate},endDate=${endDate}"));
-	}
-	
-	public CohortIndicator numberExposedTranswoman() {
-		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.numberExposedTranswoman(), "startDate=${startDate},endDate=${endDate}"));
+		    ReportUtils.map(moh731BCohorts.numberExposedTransgender(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	public CohortIndicator receivingPEPWithin72HrsFsw() {
@@ -1131,14 +976,9 @@ public class ETLMoh731PlusIndicatorLibrary {
 		    ReportUtils.map(moh731BCohorts.receivingPEPWithin72HrsPwud(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
-	public CohortIndicator receivingPEPWithin72HrsTransman() {
-		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.receivingPEPWithin72HrsTransman(), "startDate=${startDate},endDate=${endDate}"));
-	}
-	
-	public CohortIndicator receivingPEPWithin72HrsTranswoman() {
-		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.receivingPEPWithin72HrsTranswoman(), "startDate=${startDate},endDate=${endDate}"));
+	public CohortIndicator receivingPEPWithin72HrsTransgender() {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.receivingPEPWithin72HrsTransgender(),
+		    "startDate=${startDate},endDate=${endDate}"));
 	}
 	/* public CohortIndicator completedPEPWith28DaysFsw() {
 	     return cohortIndicator("", ReportUtils.map(moh731BCohorts.completedPEPWith28DaysFsw(), "startDate=${startDate},endDate=${endDate}"));
@@ -1157,7 +997,7 @@ public class ETLMoh731PlusIndicatorLibrary {
 	 public CohortIndicator completedPEPWith28DaysPwud() {
 	     return cohortIndicator("", ReportUtils.map(moh731BCohorts.completedPEPWith28DaysPwud(), "startDate=${startDate},endDate=${endDate}"));
 	 }
-	 public CohortIndicator completedPEPWith28DaysTransman() {
-	     return cohortIndicator("", ReportUtils.map(moh731BCohorts.completedPEPWith28DaysTransman(), "startDate=${startDate},endDate=${endDate}"));
+	 public CohortIndicator completedPEPWith28DaysTransgender() {
+	     return cohortIndicator("", ReportUtils.map(moh731BCohorts.completedPEPWith28DaysTransgender(), "startDate=${startDate},endDate=${endDate}"));
 	 }*/
 }
