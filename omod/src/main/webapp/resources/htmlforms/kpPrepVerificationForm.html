@@ -206,11 +206,9 @@ $('#specify4 input').prop('disabled', true);
                     <td>
                         <b>Name of health facility accessing PrEP</b>
                     </td>
-                    <td>
-                        <obs conceptId="162724"/>
-                        <span class="value"><recentObs conceptId="162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></span>
-
-
+                    <td> <obs id="health-facility" conceptId="162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                              style="location"  required="true"/>
+                        <span class="value" id="show-location"></span>
                     </td>
                 </tr>
                 <tr>
