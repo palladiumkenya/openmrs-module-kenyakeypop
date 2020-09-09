@@ -21,6 +21,7 @@ import org.openmrs.module.appframework.domain.AppDescriptor;
 import org.openmrs.module.appframework.service.AppFrameworkService;
 import org.openmrs.module.kenyacore.form.FormDescriptor;
 import org.openmrs.module.kenyacore.form.FormManager;
+import org.openmrs.module.kenyaemr.metadata.TbMetadata;
 import org.openmrs.module.kenyakeypop.KpConstant;
 import org.openmrs.module.kenyaui.KenyaUiUtils;
 import org.openmrs.module.kenyaui.annotation.AppPage;
@@ -77,7 +78,7 @@ public class ActionsPanelFragmentController {
 		        KP_PEER_CALENDAR_FORM };
 		String clinicalTools[] = new String[] { KP_CLIENT_ENROLLMENT, KP_STI_TREATMENT_FORM, KP_ALCOHOL_SCREENING_FORM,
 		        KP_DEPRESSION_SCREENING_FORM, KP_HCW_OVERDOSE_REPORTING_FORM, TB_SCREENING, HTS_INITIAL_TEST,
-		        HTS_CONFIRMATORY_TEST, KP_CLINICAL_VISIT_FORM };
+		        HTS_CONFIRMATORY_TEST, KP_CLINICAL_VISIT_FORM, TB_SCREENING };
 		String programtools[] = new String[] { KP_VIOLENCE_SCREENING_FORM };
 		String commodityTools[] = new String[] {};
 		String summaryReportingTools[] = new String[] {};
