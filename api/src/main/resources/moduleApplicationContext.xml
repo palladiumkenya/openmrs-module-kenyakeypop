@@ -68,6 +68,9 @@
                 <ref bean="kenyakeypop.form.kpTreatmentVerification" />
                 <ref bean="kenyakeypop.form.prepTreatmentVerification" />
                 <ref bean="kenyakeypop.form.genderBasedViolence" />
+                <ref bean="kenyaemr.common.form.tbScreening" />
+
+
 
             </set>
         </property>
@@ -462,6 +465,21 @@
         <property name="icon" value="kenyaui:forms/generic.png" />
         <property name="htmlform" value="kenyakeypop:kpGenderBasedViolence.html" />
         <property name="order" value="201023" />
+    </bean>
+
+    <!-- Clinical Encounter - TB Screening -->
+    <bean id="kenyaemr.common.form.tbScreening" class="org.openmrs.module.kenyacore.form.FormDescriptor">
+        <property name="targetUuid" value="59ed8e62-7f1f-40ae-a2e3-eabe350277ce" />
+        <property name="apps">
+            <set>
+                <ref bean="kenyaemr.app.clinician" />
+                <ref bean="kenyaemr.app.chart" />
+                <ref bean="kenyakeypop.app.keypopulation.provider" />
+            </set>
+        </property>
+        <property name="icon" value="kenyaui:forms/generic.png" />
+        <property name="htmlform" value="kenyaemr:tb/tbScreening.html" />
+        <property name="order" value="200014" />
     </bean>
 
     <!-- Wraps KenyakeypopService methods in DB transactions and OpenMRS interceptors,
