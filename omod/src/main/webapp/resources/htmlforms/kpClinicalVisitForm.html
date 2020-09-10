@@ -755,6 +755,11 @@
                 jq("#selftestDate input").prop("disabled", true);
                 jq('#selftestFrequency input').prop('disabled', true).addClass('disabled');
                 jq('#selftestResults input').prop('disabled', true).addClass('disabled');
+                jq('#confirm_test input').prop('disabled', true).addClass('disabled');
+                jq("#facility input").prop("checked", false);
+                jq("#linktoart input").prop("checked", false);
+                $("#facilitytxt input").val('');
+                $("#linktxt input").val('');
             }
 
         }
@@ -765,22 +770,22 @@
             var confirmationFacility = jq('#facility');
             var linkedART = jq('#linktoart');
             var careFacility = jq('#care_provided');
-            if (tested == 664) {
-                jq("#care_provided input[value=1175]").prop("disabled", false);
-                jq("#care_provided input[value=1175]").prop("checked", true);
-
-                jq('#confirm_test input').prop('disabled', true).addClass('disabled');
-                jq('#facility input').prop('disabled', true).addClass('disabled');
-                jq('#linktoart input').prop('disabled', true).addClass('disabled');
-                clearHiddenSections([careFacility, testConfirmation, confirmationFacility, linkedART]);
-            } else {
-
-                jq("#care_provided input[value=1175]").prop("disabled", true);
+            if (tested == 703) {
+             jq("#care_provided input[value=1175]").prop("disabled", true);
                 jq("#care_provided input[value=1175]").prop("checked", false);
 
                 jq('#confirm_test input').prop('disabled', false).removeClass('disabled');
                 jq('#facility input').prop('disabled', false).removeClass('disabled');
                 jq('#linktoart input').prop('disabled', false).removeClass('disabled');
+                clearHiddenSections([careFacility, testConfirmation, confirmationFacility, linkedART]);
+
+            } else {
+              jq("#care_provided input[value=1175]").prop("disabled", false);
+                jq("#care_provided input[value=1175]").prop("checked", true);
+
+                jq('#confirm_test input').prop('disabled', true).addClass('disabled');
+                jq('#facility input').prop('disabled', true).addClass('disabled');
+                jq('#linktoart input').prop('disabled', true).addClass('disabled');
                 clearHiddenSections([careFacility, testConfirmation, confirmationFacility, linkedART]);
             }
 
@@ -792,8 +797,13 @@
 
                 jq("#care_provided input[value=1175]").prop("disabled", false);
                 jq("#care_provided input[value=1175]").prop("checked", true);
-                jq('#facility input').prop('disabled', false).removeClass('disabled');
+                jq('#facility input').prop('disabled', true).addClass('disabled');
                 jq('#linktoart input').prop('disabled', true).addClass('disabled');
+                jq("#facility input").prop("checked", false);
+                jq("#linktoart input").prop("checked", false);
+                $("#facilitytxt input").val('');
+                $("#linktxt input").val('');
+
                 jq("#linktxt input").prop("disabled", true);
 
                 clearHiddenSections([careFacility]);
@@ -817,6 +827,11 @@
 
                 jq("#care_provided input[value=1175]").prop("disabled", false);
                 jq("#care_provided input[value=1175]").prop("checked", true);
+
+                jq("#facility input").prop("checked", false);
+                jq("#linktoart input").prop("checked", false);
+                $("#facilitytxt input").val('');
+                $("#linktxt input").val('');
 
             }
 
