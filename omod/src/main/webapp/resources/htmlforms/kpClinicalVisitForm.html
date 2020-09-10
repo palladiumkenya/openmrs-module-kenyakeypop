@@ -625,11 +625,11 @@
                 jq("#hiv_selfreported input[value=664]").prop("disabled", true);
                 jq("#hiv_selfreported input[value=664]").prop("checked", false);
             }
-            else if (testSetting == 1402) {
-                jq("#hiv_selfreported input[value=703]").prop("disabled", false);
-                jq("#hiv_selfreported input[value=664]").prop("disabled", false);
-                jq("#hiv_selfreported input[value=1067]").prop("disabled", false);
 
+            else if (testSetting == 1402) {
+                jq("#hiv_selfreported input[value=1067]").prop("checked", true);
+                jq("#hiv_selfreported input[value=1067]").prop("disabled", false);
+                jq('#hiv_selfreported input').prop('disabled', true).addClass('disabled');
             }
             else if (testSetting == 165217) {
                 jq("#hiv_selfreported input[value=703]").prop("disabled", false);
@@ -647,8 +647,9 @@
             var hivTested = jq('#hiv_tested');
             var linkedART = jq('#linked_to_art');
             var careFacility = jq('#care_provided');
+            var testResult = getValue("test_results.value");
 
-            if (selfReportedStatus == 703) {
+            if (selfReportedStatus == 703 || testResult == 703) {
                 jq("#care_provided input[value=1175]").prop("disabled", true);
                 jq("#care_provided input[value=1175]").prop("checked", false);
 
@@ -662,6 +663,9 @@
                 $('#care_and_treatment').find('input:text').val('');
                 $('#care_and_treatment').find("select").prop("selectedIndex", 0).removeClass('disabled');
 
+                jq('#hiv_counselled input').prop('disabled', true).addClass('disabled');
+                jq('#self_tested input').prop('disabled', true).addClass('disabled');
+
                 clearHiddenSections([hivCounselled, testFrequency, receivedResults, testResults, hivTested]);
             }
             if (selfReportedStatus == 1067) {
@@ -673,9 +677,11 @@
                 $('#care_and_treatment').find('*').prop('disabled', true);
                 $('#care_and_treatment').find('input:text').val('');
                 $('#care_and_treatment').find("select").prop("selectedIndex", 0).addClass('disabled');
+                jq('#hiv_counselled input').prop('disabled', false).removeClass('disabled');
 
                 jq("#txtart input").val('');
                 clearHiddenSections([careFacility, hivCounselled, linkedART]);
+                jq('#self_tested input').prop('disabled', false).removeClass('disabled');
             }
             if (selfReportedStatus == 664) {
                 jq('#test_frequency input').prop('disabled', false).removeClass('disabled');
@@ -686,9 +692,11 @@
                 $('#care_and_treatment').find('*').prop('disabled', true);
                 $('#care_and_treatment').find('input:text').val('');
                 $('#care_and_treatment').find("select").prop("selectedIndex", 0).addClass('disabled');
+                jq('#hiv_counselled input').prop('disabled', false).removeClass('disabled');
 
                 jq("#txtart input").val('');
                 clearHiddenSections([careFacility, hivCounselled, linkedART]);
+                jq('#self_tested input').prop('disabled', false).removeClass('disabled');
             }
         }
 
@@ -933,7 +941,14 @@
         var test_resultsChanged = function () {
             $('#pep_prep').find('*').prop('disabled', false);
             var testResult = getValue("test_results.value");
-            if (testResult == 703 || testResult == 138571) {
+
+            if (testResult == 703) {
+                jq("#selftxt input").val('');
+                jq("#selftxt input").prop("disabled", true);
+                jq('#self_tested input').prop('disabled', true).addClass('disabled');
+
+            }
+           else if (testResult == 703 || testResult == 138571) {
                 jq("#linked_to_art input").prop("disabled", false).removeClass('disabled');
                 jq('#care_and_treatment').find("select").prop("selectedIndex", 0).removeClass('disabled');
                 jq('#care_and_treatment').find('*').prop('disabled', false);
@@ -942,6 +957,9 @@
                 $('#pepandprep').find('select').prop('disabled', true);
                 $('#pepandprep').find('input:text').val('');
                 $('#pepandprep').find("select").prop("selectedIndex", 0).addClass('disabled');
+                jq("#selftxt input").prop("disabled", false);
+                jq('#self_tested input').prop('disabled', false).removeClass('disabled');
+
             }
 
 
@@ -958,6 +976,9 @@
                 $('#pepandprep').find('*').prop('disabled', false);
                 $('#pepandprep').find('select').prop('disabled', false);
                 $('#pepandprep').find("select").prop("selectedIndex", 0).removeClass('disabled');
+
+                jq("#selftxt input").prop("disabled", false);
+                jq('#self_tested input').prop('disabled', false).removeClass('disabled');
             }
 
         }
