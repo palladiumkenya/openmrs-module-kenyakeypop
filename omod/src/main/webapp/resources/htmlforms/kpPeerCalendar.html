@@ -45,13 +45,14 @@
         var patientAge = "<lookup expression="patient.age" />";
 
         jQuery(function ($) {
-
+            $('#totals').find('*').attr('readOnly', true);
             jq("#other-hotspots-specify").hide();
             jq('#hotspot-type select').click(onOtherHotspotSelected);
             getField('weekly-condom-requirements.value').change(onWeeklyCondomRequirementsChange);
             getField('weekly-lubes-requirements.value').change(onWeeklyLubesRequirementsChange);
             getField('daily-syringes-requirements.value').change(onDailySyringeRequirementsChange);
 
+            jq('#calculated-monthly-CR input[type=text]').attr("disabled","true");
 
             jq('#calculated-monthly-CR input[type=text]').attr("disabled","true");
             jq('#calculated-monthly-LR input[type=text]').attr("disabled","true");
@@ -204,7 +205,8 @@
 
             var TotalHIVselftestGiven = 0;
             TotalHIVselftestGiven= +week1HIVtestGiven + +week2HIVtestGiven + +week3HIVtestGiven + +week4HIVtestGiven;
-            $('#totaltestGiven input').val(TotalHIVselftestGiven);
+            setValue('totaltestGiven.value', TotalHIVselftestGiven);
+
         }
 
         function MonthlyReceivedClinicalService() {
@@ -907,7 +909,7 @@
             </table>
         </fieldset>
 
-        <fieldset id="totals" disabled="true">
+        <fieldset id="totals" readonly="true" >
             <legend>Peer Calendar Summary</legend>
 
             <table class="simple-table">
@@ -922,7 +924,7 @@
                                 <tr>
                                     <td>
                                         Total N and S distributed :
-                                        <obs conceptId="165341" id="total_ns_distributed"/>
+                                        <obs conceptId="165341" id="total_ns_distributed" readOnly="true"/>
                                     </td>
                                 </tr>
                                 <tr>
@@ -972,7 +974,7 @@
                                 <tr>
                                     <td>
                                         Total HIV self test kits distributed :
-                                        <obs id="totaltestGiven" conceptId="165345"/>
+                                        <obs id="totaltestGiven" conceptId="165345" readOnly="True"/>
 
                                     </td>
                                 </tr>
