@@ -74,6 +74,7 @@
                 getField('vl-date.value').val("");
                 getField('ccc-number.value').val("");
                 getField('care_provided_txt.value').val("");
+                getField('care_provided_dpd.value').val("");
                 getField('receiving-care.value').val("");
             }
         }
@@ -81,16 +82,22 @@
             var val = jq(this).val();
             if(val == 1065){
                 jq("#ccc-number :input").prop('disabled', false);
-                jq("#care_provided_txt :input").prop('disabled', false);
                 jq("#care_provided :input").prop('disabled', false);
+                    jq("#care_provided_dpd").show();
+                 jq("#care_provided_txt").show();
+
             }
             if(val == 1066){
                 getField('ccc-number.value').val("");
                 getField('care_provided_txt.value').val("");
+                getField('care_provided_dpd.value').val("");
                 jq("#ccc-number :input").prop('disabled', true);
                 jq("#care_provided_txt :input").prop('disabled', true);
+                 jq("#care_provided_dpd :input").prop('disabled', true);
                 jq('#care_provided :input').prop('checked', false);
                 jq("#care_provided :input").prop('disabled', true);
+                jq("#care_provided_dpd").hide();
+                 jq("#care_provided_txt").hide();
 
             }
         }
@@ -159,12 +166,19 @@
             var careProvided = getValue("care_provided.value");
             if(careProvided==162723){
                 jq("#care_provided_txt input").val('');
-                jq("#care_provided_txt input").prop("disabled", false);
+                jq("#care_provided_dpd input").val('');
+                jq("#care_provided_dpd").show();
+                jq("#care_provided_txt").hide();
+                jq("#care_provided_dpd :input").prop('disabled', false);
             }
             else if(careProvided==163266){
                 var default_location = "<lookup expression="kenyaemr.location()" />";
                 jq("#care_provided_txt input").val(default_location);
                 jq("#care_provided_txt input").prop("disabled", true);
+                jq("#care_provided_dpd input").val('');
+                jq("#care_provided_dpd :input").prop('disabled', true);
+                 jq("#care_provided_dpd").hide();
+                 jq("#care_provided_txt").show();
 
             }
 
@@ -178,7 +192,8 @@
                 duration: 'fast',
                 stepMonths: 0
             });
-
+            jq("#care_provided_dpd").hide();
+            jq("#care_provided_txt").hide();
             jq("#NonePayingSex").hide();
             jq("#clientphysiaclViolence").hide();
             jq("#historicalPhysicalViolence").hide();
@@ -195,7 +210,6 @@
             jq("#willing-to-test").hide();
             jq("#contact-method").hide();
             jq("#test-decline-reason").hide();
-
             jq('#ever-tested :input[type=radio]').change(everTestedSelected);
             jq('#receiving-care :input[type=radio]').change(receivingCareSelected);
             jq('#vl-test-done :input[type=radio]').change(vlTestDoneSelected);
@@ -482,6 +496,16 @@
                     var shareTestResults = getValue('share-test.value');
                     var willingToTest = getValue('willing-tester.value');
                     var contactForAppointment = getValue('contacted-incase-of-appointment.value');
+                       var careProvided = getValue("care_provided.value");
+                        if(careProvided==162723){
+                            jq("#care_provided_dpd").show();
+                            jq("#care_provided_txt").hide();
+                        }
+                        else if(careProvided==163266){
+                             jq("#care_provided_dpd").hide();
+                             jq("#care_provided_txt").show();
+
+                        }
 
 
                     if(everTested == 1065){
@@ -698,7 +722,9 @@
                     </td>
                     <td  colspan="7"> Facility where care is provided:
                         <obs id="care_provided" conceptId="165239" style="radio" answerConceptIds="163266,162723" answerLabels="Here, Elsewhere"/>
-                        &#160;&#160;&#160;&#160;&#160;&#160;&#160;If elsewhere Specify: <obs id="care_provided_txt" class="remarks" style="location" conceptId="162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+                        <obs id="care_provided_txt" class="remarks"
+                             conceptId="163042AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+                        &#160;&#160;&#160;&#160;&#160;&#160;&#160;If elsewhere Specify: <obs id="care_provided_dpd" class="remarks" style="location" conceptId="162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
                     </td>
                     <td colspan="2" >CCC Number
                         <obs id="ccc-number" conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="17"/>
@@ -742,7 +768,7 @@
                 <tr id ="contact-method">
                     <td>How would you like to be contacted?</td>
                     <td>
-                        <obs conceptId="164966" answerConceptId="161642" answerLabel="Treatment supporter" id="ts-checked" style="checkbox" /> <br />
+                        <obs conceptId="164966" answerConceptId="161642" answerLabel="Treatment buddy" id="ts-checked" style="checkbox" /> <br />
                         <obs conceptId="164966" answerConceptId="165037" answerLabel="Peer educator" id="pe-checked" style="checkbox"/> <br />
                         <obs conceptId="164966" answerConceptId="1555" answerLabel="Outreach worker" style="checkbox"/> <br />
                         <obs conceptId="164966" answerConceptId="159635" answerLabel="Phone number" id="visited-clinic" style="checkbox"/> <br />
