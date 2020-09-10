@@ -152,7 +152,7 @@
             jq("#not-attempted").hide();
             onTrackingAttemptedChange();
 
-			jq('#first_tracing-outcome').click(kpReached);
+			//jq('#first_tracing-outcome').click(kpReached);
 			jq('#first_tracing-outcome').click(kpNotReached);
 			jq("#first_attempt input").change(dateValidations());
 			jq("#encounter-date input").change(dateValidations);
@@ -167,7 +167,19 @@
 			}
 
 		});
+  beforeSubmit.push(function() {
 
+            var attempts = getValue('attempt_number.value');
+            var attempt = parseInt(attempts)
+
+            if ((attempt >3 ) ||( attempt &lt; 1 ) ) {
+             getField('attempt_number.error').html('Should be between 1 and 3.').show();
+             $("#attempt_number input").val('');
+
+                return false;
+            }
+
+        });
 	</script>
 
 	<div class="ke-form-header">
@@ -274,7 +286,7 @@ Cohort register/ peer outreach calendar reviewed and client not lost to follow u
 				<tr>
 					<td>Please specify the attempt number<br/> since last missed appointment (i.e. 1, 2, 3)</td>
 					<td>
-						<obs conceptId="1639AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true"/>
+						<obs conceptId="1639AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true" id="attempt_number"/>
 
                         &#160;&#160;&#160;&#160;
                         Previous attempt number:
