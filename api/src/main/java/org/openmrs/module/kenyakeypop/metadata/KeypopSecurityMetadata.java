@@ -27,11 +27,11 @@ public class KeypopSecurityMetadata extends AbstractMetadataBundle {
 
 	public static final class _Privilege {
 
-		public static final String APP_KP_MODULE_APP = "App: kenyaemrkeypop.home";
+		public static final String KP_MODULE_APP = "App: kenyaemrkeypop.home";
 
-		public static final String APP_KP = "App: kenyakeypop.keypopulation.provider";
+		public static final String KP_PROVIDER_APP = "App: kenyakeypop.keypopulation.provider";
 
-		public static final String PEER_CALENDAR = "App: kenyakeypop.keypopulation.calendar";
+		public static final String PEER_CALENDAR_APP = "App: kenyakeypop.keypopulation.calendar";
 	}
 
 	public static final class _Role {
@@ -48,17 +48,17 @@ public class KeypopSecurityMetadata extends AbstractMetadataBundle {
 	@Override
 	public void install() {
 
-		install(privilege(_Privilege.APP_KP_MODULE_APP, "Able to access Key Population module features"));
-		install(privilege(_Privilege.APP_KP, "Able to access KP APP module features"));
-		install(privilege(_Privilege.PEER_CALENDAR, "Able to access Peer Calendar features"));
+		install(privilege(_Privilege.KP_MODULE_APP, "Able to access Key Population module features"));
+		install(privilege(_Privilege.KP_PROVIDER_APP, "Able to access KP Provider module features"));
+		install(privilege(_Privilege.PEER_CALENDAR_APP, "Able to access Peer Calendar features"));
 
 		install(role(_Role.APPLICATION_KP_MODULE, "Can access Key Population module App",
 				idSet(org.openmrs.module.kenyaemr.metadata.SecurityMetadata._Role.API_PRIVILEGES_VIEW_AND_EDIT),
-				idSet(_Privilege.APP_KP, _Privilege.APP_KP_MODULE_APP, _Privilege.PEER_CALENDAR)));
+				idSet(_Privilege.KP_PROVIDER_APP, _Privilege.KP_MODULE_APP, _Privilege.PEER_CALENDAR_APP)));
 
 		install(role(_Role.PEER_EDUCATOR, "Can access Key Population module App",
 				idSet(org.openmrs.module.kenyaemr.metadata.SecurityMetadata._Role.API_PRIVILEGES_VIEW_AND_EDIT),
-				idSet(_Privilege.APP_KP, _Privilege.APP_KP_MODULE_APP, _Privilege.PEER_CALENDAR)));
+				idSet(_Privilege.KP_PROVIDER_APP, _Privilege.KP_MODULE_APP, _Privilege.PEER_CALENDAR_APP)));
 
 	}
 }
