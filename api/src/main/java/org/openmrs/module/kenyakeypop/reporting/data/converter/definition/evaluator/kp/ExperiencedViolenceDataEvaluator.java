@@ -37,9 +37,8 @@ public class ExperiencedViolenceDataEvaluator implements PersonDataEvaluator {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
 		String qry = "select  c.client_id, coalesce(l.experienced_violence,v.violence_screened) as experienced_violence from kenyaemr_etl.etl_contact c\n"
-		        + "    left join kenyaemr_etl.etl_peer_calendar l on c.client_id = l.client_id\n"
-		        + "    left join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id where (l.visit_date between date(:startDate) and date(:endDate)\n"
-		        + "    or l.visit_date between date(:startDate) and date(:endDate))\n" + "group by c.client_id;";
+		        + "         left join kenyaemr_etl.etl_peer_calendar l on c.client_id = l.client_id\n"
+		        + "         left join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id group by c.client_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");

@@ -37,8 +37,9 @@ public class LubricantRequirementsDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select IFNULL(p.client_id,c.client_id) as client_id, IFNULL(p.monthly_lubes_required,c.avg_weekly_anal_sex_acts*4 ) as monthly_lubes_required from kenyaemr_etl.etl_peer_calendar p left outer join\n"
-		        + "                                                                                                             kenyaemr_etl.etl_contact c on p.client_id = c.client_id group by client_id;";
+		String qry = "select c.client_id as client_id, coalesce(p.monthly_lubes_required,c.avg_weekly_anal_sex_acts*4) as monthly_lubes_required\n"
+		        + "from kenyaemr_etl.etl_contact c left outer join kenyaemr_etl.etl_peer_calendar p\n"
+		        + "         on c.client_id = p.client_id group by c.client_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");

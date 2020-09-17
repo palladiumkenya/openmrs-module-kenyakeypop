@@ -37,8 +37,7 @@ public class NeedlesAndSyringesDistributedDataEvaluator implements PersonDataEva
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select c.client_id as client_id ,coalesce(c.monthly_n_and_s_distributed,0) as monthly_needles_syringes_distributed from kenyaemr_etl.etl_peer_calendar c\n"
-		        + "group by c.client_id;";
+		String qry = "select v.client_id as client_id ,sum(v.syringes_needles_no) as needles_and_syringes_distributed from kenyaemr_etl.etl_clinical_visit v group by v.client_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");

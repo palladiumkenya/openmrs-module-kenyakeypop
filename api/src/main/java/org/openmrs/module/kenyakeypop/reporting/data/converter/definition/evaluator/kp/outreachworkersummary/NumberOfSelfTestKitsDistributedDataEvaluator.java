@@ -21,6 +21,7 @@ import org.openmrs.module.reporting.evaluation.querybuilder.SqlQueryBuilder;
 import org.openmrs.module.reporting.evaluation.service.EvaluationService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -36,8 +37,11 @@ public class NumberOfSelfTestKitsDistributedDataEvaluator implements PersonDataE
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select r.person_a as peer_educator,sum(p.monthly_self_test_kits_distributed) as self_test_kits from openmrs.relationship r inner join kenyaemr_etl.etl_peer_calendar p on r.person_b= p.client_id where r.voided = 0\n"
-		        + "group by peer_educator;";
+		String qry = "select r.person_a as peer_educator,sum(a.monthly_self_test_kits_distributed)+b.monthly_self_test_kits_distributed as monthly_lubes_distributed from relationship r\n"
+		        + "     inner join (select pc.client_id,IFNULL(pc.monthly_self_test_kits_distributed,0) as monthly_self_test_kits_distributed from kenyaemr_etl.etl_peer_calendar pc GROUP BY pc.client_id) a\n"
+		        + "       on r.person_b = a.client_id\n"
+		        + "     inner join (select pc.client_id,IFNULL(pc.monthly_self_test_kits_distributed,0) as monthly_self_test_kits_distributed from kenyaemr_etl.etl_peer_calendar pc GROUP BY pc.client_id) b\n"
+		        + "       on r.person_a = b.client_id where r.voided = 0 group by r.person_a;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);
