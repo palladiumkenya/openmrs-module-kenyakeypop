@@ -20,6 +20,7 @@ import org.openmrs.module.reporting.evaluation.querybuilder.SqlQueryBuilder;
 import org.openmrs.module.reporting.evaluation.service.EvaluationService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -35,8 +36,9 @@ public class NumberAddressedViolenceDataEvaluator implements PersonDataEvaluator
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select r.person_a as peer_educator,count(p.violence_reported) as violence_reported from openmrs.relationship r inner join kenyaemr_etl.etl_peer_calendar p on r.person_b= p.client_id where r.voided = 0\n"
-		        + "and p.violence_reported =\"Yes\" group by peer_educator;";
+		String qry = "select r.person_a as peer_educator,count(a.client_id) from relationship r\n"
+		        + "inner join (select pc.client_id,pc.violence_reported as violence_reported from kenyaemr_etl.etl_peer_calendar pc where pc.violence_reported = 'Yes' group by pc.client_id) a on r.person_b = a.client_id\n"
+		        + "where r.voided = 0 group by r.person_a;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);

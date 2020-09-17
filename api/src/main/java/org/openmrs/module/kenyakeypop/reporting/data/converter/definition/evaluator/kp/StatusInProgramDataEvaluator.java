@@ -38,11 +38,11 @@ public class StatusInProgramDataEvaluator implements PersonDataEvaluator {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
 		String qry = "select r.patient_id,\n"
-		        + "       (case r.dead when 0 then (coalesce(IFNULL((case when timestampdiff(Month,max(date(p.visit_date)),date(:endDate))<=3  then \"A\" when timestampdiff(Month,max(date(p.visit_date)),date(:endDate)) between 4 and 9 then \"DT\"\n"
-		        + "                                                       when timestampdiff(Month,max(date(p.visit_date)),date(:endDate)) > 9 then \"LTFU\" else null end),(case when timestampdiff(Month,max(date(v.visit_date)),date(:endDate))<=3  then \"A\" when timestampdiff(Month,max(date(v.visit_date)),date(:endDate)) between 4 and 9 then \"DT\"\n"
-		        + "                when timestampdiff(Month,max(date(v.visit_date)),date(:endDate)) > 9 then \"LTFU\" else \"\" end)))) when 1 then \"D\" else null end) as status_in_program from kenyaemr_etl.etl_patient_demographics r left join kenyaemr_etl.etl_peer_calendar p on r.patient_id = p.client_id\n"
-		        + "                left join kenyaemr_etl.etl_clinical_visit v\n"
-		        + "                on r.patient_id = v.client_id where p.client_id is not null or v.client_id is not null group by r.patient_id;";
+		        + "(case r.dead when 0 then (coalesce(IFNULL((case when timestampdiff(Month,max(date(p.visit_date)),date(curdate()))<=3  then \"A\" when timestampdiff(Month,max(date(p.visit_date)),date(curdate())) between 4 and 9 then \"DT\"\n"
+		        + "when timestampdiff(Month,max(date(p.visit_date)),date(curdate())) > 9 then \"LTFU\" else null end),(case when timestampdiff(Month,max(date(v.visit_date)),date(curdate()))<=3  then \"A\" when timestampdiff(Month,max(date(v.visit_date)),date(curdate())) between 4 and 9 then \"DT\"\n"
+		        + "when timestampdiff(Month,max(date(v.visit_date)),date(curdate())) > 9 then \"LTFU\" else \"\" end)))) when 1 then \"D\" else null end) as status_in_program from kenyaemr_etl.etl_patient_demographics r left join kenyaemr_etl.etl_peer_calendar p on r.patient_id = p.client_id\n"
+		        + "left join kenyaemr_etl.etl_clinical_visit v\n"
+		        + "on r.patient_id = v.client_id where p.client_id is not null or v.client_id is not null group by r.patient_id;\n";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");

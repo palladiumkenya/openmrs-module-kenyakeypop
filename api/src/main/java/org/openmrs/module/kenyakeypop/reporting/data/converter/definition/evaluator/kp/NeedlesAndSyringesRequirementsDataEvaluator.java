@@ -37,8 +37,9 @@ public class NeedlesAndSyringesRequirementsDataEvaluator implements PersonDataEv
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select IFNULL(p.client_id,c.client_id) as client_id, IFNULL(p.monthly_syringes_required,c.avg_daily_drug_injections*28 ) as monthly_syringes_required from kenyaemr_etl.etl_peer_calendar p left outer join\n"
-		        + "                                                                                                             kenyaemr_etl.etl_contact c on p.client_id = c.client_id group by client_id;";
+		String qry = "select c.client_id as client_id, coalesce(p.monthly_syringes_required,c.avg_daily_drug_injections*30) as monthly_ns_required\n"
+		        + "from kenyaemr_etl.etl_contact c left outer join kenyaemr_etl.etl_peer_calendar p\n"
+		        + "         on c.client_id = p.client_id group by c.client_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");

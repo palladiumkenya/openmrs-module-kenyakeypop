@@ -20,6 +20,7 @@ import org.openmrs.module.reporting.evaluation.querybuilder.SqlQueryBuilder;
 import org.openmrs.module.reporting.evaluation.service.EvaluationService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -35,9 +36,11 @@ public class CondomRequirementsPerMonthDataEvaluator implements PersonDataEvalua
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select r.person_a as peer_educator,sum(p.monthly_condoms_required) as received_peer_edu from openmrs.relationship r inner join kenyaemr_etl.etl_peer_calendar p on r.person_b= p.client_id where r.voided = 0\n"
-		        + "group by peer_educator;\n";
-		
+		String qry = "select r.person_a as peer_educator,(sum(a.monthly_condoms_required)+b.monthly_condoms_required) as monthly_condoms_required from relationship r\n"
+		        + "inner join (select pc.client_id aClient ,IFNULL(pc.monthly_condoms_required,0) as monthly_condoms_required from kenyaemr_etl.etl_peer_calendar pc GROUP BY aClient) a\n"
+		        + "on r.person_b = a.aClient\n"
+		        + "inner join (select pc.client_id bClient,IFNULL(pc.monthly_condoms_required,0) as monthly_condoms_required from kenyaemr_etl.etl_peer_calendar pc GROUP BY bClient) b\n"
+		        + "on r.person_a = b.bClient where r.voided = 0 group by r.person_a;";
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);
 		Map<Integer, Object> data = evaluationService.evaluateToMap(queryBuilder, Integer.class, Object.class, context);

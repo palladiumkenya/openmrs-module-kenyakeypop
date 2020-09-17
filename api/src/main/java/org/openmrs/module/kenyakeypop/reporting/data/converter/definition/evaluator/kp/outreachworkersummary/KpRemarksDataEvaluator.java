@@ -20,6 +20,7 @@ import org.openmrs.module.reporting.evaluation.querybuilder.SqlQueryBuilder;
 import org.openmrs.module.reporting.evaluation.service.EvaluationService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -35,7 +36,7 @@ public class KpRemarksDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select r.person_a as peer_educator,p.remarks as remarks from openmrs.relationship r inner join kenyaemr_etl.etl_peer_calendar p on r.person_b= p.client_id where r.voided = 0\n"
+		String qry = "select r.person_a as peer_educator,p.remarks as remarks from relationship r inner join kenyaemr_etl.etl_peer_calendar p on r.person_b= p.client_id where r.voided = 0\n"
 		        + "group by peer_educator;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();

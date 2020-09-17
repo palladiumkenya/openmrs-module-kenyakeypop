@@ -20,6 +20,7 @@ import org.openmrs.module.reporting.evaluation.querybuilder.SqlQueryBuilder;
 import org.openmrs.module.reporting.evaluation.service.EvaluationService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -35,8 +36,9 @@ public class NumberOfPeersUnderPEDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select r.person_a as peer_educator,count(p.client_id) as number_of_peers from openmrs.relationship r inner join kenyaemr_etl.etl_peer_calendar p on r.person_b= p.client_id where r.voided = 0\n"
-		        + "group by r.person_a;";
+		String qry = "select r.person_a as peer_educator,count(a.client_id) from relationship r\n"
+		        + "inner join (select pc.client_id from kenyaemr_etl.etl_peer_calendar pc group by pc.client_id) a on r.person_b = a.client_id\n"
+		        + "where r.voided = 0 group by r.person_a;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);

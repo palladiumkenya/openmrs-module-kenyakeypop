@@ -36,7 +36,7 @@ public class VLDoneDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select v.client_id,v.vl_test_done from kenyaemr_etl.etl_clinical_visit v group by v.client_id having max(date(v.visit_date)) between date(:startDate) and date(:endDate);";
+		String qry = "select v.client_id,v.vl_test_done from kenyaemr_etl.etl_clinical_visit v group by v.client_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");

@@ -20,6 +20,7 @@ import org.openmrs.module.reporting.evaluation.querybuilder.SqlQueryBuilder;
 import org.openmrs.module.reporting.evaluation.service.EvaluationService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -35,7 +36,7 @@ public class OutreachWorkerSerialNumberDataEvaluator implements PersonDataEvalua
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select c.client_id,c.client_id from kenyaemr_etl.etl_contact c;";
+		String qry = "select c.client_id,c.client_id from kenyaemr_etl.etl_contact c inner join kenyaemr_etl.etl_peer_calendar p on c.client_id = p.client_id group by c.client_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);
