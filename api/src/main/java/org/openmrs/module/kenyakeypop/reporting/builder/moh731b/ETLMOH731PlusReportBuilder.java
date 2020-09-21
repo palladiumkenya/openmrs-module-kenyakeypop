@@ -98,12 +98,10 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		EmrReportingUtils.addRow(cohortDsd, "Active_PWUD", "Active PWUD",
 		    ReportUtils.map(moh731bIndicators.activePwud(), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Active_Transman", "Active Transman",
-		    ReportUtils.map(moh731bIndicators.activeTransman(), indParams), kpAgeDisaggregation,
+		EmrReportingUtils.addRow(cohortDsd, "Active_Transgender", "Active Transgender",
+		    ReportUtils.map(moh731bIndicators.activeTransgender(), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Active_Transwoman", "Active Transwoman",
-		    ReportUtils.map(moh731bIndicators.activeTranswoman(), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04", "05"));
+		
 		EmrReportingUtils.addRow(cohortDsd, "Tested_FSW", "Tested FSW",
 		    ReportUtils.map(moh731bIndicators.hivTestedFsw(), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -119,11 +117,8 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		EmrReportingUtils.addRow(cohortDsd, "Tested_PWUD", "Tested PWUD",
 		    ReportUtils.map(moh731bIndicators.hivTestedPwud(), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Tested_Transman", "Tested Transman",
-		    ReportUtils.map(moh731bIndicators.hivTestedTransman(), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Tested_Transwoman", "Tested Transwoman",
-		    ReportUtils.map(moh731bIndicators.hivTestedTranswoman(), indParams), kpAgeDisaggregation,
+		EmrReportingUtils.addRow(cohortDsd, "Tested_Transgender", "Tested Transgender",
+		    ReportUtils.map(moh731bIndicators.hivTestedTransgender(), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
 		cohortDsd.addColumn("Tested_Facility_FSW", "Tested Facility Fsw",
@@ -136,10 +131,9 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.testedAtFacilityPwid(), indParams), "");
 		cohortDsd.addColumn("Tested_Facility_PWUD", "Tested Facility Pwud",
 		    ReportUtils.map(moh731bIndicators.testedAtFacilityPwud(), indParams), "");
-		cohortDsd.addColumn("Tested_Facility_Transman", "Tested Facility Transman",
-		    ReportUtils.map(moh731bIndicators.testedAtFacilityTransman(), indParams), "");
-		cohortDsd.addColumn("Tested_Facility_Transwoman", "Tested Facility Transwoman",
-		    ReportUtils.map(moh731bIndicators.testedAtFacilityTranswoman(), indParams), "");
+		cohortDsd.addColumn("Tested_Facility_Transgender", "Tested Facility Transgender",
+		    ReportUtils.map(moh731bIndicators.testedAtFacilityTransgender(), indParams), "");
+		
 		cohortDsd.addColumn("Tested_Community_FSW", "Tested Community Fsw",
 		    ReportUtils.map(moh731bIndicators.testedAtCommunityFsw(), indParams), "");
 		cohortDsd.addColumn("Tested_Community_MSM", "Tested Community Msm",
@@ -150,10 +144,9 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.testedAtCommunityPwid(), indParams), "");
 		cohortDsd.addColumn("Tested_Community_PWUD", "Tested Community Pwud",
 		    ReportUtils.map(moh731bIndicators.testedAtCommunityPwud(), indParams), "");
-		cohortDsd.addColumn("Tested_Community_Transman", "Tested Community Transman",
-		    ReportUtils.map(moh731bIndicators.testedAtCommunityTransman(), indParams), "");
-		cohortDsd.addColumn("Tested_Community_Transwoman", "Tested Community Transwoman",
-		    ReportUtils.map(moh731bIndicators.testedAtCommunityTranswoman(), indParams), "");
+		cohortDsd.addColumn("Tested_Community_Transgender", "Tested Community Transgender",
+		    ReportUtils.map(moh731bIndicators.testedAtCommunityTransgender(), indParams), "");
+		
 		cohortDsd.addColumn("Tested_New_FSW", "Tested New Fsw",
 		    ReportUtils.map(moh731bIndicators.testedNewFsw(), indParams), "");
 		cohortDsd.addColumn("Tested_New_MSM", "Tested New Msm",
@@ -164,10 +157,9 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.testedNewPwid(), indParams), "");
 		cohortDsd.addColumn("Tested_New_PWUD", "Tested New Pwud",
 		    ReportUtils.map(moh731bIndicators.testedNewPwud(), indParams), "");
-		cohortDsd.addColumn("Tested_New_Transman", "Tested New Transman",
-		    ReportUtils.map(moh731bIndicators.testedAtNewTransman(), indParams), "");
-		cohortDsd.addColumn("Tested_New_Transwoman", "Tested New Transwoman",
-		    ReportUtils.map(moh731bIndicators.testedAtNewTranswoman(), indParams), "");
+		cohortDsd.addColumn("Tested_New_Transgender", "Tested New Transgender",
+		    ReportUtils.map(moh731bIndicators.testedAtNewTransgender(), indParams), "");
+		
 		cohortDsd.addColumn("Tested_Repeat_FSW", "Tested Repeat Fsw",
 		    ReportUtils.map(moh731bIndicators.testedRepeatFsw(), indParams), "");
 		cohortDsd.addColumn("Tested_Repeat_MSM", "Tested Repeat Msm",
@@ -178,10 +170,9 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.testedRepeatPwid(), indParams), "");
 		cohortDsd.addColumn("Tested_Repeat_PWUD", "Tested Repeat Pwud",
 		    ReportUtils.map(moh731bIndicators.testedRepeatPwud(), indParams), "");
-		cohortDsd.addColumn("Tested_Repeat_Transman", "Tested Repeat Transman",
-		    ReportUtils.map(moh731bIndicators.testedRepeatTransman(), indParams), "");
-		cohortDsd.addColumn("Tested_Repeat_Transwoman", "Tested Repeat Transwoman",
-		    ReportUtils.map(moh731bIndicators.testedRepeatTranswoman(), indParams), "");
+		cohortDsd.addColumn("Tested_Repeat_Transgender", "Tested Repeat Transgender",
+		    ReportUtils.map(moh731bIndicators.testedRepeatTransgender(), indParams), "");
+		
 		cohortDsd.addColumn("Known_Positive_FSW", "Known Positive Fsw",
 		    ReportUtils.map(moh731bIndicators.knownPositiveFsw(), indParams), "");
 		cohortDsd.addColumn("Known_Positive_MSM", "Known Positive Msm",
@@ -192,10 +183,8 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.knownPositivePwid(), indParams), "");
 		cohortDsd.addColumn("Known_Positive_PWUD", "Known Positive Pwud",
 		    ReportUtils.map(moh731bIndicators.knownPositivePwud(), indParams), "");
-		cohortDsd.addColumn("Known_Positive_Transman", "Known Positive Transman",
-		    ReportUtils.map(moh731bIndicators.knownPositiveTransman(), indParams), "");
-		cohortDsd.addColumn("Known_Positive_Transwoman", "Known Positive Transwoman",
-		    ReportUtils.map(moh731bIndicators.knownPositiveTranswoman(), indParams), "");
+		cohortDsd.addColumn("Known_Positive_Transgender", "Known Positive Transgender",
+		    ReportUtils.map(moh731bIndicators.knownPositiveTransgender(), indParams), "");
 		
 		EmrReportingUtils.addRow(cohortDsd, "Received_Positive_Results_FSW", "Received Positive Results Fsw",
 		    ReportUtils.map(moh731bIndicators.receivedPositiveResultsFsw(), indParams), kpAgeDisaggregation,
@@ -212,11 +201,9 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		EmrReportingUtils.addRow(cohortDsd, "Received_Positive_Results_PWUD", "Received Positive Results Pwud",
 		    ReportUtils.map(moh731bIndicators.receivedPositiveResultsPwud(), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Received_Positive_Results_Transman", "Received Positive Results Transman",
-		    ReportUtils.map(moh731bIndicators.receivedPositiveResultsTransman(), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Received_Positive_Results_Transwoman", "Received Positive Results Transwoman",
-		    ReportUtils.map(moh731bIndicators.receivedPositiveResultsTranswoman(), indParams), kpAgeDisaggregation,
+		EmrReportingUtils.addRow(cohortDsd, "Received_Positive_Results_Transgender",
+		    "Received Positive Results Transgender",
+		    ReportUtils.map(moh731bIndicators.receivedPositiveResultsTransgender(), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
 		EmrReportingUtils.addRow(cohortDsd, "Linked_FSW", "HIV+ 3 Months ago and Linked Fsw",
@@ -234,11 +221,8 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		EmrReportingUtils.addRow(cohortDsd, "Linked_PWUD", "HIV+ 3 Months ago and Linked Pwud",
 		    ReportUtils.map(moh731bIndicators.linkedPwud(), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Linked_Transman", "HIV+ 3 Months ago and Linked Transman",
-		    ReportUtils.map(moh731bIndicators.linkedTransman(), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Linked_Transwoman", "HIV+ 3 Months ago and Linked Transwoman",
-		    ReportUtils.map(moh731bIndicators.linkedTranswoman(), indParams), kpAgeDisaggregation,
+		EmrReportingUtils.addRow(cohortDsd, "Linked_Transgender", "HIV+ 3 Months ago and Linked Transgender",
+		    ReportUtils.map(moh731bIndicators.linkedTransgender(), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
 		cohortDsd.addColumn("Receiving_Condoms_FSW", "Receiving Condoms Fsw",
@@ -251,10 +235,8 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.receivingCondomsPwid(), indParams), "");
 		cohortDsd.addColumn("Receiving_Condoms_PWUD", "Receiving Condoms Pwud",
 		    ReportUtils.map(moh731bIndicators.receivingCondomsPwud(), indParams), "");
-		cohortDsd.addColumn("Receiving_Condoms_Transman", "Receiving Condoms Transman",
-		    ReportUtils.map(moh731bIndicators.receivingCondomsTransman(), indParams), "");
-		cohortDsd.addColumn("Receiving_Condoms_Transwoman", "Receiving Condoms Transwoman",
-		    ReportUtils.map(moh731bIndicators.receivingCondomsTranswoman(), indParams), "");
+		cohortDsd.addColumn("Receiving_Condoms_Transgender", "Receiving Condoms Transgender",
+		    ReportUtils.map(moh731bIndicators.receivingCondomsTransgender(), indParams), "");
 		
 		cohortDsd.addColumn("Receiving_Condoms_Per_Need_FSW", "Receiving Condoms Per need Fsw",
 		    ReportUtils.map(moh731bIndicators.receivingCondomsPerNeedPerNeedFsw(), indParams), "");
@@ -266,10 +248,8 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.receivingCondomsPerNeedPwid(), indParams), "");
 		cohortDsd.addColumn("Receiving_Condoms_Per_Need_PWUD", "Receiving Condoms Per need Pwud",
 		    ReportUtils.map(moh731bIndicators.receivingCondomsPerNeedPwud(), indParams), "");
-		cohortDsd.addColumn("Receiving_Condoms_Per_Need_Transman", "Receiving Condoms Per need Transman",
-		    ReportUtils.map(moh731bIndicators.receivingCondomsPerNeedTransman(), indParams), "");
-		cohortDsd.addColumn("Receiving_Condoms_Per_Need_Transwoman", "Receiving Condoms Per need Transwoman",
-		    ReportUtils.map(moh731bIndicators.receivingCondomsPerNeedTranswoman(), indParams), "");
+		cohortDsd.addColumn("Receiving_Condoms_Per_Need_Transgender", "Receiving Condoms Per need Transgender",
+		    ReportUtils.map(moh731bIndicators.receivingCondomsPerNeedTransgender(), indParams), "");
 		
 		cohortDsd.addColumn("Receiving_Needles_and_Syringes_FSW", "Receiving needles and syringes Fsw",
 		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringesFsw(), indParams), "");
@@ -281,10 +261,8 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringesPwid(), indParams), "");
 		cohortDsd.addColumn("Receiving_Needles_and_Syringes_PWUD", "Receiving needles and syringes Pwud",
 		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringesPwud(), indParams), "");
-		cohortDsd.addColumn("Receiving_Needles_and_Syringes_Transman", "Receiving needles and syringes Transman",
-		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringesTransman(), indParams), "");
-		cohortDsd.addColumn("Receiving_Needles_and_Syringes_Transwoman", "Receiving needles and syringes Transwoman",
-		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringesTranswoman(), indParams), "");
+		cohortDsd.addColumn("Receiving_Needles_and_Syringes_Transgender", "Receiving needles and syringes Transgender",
+		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringesTransgender(), indParams), "");
 		
 		cohortDsd.addColumn("Receiving_Needles_and_Syringes_Per_Need_FSW", "Receiving needs & syringes per need Fsw",
 		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringesPerNeedFsw(), indParams), "");
@@ -296,12 +274,9 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringesPerNeedPwid(), indParams), "");
 		cohortDsd.addColumn("Receiving_Needles_and_Syringes_Per_Need_PWUD", "Receiving needs & syringes per need Pwud",
 		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringesPerNeedPwud(), indParams), "");
-		cohortDsd.addColumn("Receiving_Needles_and_Syringes_Per_Need_Transman",
-		    "Receiving needs & syringes per need Transman",
-		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringesPerNeedTransman(), indParams), "");
-		cohortDsd.addColumn("Receiving_Needles_and_Syringes_Per_Need_Transwoman",
-		    "Receiving needs & syringes per need Transwoman",
-		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringesPerNeedTranswoman(), indParams), "");
+		cohortDsd.addColumn("Receiving_Needles_and_Syringes_Per_Need_Transgender",
+		    "Receiving needs & syringes per need Transgender",
+		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringesPerNeedTransgender(), indParams), "");
 		
 		cohortDsd.addColumn("Receiving_Lubricants_FSW", "Receiving Lubricants Fsw",
 		    ReportUtils.map(moh731bIndicators.receivingLubricantsFsw(), indParams), "");
@@ -313,10 +288,8 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.receivingLubricantsPwid(), indParams), "");
 		cohortDsd.addColumn("Receiving_Lubricants_PWUD", "Receiving Lubricants Pwud",
 		    ReportUtils.map(moh731bIndicators.receivingLubricantsPwud(), indParams), "");
-		cohortDsd.addColumn("Receiving_Lubricants_Transman", "Receiving Lubricants Transman",
-		    ReportUtils.map(moh731bIndicators.receivingLubricantsTransman(), indParams), "");
-		cohortDsd.addColumn("Receiving_Lubricants_Transwoman", "Receiving Lubricants Transwoman",
-		    ReportUtils.map(moh731bIndicators.receivingLubricantsTranswoman(), indParams), "");
+		cohortDsd.addColumn("Receiving_Lubricants_Transgender", "Receiving Lubricants Transgender",
+		    ReportUtils.map(moh731bIndicators.receivingLubricantsTransgender(), indParams), "");
 		
 		cohortDsd.addColumn("Receiving_Lubricants_Per_Need_FSW", "Receiving Lubricants Per Need Fsw",
 		    ReportUtils.map(moh731bIndicators.receivingLubricantsPerNeedFsw(), indParams), "");
@@ -328,10 +301,8 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.receivingLubricantsPerNeedPwid(), indParams), "");
 		cohortDsd.addColumn("Receiving_Lubricants_Per_Need_PWUD", "Receiving Lubricants Per Need Pwud",
 		    ReportUtils.map(moh731bIndicators.receivingLubricantsPerNeedPwud(), indParams), "");
-		cohortDsd.addColumn("Receiving_Lubricants_Per_Need_Transman", "Receiving Lubricants Per Need Transman",
-		    ReportUtils.map(moh731bIndicators.receivingLubricantsPerNeedTransman(), indParams), "");
-		cohortDsd.addColumn("Receiving_Lubricants_Per_Need_Transwoman", "Receiving Lubricants Per Need Transwoman",
-		    ReportUtils.map(moh731bIndicators.receivingLubricantsPerNeedTranswoman(), indParams), "");
+		cohortDsd.addColumn("Receiving_Lubricants_Per_Need_Transgender", "Receiving Lubricants Per Need Transgender",
+		    ReportUtils.map(moh731bIndicators.receivingLubricantsPerNeedTransgender(), indParams), "");
 		
 		cohortDsd.addColumn("STI_Screening_FSW", "STI Screening Fsw",
 		    ReportUtils.map(moh731bIndicators.screenedForSTIFsw(), indParams), "");
@@ -343,10 +314,8 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.screenedForSTIPwid(), indParams), "");
 		cohortDsd.addColumn("STI_Screening_PWUD", "STI Screening Pwud",
 		    ReportUtils.map(moh731bIndicators.screenedForSTIPwud(), indParams), "");
-		cohortDsd.addColumn("STI_Screening_Transman", "STI Screening Transman",
-		    ReportUtils.map(moh731bIndicators.screenedForSTITransman(), indParams), "");
-		cohortDsd.addColumn("STI_Screening_Transwoman", "STI Screening Transwoman",
-		    ReportUtils.map(moh731bIndicators.screenedForSTITranswoman(), indParams), "");
+		cohortDsd.addColumn("STI_Screening_Transgender", "STI Screening Transgender",
+		    ReportUtils.map(moh731bIndicators.screenedForSTITransgender(), indParams), "");
 		
 		cohortDsd.addColumn("Screened_HCV_FSW", "HCV Screening Fsw",
 		    ReportUtils.map(moh731bIndicators.screenedForHCVFsw(), indParams), "");
@@ -358,10 +327,8 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.screenedForHCVPwid(), indParams), "");
 		cohortDsd.addColumn("Screened_HCV_PWUD", "HCV Screening Pwud",
 		    ReportUtils.map(moh731bIndicators.screenedForHCVPwud(), indParams), "");
-		cohortDsd.addColumn("Screened_HCV_Transman", "HCV Screening Transman",
-		    ReportUtils.map(moh731bIndicators.screenedForHCVTransman(), indParams), "");
-		cohortDsd.addColumn("Screened_HCV_Transwoman", "HCV Screening Transwoman",
-		    ReportUtils.map(moh731bIndicators.screenedForHCVTranswoman(), indParams), "");
+		cohortDsd.addColumn("Screened_HCV_Transgender", "HCV Screening Transgender",
+		    ReportUtils.map(moh731bIndicators.screenedForHCVTransgender(), indParams), "");
 		
 		cohortDsd.addColumn("Screened_HBV_FSW", "HBV Screening Fsw",
 		    ReportUtils.map(moh731bIndicators.screenedForHBVFsw(), indParams), "");
@@ -373,10 +340,8 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.screenedForHBVPwid(), indParams), "");
 		cohortDsd.addColumn("Screened_HBV_PWUD", "HBV Screening Pwud",
 		    ReportUtils.map(moh731bIndicators.screenedForHBVPwud(), indParams), "");
-		cohortDsd.addColumn("Screened_HBV_Transman", "HBV Screening Transman",
-		    ReportUtils.map(moh731bIndicators.screenedForHBVTransman(), indParams), "");
-		cohortDsd.addColumn("Screened_HBV_Transwoman", "HBV Screening Transwoman",
-		    ReportUtils.map(moh731bIndicators.screenedForHBVTranswoman(), indParams), "");
+		cohortDsd.addColumn("Screened_HBV_Transgender", "HBV Screening Transgender",
+		    ReportUtils.map(moh731bIndicators.screenedForHBVTransgender(), indParams), "");
 		
 		cohortDsd.addColumn("Positive_HBV_FSW", "HBV Positive Fsw",
 		    ReportUtils.map(moh731bIndicators.positiveHBVFsw(), indParams), "");
@@ -388,10 +353,8 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.positiveHBVPwid(), indParams), "");
 		cohortDsd.addColumn("Positive_HBV_PWUD", "HBV Positive Pwud",
 		    ReportUtils.map(moh731bIndicators.positiveHBVPwud(), indParams), "");
-		cohortDsd.addColumn("Positive_HBV_Transman", "HBV Positive Transman",
-		    ReportUtils.map(moh731bIndicators.positiveHBVTransman(), indParams), "");
-		cohortDsd.addColumn("Positive_HBV_Transwoman", "HBV Positive Transwoman",
-		    ReportUtils.map(moh731bIndicators.positiveHBVTranswoman(), indParams), "");
+		cohortDsd.addColumn("Positive_HBV_Transgender", "HBV Positive Transgender",
+		    ReportUtils.map(moh731bIndicators.positiveHBVTransgender(), indParams), "");
 		
 		cohortDsd.addColumn("Treated_HBV_FSW", "HBV Treated Fsw",
 		    ReportUtils.map(moh731bIndicators.treatedHBVFsw(), indParams), "");
@@ -403,10 +366,8 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.treatedHBVPwid(), indParams), "");
 		cohortDsd.addColumn("Treated_HBV_PWUD", "HBV Treated Pwud",
 		    ReportUtils.map(moh731bIndicators.treatedHBVPwud(), indParams), "");
-		cohortDsd.addColumn("Treated_HBV_Transman", "HBV Treated Transman",
-		    ReportUtils.map(moh731bIndicators.treatedHBVTransman(), indParams), "");
-		cohortDsd.addColumn("Treated_HBV_Transwoman", "HBV Treated Transwoman",
-		    ReportUtils.map(moh731bIndicators.treatedHBVTranswoman(), indParams), "");
+		cohortDsd.addColumn("Treated_HBV_Transgender", "HBV Treated Transgender",
+		    ReportUtils.map(moh731bIndicators.treatedHBVTransgender(), indParams), "");
 		
 		/*   cohortDsd.addColumn("NegativeHBV_Vaccinated_FSW", "Negative HBV Vaccinated Fsw", ReportUtils.map(moh731bIndicators.negativeHBVVaccinatedFsw(), indParams),"");
 		   cohortDsd.addColumn("NegativeHBV_Vaccinated_MSM", "Negative HBV Vaccinated Msm", ReportUtils.map(moh731bIndicators.negativeHBVVaccinatedMsm(), indParams),"");
@@ -425,10 +386,8 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.screenedTBPwid(), indParams), "");
 		cohortDsd.addColumn("Screened_TB_PWUD", "Screened TB Pwud",
 		    ReportUtils.map(moh731bIndicators.screenedTBPwud(), indParams), "");
-		cohortDsd.addColumn("Screened_TB_Transman", "Screened TB Transman",
-		    ReportUtils.map(moh731bIndicators.screenedTBTransman(), indParams), "");
-		cohortDsd.addColumn("Screened_TB_Transwoman", "Screened TB Transwoman",
-		    ReportUtils.map(moh731bIndicators.screenedTBTranswoman(), indParams), "");
+		cohortDsd.addColumn("Screened_TB_Transgender", "Screened TB Transgender",
+		    ReportUtils.map(moh731bIndicators.screenedTBTransgender(), indParams), "");
 		
 		cohortDsd.addColumn("Diagnosed_TB_FSW", "Diagnosed TB Fsw",
 		    ReportUtils.map(moh731bIndicators.diagnosedTBFsw(), indParams), "");
@@ -440,10 +399,8 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.diagnosedTBPwid(), indParams), "");
 		cohortDsd.addColumn("Diagnosed_TB_PWUD", "Diagnosed TB Pwud",
 		    ReportUtils.map(moh731bIndicators.diagnosedTBPwud(), indParams), "");
-		cohortDsd.addColumn("Diagnosed_TB_Transman", "Diagnosed TB Transman",
-		    ReportUtils.map(moh731bIndicators.diagnosedTBTransman(), indParams), "");
-		cohortDsd.addColumn("Diagnosed_TB_Transwoman", "Diagnosed TB Transwoman",
-		    ReportUtils.map(moh731bIndicators.diagnosedTBTranswoman(), indParams), "");
+		cohortDsd.addColumn("Diagnosed_TB_Transgender", "Diagnosed TB Transgender",
+		    ReportUtils.map(moh731bIndicators.diagnosedTBTransgender(), indParams), "");
 		
 		cohortDsd.addColumn("Started_on_TB_TX_FSW", "Started on TB TX Fsw",
 		    ReportUtils.map(moh731bIndicators.startedOnTBTxFsw(), indParams), "");
@@ -455,10 +412,8 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.startedOnTBTxPwid(), indParams), "");
 		cohortDsd.addColumn("Started_on_TB_TX_PWUD", "Started on TB TX Pwud",
 		    ReportUtils.map(moh731bIndicators.startedOnTBTxPwud(), indParams), "");
-		cohortDsd.addColumn("Started_on_TB_TX_Transman", "Started on TB TX Transman",
-		    ReportUtils.map(moh731bIndicators.startedOnTBTxTransman(), indParams), "");
-		cohortDsd.addColumn("Started_on_TB_TX_Transwoman", "Started on TB TX Transwoman",
-		    ReportUtils.map(moh731bIndicators.startedOnTBTxTranswoman(), indParams), "");
+		cohortDsd.addColumn("Started_on_TB_TX_Transgender", "Started on TB TX Transgender",
+		    ReportUtils.map(moh731bIndicators.startedOnTBTxTransgender(), indParams), "");
 		
 		cohortDsd.addColumn("TB_Clients_on_HAART_FSW", "TB Clients on HAART TX Fsw",
 		    ReportUtils.map(moh731bIndicators.tbClientsOnHAARTFsw(), indParams), "");
@@ -470,10 +425,8 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.tbClientsOnHAARTPwid(), indParams), "");
 		cohortDsd.addColumn("TB_Clients_on_HAART_PWUD", "TB Clients on HAART TX Pwud",
 		    ReportUtils.map(moh731bIndicators.tbClientsOnHAARTPwud(), indParams), "");
-		cohortDsd.addColumn("TB_Clients_on_HAART_Transman", "TB Clients on HAART TX Transman",
-		    ReportUtils.map(moh731bIndicators.tbClientsOnHAARTTransman(), indParams), "");
-		cohortDsd.addColumn("TB_Clients_on_HAART_Transwoman", "TB Clients on HAART TX Transwoman",
-		    ReportUtils.map(moh731bIndicators.tbClientsOnHAARTTranswoman(), indParams), "");
+		cohortDsd.addColumn("TB_Clients_on_HAART_Transgender", "TB Clients on HAART TX Transgender",
+		    ReportUtils.map(moh731bIndicators.tbClientsOnHAARTTransgender(), indParams), "");
 		
 		cohortDsd.addColumn("Initiated_PrEP_FSW", "Initiated PrEP Fsw",
 		    ReportUtils.map(moh731bIndicators.initiatedPrEPFsw(), indParams), "");
@@ -485,10 +438,8 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.initiatedPrEPPwid(), indParams), "");
 		cohortDsd.addColumn("Initiated_PrEP_PWUD", "Initiated PrEP Pwud",
 		    ReportUtils.map(moh731bIndicators.initiatedPrEPPwud(), indParams), "");
-		cohortDsd.addColumn("Initiated_PrEP_Transman", "Initiated PrEP Transman",
-		    ReportUtils.map(moh731bIndicators.initiatedPrEPTransman(), indParams), "");
-		cohortDsd.addColumn("Initiated_PrEP_Transwoman", "Initiated PrEP Transwoman",
-		    ReportUtils.map(moh731bIndicators.initiatedPrEPTranswoman(), indParams), "");
+		cohortDsd.addColumn("Initiated_PrEP_Transgender", "Initiated PrEP Transgender",
+		    ReportUtils.map(moh731bIndicators.initiatedPrEPTransgender(), indParams), "");
 		
 		cohortDsd.addColumn("Current_on_PrEP_FSW", "Current on PrEP Fsw",
 		    ReportUtils.map(moh731bIndicators.currentOnPrEPFsw(), indParams), "");
@@ -500,10 +451,8 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.currentOnPrEPPwid(), indParams), "");
 		cohortDsd.addColumn("Current_on_PrEP_PWUD", "Current on PrEP Pwud",
 		    ReportUtils.map(moh731bIndicators.currentOnPrEPPwud(), indParams), "");
-		cohortDsd.addColumn("Current_on_PrEP_Transman", "Current on PrEP Transman",
-		    ReportUtils.map(moh731bIndicators.currentOnPrEPTransman(), indParams), "");
-		cohortDsd.addColumn("Current_on_PrEP_Transwoman", "Current on PrEP Transwoman",
-		    ReportUtils.map(moh731bIndicators.currentOnPrEPTranswoman(), indParams), "");
+		cohortDsd.addColumn("Current_on_PrEP_Transgender", "Current on PrEP Transgender",
+		    ReportUtils.map(moh731bIndicators.currentOnPrEPTransgender(), indParams), "");
 		
 		cohortDsd.addColumn("Turning_Positive_While_On_FSW", "Turning HIV+ While on PrEP Fsw",
 		    ReportUtils.map(moh731bIndicators.turningPositiveWhileOnPrEPFsw(), indParams), "");
@@ -515,10 +464,8 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.turningPositiveWhileOnPrEPPwid(), indParams), "");
 		cohortDsd.addColumn("Turning_Positive_While_On_PWUD", "Turning HIV+ While on PrEP Pwud",
 		    ReportUtils.map(moh731bIndicators.turningPositiveWhileOnPrEPPwud(), indParams), "");
-		cohortDsd.addColumn("Turning_Positive_While_On_Transman", "Turning HIV+ While on PrEP Transman",
-		    ReportUtils.map(moh731bIndicators.turningPositiveWhileOnPrEPTransman(), indParams), "");
-		cohortDsd.addColumn("Turning_Positive_While_On_Transwoman", "Turning HIV+ While on PrEP Transwoman",
-		    ReportUtils.map(moh731bIndicators.turningPositiveWhileOnPrEPTranswoman(), indParams), "");
+		cohortDsd.addColumn("Turning_Positive_While_On_Transgender", "Turning HIV+ While on PrEP Transgender",
+		    ReportUtils.map(moh731bIndicators.turningPositiveWhileOnPrEPTransgender(), indParams), "");
 		
 		cohortDsd.addColumn("Experiencing_Violence_FSW", "Experiencing Violence Fsw",
 		    ReportUtils.map(moh731bIndicators.experiencingViolenceFsw(), indParams), "");
@@ -530,10 +477,8 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.experiencingViolencePwid(), indParams), "");
 		cohortDsd.addColumn("Experiencing_Violence_PWUD", "Experiencing Violence Pwud",
 		    ReportUtils.map(moh731bIndicators.experiencingViolencePwud(), indParams), "");
-		cohortDsd.addColumn("Experiencing_Violence_Transman", "Experiencing Violence Transman",
-		    ReportUtils.map(moh731bIndicators.experiencingViolenceTransman(), indParams), "");
-		cohortDsd.addColumn("Experiencing_Violence_Transwoman", "Experiencing Violence Transwoman",
-		    ReportUtils.map(moh731bIndicators.experiencingViolenceTranswoman(), indParams), "");
+		cohortDsd.addColumn("Experiencing_Violence_Transgender", "Experiencing Violence Transgender",
+		    ReportUtils.map(moh731bIndicators.experiencingViolenceTransgender(), indParams), "");
 		
 		cohortDsd.addColumn("receiving_Violence_Support_FSW", "Receiving Violence Support Fsw",
 		    ReportUtils.map(moh731bIndicators.receivingViolenceSupportFsw(), indParams), "");
@@ -545,10 +490,8 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.receivingViolenceSupportPwid(), indParams), "");
 		cohortDsd.addColumn("receiving_Violence_Support_PWUD", "Receiving Violence Support Pwud",
 		    ReportUtils.map(moh731bIndicators.receivingViolenceSupportPwud(), indParams), "");
-		cohortDsd.addColumn("receiving_Violence_Support_Transman", "Receiving Violence Support Transman",
-		    ReportUtils.map(moh731bIndicators.receivingViolenceSupportTransman(), indParams), "");
-		cohortDsd.addColumn("receiving_Violence_Support_Transwoman", "Receiving Violence Support Transwoman",
-		    ReportUtils.map(moh731bIndicators.receivingViolenceSupportTranswoman(), indParams), "");
+		cohortDsd.addColumn("receiving_Violence_Support_Transgender", "Receiving Violence Support Transgender",
+		    ReportUtils.map(moh731bIndicators.receivingViolenceSupportTransgender(), indParams), "");
 		
 		cohortDsd.addColumn("Number_Exposed_FSW", "Number Exposed Fsw",
 		    ReportUtils.map(moh731bIndicators.numberExposedFsw(), indParams), "");
@@ -560,10 +503,8 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.numberExposedPwid(), indParams), "");
 		cohortDsd.addColumn("Number_Exposed_PWUD", "Number Exposed Pwud",
 		    ReportUtils.map(moh731bIndicators.numberExposedPwud(), indParams), "");
-		cohortDsd.addColumn("Number_Exposed_Transman", "Number Exposed Transman",
-		    ReportUtils.map(moh731bIndicators.numberExposedTransman(), indParams), "");
-		cohortDsd.addColumn("Number_Exposed_Transwoman", "Number Exposed Transwoman",
-		    ReportUtils.map(moh731bIndicators.numberExposedTranswoman(), indParams), "");
+		cohortDsd.addColumn("Number_Exposed_Transgender", "Number Exposed Transgender",
+		    ReportUtils.map(moh731bIndicators.numberExposedTransgender(), indParams), "");
 		
 		cohortDsd.addColumn("Receiving_PEP_Within_72hrs_FSW", "Receiving PEP Within 72 hours Fsw",
 		    ReportUtils.map(moh731bIndicators.receivingPEPWithin72HrsFsw(), indParams), "");
@@ -575,10 +516,8 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.receivingPEPWithin72HrsPwid(), indParams), "");
 		cohortDsd.addColumn("Receiving_PEP_Within_72hrs_PWUD", "Receiving PEP Within 72 hours Pwud",
 		    ReportUtils.map(moh731bIndicators.receivingPEPWithin72HrsPwud(), indParams), "");
-		cohortDsd.addColumn("Receiving_PEP_Within_72hrs_Transman", "Receiving PEP Within 72 hours Transman",
-		    ReportUtils.map(moh731bIndicators.receivingPEPWithin72HrsTransman(), indParams), "");
-		cohortDsd.addColumn("Receiving_PEP_Within_72hrs_Transwoman", "Receiving PEP Within 72 hours Transwoman",
-		    ReportUtils.map(moh731bIndicators.receivingPEPWithin72HrsTranswoman(), indParams), "");
+		cohortDsd.addColumn("Receiving_PEP_Within_72hrs_Transgender", "Receiving PEP Within 72 hours Transgender",
+		    ReportUtils.map(moh731bIndicators.receivingPEPWithin72HrsTransgender(), indParams), "");
 		
 		/*
 		        cohortDsd.addColumn("Completed_PEP_Within_28_Days_FSW", "Completed PEP within 28 days Fsw", ReportUtils.map(moh731bIndicators.completedPEPWith28DaysFsw(), indParams),"");

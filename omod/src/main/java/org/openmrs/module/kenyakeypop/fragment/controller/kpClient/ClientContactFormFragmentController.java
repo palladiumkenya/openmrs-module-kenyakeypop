@@ -100,10 +100,8 @@ public class ClientContactFormFragmentController {
 					kpType = "Drug User";
 				} else if (obs.getValueCoded().getConceptId().equals(105)) {
 					kpType = "Drug Injector";
-				} else if (obs.getValueCoded().getConceptId().equals(165108)) {
-					kpType = "Transman";
-				} else if (obs.getValueCoded().getConceptId().equals(165107)) {
-					kpType = "Transwoman";
+				} else if (obs.getValueCoded().getConceptId().equals(165100)) {
+					kpType = "Transgender";
 				}
 			} else if (obs.getConcept().getConceptId().equals(HOTSPOT)) {
 				frequentedHotspot = obs.getValueCoded() != null ? obs.getValueCoded().getName().getName() : "";
@@ -186,10 +184,8 @@ public class ClientContactFormFragmentController {
 					kpTypeCode = "03";
 				} else if (obs.getConcept().getConceptId() == 164929 && obs.getValueCoded().getConceptId() == 165085) {
 					kpTypeCode = "04";
-				} else if (obs.getConcept().getConceptId() == 164929 && obs.getValueCoded().getConceptId() == 165108) {
+				} else if (obs.getConcept().getConceptId() == 164929 && obs.getValueCoded().getConceptId() == 165100) {
 					kpTypeCode = "05";
-				} else if (obs.getConcept().getConceptId() == 164929 && obs.getValueCoded().getConceptId() == 165107) {
-					kpTypeCode = "06";
 				} else if (obs.getConcept().getConceptId() == 164929 && obs.getValueCoded().getConceptId() == 165084) {
 					kpTypeCode = "07";
 				}
