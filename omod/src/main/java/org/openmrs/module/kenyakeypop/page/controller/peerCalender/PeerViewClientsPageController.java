@@ -83,10 +83,22 @@ public class PeerViewClientsPageController {
 		            .getFormService().getFormByUuid(KpMetadata._Form.KP_PEER_CALENDAR_FORM), fromDate, entryEndDate);
 		
 		List<SimpleObject> peer = new ArrayList<SimpleObject>();
-		Person p = personService.getPerson(patient);
+		Person p = personService.getPerson(patient.getId());
+		String peerEducatorName = "";
+		if (p.getGivenName() != null) {
+			peerEducatorName += p.getGivenName();
+		}
 		
-		peer.add(SimpleObject.create("name", p.getGivenName() + " " + p.getMiddleName() + " " + p.getFamilyName(), "gender",
-		    p.getGender(), "age", p.getAge(), "birthdate", p.getBirthdate(), "id", p.getId(), "encounter",
+		if (p.getMiddleName() != null) {
+			peerEducatorName += " " + p.getMiddleName();
+		}
+		
+		if (p.getFamilyName() != null) {
+			peerEducatorName += " " + p.getFamilyName();
+		}
+		
+		peer.add(SimpleObject.create("name", peerEducatorName, "gender", p.getGender(), "age", p.getAge(), "birthdate", p
+		        .getBirthdate(), "id", p.getId(), "encounter",
 		    lastPeerCalendarForEducator != null ? lastPeerCalendarForEducator.getEncounterId() : null));
 		
 		for (Relationship relationship : Context.getPersonService().getRelationshipsByPerson(patient)) {
@@ -110,10 +122,21 @@ public class PeerViewClientsPageController {
 						            .getEncounterTypeByUuid(KpMetadata._EncounterType.KP_PEER_CALENDAR), Context
 						            .getFormService().getFormByUuid(KpMetadata._Form.KP_PEER_CALENDAR_FORM), fromDate,
 						    entryEndDate);
+						String fullName = "";
+						if (personB.getGivenName() != null) {
+							fullName += personB.getGivenName();
+						}
 						
-						peer.add(SimpleObject.create("name", personB.getGivenName() + " " + personB.getMiddleName() + " "
-						        + personB.getFamilyName(), "gender", personB.getGender(), "age", personB.getAge(),
-						    "birthdate", personB.getBirthdate(), "id", personB.getId(), "encounter",
+						if (personB.getMiddleName() != null) {
+							fullName += " " + personB.getMiddleName();
+						}
+						
+						if (personB.getFamilyName() != null) {
+							fullName += " " + personB.getFamilyName();
+						}
+						
+						peer.add(SimpleObject.create("name", fullName, "gender", personB.getGender(), "age",
+						    personB.getAge(), "birthdate", personB.getBirthdate(), "id", personB.getId(), "encounter",
 						    lastPeerCalendarForPeer != null ? lastPeerCalendarForPeer.getEncounterId() : null
 						
 						));
