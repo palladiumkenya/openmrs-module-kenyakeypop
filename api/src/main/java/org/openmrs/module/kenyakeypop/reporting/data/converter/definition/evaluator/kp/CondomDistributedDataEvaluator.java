@@ -24,8 +24,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
-/**api
- * Evaluates a PersonDataDefinition
+/**
+ * api Evaluates a PersonDataDefinition
  */
 @Handler(supports = CondomDistributedDataDefinition.class, order = 50)
 public class CondomDistributedDataEvaluator implements PersonDataEvaluator {
