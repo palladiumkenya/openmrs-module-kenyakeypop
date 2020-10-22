@@ -10,7 +10,7 @@
 
     <groupId>org.openmrs.module</groupId>
     <artifactId>kenyakeypop</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Kenyakeypop</name>
     <description>OpenMRS based module for Kenya Key Population</description>
