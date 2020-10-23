@@ -1565,8 +1565,8 @@ public class MonthlyReportCohortLibrary {
 		        + "a.dob                                                       as dob\n"
 		        + "from (select c.client_id, p.DOB as dob\n"
 		        + "from kenyaemr_etl.etl_contact c\n"
-		        + "inner join kenyaemr_etl.etl_client_registration p\n"
-		        + "on c.client_id = p.client_id and p.voided = 0\n"
+		        + "inner join kenyaemr_etl.etl_patient_demographics p\n"
+		        + "on c.client_id = p.patient_id and p.voided = 0\n"
 		        + "where c.key_population_type = "
 		        + kpType
 		        + " and c.voided = 0\n"
@@ -1607,8 +1607,8 @@ public class MonthlyReportCohortLibrary {
 		        + "a.dob                                                       as dob\n"
 		        + "from (select c.client_id, p.DOB as dob\n"
 		        + "from kenyaemr_etl.etl_contact c\n"
-		        + "inner join kenyaemr_etl.etl_client_registration p\n"
-		        + "on c.client_id = p.client_id and p.voided = 0\n"
+		        + "inner join kenyaemr_etl.etl_patient_demographics p\n"
+		        + "on c.client_id = p.patient_id and p.voided = 0\n"
 		        + "where c.key_population_type = "
 		        + kpType
 		        + " and c.voided = 0\n"
@@ -1649,8 +1649,8 @@ public class MonthlyReportCohortLibrary {
 		        + "a.dob  as dob\n"
 		        + "from (select c.client_id, p.DOB as dob\n"
 		        + "from kenyaemr_etl.etl_contact c\n"
-		        + "inner join kenyaemr_etl.etl_client_registration p\n"
-		        + "on c.client_id = p.client_id and p.voided = 0\n"
+		        + "inner join kenyaemr_etl.etl_patient_demographics p\n"
+		        + "on c.client_id = p.patient_id and p.voided = 0\n"
 		        + "where c.key_population_type = "
 		        + kpType
 		        + " and c.voided = 0\n"
@@ -1692,8 +1692,8 @@ public class MonthlyReportCohortLibrary {
 		        + "a.dob  as dob\n"
 		        + "from (select c.client_id, p.DOB as dob\n"
 		        + "from kenyaemr_etl.etl_contact c\n"
-		        + "inner join kenyaemr_etl.etl_client_registration p\n"
-		        + "on c.client_id = p.client_id and p.voided = 0\n"
+		        + "inner join kenyaemr_etl.etl_patient_demographics p\n"
+		        + "on c.client_id = p.patient_id and p.voided = 0\n"
 		        + "where c.key_population_type = "
 		        + kpType
 		        + " and c.voided = 0\n"
