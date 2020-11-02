@@ -36,13 +36,13 @@ public class ARTOutcomeDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select r.client_id,if( r.dead= 0,(coalesce((case when timestampdiff(Month,max(date(v.visit_date)),date(curDate()))<=3  then \"A\" when timestampdiff(Month,max(date(v.visit_date)),date(curDate())) between 4 and 9 then \"DT\"\n"
+		String qry = "select r.patient_id,if( r.dead= 0,(coalesce((case when timestampdiff(Month,max(date(v.visit_date)),date(curDate()))<=3  then \"A\" when timestampdiff(Month,max(date(v.visit_date)),date(curDate())) between 4 and 9 then \"DT\"\n"
 		        + "when timestampdiff(Month,max(date(v.visit_date)),date(curDate())) > 9 then \"LTFU\" else \"\" end),(case when timestampdiff(Month,max(date(p.visit_date)),date(curDate()))<=3  then \"A\" when timestampdiff(Month,max(date(p.visit_date)),date(curDate())) between 4 and 9 then \"DT\"\n"
-		        + "when timestampdiff(Month,max(date(p.visit_date)),date(curdate())) > 9 then \"LTFU\" else \"\" end))),\"D\") as status_in_program from kenyaemr_etl.etl_client_registration r\n"
-		        + "inner join kenyaemr_etl.etl_contact c on r.client_id = c.client_id\n"
+		        + "when timestampdiff(Month,max(date(p.visit_date)),date(curdate())) > 9 then \"LTFU\" else \"\" end))),\"D\") as status_in_program from kenyaemr_etl.etl_patient_demographics r\n"
+		        + "inner join kenyaemr_etl.etl_contact c on r.patient_id = c.client_id\n"
 		        + "left outer join kenyaemr_etl.etl_clinical_visit v\n"
-		        + "on v.client_id = r.client_id\n"
-		        + "left outer  join kenyaemr_etl.etl_peer_calendar p on r.client_id = p.client_id group by v.client_id;";
+		        + "on v.client_id = r.patient_id\n"
+		        + "left outer  join kenyaemr_etl.etl_peer_calendar p on r.patient_id = p.client_id group by v.client_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");
