@@ -87,8 +87,9 @@ public class CurrentVitalsFragmentController {
 		    Context.getFormService().getFormByUuid("22c68f86-bbf0-49ba-b2d1-23fa7ccf0259"), //green card
 		    Context.getFormService().getFormByUuid("bd598114-4ef4-47b1-a746-a616180ccfc0") // hiv addendum
 		        );
+		
 		List<Encounter> encounters = Context.getEncounterService().getEncounters(patient, null, null, null,
-		    formsCollectingDiagnosis, null, null, false);
+		    formsCollectingDiagnosis, null, null, null, null, false);
 		// Get recorded triage
 		
 		/**
