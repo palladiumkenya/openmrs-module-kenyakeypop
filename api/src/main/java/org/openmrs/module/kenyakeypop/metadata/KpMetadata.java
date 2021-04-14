@@ -248,8 +248,8 @@ public class KpMetadata extends AbstractMetadataBundle {
 		install(form("PrEP Treatment Verification", "prep treatment verification form",
 		    KpMetadata._EncounterType.KP_PREP_TREATMENT_VERIFICATION, "1", _Form.KP_PREP_TREATMENT_VERIFICATION_FORM));
 		
-		install(form("Gender Based Violence", "Gender Based Violence form", _EncounterType.KP_GENDER_BASED_VIOLENCE, "1",
-		    _Form.KP_GENDER_BASED_VIOLENCE_FORM));
+		/*install(form("Gender Based Violence", "Gender Based Violence form", _EncounterType.KP_GENDER_BASED_VIOLENCE, "1",
+		    _Form.KP_GENDER_BASED_VIOLENCE_FORM));*/
 		
 		install(relationshipType("Peer-educator", "Peer", "One that follows up peers",
 		    KpMetadata._RelationshipType.PEER_EDUCATOR));
