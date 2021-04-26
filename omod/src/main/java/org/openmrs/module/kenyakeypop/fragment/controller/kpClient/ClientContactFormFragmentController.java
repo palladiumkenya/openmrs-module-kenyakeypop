@@ -21,6 +21,8 @@ import org.openmrs.PatientIdentifier;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.Concept;
 import org.openmrs.User;
+import org.openmrs.util.PrivilegeConstants;
+
 
 import org.openmrs.api.*;
 import org.openmrs.api.context.Context;
@@ -147,6 +149,7 @@ public class ClientContactFormFragmentController {
 	public SimpleObject getGeneratedIdentifier(@SpringBean("personService") PersonService personService,
 	        @SpringBean("encounterService") EncounterService encounterService,
 	        @RequestParam(value = "patientId") Patient patient) {
+		Context.addProxyPrivilege(PrivilegeConstants.SQL_LEVEL_ACCESS);
 		StringBuilder sb = new StringBuilder();
 		String sql = "SELECT count(*) FROM patient_program pp\n" + "join program p on p.program_id = pp.program_id\n"
 		        + "where p.uuid ='7447305a-18a7-11e9-ab14-d663bd873d93' ;";
