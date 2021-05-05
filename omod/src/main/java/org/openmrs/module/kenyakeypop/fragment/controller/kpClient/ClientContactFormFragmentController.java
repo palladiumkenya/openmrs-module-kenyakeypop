@@ -23,7 +23,6 @@ import org.openmrs.Concept;
 import org.openmrs.User;
 import org.openmrs.util.PrivilegeConstants;
 
-
 import org.openmrs.api.*;
 import org.openmrs.api.context.Context;
 import org.openmrs.PersonAttribute;
