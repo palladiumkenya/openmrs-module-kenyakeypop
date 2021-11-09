@@ -103,6 +103,8 @@ public class ClientContactFormFragmentController {
 					kpType = "Drug Injector";
 				} else if (obs.getValueCoded().getConceptId().equals(165100)) {
 					kpType = "Transgender";
+				} else if (obs.getValueCoded().getConceptId().equals(162277)) {
+					kpType = "People in prison and other closed settings";
 				}
 			} else if (obs.getConcept().getConceptId().equals(HOTSPOT)) {
 				frequentedHotspot = obs.getValueCoded() != null ? obs.getValueCoded().getName().getName() : "";
@@ -190,6 +192,8 @@ public class ClientContactFormFragmentController {
 					kpTypeCode = "05";
 				} else if (obs.getConcept().getConceptId() == 164929 && obs.getValueCoded().getConceptId() == 165084) {
 					kpTypeCode = "07";
+				} else if (obs.getConcept().getConceptId() == 164929 && obs.getValueCoded().getConceptId() == 162277) {
+					kpTypeCode = "08";
 				}
 			}
 		}
