@@ -77,7 +77,13 @@ public class KpVelocityCalculation extends BaseEmrCalculation {
 			ProgramWorkflowService service = Context.getProgramWorkflowService();
 			List<PatientProgram> programs = service.getPatientPrograms(Context.getPatientService().getPatient(ptId),
 			    kpProgram, null, null, null, null, true);
+<<<<<<< HEAD
 			
+=======
+			locationName = locationService.getLocation(locationId).getName();
+
+
+>>>>>>> 9947cca... Added prisoner and transgender in key population
 			sb.append("kpAlias:").append(kpAlias).append(",");
 			if (programs.size() > 0) {
 				PatientIdentifierType pit = MetadataUtils.existing(PatientIdentifierType.class,
