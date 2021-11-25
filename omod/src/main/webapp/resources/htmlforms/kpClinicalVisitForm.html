@@ -702,7 +702,7 @@
 
         var hivTested = function () {
             var tested = getValue("hiv_tested.value");
-            if (tested == 1066) {
+            if (tested != 1065) {
                 jq('#test_frequency input').prop('disabled', true).addClass('disabled');
                 jq('#received_results input').prop('disabled', true).addClass('disabled');
                 jq('#test_results input').prop('disabled', true).addClass('disabled');
@@ -1940,7 +1940,9 @@
                     <td>
                         <p>
                             <obs id="hiv_tested" conceptId="164401"
-                                 style="radio" answerConceptIds="1065,1066,1175" answerSeparator="&lt;br /&gt;"/>
+                                  answerConceptIds="1065,1066,1175,162570,1788"
+                                 answerLabels="Yes,No,Not applicable,Declined,Referred for testing"
+                                 style="radio" answerSeparator="&lt;br /&gt;"/>
                         </p>
                     </td>
 
