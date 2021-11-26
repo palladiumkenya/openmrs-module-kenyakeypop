@@ -1167,6 +1167,7 @@
             var risk_reduction_results = getValue('risk_results.value');
             var family_planning_results = getValue('fam_results.value');
             var mental_results = getValue('men_results.value');
+            var hivTested = getValue('hiv_tested.value');
 
             if (sti_screened == 1065 &amp;&amp; sti_results == false) {
                 getField('sti_results.error').html('Results required').show();
@@ -1215,6 +1216,10 @@
             }
             if (mental == 1065 &amp;&amp; mental_results == false) {
                 getField('men_results.error').html('Results required').show();
+                return false;
+            }
+            if (hivTested == false || hivTested == "") {
+                getField('hiv_tested.error').html('Tested status required').show();
                 return false;
             }
 
@@ -1904,7 +1909,7 @@
                     <td><p><b>Setting of the last HIV test</b></p></td>
                     <td><p><b>Self reported status</b></p></td>
                     <td><p><b>Counselled</b></p></td>
-                    <td><p><b>Tested</b></p></td>
+                    <td><p><b>Tested<span style="color:red;"><strong>*</strong></span></b></p></td>
                     <td><p><b>Frequency of test</b></p></td>
                     <td><p><b>Received results</b></p></td>
                     <td><p><b>Testing results</b></p></td>
