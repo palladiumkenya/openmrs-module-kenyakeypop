@@ -79,8 +79,7 @@ public class KpVelocityCalculation extends BaseEmrCalculation {
 			List<PatientProgram> programs = service.getPatientPrograms(Context.getPatientService().getPatient(ptId),
 			    kpProgram, null, null, null, null, true);
 			locationName = locationService.getLocation(locationId).getName();
-
-
+			
 			sb.append("kpAlias:").append(kpAlias).append(",");
 			if (programs.size() > 0) {
 				PatientIdentifierType pit = MetadataUtils.existing(PatientIdentifierType.class,
