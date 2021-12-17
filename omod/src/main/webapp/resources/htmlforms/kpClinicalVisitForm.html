@@ -1167,6 +1167,7 @@
             var risk_reduction_results = getValue('risk_results.value');
             var family_planning_results = getValue('fam_results.value');
             var mental_results = getValue('men_results.value');
+            var selfReportedStatus = getValue("hiv_selfreported.value");
             var hivTested = getValue('hiv_tested.value');
 
             if (sti_screened == 1065 &amp;&amp; sti_results == false) {
@@ -1218,7 +1219,7 @@
                 getField('men_results.error').html('Results required').show();
                 return false;
             }
-            if (hivTested == false || hivTested == "") {
+            if ((selfReportedStatus == 664 || selfReportedStatus == 1067) &amp;&amp; (hivTested == false || hivTested == "")) {
                 getField('hiv_tested.error').html('Tested status required').show();
                 return false;
             }
