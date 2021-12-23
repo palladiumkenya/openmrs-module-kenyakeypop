@@ -702,7 +702,7 @@
 
         var hivTested = function () {
             var tested = getValue("hiv_tested.value");
-            if (tested == 1066) {
+            if (tested != 1065) {
                 jq('#test_frequency input').prop('disabled', true).addClass('disabled');
                 jq('#received_results input').prop('disabled', true).addClass('disabled');
                 jq('#test_results input').prop('disabled', true).addClass('disabled');
@@ -1167,6 +1167,8 @@
             var risk_reduction_results = getValue('risk_results.value');
             var family_planning_results = getValue('fam_results.value');
             var mental_results = getValue('men_results.value');
+            var selfReportedStatus = getValue("hiv_selfreported.value");
+            var hivTested = getValue('hiv_tested.value');
 
             if (sti_screened == 1065 &amp;&amp; sti_results == false) {
                 getField('sti_results.error').html('Results required').show();
@@ -1215,6 +1217,10 @@
             }
             if (mental == 1065 &amp;&amp; mental_results == false) {
                 getField('men_results.error').html('Results required').show();
+                return false;
+            }
+            if ((selfReportedStatus == 664 || selfReportedStatus == 1067) &amp;&amp; (hivTested == false || hivTested == "")) {
+                getField('hiv_tested.error').html('Tested status required').show();
                 return false;
             }
 
@@ -1904,7 +1910,7 @@
                     <td><p><b>Setting of the last HIV test</b></p></td>
                     <td><p><b>Self reported status</b></p></td>
                     <td><p><b>Counselled</b></p></td>
-                    <td><p><b>Tested</b></p></td>
+                    <td><p><b>Tested<span style="color:red;"><strong>*</strong></span></b></p></td>
                     <td><p><b>Frequency of test</b></p></td>
                     <td><p><b>Received results</b></p></td>
                     <td><p><b>Testing results</b></p></td>
@@ -1940,7 +1946,9 @@
                     <td>
                         <p>
                             <obs id="hiv_tested" conceptId="164401"
-                                 style="radio" answerConceptIds="1065,1066,1175" answerSeparator="&lt;br /&gt;"/>
+                                  answerConceptIds="1065,1066,1175,162570,1788"
+                                 answerLabels="Yes,No,Not applicable,Declined,Referred for testing"
+                                 style="radio" answerSeparator="&lt;br /&gt;"/>
                         </p>
                     </td>
 

@@ -62,6 +62,7 @@ public class KpVelocityCalculation extends BaseEmrCalculation {
 		String subCounty = administrationService.getGlobalProperty(KpConstant.GP_SUB_COUNTY_CODE);
 		String ward = administrationService.getGlobalProperty(KpConstant.GP_WARD_CODE);
 		String implementingPartner = administrationService.getGlobalProperty(KpConstant.GP_IMPLEMENTING_PARTNER_CODE);
+		Integer locationId = Integer.parseInt(administrationService.getGlobalProperty("kenyaemr.defaultLocation"));
 		
 		for (Integer ptId : cohort) {
 			PersonAttribute kpAlias = null;
@@ -78,6 +79,7 @@ public class KpVelocityCalculation extends BaseEmrCalculation {
 			List<PatientProgram> programs = service.getPatientPrograms(Context.getPatientService().getPatient(ptId),
 			    kpProgram, null, null, null, null, true);
 			
+			locationName = locationService.getLocation(locationId).getName();
 			sb.append("kpAlias:").append(kpAlias).append(",");
 			if (programs.size() > 0) {
 				PatientIdentifierType pit = MetadataUtils.existing(PatientIdentifierType.class,
@@ -87,13 +89,6 @@ public class KpVelocityCalculation extends BaseEmrCalculation {
 				
 			}
 			sb.append("idintifier:").append(identifier).append(",");
-			if (locationObs != null) {
-				if (locationObs.getValueText() != null) {
-					Integer locationId = Integer.parseInt(locationObs.getValueText());
-					locationName = locationService.getLocation(locationId).getName();
-					locationService.getLocation(locationId);
-				}
-			}
 			sb.append("location:").append(locationName).append(",");
 			sb.append("county:").append(county).append(",");
 			sb.append("subCounty:").append(subCounty).append(",");
@@ -104,5 +99,4 @@ public class KpVelocityCalculation extends BaseEmrCalculation {
 		}
 		return ret;
 	}
-	
 }
