@@ -57,7 +57,6 @@
             <set>
                 <ref bean="kenyakeypop.form.kpClientTracing"/>
                 <ref bean="kenyakeypop.form.kpSTITreatment"/>
-                <ref bean="kenyakeypop.form.kpDepressionScreening"/>
                 <ref bean="kenyakeypop.form.kpPeerOverdoseReporting"/>
                 <ref bean="kenyakeypop.form.kpHealthWorkerOverdoseReporting"/>
                 <ref bean="kenyakeypop.form.kpViolenceScreening"/>
@@ -93,6 +92,14 @@
             </set>
         </property>
 
+    </bean>
+
+    <bean id="kenyakeypop.config.form" class="org.openmrs.module.kenyacore.form.FormConfiguration">
+        <property name="commonVisitForms">
+            <set>
+                <ref bean="kenyakeypop.form.kpDepressionScreening"/>
+            </set>
+        </property>
     </bean>
 
     <!-- ===================== Forms ===================== -->
