@@ -38,7 +38,7 @@ public class NeedlesAndSyringesRequirementsDataEvaluator implements PersonDataEv
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
 		String qry = "select c.client_id as client_id, coalesce(p.monthly_syringes_required,c.avg_daily_drug_injections*30) as monthly_ns_required\n"
-		        + "from kenyaemr_etl.etl_contact c left outer join kenyaemr_etl.etl_peer_calendar p\n"
+		        + "from kenyaemr_etl.etl_kp_contact c left outer join kenyaemr_etl.etl_kp_peer_calendar p\n"
 		        + "         on c.client_id = p.client_id group by c.client_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();

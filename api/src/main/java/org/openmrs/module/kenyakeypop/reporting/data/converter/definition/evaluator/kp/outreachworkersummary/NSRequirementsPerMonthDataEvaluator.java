@@ -37,9 +37,9 @@ public class NSRequirementsPerMonthDataEvaluator implements PersonDataEvaluator 
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
 		String qry = "select r.person_a as peer_educator,(sum(a.monthly_syringes_required)+b.monthly_syringes_required) as monthly_syringes_required from relationship r\n"
-		        + "       inner join (select pc.client_id,IFNULL(pc.monthly_syringes_required,0) as monthly_syringes_required from kenyaemr_etl.etl_peer_calendar pc GROUP BY pc.client_id) a\n"
+		        + "       inner join (select pc.client_id,IFNULL(pc.monthly_syringes_required,0) as monthly_syringes_required from kenyaemr_etl.etl_kp_peer_calendar pc GROUP BY pc.client_id) a\n"
 		        + "         on r.person_b = a.client_id\n"
-		        + "       inner join (select pc.client_id,IFNULL(pc.monthly_syringes_required,0) as monthly_syringes_required from kenyaemr_etl.etl_peer_calendar pc GROUP BY pc.client_id) b\n"
+		        + "       inner join (select pc.client_id,IFNULL(pc.monthly_syringes_required,0) as monthly_syringes_required from kenyaemr_etl.etl_kp_peer_calendar pc GROUP BY pc.client_id) b\n"
 		        + "         on r.person_a = b.client_id\n" + "where r.voided = 0\n" + "group by r.person_a;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();

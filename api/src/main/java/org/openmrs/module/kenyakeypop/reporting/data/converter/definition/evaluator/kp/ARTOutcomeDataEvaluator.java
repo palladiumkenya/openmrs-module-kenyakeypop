@@ -39,10 +39,10 @@ public class ARTOutcomeDataEvaluator implements PersonDataEvaluator {
 		String qry = "select r.patient_id,if( r.dead= 0,(coalesce((case when timestampdiff(Month,max(date(v.visit_date)),date(curDate()))<=3  then \"A\" when timestampdiff(Month,max(date(v.visit_date)),date(curDate())) between 4 and 9 then \"DT\"\n"
 		        + "when timestampdiff(Month,max(date(v.visit_date)),date(curDate())) > 9 then \"LTFU\" else \"\" end),(case when timestampdiff(Month,max(date(p.visit_date)),date(curDate()))<=3  then \"A\" when timestampdiff(Month,max(date(p.visit_date)),date(curDate())) between 4 and 9 then \"DT\"\n"
 		        + "when timestampdiff(Month,max(date(p.visit_date)),date(curdate())) > 9 then \"LTFU\" else \"\" end))),\"D\") as status_in_program from kenyaemr_etl.etl_patient_demographics r\n"
-		        + "inner join kenyaemr_etl.etl_contact c on r.patient_id = c.client_id\n"
-		        + "left outer join kenyaemr_etl.etl_clinical_visit v\n"
+		        + "inner join kenyaemr_etl.etl_kp_contact c on r.patient_id = c.client_id\n"
+		        + "left outer join kenyaemr_etl.etl_kp_clinical_visit v\n"
 		        + "on v.client_id = r.patient_id\n"
-		        + "left outer  join kenyaemr_etl.etl_peer_calendar p on r.patient_id = p.client_id group by v.client_id;";
+		        + "left outer  join kenyaemr_etl.etl_kp_peer_calendar p on r.patient_id = p.client_id group by v.client_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");

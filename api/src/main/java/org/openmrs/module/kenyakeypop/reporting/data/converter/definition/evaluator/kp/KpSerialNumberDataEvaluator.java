@@ -36,7 +36,7 @@ public class KpSerialNumberDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select c.client_id,c.client_id from kenyaemr_etl.etl_contact c;";
+		String qry = "select c.client_id,c.client_id from kenyaemr_etl.etl_kp_contact c;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");

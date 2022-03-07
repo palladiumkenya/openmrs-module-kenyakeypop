@@ -37,8 +37,8 @@ public class RemarksDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select c.client_id, coalesce(v.clinical_notes,p.remarks) from kenyaemr_etl.etl_contact c left join kenyaemr_etl.etl_peer_calendar p on c.client_id = p.client_id\n"
-		        + "left join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id\n" + "group by c.client_id;";
+		String qry = "select c.client_id, coalesce(v.clinical_notes,p.remarks) from kenyaemr_etl.etl_kp_contact c left join kenyaemr_etl.etl_kp_peer_calendar p on c.client_id = p.client_id\n"
+		        + "left join kenyaemr_etl.etl_kp_clinical_visit v on c.client_id = v.client_id\n" + "group by c.client_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");

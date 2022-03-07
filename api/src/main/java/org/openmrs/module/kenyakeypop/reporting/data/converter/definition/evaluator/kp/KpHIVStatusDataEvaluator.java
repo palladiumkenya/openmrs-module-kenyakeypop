@@ -37,7 +37,7 @@ public class KpHIVStatusDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select v.client_id,v.prep_treated from kenyaemr_etl.etl_clinical_visit v;";
+		String qry = "select v.client_id,v.prep_treated from kenyaemr_etl.etl_kp_clinical_visit v;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");
