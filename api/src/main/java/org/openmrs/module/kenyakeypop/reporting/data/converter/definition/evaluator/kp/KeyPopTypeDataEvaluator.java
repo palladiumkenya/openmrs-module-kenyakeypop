@@ -36,7 +36,7 @@ public class KeyPopTypeDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select c.client_id,c.key_population_type from kenyaemr_etl.etl_contact c group by c.client_id;";
+		String qry = "select c.client_id,c.key_population_type from kenyaemr_etl.etl_kp_contact c group by c.client_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");

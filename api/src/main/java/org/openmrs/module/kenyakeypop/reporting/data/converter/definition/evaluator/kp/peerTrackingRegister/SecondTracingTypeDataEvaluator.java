@@ -36,7 +36,7 @@ public class SecondTracingTypeDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select t.client_id,t.tracing_type from kenyaemr_etl.etl_peer_tracking t where t.attempt_number = 2;";
+		String qry = "select t.client_id,t.tracing_type from kenyaemr_etl.etl_kp_peer_tracking t where t.attempt_number = 2;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");

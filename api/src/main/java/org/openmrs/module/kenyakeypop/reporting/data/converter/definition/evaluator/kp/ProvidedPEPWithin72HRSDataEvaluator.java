@@ -37,7 +37,7 @@ public class ProvidedPEPWithin72HRSDataEvaluator implements PersonDataEvaluator 
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select v.client_id,\"-\" from kenyaemr_etl.etl_clinical_visit v group by v.client_id;";
+		String qry = "select v.client_id,\"-\" from kenyaemr_etl.etl_kp_clinical_visit v group by v.client_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");

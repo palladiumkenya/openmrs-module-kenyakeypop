@@ -37,7 +37,7 @@ public class DiagnosedWithTBDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select v.client_id,case v.tb_results when \"Positive\" then \"Y\" when \"Negative\" then \"N\" else \"\" end as diagnosed_with_tb from kenyaemr_etl.etl_clinical_visit v group by v.client_id;";
+		String qry = "select v.client_id,case v.tb_results when \"Positive\" then \"Y\" when \"Negative\" then \"N\" else \"\" end as diagnosed_with_tb from kenyaemr_etl.etl_kp_clinical_visit v group by v.client_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");

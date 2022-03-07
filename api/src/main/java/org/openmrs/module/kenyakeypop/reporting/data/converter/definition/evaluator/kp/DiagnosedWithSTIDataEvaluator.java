@@ -38,7 +38,7 @@ public class DiagnosedWithSTIDataEvaluator implements PersonDataEvaluator {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
 		String qry = "select  r.patient_id, coalesce(v.sti_results,t.syndrome,t.other_syndrome) from  kenyaemr_etl.etl_patient_demographics r\n"
-		        + "left outer join kenyaemr_etl.etl_clinical_visit v on r.patient_id = v.client_id left outer join kenyaemr_etl.etl_sti_treatment t\n"
+		        + "left outer join kenyaemr_etl.etl_kp_clinical_visit v on r.patient_id = v.client_id left outer join kenyaemr_etl.etl_kp_sti_treatment t\n"
 		        + "on t.client_id = r.patient_id where t.syndrome is not null or v.sti_results is not null group by r.patient_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
