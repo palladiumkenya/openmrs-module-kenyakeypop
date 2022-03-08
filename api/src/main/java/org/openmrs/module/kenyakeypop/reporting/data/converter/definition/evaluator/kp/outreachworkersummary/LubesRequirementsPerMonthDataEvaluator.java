@@ -37,9 +37,9 @@ public class LubesRequirementsPerMonthDataEvaluator implements PersonDataEvaluat
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
 		String qry = "select r.person_a as peer_educator,(sum(a.monthly_lubes_required)+b.monthly_lubes_required) as monthly_lubes_required from relationship r\n"
-		        + "inner join (select pc.client_id,IFNULL(pc.monthly_lubes_required,0) as monthly_lubes_required from kenyaemr_etl.etl_peer_calendar pc group by pc.client_id) a\n"
+		        + "inner join (select pc.client_id,IFNULL(pc.monthly_lubes_required,0) as monthly_lubes_required from kenyaemr_etl.etl_kp_peer_calendar pc group by pc.client_id) a\n"
 		        + "on r.person_b = a.client_id\n"
-		        + "inner join (select pc.client_id,IFNULL(pc.monthly_lubes_required,0) as monthly_lubes_required from kenyaemr_etl.etl_peer_calendar pc group by pc.client_id) b\n"
+		        + "inner join (select pc.client_id,IFNULL(pc.monthly_lubes_required,0) as monthly_lubes_required from kenyaemr_etl.etl_kp_peer_calendar pc group by pc.client_id) b\n"
 		        + "on r.person_a = b.client_id where r.voided = 0 group by r.person_a;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();

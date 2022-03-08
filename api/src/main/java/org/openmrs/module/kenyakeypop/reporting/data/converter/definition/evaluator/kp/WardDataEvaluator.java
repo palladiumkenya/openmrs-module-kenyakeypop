@@ -37,7 +37,7 @@ public class WardDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select c.client_id, c.frequent_hotspot_name from kenyaemr_etl.etl_contact c;";
+		String qry = "select c.client_id, c.frequent_hotspot_name from kenyaemr_etl.etl_kp_contact c;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");
