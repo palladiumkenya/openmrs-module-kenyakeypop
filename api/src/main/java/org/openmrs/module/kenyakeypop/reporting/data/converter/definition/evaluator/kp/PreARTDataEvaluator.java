@@ -38,7 +38,7 @@ public class PreARTDataEvaluator implements PersonDataEvaluator {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
 		String qry = "select c.client_id, (case t.final_test_result when \"Positive\" then 1 when \"Negative\" then 4 end)as pre_art\n"
-		        + "    from kenyaemr_etl.etl_contact c left join kenyaemr_etl.etl_hts_test t on c.client_id = t.patient_id group by c.client_id;";
+		        + "    from kenyaemr_etl.etl_kp_contact c left join kenyaemr_etl.etl_hts_test t on c.client_id = t.patient_id group by c.client_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");

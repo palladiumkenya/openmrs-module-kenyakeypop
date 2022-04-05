@@ -38,7 +38,7 @@ public class LubricantRequirementsDataEvaluator implements PersonDataEvaluator {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
 		String qry = "select c.client_id as client_id, coalesce(p.monthly_lubes_required,c.avg_weekly_anal_sex_acts*4) as monthly_lubes_required\n"
-		        + "from kenyaemr_etl.etl_contact c left outer join kenyaemr_etl.etl_peer_calendar p\n"
+		        + "from kenyaemr_etl.etl_kp_contact c left outer join kenyaemr_etl.etl_kp_peer_calendar p\n"
 		        + "         on c.client_id = p.client_id group by c.client_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();

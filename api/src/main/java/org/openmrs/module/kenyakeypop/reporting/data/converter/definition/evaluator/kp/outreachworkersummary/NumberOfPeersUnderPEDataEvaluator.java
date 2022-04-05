@@ -37,7 +37,7 @@ public class NumberOfPeersUnderPEDataEvaluator implements PersonDataEvaluator {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
 		String qry = "select r.person_a as peer_educator,count(a.client_id) from relationship r\n"
-		        + "inner join (select pc.client_id from kenyaemr_etl.etl_peer_calendar pc group by pc.client_id) a on r.person_b = a.client_id\n"
+		        + "inner join (select pc.client_id from kenyaemr_etl.etl_kp_peer_calendar pc group by pc.client_id) a on r.person_b = a.client_id\n"
 		        + "where r.voided = 0 group by r.person_a;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();

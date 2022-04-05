@@ -37,8 +37,8 @@ public class CondomRequirementsDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select c.client_id, IFNULL(p.monthly_condoms_required,c.avg_weekly_sex_acts*4 ) as monthly_condoms_required from  kenyaemr_etl.etl_contact c\n"
-		        + "left join kenyaemr_etl.etl_peer_calendar p on p.client_id = c.client_id group by client_id;";
+		String qry = "select c.client_id, IFNULL(p.monthly_condoms_required,c.avg_weekly_sex_acts*4 ) as monthly_condoms_required from  kenyaemr_etl.etl_kp_contact c\n"
+		        + "left join kenyaemr_etl.etl_kp_peer_calendar p on p.client_id = c.client_id group by client_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");

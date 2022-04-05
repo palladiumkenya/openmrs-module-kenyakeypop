@@ -37,7 +37,7 @@ public class DateOfEnrollmentDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select c.client_id,coalesce(min(e.visit_date),min(c.visit_date)) from kenyaemr_etl.etl_contact c left join kenyaemr_etl.etl_client_enrollment e on c.client_id = e.client_id;";
+		String qry = "select c.client_id,coalesce(min(c.visit_date),min(e.visit_date)) from kenyaemr_etl.etl_kp_contact c left join kenyaemr_etl.etl_kp_client_enrollment e on c.client_id = e.client_id GROUP BY c.client_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");
