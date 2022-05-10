@@ -37,7 +37,7 @@ public class PeerEducatorCodeDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select p.client_id, \"PE\" from kenyaemr_etl.etl_kp_peer_calendar p;";
+		String qry = "select p.client_id, \"PE\" from kenyaemr_etl.etl_peer_calendar p;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");

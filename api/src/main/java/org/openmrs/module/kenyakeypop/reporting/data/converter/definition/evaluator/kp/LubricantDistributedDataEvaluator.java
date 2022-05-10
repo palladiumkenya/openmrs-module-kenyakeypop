@@ -41,18 +41,18 @@ public class LubricantDistributedDataEvaluator implements PersonDataEvaluator {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		String reportDate = DATE_FORMAT.format(context.getEvaluationDate());
 		
-		String qry = "select c.client_id, sum(ifnull(v1.v_lubes_dist,0)+ifnull(p1.pc_lubes_dist,0)+ifnull(t1.t_lubes_dist,0)) as lubes_distributed from kenyaemr_etl.etl_kp_contact c\n"
-		        + "left join (select t.client_id,sum(ifnull(t.no_of_lubes,0)) as t_lubes_dist from kenyaemr_etl.etl_kp_sti_treatment t where t.visit_date between date_sub(\""
+		String qry = "select c.client_id, sum(ifnull(v1.v_lubes_dist,0)+ifnull(p1.pc_lubes_dist,0)+ifnull(t1.t_lubes_dist,0)) as lubes_distributed from kenyaemr_etl.etl_contact c\n"
+		        + "left join (select t.client_id,sum(ifnull(t.no_of_lubes,0)) as t_lubes_dist from kenyaemr_etl.etl_sti_treatment t where t.visit_date between date_sub(\""
 		        + reportDate
 		        + "\",INTERVAL 30 DAY) and \""
 		        + reportDate
 		        + "\"group by t.client_id )t1 on c.client_id = t1.client_id\n"
-		        + "left join (select v.client_id,sum((ifnull(v.lubes_no,0)+ifnull(v.lubes_no,0))) as v_lubes_dist,v.visit_date as visitdate from kenyaemr_etl.etl_kp_clinical_visit v where v.visit_date between date_sub(\""
+		        + "left join (select v.client_id,sum((ifnull(v.lubes_no,0)+ifnull(v.lubes_no,0))) as v_lubes_dist,v.visit_date as visitdate from kenyaemr_etl.etl_clinical_visit v where v.visit_date between date_sub(\""
 		        + reportDate
 		        + "\",INTERVAL 30 DAY) and \""
 		        + reportDate
 		        + "\"group by v.client_id)v1 on c.client_id = v1.client_id\n"
-		        + "left join (select p.client_id,sum(ifnull(p.monthly_lubes_distributed,0)+ifnull(p.monthly_lubes_distributed,0)) as pc_lubes_dist from kenyaemr_etl.etl_kp_peer_calendar p where p.visit_date between date_sub(\""
+		        + "left join (select p.client_id,sum(ifnull(p.monthly_lubes_distributed,0)+ifnull(p.monthly_lubes_distributed,0)) as pc_lubes_dist from kenyaemr_etl.etl_peer_calendar p where p.visit_date between date_sub(\""
 		        + reportDate
 		        + "\",INTERVAL 30 DAY) and \""
 		        + reportDate
