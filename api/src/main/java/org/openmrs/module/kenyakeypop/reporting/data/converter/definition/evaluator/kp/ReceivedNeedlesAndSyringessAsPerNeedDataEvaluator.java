@@ -37,7 +37,7 @@ public class ReceivedNeedlesAndSyringessAsPerNeedDataEvaluator implements Person
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select c.client_id as client_id ,if(coalesce(c.monthly_syringes_required,0) <= coalesce(c.monthly_n_and_s_distributed,0),\"Y\",\"N\") as n_s_distributed_as_per_need from kenyaemr_etl.etl_kp_peer_calendar c\n"
+		String qry = "select c.client_id as client_id ,if(coalesce(c.monthly_syringes_required,0) <= coalesce(c.monthly_n_and_s_distributed,0),\"Y\",\"N\") as n_s_distributed_as_per_need from kenyaemr_etl.etl_peer_calendar c\n"
 		        + "group by c.client_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();

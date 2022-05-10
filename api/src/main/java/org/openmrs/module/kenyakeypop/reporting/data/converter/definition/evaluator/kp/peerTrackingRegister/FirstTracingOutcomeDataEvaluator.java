@@ -36,7 +36,7 @@ public class FirstTracingOutcomeDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select t.client_id,(case t.tracing_outcome when 'KP reached' then 'YES' when 'KP not reached' then 'NO' else '' end) as first_trace_outcome from kenyaemr_etl.etl_kp_peer_tracking t where t.attempt_number = 1;";
+		String qry = "select t.client_id,(case t.tracing_outcome when 'KP reached' then 'YES' when 'KP not reached' then 'NO' else '' end) as first_trace_outcome from kenyaemr_etl.etl_peer_tracking t where t.attempt_number = 1;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");

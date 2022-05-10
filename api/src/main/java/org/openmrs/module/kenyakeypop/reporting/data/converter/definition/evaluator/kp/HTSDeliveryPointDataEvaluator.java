@@ -37,7 +37,7 @@ public class HTSDeliveryPointDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select c.client_id, t.hts_entry_point from kenyaemr_etl.etl_kp_contact c left join kenyaemr_etl.etl_hts_test t on c.client_id = t.patient_id\n"
+		String qry = "select c.client_id, t.hts_entry_point from kenyaemr_etl.etl_contact c left join kenyaemr_etl.etl_hts_test t on c.client_id = t.patient_id\n"
 		        + "group by c.client_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
