@@ -52,7 +52,7 @@ public class PeerTrackingRegisterCohortDefinitionEvaluator implements CohortDefi
 		
 		context = ObjectUtil.nvl(context, new EvaluationContext());
 		
-		String qry = "select t.client_id from kenyaemr_etl.etl_kp_peer_tracking t where t.voided = 0 and date(t.visit_date) BETWEEN DATE(:startDate) AND DATE(:endDate);";
+		String qry = "select t.client_id from kenyaemr_etl.etl_peer_tracking t where t.voided = 0 and date(t.visit_date) BETWEEN DATE(:startDate) AND DATE(:endDate);";
 		SqlQueryBuilder builder = new SqlQueryBuilder();
 		builder.append(qry);
 		Date startDate = (Date) context.getParameterValue("startDate");
