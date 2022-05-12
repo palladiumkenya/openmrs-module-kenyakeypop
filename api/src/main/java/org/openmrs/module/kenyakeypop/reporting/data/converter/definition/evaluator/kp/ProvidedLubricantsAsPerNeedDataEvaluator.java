@@ -37,7 +37,7 @@ public class ProvidedLubricantsAsPerNeedDataEvaluator implements PersonDataEvalu
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select c.client_id as client_id ,if(coalesce(c.monthly_lubes_required,0) <= coalesce(c.monthly_lubes_distributed,0),\"Y\",\"N\") as lubes_distributed_as_per_need from kenyaemr_etl.etl_kp_peer_calendar c\n"
+		String qry = "select c.client_id as client_id ,if(coalesce(c.monthly_lubes_required,0) <= coalesce(c.monthly_lubes_distributed,0),\"Y\",\"N\") as lubes_distributed_as_per_need from kenyaemr_etl.etl_peer_calendar c\n"
 		        + "group by c.client_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();

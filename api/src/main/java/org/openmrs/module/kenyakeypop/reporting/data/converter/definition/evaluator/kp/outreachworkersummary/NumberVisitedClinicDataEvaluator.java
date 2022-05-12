@@ -37,7 +37,7 @@ public class NumberVisitedClinicDataEvaluator implements PersonDataEvaluator {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
 		String qry = "select r.person_a as peer_educator,count(a.client_id) from relationship r\n"
-		        + "inner join (select pc.client_id,pc.received_clinical_service as visited_clinic from kenyaemr_etl.etl_kp_peer_calendar pc where (pc.received_clinical_service = 'Yes' or pc.service_provided_within_last_month='Visited Clinic') GROUP BY pc.client_id) a on r.person_b = a.client_id\n"
+		        + "inner join (select pc.client_id,pc.received_clinical_service as visited_clinic from kenyaemr_etl.etl_peer_calendar pc where (pc.received_clinical_service = 'Yes' or pc.service_provided_within_last_month='Visited Clinic') GROUP BY pc.client_id) a on r.person_b = a.client_id\n"
 		        + "where r.voided = 0 group by r.person_a;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();

@@ -51,7 +51,7 @@ public class OutreachWorkerCohortDefinitionEvaluator implements CohortDefinition
 		
 		context = ObjectUtil.nvl(context, new EvaluationContext());
 		
-		String qry = "select r.person_a as peer_educator from relationship r inner join kenyaemr_etl.etl_kp_peer_calendar p on r.person_b= p.client_id\n"
+		String qry = "select r.person_a as peer_educator from relationship r inner join kenyaemr_etl.etl_peer_calendar p on r.person_b= p.client_id\n"
 		        + "and p.visit_date between date(:startDate) and date(:endDate) and r.voided = 0 group by r.person_a;";
 		
 		SqlQueryBuilder builder = new SqlQueryBuilder();

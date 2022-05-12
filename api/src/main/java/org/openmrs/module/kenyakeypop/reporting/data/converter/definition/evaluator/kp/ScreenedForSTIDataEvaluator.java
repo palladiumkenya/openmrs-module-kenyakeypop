@@ -37,7 +37,7 @@ public class ScreenedForSTIDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "Select v.client_id,v.sti_screened from kenyaemr_etl.etl_kp_clinical_visit v group by v.client_id;";
+		String qry = "Select v.client_id,v.sti_screened from kenyaemr_etl.etl_clinical_visit v group by v.client_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");
