@@ -21,6 +21,7 @@ import org.openmrs.PatientIdentifier;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.Concept;
 import org.openmrs.User;
+import org.openmrs.util.PrivilegeConstants;
 
 import org.openmrs.api.*;
 import org.openmrs.api.context.Context;
@@ -102,6 +103,8 @@ public class ClientContactFormFragmentController {
 					kpType = "Drug Injector";
 				} else if (obs.getValueCoded().getConceptId().equals(165100)) {
 					kpType = "Transgender";
+				} else if (obs.getValueCoded().getConceptId().equals(162277)) {
+					kpType = "People in prison and other closed settings";
 				}
 			} else if (obs.getConcept().getConceptId().equals(HOTSPOT)) {
 				frequentedHotspot = obs.getValueCoded() != null ? obs.getValueCoded().getName().getName() : "";
@@ -147,6 +150,7 @@ public class ClientContactFormFragmentController {
 	public SimpleObject getGeneratedIdentifier(@SpringBean("personService") PersonService personService,
 	        @SpringBean("encounterService") EncounterService encounterService,
 	        @RequestParam(value = "patientId") Patient patient) {
+		Context.addProxyPrivilege(PrivilegeConstants.SQL_LEVEL_ACCESS);
 		StringBuilder sb = new StringBuilder();
 		String sql = "SELECT count(*) FROM patient_program pp\n" + "join program p on p.program_id = pp.program_id\n"
 		        + "where p.uuid ='7447305a-18a7-11e9-ab14-d663bd873d93' ;";
@@ -188,6 +192,8 @@ public class ClientContactFormFragmentController {
 					kpTypeCode = "05";
 				} else if (obs.getConcept().getConceptId() == 164929 && obs.getValueCoded().getConceptId() == 165084) {
 					kpTypeCode = "07";
+				} else if (obs.getConcept().getConceptId() == 164929 && obs.getValueCoded().getConceptId() == 162277) {
+					kpTypeCode = "08";
 				}
 			}
 		}

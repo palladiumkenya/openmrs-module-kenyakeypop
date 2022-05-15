@@ -728,8 +728,8 @@ public class MonthlyReportCohortLibrary {
 			kpType = TRANSGENDER_NOT_SW;
 		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c inner join kenyaemr_etl.etl_gender_based_violence v on c.client_id = v.client_id\n"
-		        + "where v.help_outcome in ('Counselling','PrEP given','Emergency pills','Hiv testing','STI Prophylaxis','Treatment','PEP given','Post rape care') and c.key_population_type = "
+		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c inner join kenyaemr_etl.etl_gbv_screening_action v on c.client_id = v.patient_id\n"
+		        + "where v.action_taken in (165070,165203,160570,1356,165200,1185,165171,127910) and c.key_population_type = "
 		        + kpType
 		        + " and c.voided = 0 group by c.client_id\n"
 		        + "having  max(date(v.visit_date)) between date(:startDate) and date(:endDate);";
@@ -751,11 +751,10 @@ public class MonthlyReportCohortLibrary {
 		}
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c\n"
-		        + "inner join kenyaemr_etl.etl_gender_based_violence v on c.client_id = v.client_id\n"
-		        + "where c.key_population_type = "
-		        + kpType
-		        + " and v.voided = 0 group by c.client_id\n"
-		        + "having mid(max(concat(v.visit_date,v.help_outcome)),11) in ('Investigation done','Matter presented to court','P3 form issued','Perpetrator arrested','Reconciliation','Statement taken')\n"
+		        + "inner join kenyaemr_etl.etl_gbv_screening_action v on c.client_id = v.patient_id\n"
+		        + "where c.key_population_type = " + kpType + " and v.voided = 0 group by c.client_id\n"
+		        + "having mid(max(concat(v.visit_date,v.action_taken)),11) in (130719,135914,\n"
+		        + "                                                                   165228,165192,5618,165180)\n"
 		        + "and max(date(v.visit_date)) between date(:startDate) and date(:endDate);";
 		cd.setName("receivedGbvLegalSupport");
 		cd.setQuery(sqlQuery);
@@ -1565,8 +1564,8 @@ public class MonthlyReportCohortLibrary {
 		        + "a.dob                                                       as dob\n"
 		        + "from (select c.client_id, p.DOB as dob\n"
 		        + "from kenyaemr_etl.etl_contact c\n"
-		        + "inner join kenyaemr_etl.etl_client_registration p\n"
-		        + "on c.client_id = p.client_id and p.voided = 0\n"
+		        + "inner join kenyaemr_etl.etl_patient_demographics p\n"
+		        + "on c.client_id = p.patient_id and p.voided = 0\n"
 		        + "where c.key_population_type = "
 		        + kpType
 		        + " and c.voided = 0\n"
@@ -1607,8 +1606,8 @@ public class MonthlyReportCohortLibrary {
 		        + "a.dob                                                       as dob\n"
 		        + "from (select c.client_id, p.DOB as dob\n"
 		        + "from kenyaemr_etl.etl_contact c\n"
-		        + "inner join kenyaemr_etl.etl_client_registration p\n"
-		        + "on c.client_id = p.client_id and p.voided = 0\n"
+		        + "inner join kenyaemr_etl.etl_patient_demographics p\n"
+		        + "on c.client_id = p.patient_id and p.voided = 0\n"
 		        + "where c.key_population_type = "
 		        + kpType
 		        + " and c.voided = 0\n"
@@ -1649,8 +1648,8 @@ public class MonthlyReportCohortLibrary {
 		        + "a.dob  as dob\n"
 		        + "from (select c.client_id, p.DOB as dob\n"
 		        + "from kenyaemr_etl.etl_contact c\n"
-		        + "inner join kenyaemr_etl.etl_client_registration p\n"
-		        + "on c.client_id = p.client_id and p.voided = 0\n"
+		        + "inner join kenyaemr_etl.etl_patient_demographics p\n"
+		        + "on c.client_id = p.patient_id and p.voided = 0\n"
 		        + "where c.key_population_type = "
 		        + kpType
 		        + " and c.voided = 0\n"
@@ -1692,8 +1691,8 @@ public class MonthlyReportCohortLibrary {
 		        + "a.dob  as dob\n"
 		        + "from (select c.client_id, p.DOB as dob\n"
 		        + "from kenyaemr_etl.etl_contact c\n"
-		        + "inner join kenyaemr_etl.etl_client_registration p\n"
-		        + "on c.client_id = p.client_id and p.voided = 0\n"
+		        + "inner join kenyaemr_etl.etl_patient_demographics p\n"
+		        + "on c.client_id = p.patient_id and p.voided = 0\n"
 		        + "where c.key_population_type = "
 		        + kpType
 		        + " and c.voided = 0\n"
