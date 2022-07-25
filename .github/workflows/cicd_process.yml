@@ -17,6 +17,10 @@ jobs:
         port: ${{ secrets.PORT }}
         command_timeout: 200m
         script: |
+          cd /apps/github-workflows/kenyaemr-modules
+          sudo rm -rf openmrs-module-kenyakeypop
+          sudo mkdir openmrs-module-kenyakeypop
+          sudo chown -R cicd2:cicd2 openmrs-module-kenyakeypop
           git config --global --add safe.directory /apps/github-workflows/kenyaemr-modules/openmrs-module-kenyakeypop      
           cd /apps/github-workflows/kenyaemr-modules/openmrs-module-kenyakeypop
           git pull origin master
