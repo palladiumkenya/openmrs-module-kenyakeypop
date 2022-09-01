@@ -47,6 +47,8 @@
         }
     </style>
     <script type="text/javascript">
+        var TRANSFER_IN = 160563;
+        var NEW_CLIENT = 164144;
         var pgender = "<lookup expression="patient.gender" />";
         var patientId = <lookup expression="patient.patientId"/>;
         var kpVelocity = "<lookup expression="kenyakeypop.KpVelocityCalculation()" />";
@@ -123,6 +125,11 @@
             jq('#key_pop_type :input[type=radio]').click(kpTypeSelected);
 
 
+            jq("#transfer-date").hide();
+            jq("#transfer-facility").hide();
+            jq("#transfer-enrolment-date").hide();
+            jq('#peer-educator :input[type=radio]').change(onContactedByPeerEducatorChange);
+            jq('#transfer-in-status input').change(onTransferStatusChange);
 
             if(kpAlias !=null &amp;&amp; kpAlias !='null'){
                 jq('#kpalias:text').val(kpAlias);
@@ -208,32 +215,6 @@
 
             });
 
-            jq("input[type='radio']").click(function(){
-                var keypop_msm = $("input[name='w8']:checked").val();
-                if(keypop_msm ==160578){
-                    jq("#msm").show();
-                }else {
-                    jq("#msm").hide();
-                }
-
-                if (keypop_msm ==105) {
-                    jq("#people_inject_drugs").show();
-                }else {
-                    jq("#people_inject_drugs").hide();
-                }
-
-            });
-
-            jq("input[type='radio']").click(function(){
-                var peer_educator = $("input[name='w13']:checked").val();
-                if(peer_educator ==1065){
-                    jq("#program_name").show();
-                }else {
-                    jq("#program_name").hide();
-                }
-
-            });
-
             jq("#btnGenerateIdentifier").click(function(e){
 
                 e.preventDefault();
@@ -257,10 +238,21 @@
                     modal: true });
             });
             function kpTypeSelected() {
+                var val = jq(this).val();
                 jq('#kp-id input[type=text]').val(" ");
                 jq("#lblIdentifierStatus").text(" ").removeClass("ke-success-label");
                 jq('#kpTypeSelected').text(' ').removeClass("ke-error-label");
 
+                if(val ==160578){
+                    jq("#msm").show();
+                }else {
+                    jq("#msm").hide();
+                }
+                if (val ==105) {
+                    jq("#people_inject_drugs").show();
+                }else {
+                    jq("#people_inject_drugs").hide();
+                }
 
 
             }
@@ -391,8 +383,44 @@
             var using_drugs = getField("usingDrugs.value").val();
             var number_of_drugs = getField('number_of_Drugs.value').val();
             var upn = jq('#kp-id input[type=text]').val();
+            var entryPointStatus = getValue('transfer-in-status.value');
+            var transferInDate = getValue('transfer-in-date.value');
+            var firstEnrolledDate = getValue('first-enrolled-date.value');
+            var transferFacility = getValue('transfer-facility.value');
+            var keyPopType = getValue('key_pop_type.value');
 
+            if (entryPointStatus == "") {
+                getField('transfer-in-status.error').html('Please provide transfer in status.').show();
+                return false;
+            }else {
+                getField('transfer-in-status.error').html('Please provide transfer in status.').hide();
+            }
+            if (entryPointStatus== TRANSFER_IN  &amp;&amp; transferInDate == "") {
+                getField('transfer-in-date.error').html('Please provide transfer in date.').show();
+                return false;
+            }else {
+                getField('transfer-in-status.error').html('Please provide transfer in date.').hide();
+            }
+            if (entryPointStatus== TRANSFER_IN  &amp;&amp; transferFacility == "") {
+                getField('transfer-facility.error').html('Please provide facility transferred from.').show();
+                return false;
+            }else {
+                getField('transfer-facility.error').html('Please provide facility transferred from.').hide();
+            }
+            if (entryPointStatus== TRANSFER_IN  &amp;&amp; firstEnrolledDate == "") {
+                getField('first-enrolled-date.error').html('Please provide date first enrolled in KP program.').show();
+                return false;
+            }else {
+                getField('first-enrolled-date.error').html('Please provide date first enrolled in KP program.').hide();
+            }
 
+            if(entryPointStatus== TRANSFER_IN) {
+                var isTransferInBeforeFirstEnrolled = moment(moment(moment(transferInDate, 'YYYY-MM-DD').toDate()).format('YYYY-MM-DD')).isBefore(moment(moment(firstEnrolledDate, 'YYYY-MM-DD').toDate()).format('YYYY-MM-DD'));
+                if (isTransferInBeforeFirstEnrolled) {
+                    getField('transfer-in-date.error').html('Transfer in date, should not be later than Date first enrolled in KP program').show();
+                    return false;
+                }
+            }
             if(number_of_drugs!=""){
                 if (Number(number_of_drugs) > Number(0) &amp;&amp; Number(number_of_drugs) &lt; Number(200))
                 {
@@ -405,7 +433,7 @@
                 }
             }
 
-            if (!$("input[name=w8]:checked").val()) {
+            if (keyPopType == "") {
                 getField('key_pop_type.error').html('Please provide key population type.').show();
                 return false;
             }else {
@@ -507,9 +535,99 @@
             }
         }
 
+        var onContactedByPeerEducatorChange = function() {
+            var val = jq(this).val();
+            if(val ==1065){
+                jq("#program_name").show();
+            }else {
+                jq("#program_name").hide();
+            }
+        }
 
+        function onTransferStatusChange() {
+            var transferStatus = getValue('transfer-in-status.value');
+            var transferDate = jq('#transfer-date');
+            var transferFacility = jq('#transfer-facility');
+            var transferDateEnrolled = jq('#transfer-enrolment-date');
+            //New patient
+            if (transferStatus == NEW_CLIENT) {
+                jq('#kp-id :input').prop('disabled', false);
+                jq('.ke-program-followup-button').show();
+                jq("#transfer-date").hide();
+                jq("#transfer-facility").hide();
+                jq("#transfer-enrolment-date").hide();
+                clearHiddenSections([transferDate,transferFacility,transferDateEnrolled]);
+            }
+            //Transfer in
+            if (transferStatus== TRANSFER_IN) {
+                jq('#kp-id :input').prop('disabled', false);
+                jq('.ke-program-followup-button').hide();
+                jq("#transfer-date").show();
+                jq("#transfer-facility").show();
+                jq("#transfer-enrolment-date").show();
+            }
+        }
+        clearHiddenSections = function(parentObj) {
+            for(var i=0; i &lt; parentObj.length; i++){
+                parentObj[i].find('input[type=radio]').each(function() {
+                    this.checked = false;
+                });
+                parentObj[i].find('input[type=checkbox]').each(function() {
+                    this.checked = false;
+                });
+                parentObj[i].find('input[type=text]').each(function() {
+                    this.value = "";
+                });
+                parentObj[i].find('select').each(function() {
+                    this.selectedIndex =0;
+                });
+            }
+        }
 
     </script>
+
+    <ifMode mode="EDIT">
+        <script type="text/javascript">
+            jq(function(){
+                var transferStatus = getValue('transfer-in-status.value');
+                var kpType = getValue('key_pop_type.value');
+                var peerEducator = getValue('peer-educator.value');
+                //New patient
+                if (transferStatus == NEW_CLIENT) {
+                    jq('#kp-id :input').prop('disabled', false);
+                    jq('.ke-program-followup-button').show();
+                    jq("#transfer-date").hide();
+                    jq("#transfer-facility").hide();
+                    jq("#transfer-enrolment-date").hide();
+                }
+                //Transfer in
+                if (transferStatus== TRANSFER_IN) {
+                    jq('#kp-id :input').prop('disabled', false);
+                    jq('.ke-program-followup-button').hide();
+                    jq("#transfer-date").show();
+                    jq("#transfer-facility").show();
+                    jq("#transfer-enrolment-date").show();
+                }
+                if(kpType ==160578){
+                    jq("#msm").show();
+                }else {
+                    jq("#msm").hide();
+                }
+                if (kpType ==105) {
+                    jq("#people_inject_drugs").show();
+                }else {
+                    jq("#people_inject_drugs").hide();
+                }
+
+                if(peerEducator ==1065){
+                    jq("#program_name").show();
+                }else {
+                    jq("#program_name").hide();
+                }
+            });
+        </script>
+    </ifMode>
+
     <div class="ke-form-header">
         <table width="100%">
             <tr>
@@ -527,7 +645,32 @@
         <fieldset>
             <legend>Contact Form</legend>
             <table class="simple-table">
-
+                <tr>
+                    <td>Patient Type</td>
+                    <td colspan="3">
+                        <obs
+                                id="transfer-in-status" conceptId="164932" style="radio"
+                                answerConceptIds="164144,160563"
+                                answerLabels="New Patient,Transfer in"
+                                />
+                        <span style="color:red;"><strong>*</strong></span>
+                    </td>
+                </tr>
+                 <tr id="transfer-date">
+                            <td>Transfer in date:</td>
+                            <td colspan="3"><obs conceptId="160534AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="transfer-in-date" allowFutureDates="false"/>
+                                <span style="color:red;"><strong>*</strong></span></td>
+                  </tr>
+                  <tr id="transfer-facility">
+                            <td>Transferred from facility:</td>
+                            <td colspan="3"><obs conceptId="160535AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  size="20" id="transfer-facility"/>
+                                <span style="color:red;"><strong>*</strong></span></td>
+                    </tr>
+                   <tr id="transfer-enrolment-date">
+                       <td>Date <i>first</i> enrolled in KP program:</td>
+                        <td colspan="3"><obs conceptId="160555AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="first-enrolled-date" allowFutureDates="false"/>
+                            <span style="color:red;"><strong>*</strong></span></td>
+                     </tr>
                 <tr>
                     <td>Key Population Type</td>
                     <td colspan="3">
