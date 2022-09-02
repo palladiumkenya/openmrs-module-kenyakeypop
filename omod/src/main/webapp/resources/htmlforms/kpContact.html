@@ -192,7 +192,9 @@
             }
             if (pgender == 'M') {
                 jq("#key_pop_type input[value=165083]").prop("checked", false);
-                jq("#key_pop_type input[value=165083]").prop("disabled", true);
+                jq("#key_pop_type input[value=160578]").prop("disabled", true);
+                jq("#priority_pop_type input[value=160549]").prop("checked", false);
+                jq("#priority_pop_type input[value=160549]").prop("disabled", true);
 
             }
 
@@ -675,8 +677,17 @@
                     <td>Key Population Type</td>
                     <td colspan="3">
                         <obs id="key_pop_type" conceptId="164929"
-                             answerConceptIds="165083,160578,165084,105,165085,165100,162277"
-                             answerLabels="FSW,MSM,MSW,PWID,PWUD,Transgender,People in prison and other closed settings"
+                             answerConceptIds="165083,160578,165084,105,165085,165100"
+                             answerLabels="FSW,MSM,MSW,PWID,PWUD,Transgender"
+                             style="radio" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Priority Population Type</td>
+                    <td colspan="3">
+                        <obs id="priority_pop_type" conceptId="138643"
+                             answerConceptIds="159674,162198,160549,162277"
+                             answerLabels="Fisher Folk,Truck Driver,Adolescent and Young Girls,Prisoner"
                              style="radio" />
                     </td>
 
