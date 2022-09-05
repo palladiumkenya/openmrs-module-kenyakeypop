@@ -124,7 +124,6 @@
             jq("#kp-id input").attr("size", "35");
             jq('#key_pop_type :input[type=radio]').click(kpTypeSelected);
 
-
             jq("#transfer-date").hide();
             jq("#transfer-facility").hide();
             jq("#transfer-enrolment-date").hide();
@@ -193,6 +192,8 @@
             if (pgender == 'M') {
                 jq("#key_pop_type input[value=165083]").prop("checked", false);
                 jq("#key_pop_type input[value=165083]").prop("disabled", true);
+                jq("#priority_pop_type input[value=160549]").prop("checked", false);
+                jq("#priority_pop_type input[value=160549]").prop("disabled", true);
 
             }
 
@@ -237,6 +238,7 @@
                     width: 900,
                     modal: true });
             });
+
             function kpTypeSelected() {
                 var val = jq(this).val();
                 jq('#kp-id input[type=text]').val(" ");
@@ -556,7 +558,9 @@
                 jq("#transfer-date").hide();
                 jq("#transfer-facility").hide();
                 jq("#transfer-enrolment-date").hide();
-                clearHiddenSections([transferDate,transferFacility,transferDateEnrolled]);
+                clearHiddenSections(jq('#transfer-date'));
+                clearHiddenSections(jq('#transfer-facility'));
+                clearHiddenSections(jq('#transfer-enrolment-date'));
             }
             //Transfer in
             if (transferStatus== TRANSFER_IN) {
@@ -567,21 +571,21 @@
                 jq("#transfer-enrolment-date").show();
             }
         }
+
+
         clearHiddenSections = function(parentObj) {
-            for(var i=0; i &lt; parentObj.length; i++){
-                parentObj[i].find('input[type=radio]').each(function() {
-                    this.checked = false;
-                });
-                parentObj[i].find('input[type=checkbox]').each(function() {
-                    this.checked = false;
-                });
-                parentObj[i].find('input[type=text]').each(function() {
-                    this.value = "";
-                });
-                parentObj[i].find('select').each(function() {
-                    this.selectedIndex =0;
-                });
-            }
+            parentObj.find('input[type=radio]').each(function() {
+                this.checked = false;
+            });
+            parentObj.find('input[type=checkbox]').each(function() {
+                this.checked = false;
+            });
+            parentObj.find('input[type=text]').each(function() {
+                jq(this).val("");
+            });
+            parentObj.find('select').each(function() {
+                this.selectedIndex =0;
+            });
         }
 
     </script>
@@ -624,6 +628,7 @@
                 }else {
                     jq("#program_name").hide();
                 }
+
             });
         </script>
     </ifMode>
@@ -670,16 +675,24 @@
                        <td>Date <i>first</i> enrolled in KP program:</td>
                         <td colspan="3"><obs conceptId="160555AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="first-enrolled-date" allowFutureDates="false"/>
                             <span style="color:red;"><strong>*</strong></span></td>
-                     </tr>
-                <tr>
+                </tr>
+                <tr id="tr-key-pop" >
                     <td>Key Population Type</td>
                     <td colspan="3">
                         <obs id="key_pop_type" conceptId="164929"
                              answerConceptIds="165083,160578,165084,105,165085,165100,162277"
-                             answerLabels="FSW,MSM,MSW,PWID,PWUD,Transgender,People in prison and other closed settings"
+                             answerLabels="FSW,MSM,MSW,PWID,PWUD,Transgender,Prisoner"
+                             style="radio" />  <span style="color:red;"><strong>*</strong></span>
+                    </td>
+                </tr>
+                <tr id="tr-priority-pop">
+                    <td>Priority Population Type</td>
+                    <td colspan="3">
+                        <obs id="priority_pop_type" conceptId="138643"
+                             answerConceptIds="159674,162198,160549,162277"
+                             answerLabels="Fisher Folk,Truck Driver,Adolescent and Young Girls,Prisoner"
                              style="radio" />
                     </td>
-
                 </tr>
                 <tr>
                     <td>Unique Identifier code</td>
@@ -736,7 +749,7 @@
                     <td >Hot spot mostly frequented</td>
                     <td >
                         <obs conceptId="165006" id="hotspot_frequented"/>
-
+                        <span style="color:red;"><strong>*</strong></span>
                     </td>
                     <td >Type of Hotspot</td>
                     <td >
