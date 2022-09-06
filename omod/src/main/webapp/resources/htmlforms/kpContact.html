@@ -12,7 +12,24 @@
   ~ Copyright (C) OpenMRS, LLC.  All Rights Reserved.
 -->
 <htmlform>
-
+    <macros>
+        <macro key="subCountyNames" value="Baringo Central,Baringo North,Baringo South,Eldama Ravine,Mogotio,Tiaty,Bomet Central,Bomet East,Chepalungu,Konoin,Sotik,Bumula,Kabuchai,Kanduyi,Kimilil,Mt Elgon,Sirisia,Tongaren,Webuye East,Webuye West
+Budalangi,Butula,Funyula,Nambele,Teso North,Teso South,Matayos,Samia,Bunyala,Keiyo North,Keiyo South,Marakwet East,Marakwet West
+Manyatta,Mbeere North,Mbeere South,Runyenjes,Daadab,Fafi,Garissa Township,Hulugho,Ijara,Lagdera,Balambala,Homabay Town,Kabondo Kasipul,Karachwonyo,Kasipul,Mbita,Ndhiwa,Rangwe,Suba
+Isiolo,Merti,Garbatulla,Isinya,Kajiado Central,Kajiado North,Loitokitok,Mashuuru,Butere,Kakamega Central,Kakamega East,Kakamega North,Kakamega South,Khwisero,Lugari,Lukuyani,Lurambi,Matete,Mumias East,Mumias West,Mutungu,Navakholo,shinyalu,ikolomani,Malava
+Ainamoi,Belgut,Bureti,Kipkelion East,Kipkelion West,Soin/Sigowet,Gatundu North,Gatundu South,Githunguri,Juja,Kabete,Kiambaa,Kiambu,Kikuyu,Limuru,Ruiru,Thika Town,Lari
+Ganze,Kaloleni,Kilifi North,Kilifi South,Magarini,Malindi,Rabai,Kirinyaga Central,Gichugu,Ndia,Mwea East,Mwea West,Kisii central,Kitutu central,Kitutu Chache South,Kitutu Chache North,Marani,Masaba south,Nyamache,Kenyenya,Gucha,Kisii south,Gucha south,Sameta,Bonchari,South Mugirango,Bomachoge Borabu,Bobasi,Bamachoge Chache,Nyaribari Chache
+Kisumu Central,Kisumu East ,Kisumu West,Muhoroni,Nyakach,Nyando,Seme,Kitui West,Kitui Central,Kitui Rural,Kitui South,Kitui East,Mwingi North,Mwingi West,Mwingi Central
+Kinango,Lunga Lunga,Msambweni,Matuga,Laikipia Central,Laikipia East,Laikipia North,Laikipia West ,Nyahururu,Lamu East,Lamu West,Kathiani,Machakos Town,Masinga,Matungulu,Mavoko,Mwala,Yatta
+Kaiti,Kibwezi West,Kibwezi East,Kilome,Makueni,Mbooni,Banissa,Lafey,Mandera East,Mandera North,Mandera South,Mandera West,Laisamis,Moyale,North Hor,Saku
+Buuri,Igembe Central,Igembe North,Igembe South,Imenti Central,Imenti North,Imenti South,Tigania East,Tigania West,Awendo,Kuria East,Kuria West,Mabera,Ntimaru,Rongo,Suna East,Suna West,Uriri,Nyatike
+Changamwe,Jomvu,Kisauni,Likoni,Mvita,Nyali,Gatanga,Kahuro,Kandara,Kangema,Kigumo,Kiharu,Mathioya,Muranga South,Maragwa,Dagoretti North,Dagoretti South,Embakasi Central,Embakasi East,Embakasi North,Embakasi South,Embakasi West,Kamukunji,Kasarani,Kibra,Langata,Makadara,Mathare,Roysambu,Ruaraka,Starehe,Westlands
+Bahati,Gilgil,Kuresoi North,Kuresoi South,Molo,Naivasha,Nakuru Town East,Nakuru Town West,Njoro,Rongai,Subukia,Nakuru North,Aldai,Chesumei,Emgwen,Mosop,Nandi Hills,Tindiret,Narok East,Narok North,Narok South,Narok West,Transmara East,Transmara West
+Borabu,Manga,Masaba North,Nyamira North,Nyamira South,Kinangop,Kipipiri,Ndaragwa,Ol-Kalou,Ol Joro Orok,Kieni East,Kieni West,Mathira East,Mathira West,Mukurweini,Nyeri Town,Othaya,Tetu
+Samburu East,Samburu North,Samburu West,Alego Usonga,Bondo,Gem,Rarieda,Ugenya,Unguja,Mwatate,Taveta,Voi,Wundanyi,Bura,Galole,Garsen,Tharaka North,Tharaka South,Chuka,Igambango’mbe,Maara,Chiakariga and Muthambi
+Cherangany,Endebess,Kiminini,Kwanza,Saboti,Loima,Turkana Central,Turkana East,Turkana North,Turkana South,Ainabkoi,Kapseret,Kesses,Moiben,Soy,Turbo
+Emuhaya,Hamisi,Luanda,Sabatia,Vihiga,Eldas,Tarbaj,Wajir East,Wajir North,Wajir South,Wajir West,Central Pokot,North Pokot,Pokot South,West Pokot" />
+    </macros>
 
     <script type="text/javascript" src="../moduleResources/kenyaemr/scripts/moment.js"></script>
 
@@ -692,6 +709,14 @@
                              answerConceptIds="159674,162198,160549,162277"
                              answerLabels="Fisher Folk,Truck Driver,Adolescent and Young Girls,Prisoner"
                              style="radio" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Sub county of implementation :
+                    </td>
+                    <td><obs id="sub-county" conceptId="CIEL:167131"  answers="$subCountyNames" answerLabels="$subCountyNames"/>
+                        <span style="color:red;"><strong>*</strong></span>
                     </td>
                 </tr>
                 <tr>
