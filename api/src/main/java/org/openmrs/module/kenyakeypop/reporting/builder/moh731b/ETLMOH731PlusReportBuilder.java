@@ -15,8 +15,10 @@ import org.openmrs.module.kenyacore.report.builder.AbstractReportBuilder;
 import org.openmrs.module.kenyacore.report.builder.Builds;
 import org.openmrs.module.kenyaemr.reporting.ColumnParameters;
 import org.openmrs.module.kenyaemr.reporting.EmrReportingUtils;
+import org.openmrs.module.kenyakeypop.reporting.cohort.definition.MOH731BPlusSubCountyBasedCohortDefinition;
 import org.openmrs.module.kenyakeypop.reporting.library.ETLReports.moh731B.ETLMoh731PlusIndicatorLibrary;
 import org.openmrs.module.kenyakeypop.reporting.library.shared.common.CommonKpDimensionLibrary;
+import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.dataset.definition.CohortIndicatorDataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
@@ -59,13 +61,15 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 	@Override
 	protected List<Parameter> getParameters(ReportDescriptor reportDescriptor) {
 		return Arrays.asList(new Parameter("startDate", "Start Date", Date.class), new Parameter("endDate", "End Date",
-		        Date.class), new Parameter("dateBasedReporting", "", String.class));
+		        Date.class), new Parameter("subCounty", "Sub County", String.class), new Parameter("dateBasedReporting", "",
+		        String.class));
 	}
 	
 	@Override
 	protected List<Mapped<DataSetDefinition>> buildDataSets(ReportDescriptor reportDescriptor,
 	        ReportDefinition reportDefinition) {
-		return Arrays.asList(ReportUtils.map(kpDataSet(), "startDate=${startDate},endDate=${endDate}"));
+		return Arrays.asList(ReportUtils
+		        .map(kpDataSet(), "startDate=${startDate},endDate=${endDate},subCounty=${subCounty}"));
 	}
 	
 	/**
@@ -78,6 +82,7 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		cohortDsd.setName("4");
 		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cohortDsd.addParameter(new Parameter("subCounty", "Sub County", String.class));
 		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.moh731BAgeGroups(), "onDate=${endDate}"));
 		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
 		
@@ -526,6 +531,14 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		        cohortDsd.addColumn("Completed_PEP_Within_28_Days_PWID", "Completed PEP within 28 days Pwid", ReportUtils.map(moh731bIndicators.completedPEPWith28DaysPwid(), indParams),"");
 		        cohortDsd.addColumn("Completed_PEP_Within_28_Days_PWUD", "Completed PEP within 28 days Pwud", ReportUtils.map(moh731bIndicators.completedPEPWith28DaysPwud(), indParams),"");
 		        cohortDsd.addColumn("Completed_PEP_Within_28_Days_Transgender", "Completed PEP within 28 days Transgender", ReportUtils.map(moh731bIndicators.completedPEPWith28DaysTransgender(), indParams),"");
+
+
+		MOH731BPlusSubCountyBasedCohortDefinition cd = new MOH731BPlusSubCountyBasedCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("subCounty", "Sub County", Date.class));
+
+		cohortDsd.addRowFilter(cd, paramMapping);
 		*/
 		
 		return cohortDsd;
