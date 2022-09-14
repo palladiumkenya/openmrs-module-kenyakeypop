@@ -55,7 +55,11 @@ public class ETLMoh731PlusIndicatorLibrary {
 		return cohortIndicator("",
 		    ReportUtils.map(moh731BCohorts.activeTransgender(), "startDate=${startDate},endDate=${endDate}"));
 	}
-	
+
+	public CohortIndicator activePrisonersAndClossedSettings() {
+		return cohortIndicator("",
+				ReportUtils.map(moh731BCohorts.activePrisonersAndClossedSettings(), "startDate=${startDate},endDate=${endDate}"));
+	}
 	public CohortIndicator hivTestedFsw() {
 		return cohortIndicator("",
 		    ReportUtils.map(moh731BCohorts.hivTestedFsw(), "startDate=${startDate},endDate=${endDate}"));
