@@ -89,7 +89,11 @@ public class ETLMoh731PlusIndicatorLibrary {
 		return cohortIndicator("",
 		    ReportUtils.map(moh731BCohorts.hivTestedTransgender(), "startDate=${startDate},endDate=${endDate}"));
 	}
-	
+
+	public CohortIndicator hivTestedPrisonersAndClossedSettings() {
+		return cohortIndicator("",
+				ReportUtils.map(moh731BCohorts.hivTestedPrisonersAndClossedSettings(), "startDate=${startDate},endDate=${endDate}"));
+	}
 	public CohortIndicator testedAtFacilityFsw() {
 		return cohortIndicator("",
 		    ReportUtils.map(moh731BCohorts.testedAtFacilityFsw(), "startDate=${startDate},endDate=${endDate}"));
@@ -119,7 +123,10 @@ public class ETLMoh731PlusIndicatorLibrary {
 		return cohortIndicator("",
 		    ReportUtils.map(moh731BCohorts.testedAtFacilityTransgender(), "startDate=${startDate},endDate=${endDate}"));
 	}
-	
+	public CohortIndicator testedAtFacilityPrisonsersClosedSettings() {
+		return cohortIndicator("",
+				ReportUtils.map(moh731BCohorts.testedAtFacilityPrisonsersClosedSettings(), "startDate=${startDate},endDate=${endDate}"));
+	}
 	public CohortIndicator testedAtCommunityFsw() {
 		return cohortIndicator("",
 		    ReportUtils.map(moh731BCohorts.testedAtCommunityFsw(), "startDate=${startDate},endDate=${endDate}"));
@@ -149,7 +156,10 @@ public class ETLMoh731PlusIndicatorLibrary {
 		return cohortIndicator("",
 		    ReportUtils.map(moh731BCohorts.testedAtCommunityTransgender(), "startDate=${startDate},endDate=${endDate}"));
 	}
-	
+	public CohortIndicator testedAtCommunityPrisonsersClosedSettings() {
+		return cohortIndicator("",
+				ReportUtils.map(moh731BCohorts.testedAtCommunityPrisonsersClosedSettings(), "startDate=${startDate},endDate=${endDate}"));
+	}
 	public CohortIndicator testedNewFsw() {
 		return cohortIndicator("",
 		    ReportUtils.map(moh731BCohorts.testedNewFsw(), "startDate=${startDate},endDate=${endDate}"));
@@ -179,7 +189,11 @@ public class ETLMoh731PlusIndicatorLibrary {
 		return cohortIndicator("",
 		    ReportUtils.map(moh731BCohorts.testedAtNewTransgender(), "startDate=${startDate},endDate=${endDate}"));
 	}
-	
+
+	public CohortIndicator newlyTestedprisonsersClosedSettings() {
+		return cohortIndicator("",
+				ReportUtils.map(moh731BCohorts.newlyTestedprisonsersClosedSettings(), "startDate=${startDate},endDate=${endDate}"));
+	}
 	public CohortIndicator testedRepeatFsw() {
 		return cohortIndicator("",
 		    ReportUtils.map(moh731BCohorts.testedRepeatFsw(), "startDate=${startDate},endDate=${endDate}"));
@@ -208,6 +222,43 @@ public class ETLMoh731PlusIndicatorLibrary {
 	public CohortIndicator testedRepeatTransgender() {
 		return cohortIndicator("",
 		    ReportUtils.map(moh731BCohorts.testedRepeatTransgender(), "startDate=${startDate},endDate=${endDate}"));
+	}
+	public CohortIndicator testedRepeatPrisonersAndClosedSettings() {
+		return cohortIndicator("",
+				ReportUtils.map(moh731BCohorts.testedRepeatPrisonersAndClosedSettings(), "startDate=${startDate},endDate=${endDate}"));
+	}
+	public CohortIndicator selfTestedForHIVFsw() {
+		return cohortIndicator("",
+				ReportUtils.map(moh731BCohorts.selfTestedForHIVFsw(), "startDate=${startDate},endDate=${endDate}"));
+	}
+
+	public CohortIndicator selfTestedForHIVMsm() {
+		return cohortIndicator("",
+				ReportUtils.map(moh731BCohorts.selfTestedForHIVMsm(), "startDate=${startDate},endDate=${endDate}"));
+	}
+
+	public CohortIndicator selfTestedForHIVMsw() {
+		return cohortIndicator("",
+				ReportUtils.map(moh731BCohorts.selfTestedForHIVMsw(), "startDate=${startDate},endDate=${endDate}"));
+	}
+
+	public CohortIndicator selfTestedForHIVPwid() {
+		return cohortIndicator("",
+				ReportUtils.map(moh731BCohorts.selfTestedForHIVPwid(), "startDate=${startDate},endDate=${endDate}"));
+	}
+
+	public CohortIndicator selfTestedForHIVPwud() {
+		return cohortIndicator("",
+				ReportUtils.map(moh731BCohorts.selfTestedForHIVPwud(), "startDate=${startDate},endDate=${endDate}"));
+	}
+
+	public CohortIndicator selfTestedForHIVTransgender() {
+		return cohortIndicator("",
+				ReportUtils.map(moh731BCohorts.selfTestedForHIVTransgender(), "startDate=${startDate},endDate=${endDate}"));
+	}
+	public CohortIndicator selfTestedForHIVPrisonersAndClosedSettings() {
+		return cohortIndicator("",
+				ReportUtils.map(moh731BCohorts.selfTestedForHIVPrisonersAndClosedSettings(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	public CohortIndicator knownPositiveFsw() {
@@ -239,7 +290,10 @@ public class ETLMoh731PlusIndicatorLibrary {
 		return cohortIndicator("",
 		    ReportUtils.map(moh731BCohorts.knownPositiveTransgender(), "startDate=${startDate},endDate=${endDate}"));
 	}
-	
+	public CohortIndicator knownPositivePrisonersClosedSettings() {
+		return cohortIndicator("",
+				ReportUtils.map(moh731BCohorts.knownPositivePrisonersClosedSettings(), "startDate=${startDate},endDate=${endDate}"));
+	}
 	public CohortIndicator receivedPositiveResultsFsw() {
 		return cohortIndicator("",
 		    ReportUtils.map(moh731BCohorts.receivedPositiveResultsFsw(), "startDate=${startDate},endDate=${endDate}"));
