@@ -88,24 +88,27 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		
 		String indParams = "startDate=${startDate},endDate=${endDate}";
 		
-		EmrReportingUtils.addRow(cohortDsd, "Active_FSW", "Active FSW",
+		EmrReportingUtils.addRow(cohortDsd, "Active FSW", "",
 		    ReportUtils.map(moh731bIndicators.activeFsw(), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Active_MSM", "Active MSM",
+		EmrReportingUtils.addRow(cohortDsd, "Active MSM", "",
 		    ReportUtils.map(moh731bIndicators.activeMsm(), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Active_MSW", "Active MSW",
+		EmrReportingUtils.addRow(cohortDsd, "Active MSW", "",
 		    ReportUtils.map(moh731bIndicators.activeMsw(), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Active_PWID", "Active PWID",
+		EmrReportingUtils.addRow(cohortDsd, "Active PWID", "",
 		    ReportUtils.map(moh731bIndicators.activePwid(), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Active_PWUD", "Active PWUD",
+		EmrReportingUtils.addRow(cohortDsd, "Active PWUD", "",
 		    ReportUtils.map(moh731bIndicators.activePwud(), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Active_Transgender", "Active Transgender",
+		EmrReportingUtils.addRow(cohortDsd, "Active Transgender", "",
 		    ReportUtils.map(moh731bIndicators.activeTransgender(), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "Active prisoners and people in closed settings", "",
+				ReportUtils.map(moh731bIndicators.activePrisonersAndClossedSettings(), indParams), kpAgeDisaggregation,
+				Arrays.asList("01", "02", "03", "04", "05"));
 		
 		EmrReportingUtils.addRow(cohortDsd, "Tested_FSW", "Tested FSW",
 		    ReportUtils.map(moh731bIndicators.hivTestedFsw(), indParams), kpAgeDisaggregation,

@@ -25,103 +25,268 @@ import java.util.Date;
  * incorporated green card components
  */
 @Component
-//activeFsw
+
 public class ETLMoh731PlusCohortLibrary {
-	
+	/**
+	 * KPs who received atleast 1 service within the last 3 months from the effective date
+	 * @return
+	 */
+	public CohortDefinition kpCurr() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select c.client_id\n" +
+				"from kenyaemr_etl.etl_contact c\n" +
+				"         join kenyaemr_etl.etl_client_enrollment e on c.client_id = e.client_id and e.voided = 0\n" +
+				"         join (select p.client_id\n" +
+				"               from kenyaemr_etl.etl_peer_calendar p\n" +
+				"               where p.voided = 0\n" +
+				"               group by p.client_id\n" +
+				"               having max(p.visit_date) between DATE_SUB(date(date_sub(date(:endDate), interval 3 MONTH)), INTERVAL - 1 DAY) and date(:endDate)) p\n" +
+				"              on c.client_id = p.client_id\n" +
+				"         left join (select d.patient_id, max(d.visit_date) latest_visit\n" +
+				"                    from kenyaemr_etl.etl_patient_program_discontinuation d\n" +
+				"                    where d.program_name = 'KP') d on c.client_id = d.patient_id\n" +
+				"where (d.patient_id is null or d.latest_visit > date(:endDate))\n" +
+				"  and c.voided = 0\n" +
+				"group by c.client_id;";
+		cd.setName("kpCurr");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("kpCurr");
+
+		return cd;
+	}
+
+	/**
+	 * FSW
+	 * @return
+	 */
+	public CohortDefinition fsw() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select c.client_id\n" +
+				"from kenyaemr_etl.etl_contact c\n" +
+				"where date(c.visit_date) <= date(:endDate)\n" +
+				"group by c.client_id\n" +
+				"having mid(max(concat(date(c.visit_date), c.key_population_type)), 11) = 'FSW';";
+		cd.setName("fsw");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("fsw");
+
+		return cd;
+	}
+
+	/**
+	 * MSM
+	 * @return
+	 */
+	public CohortDefinition msm() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select c.client_id\n" +
+				"from kenyaemr_etl.etl_contact c\n" +
+				"where date(c.visit_date) <= date(:endDate)\n" +
+				"group by c.client_id\n" +
+				"having mid(max(concat(date(c.visit_date), c.key_population_type)), 11) = 'MSM';";
+		cd.setName("msm");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("msm");
+
+		return cd;
+	}
+
+	/**
+	 * MSW
+	 * @return
+	 */
+	public CohortDefinition msw() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select c.client_id\n" +
+				"from kenyaemr_etl.etl_contact c\n" +
+				"where date(c.visit_date) <= date(:endDate)\n" +
+				"group by c.client_id\n" +
+				"having mid(max(concat(date(c.visit_date), c.key_population_type)), 11) = 'MSW';";
+		cd.setName("msw");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("msw");
+
+		return cd;
+	}
+
+	/**
+	 * PWID
+	 * @return
+	 */
+	public CohortDefinition pwid() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select c.client_id\n" +
+				"from kenyaemr_etl.etl_contact c\n" +
+				"where date(c.visit_date) <= date(:endDate)\n" +
+				"group by c.client_id\n" +
+				"having mid(max(concat(date(c.visit_date), c.key_population_type)), 11) = 'PWID';";
+		cd.setName("pwid");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("pwid");
+
+		return cd;
+	}
+
+	/**
+	 * PWUD
+	 * @return
+	 */
+	public CohortDefinition pwud() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select c.client_id\n" +
+				"from kenyaemr_etl.etl_contact c\n" +
+				"where date(c.visit_date) <= date(:endDate)\n" +
+				"group by c.client_id\n" +
+				"having mid(max(concat(date(c.visit_date), c.key_population_type)), 11) = 'PWUD';";
+		cd.setName("pwud");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("pwud");
+
+		return cd;
+	}
+
+	/**
+	 * Transgender
+	 * @return
+	 */
+	public CohortDefinition transgender() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select c.client_id\n" +
+				"from kenyaemr_etl.etl_contact c\n" +
+				"where date(c.visit_date) <= date(:endDate)\n" +
+				"group by c.client_id\n" +
+				"having mid(max(concat(date(c.visit_date), c.key_population_type)), 11) = 'Transgender';";
+		cd.setName("transgender");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("transgender");
+
+		return cd;
+	}
+	/**
+	 * Prisoners and people in closed settings
+	 * @return
+	 */
+	public CohortDefinition prisonsersClosedSettings() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select c.client_id\n" +
+				"from kenyaemr_etl.etl_contact c\n" +
+				"where date(c.visit_date) <= date(:endDate)\n" +
+				"group by c.client_id\n" +
+				"having mid(max(concat(date(c.visit_date), c.key_population_type)), 11) = 'People in prison and other closed settings';";
+		cd.setName("prisonsersClosedSettings");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("Prisoners and people in closed settings");
+
+		return cd;
+	}
+
+	/**
+	 * FSW active in KP (Received atleast one service in the past 3 months going up to effective date)
+	 * @return
+	 */
 	public CohortDefinition activeFsw() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select  en.client_id  from kenyaemr_etl.etl_client_enrollment en  inner join kenyaemr_etl.etl_clinical_visit v on en.client_id = v.client_id\n"
-		        + "                                                            inner join kenyaemr_etl.etl_contact c on en.client_id = c.client_id\n"
-		        + "where c.key_population_type = \"FSW\"  and en.voided = 0\n"
-		        + "group by en.client_id\n"
-		        + "    having timestampdiff(MONTH,Max(date(v.visit_date)),date(:endDate))<=3;";
-		cd.setName("activeFsw");
-		cd.setQuery(sqlQuery);
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("activeFsw");
-		
+		cd.addSearch("kpCurr",ReportUtils.map(kpCurr(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("fsw",ReportUtils.map(fsw(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpCurr AND fsw");
 		return cd;
 	}
-	
-	//activeMsm
+
+	/**
+	 * MSM active in KP (Received atleast one service in the past 3 months going up to effective date)
+	 * @return
+	 */
 	public CohortDefinition activeMsm() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select  en.client_id  from kenyaemr_etl.etl_client_enrollment en  inner join kenyaemr_etl.etl_clinical_visit v on en.client_id = v.client_id\n"
-		        + "                                                            inner join kenyaemr_etl.etl_contact c on en.client_id = c.client_id\n"
-		        + "where c.key_population_type = \"MSM\"  and en.voided = 0\n"
-		        + "group by en.client_id\n"
-		        + "having timestampdiff(MONTH,Max(date(v.visit_date)),date(:endDate))<=3;";
-		cd.setName("activeMsm");
-		cd.setQuery(sqlQuery);
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("activeMsm");
-		
+		cd.addSearch("kpCurr",ReportUtils.map(kpCurr(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("msm",ReportUtils.map(msm(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpCurr AND msm");
 		return cd;
 	}
-	
+
+	/**
+	 * MSW active in KP (Received atleast one service in the past 3 months going up to effective date)
+	 * @return
+	 */
 	public CohortDefinition activeMsw() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select  en.client_id  from kenyaemr_etl.etl_client_enrollment en  inner join kenyaemr_etl.etl_clinical_visit v on en.client_id = v.client_id\n"
-		        + "                                                            inner join kenyaemr_etl.etl_contact c on en.client_id = c.client_id\n"
-		        + "where c.key_population_type = \"MSW\"  and en.voided = 0\n"
-		        + "group by en.client_id\n"
-		        + "having timestampdiff(MONTH,Max(date(v.visit_date)),date(:endDate))<=3;";
-		cd.setName("activeMsw");
-		cd.setQuery(sqlQuery);
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("activeMsw");
-		
+		cd.addSearch("kpCurr",ReportUtils.map(kpCurr(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("msw",ReportUtils.map(msw(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpCurr AND msw");
 		return cd;
 	}
-	
+	/**
+	 * PWID active in KP (Received atleast one service in the past 3 months going up to effective date)
+	 * @return
+	 */
 	public CohortDefinition activePwid() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select  en.client_id  from kenyaemr_etl.etl_client_enrollment en  inner join kenyaemr_etl.etl_clinical_visit v on en.client_id = v.client_id\n"
-		        + "                                                            inner join kenyaemr_etl.etl_contact c on en.client_id = c.client_id\n"
-		        + "where c.key_population_type = \"PWID\"  and en.voided = 0\n"
-		        + "group by en.client_id\n"
-		        + "having timestampdiff(MONTH,Max(date(v.visit_date)),date(:endDate))<=3;";
-		cd.setName("activePwid");
-		cd.setQuery(sqlQuery);
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("activePwid");
-		
+		cd.addSearch("kpCurr",ReportUtils.map(kpCurr(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("pwid",ReportUtils.map(pwid(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpCurr AND pwid");
 		return cd;
 	}
-	
+	/**
+	 * PWUD active in KP (Received atleast one service in the past 3 months going up to effective date)
+	 * @return
+	 */
 	public CohortDefinition activePwud() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select  en.client_id  from kenyaemr_etl.etl_client_enrollment en  inner join kenyaemr_etl.etl_clinical_visit v on en.client_id = v.client_id\n"
-		        + "                                                            inner join kenyaemr_etl.etl_contact c on en.client_id = c.client_id\n"
-		        + "where c.key_population_type = \"PWUD\"  and en.voided = 0\n"
-		        + "group by en.client_id\n"
-		        + "having timestampdiff(MONTH,Max(date(v.visit_date)),date(:endDate))<=3;";
-		cd.setName("activePwud");
-		cd.setQuery(sqlQuery);
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("activePwud");
-		
+		cd.addSearch("kpCurr",ReportUtils.map(kpCurr(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("pwud",ReportUtils.map(pwud(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpCurr AND pwud");
 		return cd;
 	}
-	
+	/**
+	 * Transgender active in KP (Received atleast one service in the past 3 months going up to effective date)
+	 * @return
+	 */
 	public CohortDefinition activeTransgender() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select  en.client_id  from kenyaemr_etl.etl_client_enrollment en  inner join kenyaemr_etl.etl_clinical_visit v on en.client_id = v.client_id\n"
-		        + "                                                            inner join kenyaemr_etl.etl_contact c on en.client_id = c.client_id\n"
-		        + "where c.key_population_type = \"Transgender\"  and en.voided = 0\n"
-		        + "group by en.client_id\n"
-		        + "having timestampdiff(MONTH,Max(date(v.visit_date)),date(:endDate))<=3;";
-		cd.setName("activeTransgender");
-		cd.setQuery(sqlQuery);
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("activeTransgender");
-		
+		cd.addSearch("kpCurr",ReportUtils.map(kpCurr(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("transgender",ReportUtils.map(transgender(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpCurr AND transgender");
+		return cd;
+	}
+	/**
+	 * Prisoners and people in closed settings active in KP (Received atleast one service in the past 3 months going up to effective date)
+	 * @return
+	 */
+	public CohortDefinition activePrisonersAndClossedSettings() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addSearch("kpCurr",ReportUtils.map(kpCurr(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("prisonsersClosedSettings",ReportUtils.map(prisonsersClosedSettings(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpCurr AND prisonsersClosedSettings");
 		return cd;
 	}
 	
