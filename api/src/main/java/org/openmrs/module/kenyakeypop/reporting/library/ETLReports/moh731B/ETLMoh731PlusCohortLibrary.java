@@ -13,6 +13,7 @@ import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.SqlCohortDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.springframework.stereotype.Component;
+import org.openmrs.module.kenyaemr.reporting.library.ETLReports.MOH731Greencard.ETLMoh731GreenCardCohortLibrary;
 
 import java.util.Date;
 
@@ -27,6 +28,10 @@ import java.util.Date;
 @Component
 
 public class ETLMoh731PlusCohortLibrary {
+
+	@Autowired
+	private ETLMoh731GreenCardCohortLibrary moh731Cohorts;
+
 	/**
 	 * KPs who received atleast 1 service within the last 3 months from the effective date
 	 * @return
@@ -289,654 +294,814 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.setCompositionString("kpCurr AND prisonsersClosedSettings");
 		return cd;
 	}
-	
+
+	/**
+	 * KPs tested For HIV
+	 * @return
+	 */
+	public CohortDefinition htsAllNumberTestedKeyPopulation() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select patient_id\n" +
+				"from kenyaemr_etl.etl_hts_test\n" +
+				"where test_type = 1\n" +
+				"  and population_type = 'Key Population'\n" +
+				"  and visit_date between date(:startDate) and date(:endDate);";
+		cd.setName("htsAllNumberTestedKeyPopulation");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("KPs tested For HIV");
+
+		return cd;
+	}
+	/**
+	 * FSW tested for HIV during the reporting period
+	 * @return
+	 */
 	public CohortDefinition hivTestedFsw() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select h.patient_id from kenyaemr_etl.etl_hts_test h inner join kenyaemr_etl.etl_client_enrollment e on h.patient_id = e.client_id\n"
-		        + "                inner join kenyaemr_etl.etl_contact c on h.patient_id = c.client_id\n"
-		        + "                where date(h.visit_date) between date(:startDate) and date(:endDate) and c.key_population_type = \"FSW\"\n"
-		        + "    group by h.patient_id;";
-		cd.setName("hivTestedFsw");
-		cd.setQuery(sqlQuery);
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("hivTestedFsw");
-		
+		cd.addSearch("fsw",ReportUtils.map(fsw(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("htsAllNumberTestedKeyPopulation",ReportUtils.map(htsAllNumberTestedKeyPopulation(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("fsw AND htsAllNumberTestedKeyPopulation");
 		return cd;
 	}
-	
+	/**
+	 * MSM tested for HIV during the reporting period
+	 * @return
+	 */
 	public CohortDefinition hivTestedMsm() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select h.patient_id from kenyaemr_etl.etl_hts_test h inner join kenyaemr_etl.etl_client_enrollment e on h.patient_id = e.client_id\n"
-		        + "                                              inner join kenyaemr_etl.etl_contact c on h.patient_id = c.client_id\n"
-		        + "where date(h.visit_date) between date(:startDate) and date(:endDate) and c.key_population_type = \"MSM\"\n"
-		        + "group by h.patient_id;";
-		cd.setName("hivTestedMsm");
-		cd.setQuery(sqlQuery);
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("hivTestedMsm");
-		
+		cd.addSearch("msm",ReportUtils.map(msm(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("htsAllNumberTestedKeyPopulation",ReportUtils.map(htsAllNumberTestedKeyPopulation(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("msm AND htsAllNumberTestedKeyPopulation");
 		return cd;
 	}
-	
+	/**
+	 * MSW tested for HIV during the reporting period
+	 * @return
+	 */
 	public CohortDefinition hivTestedMsw() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select h.patient_id from kenyaemr_etl.etl_hts_test h inner join kenyaemr_etl.etl_client_enrollment e on h.patient_id = e.client_id\n"
-		        + "                                              inner join kenyaemr_etl.etl_contact c on h.patient_id = c.client_id\n"
-		        + "where date(h.visit_date) between date(:startDate) and date(:endDate) and c.key_population_type = \"MSW\"\n"
-		        + "group by h.patient_id;";
-		cd.setName("hivTestedMsw");
-		cd.setQuery(sqlQuery);
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("hivTestedMsw");
-		
+		cd.addSearch("msw",ReportUtils.map(msw(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("htsAllNumberTestedKeyPopulation",ReportUtils.map(htsAllNumberTestedKeyPopulation(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("msw AND htsAllNumberTestedKeyPopulation");
 		return cd;
 	}
-	
+	/**
+	 * PWID tested for HIV during the reporting period
+	 * @return
+	 */
 	public CohortDefinition hivTestedPwid() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select h.patient_id from kenyaemr_etl.etl_hts_test h inner join kenyaemr_etl.etl_client_enrollment e on h.patient_id = e.client_id\n"
-		        + "                                              inner join kenyaemr_etl.etl_contact c on h.patient_id = c.client_id\n"
-		        + "where date(h.visit_date) between date(:startDate) and date(:endDate) and c.key_population_type = \"PWID\"\n"
-		        + "group by h.patient_id;";
-		cd.setName("hivTestedPwid");
-		cd.setQuery(sqlQuery);
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("hivTestedPwid");
-		
+		cd.addSearch("pwid",ReportUtils.map(pwid(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("htsAllNumberTestedKeyPopulation",ReportUtils.map(htsAllNumberTestedKeyPopulation(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("pwid AND htsAllNumberTestedKeyPopulation");
 		return cd;
 	}
-	
+	/**
+	 * PWUD tested for HIV during the reporting period
+	 * @return
+	 */
 	public CohortDefinition hivTestedPwud() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select h.patient_id from kenyaemr_etl.etl_hts_test h inner join kenyaemr_etl.etl_client_enrollment e on h.patient_id = e.client_id\n"
-		        + "                                              inner join kenyaemr_etl.etl_contact c on h.patient_id = c.client_id\n"
-		        + "where date(h.visit_date) between date(:startDate) and date(:endDate) and c.key_population_type = \"PWUD\"\n"
-		        + "group by h.patient_id;";
-		cd.setName("hivTestedPwud");
-		cd.setQuery(sqlQuery);
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("hivTestedPwud");
-		
+		cd.addSearch("pwud",ReportUtils.map(pwud(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("htsAllNumberTestedKeyPopulation",ReportUtils.map(htsAllNumberTestedKeyPopulation(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("pwud AND htsAllNumberTestedKeyPopulation");
 		return cd;
 	}
-	
+	/**
+	 * Transgender tested for HIV during the reporting period
+	 * @return
+	 */
 	public CohortDefinition hivTestedTransgender() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addSearch("pwud",ReportUtils.map(pwud(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("htsAllNumberTestedKeyPopulation",ReportUtils.map(htsAllNumberTestedKeyPopulation(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("pwud AND htsAllNumberTestedKeyPopulation");
+		return cd;
+	}
+	/**
+	 * Prisoners and people in closed settings tested for HIV during the reporting period
+	 * @return
+	 */
+	public CohortDefinition hivTestedPrisonersAndClossedSettings() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addSearch("prisonsersClosedSettings",ReportUtils.map(prisonsersClosedSettings(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("htsAllNumberTestedKeyPopulation",ReportUtils.map(htsAllNumberTestedKeyPopulation(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("prisonsersClosedSettings AND htsAllNumberTestedKeyPopulation");
+		return cd;
+	}
+	/**
+	 * KPs tested For HIV at the facility/dice
+	 * @return
+	 */
+	public CohortDefinition htsNumberTestedAtFacility() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select h.patient_id from kenyaemr_etl.etl_hts_test h inner join kenyaemr_etl.etl_client_enrollment e on h.patient_id = e.client_id\n"
-		        + "                                              inner join kenyaemr_etl.etl_contact c on h.patient_id = c.client_id\n"
-		        + "where date(h.visit_date) between date(:startDate) and date(:endDate) and c.key_population_type = \"Transgender\"\n"
-		        + "group by h.patient_id;";
-		cd.setName("hivTestedTransgender");
+		String sqlQuery = "select patient_id\n" +
+				"from kenyaemr_etl.etl_hts_test\n" +
+				"where test_type = 1\n" +
+				"  and population_type = 'Key Population'\n" +
+				"  and setting = 'Facility'\n" +
+				"  and visit_date between :startDate and :endDate;";
+		cd.setName("htsNumberTestedAtFacility");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("hivTestedTransgender");
-		
+		cd.setDescription("KPs tested For HIV at the facility");
+
 		return cd;
 	}
-	
+	/**
+	 * FSWs Tested at facility/Dice level
+	 * @return
+	 */
 	public CohortDefinition testedAtFacilityFsw() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select h.patient_id from kenyaemr_etl.etl_hts_test h inner join kenyaemr_etl.etl_client_enrollment e on h.patient_id = e.client_id\n"
-		        + "                                                     inner join kenyaemr_etl.etl_contact c on h.patient_id = c.client_id\n"
-		        + "where c.key_population_type = \"FSW\"\n"
-		        + "  and date(h.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "  and h.hts_entry_point in (\"In Patient Department(IPD)\",\n"
-		        + "                            \"Out Patient Department(OPD)Peadiatric Clinic\",\n"
-		        + "                            \"Nutrition Clinic\",\n"
-		        + "                            \"PMTCT\",\n"
-		        + "                            \"TB\",\n"
-		        + "                            \"CCC\",\n"
-		        + "                            \"VCT\")\n" + "group by h.patient_id;";
-		cd.setName("testedAtFacilityFsw");
-		cd.setQuery(sqlQuery);
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("testedAtFacilityFsw");
-		
+		cd.addSearch("fsw",ReportUtils.map(fsw(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("htsNumberTestedAtFacility",ReportUtils.map(htsNumberTestedAtFacility(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("fsw AND htsNumberTestedAtFacility");
 		return cd;
 	}
-	
+
+	/**
+	 * MSMs Tested at facility/Dice level
+	 * @return
+	 */
 	public CohortDefinition testedAtFacilityMsm() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select h.patient_id from kenyaemr_etl.etl_hts_test h inner join kenyaemr_etl.etl_client_enrollment e on h.patient_id = e.client_id\n"
-		        + "                                              inner join kenyaemr_etl.etl_contact c on h.patient_id = c.client_id\n"
-		        + "where c.key_population_type = \"MSM\"\n"
-		        + "  and date(h.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "  and h.hts_entry_point in (\"In Patient Department(IPD)\",\n"
-		        + "                            \"Out Patient Department(OPD)Peadiatric Clinic\",\n"
-		        + "                            \"Nutrition Clinic\",\n"
-		        + "                            \"PMTCT\",\n"
-		        + "                            \"TB\",\n"
-		        + "                            \"CCC\",\n"
-		        + "                            \"VCT\")\n" + "group by h.patient_id;";
-		cd.setName("testedAtFacilityMsm");
-		cd.setQuery(sqlQuery);
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("testedAtFacilityMsm");
-		
+		cd.addSearch("msm",ReportUtils.map(msm(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("htsNumberTestedAtFacility",ReportUtils.map(htsNumberTestedAtFacility(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("msm AND htsNumberTestedAtFacility");
 		return cd;
 	}
-	
+	/**
+	 * MSWs Tested at facility/Dice level
+	 * @return
+	 */
 	public CohortDefinition testedAtFacilityMsw() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select h.patient_id from kenyaemr_etl.etl_hts_test h inner join kenyaemr_etl.etl_client_enrollment e on h.patient_id = e.client_id\n"
-		        + "                                              inner join kenyaemr_etl.etl_contact c on h.patient_id = c.client_id\n"
-		        + "where c.key_population_type = \"MSW\"\n"
-		        + "  and date(h.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "  and h.hts_entry_point in (\"In Patient Department(IPD)\",\n"
-		        + "                            \"Out Patient Department(OPD)Peadiatric Clinic\",\n"
-		        + "                            \"Nutrition Clinic\",\n"
-		        + "                            \"PMTCT\",\n"
-		        + "                            \"TB\",\n"
-		        + "                            \"CCC\",\n"
-		        + "                            \"VCT\")\n" + "group by h.patient_id;";
-		cd.setName("testedAtFacilityMsw");
-		cd.setQuery(sqlQuery);
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("testedAtFacilityMsw");
-		
-		return cd;
+		cd.addSearch("msw",ReportUtils.map(msw(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("htsNumberTestedAtFacility",ReportUtils.map(htsNumberTestedAtFacility(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("msw AND htsNumberTestedAtFacility");
 	}
-	
+	/**
+	 * PWIDs Tested at facility/Dice level
+	 * @return
+	 */
 	public CohortDefinition testedAtFacilityPwid() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select h.patient_id from kenyaemr_etl.etl_hts_test h inner join kenyaemr_etl.etl_client_enrollment e on h.patient_id = e.client_id\n"
-		        + "                                              inner join kenyaemr_etl.etl_contact c on h.patient_id = c.client_id\n"
-		        + "where c.key_population_type = \"PWID\"\n"
-		        + "  and date(h.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "  and h.hts_entry_point in (\"In Patient Department(IPD)\",\n"
-		        + "                            \"Out Patient Department(OPD)Peadiatric Clinic\",\n"
-		        + "                            \"Nutrition Clinic\",\n"
-		        + "                            \"PMTCT\",\n"
-		        + "                            \"TB\",\n"
-		        + "                            \"CCC\",\n"
-		        + "                            \"VCT\")\n" + "group by h.patient_id;";
-		cd.setName("testedAtFacilityPwid");
-		cd.setQuery(sqlQuery);
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("testedAtFacilityPwid");
-		
-		return cd;
+		cd.addSearch("pwid",ReportUtils.map(pwid(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("htsNumberTestedAtFacility",ReportUtils.map(htsNumberTestedAtFacility(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("pwid AND htsNumberTestedAtFacility");
 	}
-	
+	/**
+	 * PWUDs Tested at facility/Dice level
+	 * @return
+	 */
 	public CohortDefinition testedAtFacilityPwud() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select h.patient_id from kenyaemr_etl.etl_hts_test h inner join kenyaemr_etl.etl_client_enrollment e on h.patient_id = e.client_id\n"
-		        + "                                              inner join kenyaemr_etl.etl_contact c on h.patient_id = c.client_id\n"
-		        + "where c.key_population_type = \"PWUD\"\n"
-		        + "  and date(h.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "  and h.hts_entry_point in (\"In Patient Department(IPD)\",\n"
-		        + "                            \"Out Patient Department(OPD)Peadiatric Clinic\",\n"
-		        + "                            \"Nutrition Clinic\",\n"
-		        + "                            \"PMTCT\",\n"
-		        + "                            \"TB\",\n"
-		        + "                            \"CCC\",\n"
-		        + "                            \"VCT\")\n" + "group by h.patient_id;";
-		cd.setName("diagnosedSTI");
-		cd.setQuery(sqlQuery);
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("Diagnosed for STI");
-		
-		return cd;
+		cd.addSearch("pwud",ReportUtils.map(pwud(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("htsNumberTestedAtFacility",ReportUtils.map(htsNumberTestedAtFacility(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("pwud AND htsNumberTestedAtFacility");
 	}
-	
+	/**
+	 * Transgender Tested at facility/Dice level
+	 * @return
+	 */
 	public CohortDefinition testedAtFacilityTransgender() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addSearch("transgender",ReportUtils.map(transgender(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("htsNumberTestedAtFacility",ReportUtils.map(htsNumberTestedAtFacility(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("transgender AND htsNumberTestedAtFacility");
+	}
+	/**
+	 * Prisoners and people in closed settings Tested at facility/Dice level
+	 * @return
+	 */
+	public CohortDefinition testedAtFacilityPrisonsersClosedSettings() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addSearch("prisonsersClosedSettings",ReportUtils.map(prisonsersClosedSettings(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("htsNumberTestedAtFacility",ReportUtils.map(htsNumberTestedAtFacility(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("prisonsersClosedSettings AND htsNumberTestedAtFacility");
+	}
+	/**
+	 * KPs tested For HIV at the community level
+	 * @return
+	 */
+	public CohortDefinition htsNumberTestedAtCommunity() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select h.patient_id from kenyaemr_etl.etl_hts_test h inner join kenyaemr_etl.etl_client_enrollment e on h.patient_id = e.client_id\n"
-		        + "                                              inner join kenyaemr_etl.etl_contact c on h.patient_id = c.client_id\n"
-		        + "where c.key_population_type = \"Transgender\"\n"
-		        + "  and date(h.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "  and h.hts_entry_point in (\"In Patient Department(IPD)\",\n"
-		        + "                            \"Out Patient Department(OPD)Peadiatric Clinic\",\n"
-		        + "                            \"Nutrition Clinic\",\n"
-		        + "                            \"PMTCT\",\n"
-		        + "                            \"TB\",\n"
-		        + "                            \"CCC\",\n"
-		        + "                            \"VCT\")\n" + "group by h.patient_id;";
-		cd.setName("testedAtFacilityTransgender");
+		String sqlQuery = "select patient_id\n" +
+				"from kenyaemr_etl.etl_hts_test\n" +
+				"where test_type = 1\n" +
+				"  and population_type = 'Key Population'\n" +
+				"  and setting = 'Community'\n" +
+				"  and date(visit_date) between date(:startDate) and date(:endDate);";
+		cd.setName("htsNumberTestedAtCommunity");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("testedAtFacilityTransgender");
-		
+		cd.setDescription("KPs tested For HIV at the community level");
+
 		return cd;
 	}
-	
-	//testedAtCommunityFsw
+	/**
+	 * FSWs Tested at community level
+	 * @return
+	 */
 	public CohortDefinition testedAtCommunityFsw() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select h.patient_id from kenyaemr_etl.etl_hts_test h inner join kenyaemr_etl.etl_client_enrollment e on h.patient_id = e.client_id\n"
-		        + "                                                     inner join kenyaemr_etl.etl_contact c on h.patient_id = c.client_id\n"
-		        + "where c.key_population_type = \"FSW\"\n"
-		        + "  and date(h.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "  and h.hts_entry_point in (\"Home Based Testing\",\n"
-		        + "                            \"Mobile Outreach\",\n"
-		        + "                            \"Other\")\n"
-		        + "group by h.patient_id;";
-		cd.setName("testedAtCommunityFsw");
-		cd.setQuery(sqlQuery);
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("testedAtCommunityFsw");
-		
-		return cd;
+		cd.addSearch("fsw",ReportUtils.map(fsw(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("htsNumberTestedAtCommunity",ReportUtils.map(htsNumberTestedAtCommunity(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("fsw AND htsNumberTestedAtCommunity");
 	}
-	
-	//testedAtCommunityMsm
+
+	/**
+	 * MSMs tested at community level
+	 * @return
+	 */
 	public CohortDefinition testedAtCommunityMsm() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select h.patient_id from kenyaemr_etl.etl_hts_test h inner join kenyaemr_etl.etl_client_enrollment e on h.patient_id = e.client_id\n"
-		        + "                                              inner join kenyaemr_etl.etl_contact c on h.patient_id = c.client_id\n"
-		        + "where c.key_population_type = \"MSM\"\n"
-		        + "  and date(h.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "  and h.hts_entry_point in (\"Home Based Testing\",\n"
-		        + "                            \"Mobile Outreach\",\n"
-		        + "                            \"Other\")\n"
-		        + "group by h.patient_id;";
-		cd.setName("testedAtCommunityMsm");
-		cd.setQuery(sqlQuery);
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("testedAtCommunityMsm");
-		
-		return cd;
+		cd.addSearch("msm",ReportUtils.map(msm(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("htsNumberTestedAtCommunity",ReportUtils.map(htsNumberTestedAtCommunity(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("msm AND htsNumberTestedAtCommunity");
 	}
-	
-	//testedAtCommunityMsw
+
+	/**
+	 * MSWs tested at community level
+	 * @return
+	 */
 	public CohortDefinition testedAtCommunityMsw() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select h.patient_id from kenyaemr_etl.etl_hts_test h inner join kenyaemr_etl.etl_client_enrollment e on h.patient_id = e.client_id\n"
-		        + "                                              inner join kenyaemr_etl.etl_contact c on h.patient_id = c.client_id\n"
-		        + "where c.key_population_type = \"MSW\"\n"
-		        + "  and date(h.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "  and h.hts_entry_point in (\"Home Based Testing\",\n"
-		        + "                            \"Mobile Outreach\",\n"
-		        + "                            \"Other\")\n"
-		        + "group by h.patient_id;";
-		cd.setName("testedAtCommunityMsw");
-		cd.setQuery(sqlQuery);
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("testedAtCommunityMsw");
-		
-		return cd;
+		cd.addSearch("msw",ReportUtils.map(msw(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("htsNumberTestedAtCommunity",ReportUtils.map(htsNumberTestedAtCommunity(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("msw AND htsNumberTestedAtCommunity");
 	}
-	
-	//testedAtCommunityPwid
+
+	/**
+	 * PWIDs tested at community level
+	 * @return
+	 */
 	public CohortDefinition testedAtCommunityPwid() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select h.patient_id from kenyaemr_etl.etl_hts_test h inner join kenyaemr_etl.etl_client_enrollment e on h.patient_id = e.client_id\n"
-		        + "                                              inner join kenyaemr_etl.etl_contact c on h.patient_id = c.client_id\n"
-		        + "where c.key_population_type = \"PWID\"\n"
-		        + "  and date(h.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "  and h.hts_entry_point in (\"Home Based Testing\",\n"
-		        + "                            \"Mobile Outreach\",\n"
-		        + "                            \"Other\")\n"
-		        + "group by h.patient_id;";
-		cd.setName("testedAtCommunityPwid");
-		cd.setQuery(sqlQuery);
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("testedAtCommunityPwid");
-		
-		return cd;
+		cd.addSearch("pwid",ReportUtils.map(pwid(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("htsNumberTestedAtCommunity",ReportUtils.map(htsNumberTestedAtCommunity(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("pwid AND htsNumberTestedAtCommunity");
 	}
-	
-	//testedAtCommunityPwud
+
+	/**
+	 * PWUD tested at community level
+	 * @return
+	 */
 	public CohortDefinition testedAtCommunityPwud() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select h.patient_id from kenyaemr_etl.etl_hts_test h inner join kenyaemr_etl.etl_client_enrollment e on h.patient_id = e.client_id\n"
-		        + "                                              inner join kenyaemr_etl.etl_contact c on h.patient_id = c.client_id\n"
-		        + "where c.key_population_type = \"PWUD\"\n"
-		        + "  and date(h.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "  and h.hts_entry_point in (\"Home Based Testing\",\n"
-		        + "                            \"Mobile Outreach\",\n"
-		        + "                            \"Other\")\n"
-		        + "group by h.patient_id;";
-		cd.setName("testedAtCommunityPwud");
-		cd.setQuery(sqlQuery);
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("testedAtCommunityPwud");
-		
-		return cd;
+		cd.addSearch("pwud",ReportUtils.map(pwud(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("htsNumberTestedAtCommunity",ReportUtils.map(htsNumberTestedAtCommunity(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("pwud AND htsNumberTestedAtCommunity");
 	}
-	
-	//testedAtCommunityTransgender
+
+	/**
+	 * Transgenders tested at community level
+	 * @return
+	 */
 	public CohortDefinition testedAtCommunityTransgender() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addSearch("transgender",ReportUtils.map(transgender(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("htsNumberTestedAtCommunity",ReportUtils.map(htsNumberTestedAtCommunity(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("transgender AND htsNumberTestedAtCommunity");
+	}
+
+	/**
+	 * Prisoners and people in closed settings tested at community level
+	 * @return
+	 */
+	public CohortDefinition testedAtCommunityPrisonsersClosedSettings() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addSearch("prisonsersClosedSettings",ReportUtils.map(prisonsersClosedSettings(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("htsNumberTestedAtCommunity",ReportUtils.map(htsNumberTestedAtCommunity(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("prisonsersClosedSettings AND htsNumberTestedAtCommunity");
+	}
+
+	/**
+	 * Newly Tested for HIV
+	 * @return
+	 */
+	public CohortDefinition newlyTestedForHIV() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select h.patient_id from kenyaemr_etl.etl_hts_test h inner join kenyaemr_etl.etl_client_enrollment e on h.patient_id = e.client_id\n"
-		        + "                                              inner join kenyaemr_etl.etl_contact c on h.patient_id = c.client_id\n"
-		        + "where c.key_population_type = \"Transgender\"\n"
-		        + "  and date(h.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "  and h.hts_entry_point in (\"Home Based Testing\",\n"
-		        + "                            \"Mobile Outreach\",\n"
-		        + "                            \"Other\")\n"
-		        + "group by h.patient_id;";
-		cd.setName("testedAtCommunityTransgender");
+		String sqlQuery = "select patient_id, first_test_date\n" +
+				"from (\n" +
+				"         SELECT patient_id,\n" +
+				"                min(visit_date) AS first_test_date\n" +
+				"         FROM kenyaemr_etl.etl_hts_test\n" +
+				"         WHERE test_type = 1\n" +
+				"         GROUP BY patient_id\n" +
+				"     ) t\n" +
+				"group by patient_id\n" +
+				"having first_test_date between :startDate and :endDate;";
+		cd.setName("newlyTestedForHIV");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("testedAtCommunityTransgender");
-		
+		cd.setDescription("newlyTestedForHIV");
+
 		return cd;
 	}
-	
-	//testedNewFsw
+
+	/**
+	 * FSWs newly tested for HIV
+	 * @return
+	 */
 	public CohortDefinition testedNewFsw() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select t.patient_id from kenyaemr_etl.etl_hts_test t inner join kenyaemr_etl.etl_client_enrollment e on t.patient_id = e.client_id\n"
-		        + "                                              inner join kenyaemr_etl.etl_contact c on t.patient_id = c.client_id\n"
-		        + "where c.key_population_type = \"FSW\"\n"
-		        + "group by t.patient_id\n"
-		        + "having min(date(t.visit_date)) between  date(:startDate) and date(:endDate);";
-		cd.setName("testedNewFsw");
-		cd.setQuery(sqlQuery);
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("testedNewFsw");
-		
-		return cd;
+		cd.addSearch("fsw",ReportUtils.map(fsw(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("newlyTestedForHIV",ReportUtils.map(newlyTestedForHIV(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("fsw AND newlyTestedForHIV");
 	}
-	
-	//testedNewMsm
+
+	/**
+	 * MSMs newly tested for HIV
+	 * @return
+	 */
 	public CohortDefinition testedNewMsm() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select t.patient_id from kenyaemr_etl.etl_hts_test t inner join kenyaemr_etl.etl_client_enrollment e on t.patient_id = e.client_id\n"
-		        + "                                              inner join kenyaemr_etl.etl_contact c on t.patient_id = c.client_id\n"
-		        + "where c.key_population_type = \"MSM\"\n"
-		        + "group by t.patient_id\n"
-		        + "having min(date(t.visit_date)) between  date(:startDate) and date(:endDate);";
-		cd.setName("testedNewMsm");
-		cd.setQuery(sqlQuery);
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("testedNewMsm");
-		
-		return cd;
+		cd.addSearch("msm",ReportUtils.map(msm(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("newlyTestedForHIV",ReportUtils.map(newlyTestedForHIV(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("msm AND newlyTestedForHIV");
 	}
-	
-	//testedNewMsw
+
+	/**
+	 * MSWs newly tested for HIV
+	 * @return
+	 */
 	public CohortDefinition testedNewMsw() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select t.patient_id from kenyaemr_etl.etl_hts_test t inner join kenyaemr_etl.etl_client_enrollment e on t.patient_id = e.client_id\n"
-		        + "                                              inner join kenyaemr_etl.etl_contact c on t.patient_id = c.client_id\n"
-		        + "where c.key_population_type = \"MSW\"\n"
-		        + "group by t.patient_id\n"
-		        + "having min(date(t.visit_date)) between  date(:startDate) and date(:endDate);";
-		cd.setName("testedNewMsw");
-		cd.setQuery(sqlQuery);
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("testedNewMsw");
-		
-		return cd;
+		cd.addSearch("msm",ReportUtils.map(msm(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("newlyTestedForHIV",ReportUtils.map(newlyTestedForHIV(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("msm AND newlyTestedForHIV");
 	}
-	
-	//testedNewPwid
+
+	/**
+	 * PWIDs newly tested for HIV
+	 * @return
+	 */
 	public CohortDefinition testedNewPwid() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select t.patient_id from kenyaemr_etl.etl_hts_test t inner join kenyaemr_etl.etl_client_enrollment e on t.patient_id = e.client_id\n"
-		        + "                                              inner join kenyaemr_etl.etl_contact c on t.patient_id = c.client_id\n"
-		        + "where c.key_population_type = \"PWID\"\n"
-		        + "group by t.patient_id\n"
-		        + "having min(date(t.visit_date)) between  date(:startDate) and date(:endDate);";
-		cd.setName("testedNewPwid");
-		cd.setQuery(sqlQuery);
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("testedNewPwid");
-		
-		return cd;
+		cd.addSearch("msm",ReportUtils.map(msm(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("newlyTestedForHIV",ReportUtils.map(newlyTestedForHIV(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("msm AND newlyTestedForHIV");
 	}
-	
-	//testedNewPwud
+
+	/**
+	 * MSMs newly tested for HIV
+	 * @return
+	 */
 	public CohortDefinition testedNewPwud() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select t.patient_id from kenyaemr_etl.etl_hts_test t inner join kenyaemr_etl.etl_client_enrollment e on t.patient_id = e.client_id\n"
-		        + "                                              inner join kenyaemr_etl.etl_contact c on t.patient_id = c.client_id\n"
-		        + "where c.key_population_type = \"PWUD\"\n"
-		        + "group by t.patient_id\n"
-		        + "having min(date(t.visit_date)) between  date(:startDate) and date(:endDate);";
-		cd.setName("testedNewPwud");
-		cd.setQuery(sqlQuery);
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("testedNewPwud");
-		
-		return cd;
+		cd.addSearch("msm",ReportUtils.map(msm(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("newlyTestedForHIV",ReportUtils.map(newlyTestedForHIV(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("msm AND newlyTestedForHIV");
 	}
-	
-	//testedAtNewTransgender
+
+	/**
+	 * Transgenders newly tested for HIV
+	 * @return
+	 */
 	public CohortDefinition testedAtNewTransgender() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addSearch("msm",ReportUtils.map(msm(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("newlyTestedForHIV",ReportUtils.map(newlyTestedForHIV(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("msm AND newlyTestedForHIV");
+	}
+
+	/**
+	 * Prisoners and people in closed settings newly tested for HIV
+	 * @return
+	 */
+	public CohortDefinition newlyTestedprisonsersClosedSettings() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addSearch("prisonsersClosedSettings",ReportUtils.map(prisonsersClosedSettings(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("newlyTestedForHIV",ReportUtils.map(newlyTestedForHIV(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("prisonsersClosedSettings AND newlyTestedForHIV");
+	}
+
+	/**
+	 * Clients with repeat HIV tests within the period
+	 * @return
+	 */
+	public CohortDefinition repeatHIVTest() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select t.patient_id from kenyaemr_etl.etl_hts_test t inner join kenyaemr_etl.etl_client_enrollment e on t.patient_id = e.client_id\n"
-		        + "                                              inner join kenyaemr_etl.etl_contact c on t.patient_id = c.client_id\n"
-		        + "where c.key_population_type = \"Transgender\"\n"
-		        + "group by t.patient_id\n"
-		        + "having min(date(t.visit_date)) between  date(:startDate) and date(:endDate);";
-		cd.setName("testedAtNewTransgender");
+		String sqlQuery = "select patient_id\n" +
+				"            from (\n" +
+				"                   SELECT\n" +
+				"                     patient_id,\n" +
+				"                     visit_date      AS test_date,\n" +
+				"                     max(visit_date) AS latest_test_date,\n" +
+				"                     min(visit_date) AS first_test_date,\n" +
+				"                          datediff(max(visit_date),min(visit_date))\n" +
+				"                   FROM kenyaemr_etl.etl_hts_test\n" +
+				"                   WHERE test_type = 1\n" +
+				"                   GROUP BY patient_id\n" +
+				"                 ) t\n" +
+				"            where date(test_date) between date(:startDate) and date(:endDate) and date(first_test_date) < date(latest_test_date)\n" +
+				"            GROUP BY patient_id;";
+		cd.setName("repeatHIVTest");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("testedAtNewTransgender");
-		
+		cd.setDescription("repeatHIVTest");
+
 		return cd;
 	}
-	
-	//testedRepeatFsw
+	/**
+	 * Repeat HIV tests for FSW within reporting period
+	 * @return
+	 */
 	public CohortDefinition testedRepeatFsw() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select t.patient_id from kenyaemr_etl.etl_hts_test t inner join kenyaemr_etl.etl_client_enrollment e on t.patient_id = e.client_id\n"
-		        + "                                              inner join kenyaemr_etl.etl_contact c on t.patient_id = e.client_id\n"
-		        + "where c.key_population_type = \"FSW\"\n" + "group by t.patient_id having count(distinct(t.visit_id)) >1;";
-		cd.setName("testedRepeatFsw");
-		cd.setQuery(sqlQuery);
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("testedRepeatFsw");
-		
-		return cd;
+		cd.addSearch("fsw",ReportUtils.map(fsw(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("repeatHIVTest",ReportUtils.map(repeatHIVTest(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("fsw AND repeatHIVTest");
 	}
-	
-	//testedRepeatMsm
+
+	/**
+	 * Repeat HIV tests for MSM within reporting period
+	 * @return
+	 */
 	public CohortDefinition testedRepeatMsm() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select t.patient_id from kenyaemr_etl.etl_hts_test t inner join kenyaemr_etl.etl_client_enrollment e on t.patient_id = e.client_id\n"
-		        + "                                              inner join kenyaemr_etl.etl_contact c on t.patient_id = e.client_id\n"
-		        + "where c.key_population_type = \"MSM\"\n" + "group by t.patient_id having count(distinct(t.visit_id)) >1;";
-		cd.setName("testedRepeatMsm");
-		cd.setQuery(sqlQuery);
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("testedRepeatMsm");
-		
-		return cd;
+		cd.addSearch("msm",ReportUtils.map(msm(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("repeatHIVTest",ReportUtils.map(repeatHIVTest(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("msm AND repeatHIVTest");
 	}
-	
-	//testedRepeatMsw
+
+	/**
+	 * Repeat HIV tests for MSWs within reporting period
+	 * @return
+	 */
 	public CohortDefinition testedRepeatMsw() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select t.patient_id from kenyaemr_etl.etl_hts_test t inner join kenyaemr_etl.etl_client_enrollment e on t.patient_id = e.client_id\n"
-		        + "                                              inner join kenyaemr_etl.etl_contact c on t.patient_id = e.client_id\n"
-		        + "where c.key_population_type = \"MSW\"\n" + "group by t.patient_id having count(distinct(t.visit_id)) >1;";
-		cd.setName("testedRepeatMsw");
-		cd.setQuery(sqlQuery);
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("testedRepeatMsw");
-		
-		return cd;
+		cd.addSearch("msw",ReportUtils.map(msw(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("repeatHIVTest",ReportUtils.map(repeatHIVTest(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("msw AND repeatHIVTest");
 	}
-	
-	//testedRepeatPwid
+
+	/**
+	 * Repeat HIV tests for PWID within reporting period
+	 * @return
+	 */
 	public CohortDefinition testedRepeatPwid() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select t.patient_id from kenyaemr_etl.etl_hts_test t inner join kenyaemr_etl.etl_client_enrollment e on t.patient_id = e.client_id\n"
-		        + "                                              inner join kenyaemr_etl.etl_contact c on t.patient_id = e.client_id\n"
-		        + "where c.key_population_type = \"PWID\"\n"
-		        + "group by t.patient_id having count(distinct(t.visit_id)) >1;";
-		cd.setName("testedRepeatPwid");
-		cd.setQuery(sqlQuery);
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("testedRepeatPwid");
-		
-		return cd;
+		cd.addSearch("pwid",ReportUtils.map(pwid(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("repeatHIVTest",ReportUtils.map(repeatHIVTest(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("pwid AND repeatHIVTest");
 	}
-	
-	//testedRepeatPwud
+
+	/**
+	 * Repeat HIV tests for PWUD within reporting period
+	 * @return
+	 */
 	public CohortDefinition testedRepeatPwud() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select t.patient_id from kenyaemr_etl.etl_hts_test t inner join kenyaemr_etl.etl_client_enrollment e on t.patient_id = e.client_id\n"
-		        + "                                              inner join kenyaemr_etl.etl_contact c on t.patient_id = e.client_id\n"
-		        + "where c.key_population_type = \"PWUD\"\n"
-		        + "group by t.patient_id having count(distinct(t.visit_id)) >1;";
-		cd.setName("testedRepeatPwud");
-		cd.setQuery(sqlQuery);
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("testedRepeatPwud");
-		
-		return cd;
+		cd.addSearch("pwud",ReportUtils.map(pwud(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("repeatHIVTest",ReportUtils.map(repeatHIVTest(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("pwud AND repeatHIVTest");
 	}
-	
+	/**
+	 * Repeat HIV tests for Transgenders within reporting period
+	 * @return
+	 */
 	public CohortDefinition testedRepeatTransgender() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addSearch("transgender",ReportUtils.map(transgender(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("repeatHIVTest",ReportUtils.map(repeatHIVTest(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("transgender AND repeatHIVTest");
+	}
+
+	/**
+	 * Repeat HIV tests for Prisoners and people in closed settings within reporting period
+	 * @return
+	 */
+	public CohortDefinition testedRepeatPrisonersAndClosedSettings() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addSearch("prisonsersClosedSettings",ReportUtils.map(prisonsersClosedSettings(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("repeatHIVTest",ReportUtils.map(repeatHIVTest(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("prisonsersClosedSettings AND repeatHIVTest");
+	}
+
+	/**
+	 * KP Client who had a self HIV test within the reporting period
+	 * @return
+	 */
+	public CohortDefinition selfHIVTest() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select t.patient_id from kenyaemr_etl.etl_hts_test t inner join kenyaemr_etl.etl_client_enrollment e on t.patient_id = e.client_id\n"
-		        + "                                              inner join kenyaemr_etl.etl_contact c on t.patient_id = e.client_id\n"
-		        + "where c.key_population_type = \"Transgender\"\n"
-		        + "group by t.patient_id having count(distinct(t.visit_id)) >1;";
-		cd.setName("testedRepeatTransgender");
+		String sqlQuery = "select patient_id\n" +
+				"from kenyaemr_etl.etl_hts_test\n" +
+				"where patient_had_hiv_self_test = 'Yes'\n" +
+				"  and population_type = 'Key Population'\n" +
+				"  and visit_date between :startDate and :endDate;";
+		cd.setName("selfHIVTest");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("testedRepeatTransgender");
+		cd.setDescription("selfHIVTest");
+
+		return cd;
+	}
+	/**
+	 * Self HIV tests for FSW within reporting period
+	 * @return
+	 */
+	public CohortDefinition selfTestedForHIVFsw() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addSearch("fsw",ReportUtils.map(fsw(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("selfHIVTest",ReportUtils.map(selfHIVTest(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("fsw AND selfHIVTest");
+	}
+
+	/**
+	 * Self HIV tests for MSM within reporting period
+	 * @return
+	 */
+	public CohortDefinition selfTestedForHIVMsm() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addSearch("msm",ReportUtils.map(msm(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("selfHIVTest",ReportUtils.map(selfHIVTest(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("msm AND selfHIVTest");
+	}
+
+	/**
+	 * Self HIV tests for MSWs within reporting period
+	 * @return
+	 */
+	public CohortDefinition selfTestedForHIVMsw() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addSearch("msw",ReportUtils.map(msw(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("selfHIVTest",ReportUtils.map(selfHIVTest(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("msw AND selfHIVTest");
+	}
+
+	/**
+	 * Self HIV tests for PWID within reporting period
+	 * @return
+	 */
+	public CohortDefinition selfTestedForHIVPwid() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addSearch("pwid",ReportUtils.map(pwid(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("selfHIVTest",ReportUtils.map(selfHIVTest(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("pwid AND selfHIVTest");
+	}
+
+	/**
+	 * Self HIV tests for PWUD within reporting period
+	 * @return
+	 */
+	public CohortDefinition selfTestedForHIVPwud() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addSearch("pwud",ReportUtils.map(pwud(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("selfHIVTest",ReportUtils.map(selfHIVTest(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("pwud AND selfHIVTest");
+	}
+	/**
+	 * Self HIV tests for Transgenders within reporting period
+	 * @return
+	 */
+	public CohortDefinition selfTestedForHIVTransgender() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addSearch("transgender",ReportUtils.map(transgender(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("selfHIVTest",ReportUtils.map(selfHIVTest(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("transgender AND selfHIVTest");
+	}
+
+	/**
+	 * Self HIV tests for Prisoners and people in closed settings within reporting period
+	 * @return
+	 */
+	public CohortDefinition selfTestedForHIVPrisonersAndClosedSettings() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addSearch("prisonsersClosedSettings",ReportUtils.map(prisonsersClosedSettings(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("selfHIVTest",ReportUtils.map(selfHIVTest(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("prisonsersClosedSettings AND selfHIVTest");
+	}
+
+	/**
+	 * Known Positive KPs
+	 * @return
+	 */
+	public CohortDefinition knownPositiveKPs() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select a.kp_client\n" +
+				"from (select c.client_id           as kp_client,\n" +
+				"             max(c.visit_date)     as latest_kp_enrollment,\n" +
+				"             e.client_id           as kp_known_pos,\n" +
+				"             e.kp_enrollment_date  as kp_enrollment_date,\n" +
+				"             h.patient_id          as hiv_enrolled,\n" +
+				"             h.hiv_enrollment_date as hiv_enroll_date,\n" +
+				"             t.patient_id          as hts_positive_patient,\n" +
+				"             t.hts_date            as hts_date\n" +
+				"      from kenyaemr_etl.etl_contact c\n" +
+				"               left join (select e.client_id, e.visit_date as kp_enrollment_date\n" +
+				"                          from kenyaemr_etl.etl_client_enrollment e\n" +
+				"                          where e.visit_date <= date(:endDate)\n" +
+				"                            and e.share_test_results = 'Yes I tested positive') e\n" +
+				"                         on c.client_id = e.client_id\n" +
+				"               left join (select h.patient_id, h.visit_date as hiv_enrollment_date\n" +
+				"                          from kenyaemr_etl.etl_hiv_enrollment h\n" +
+				"                          where h.visit_date <= date(:endDate)) h on c.client_id = h.patient_id\n" +
+				"               left join (select t.patient_id, t.visit_date as hts_date\n" +
+				"                          from kenyaemr_etl.etl_hts_test t\n" +
+				"                          where t.population_type= 'Key Population'\n" +
+				"                            and t.visit_date <= date(:endDate)\n" +
+				"                            and t.test_type = 2\n" +
+				"                            and t.final_test_result = 'Positive') t on c.client_id = t.patient_id\n" +
+				"      group by c.client_id\n" +
+				"      having latest_kp_enrollment <= date(:endDate)\n" +
+				"         and (kp_known_pos is not null or (hiv_enrolled is not null and hiv_enroll_date <= latest_kp_enrollment)\n" +
+				"          or (hts_positive_patient is not null and hts_date <= latest_kp_enrollment))) a;";
+		cd.setName("knownPositiveKPs");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("knownPositiveKPs");
 		
 		return cd;
 	}
-	
-	//knownPositiveFsw
+
+	/**
+	 * KP_CURR FSWs Living with HIV
+	 * @return
+	 */
 	public CohortDefinition knownPositiveFsw() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select e.client_id from kenyaemr_etl.etl_client_enrollment e\n"
-		        + "                          inner join kenyaemr_etl.etl_contact c on e.client_id = c.client_id\n"
-		        + "                          inner join kenyaemr_etl.etl_clinical_visit v on e.client_id = v.client_id\n"
-		        + "                          left outer join kenyaemr_etl.etl_hts_test t on e.client_id = t.patient_id\n"
-		        + "where c.key_population_type = \"FSW\" and  coalesce(v.test_results = \"Positive\" ,v.hiv_self_rep_status=\"Positive\",e.share_test_results =\"Yes I tested positive\",\n"
-		        + "                                                                t.final_test_result =\"Positive\")\n"
-		        + "group by e.client_id\n" + "having timestampdiff(MONTH,Max(date(v.visit_date)),date(:endDate))<=3;";
-		cd.setName("knownPositiveFsw");
-		cd.setQuery(sqlQuery);
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("knownPositiveFsw");
-		
-		return cd;
+		cd.addSearch("kpCurr",ReportUtils.map(kpCurr(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("fsw",ReportUtils.map(fsw(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("knownPositiveKPs",ReportUtils.map(knownPositiveKPs(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpCurr AND fsw AND knownPositiveKPs");
 	}
-	
-	//knownPositiveMsm
+	/**
+	 * KP_CURR MSMs Living with HIV
+	 * @return
+	 */
 	public CohortDefinition knownPositiveMsm() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select e.client_id from kenyaemr_etl.etl_client_enrollment e\n"
-		        + "                          inner join kenyaemr_etl.etl_contact c on e.client_id = c.client_id\n"
-		        + "                          inner join kenyaemr_etl.etl_clinical_visit v on e.client_id = v.client_id\n"
-		        + "                          left outer join kenyaemr_etl.etl_hts_test t on e.client_id = t.patient_id\n"
-		        + "where c.key_population_type = \"MSM\" and  coalesce(v.test_results = \"Positive\" ,v.hiv_self_rep_status=\"Positive\",e.share_test_results =\"Yes I tested positive\",\n"
-		        + "                                                                t.final_test_result =\"Positive\")\n"
-		        + "group by e.client_id\n" + "having timestampdiff(MONTH,Max(date(v.visit_date)),date(:endDate))<=3;";
-		cd.setName("knownPositiveMsm");
-		cd.setQuery(sqlQuery);
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("knownPositiveMsm");
-		
-		return cd;
+		cd.addSearch("kpCurr",ReportUtils.map(kpCurr(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("msm",ReportUtils.map(msm(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("knownPositiveKPs",ReportUtils.map(knownPositiveKPs(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpCurr AND msm AND knownPositiveKPs");
 	}
-	
-	//knownPositiveMsw
+
+	/**
+	 * KP_CURR MSWs Living with HIV
+	 * @return
+	 */
 	public CohortDefinition knownPositiveMsw() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select e.client_id from kenyaemr_etl.etl_client_enrollment e\n"
-		        + "                          inner join kenyaemr_etl.etl_contact c on e.client_id = c.client_id\n"
-		        + "                          inner join kenyaemr_etl.etl_clinical_visit v on e.client_id = v.client_id\n"
-		        + "                          left outer join kenyaemr_etl.etl_hts_test t on e.client_id = t.patient_id\n"
-		        + "where c.key_population_type = \"MSW\" and  coalesce(v.test_results = \"Positive\" ,v.hiv_self_rep_status=\"Positive\",e.share_test_results =\"Yes I tested positive\",\n"
-		        + "                                                                        t.final_test_result =\"Positive\")\n"
-		        + "group by e.client_id\n" + "having timestampdiff(MONTH,Max(date(v.visit_date)),date(:endDate))<=3;";
-		cd.setName("knownPositiveMsw");
-		cd.setQuery(sqlQuery);
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("knownPositiveMsw");
-		
-		return cd;
+		cd.addSearch("kpCurr",ReportUtils.map(kpCurr(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("msw",ReportUtils.map(msw(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("knownPositiveKPs",ReportUtils.map(knownPositiveKPs(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpCurr AND msw AND knownPositiveKPs");
 	}
-	
-	//knownPositivePwid
+
+	/**
+	 * KP_CURR PWIDs Living with HIV
+	 * @return
+	 */
 	public CohortDefinition knownPositivePwid() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select e.client_id from kenyaemr_etl.etl_client_enrollment e\n"
-		        + "                          inner join kenyaemr_etl.etl_contact c on e.client_id = c.client_id\n"
-		        + "                          inner join kenyaemr_etl.etl_clinical_visit v on e.client_id = v.client_id\n"
-		        + "                          left outer join kenyaemr_etl.etl_hts_test t on e.client_id = t.patient_id\n"
-		        + "where c.key_population_type = \"PWID\" and  coalesce(v.test_results = \"Positive\" ,v.hiv_self_rep_status=\"Positive\",e.share_test_results =\"Yes I tested positive\",\n"
-		        + "                                                              t.final_test_result =\"Positive\")\n"
-		        + "group by e.client_id\n" + "having timestampdiff(MONTH,Max(date(v.visit_date)),date(:endDate))<=3;";
-		cd.setName("knownPositivePwid");
-		cd.setQuery(sqlQuery);
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("knownPositivePwid ");
-		
-		return cd;
+		cd.addSearch("kpCurr",ReportUtils.map(kpCurr(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("pwid",ReportUtils.map(pwid(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("knownPositiveKPs",ReportUtils.map(knownPositiveKPs(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpCurr AND pwid AND knownPositiveKPs");
 	}
-	
-	//knownPositivePwud
+
+	/**
+	 * KP_CURR PWUD Living with HIV
+	 * @return
+	 */
 	public CohortDefinition knownPositivePwud() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select e.client_id from kenyaemr_etl.etl_client_enrollment e\n"
-		        + "                          inner join kenyaemr_etl.etl_contact c on e.client_id = c.client_id\n"
-		        + "                          inner join kenyaemr_etl.etl_clinical_visit v on e.client_id = v.client_id\n"
-		        + "                          left outer join kenyaemr_etl.etl_hts_test t on e.client_id = t.patient_id\n"
-		        + "where c.key_population_type = \"PWUD\" and  coalesce(v.test_results = \"Positive\" ,v.hiv_self_rep_status=\"Positive\",e.share_test_results =\"Yes I tested positive\",\n"
-		        + "                                                                      t.final_test_result =\"Positive\")\n"
-		        + "group by e.client_id\n" + "having timestampdiff(MONTH,Max(date(v.visit_date)),date(:endDate))<=3;";
-		cd.setName("knownPositivePwud");
-		cd.setQuery(sqlQuery);
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("knownPositivePwud");
-		
-		return cd;
+		cd.addSearch("kpCurr",ReportUtils.map(kpCurr(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("pwud",ReportUtils.map(pwud(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("knownPositiveKPs",ReportUtils.map(knownPositiveKPs(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpCurr AND pwud AND knownPositiveKPs");
 	}
-	
+	/**
+	 * KP_CURR Transgender Living with HIV
+	 * @return
+	 */
 	public CohortDefinition knownPositiveTransgender() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select e.client_id from kenyaemr_etl.etl_client_enrollment e\n"
-		        + "                          inner join kenyaemr_etl.etl_contact c on e.client_id = c.client_id\n"
-		        + "                          inner join kenyaemr_etl.etl_clinical_visit v on e.client_id = v.client_id\n"
-		        + "                          left outer join kenyaemr_etl.etl_hts_test t on e.client_id = t.patient_id\n"
-		        + "where c.key_population_type = \"Transgender\" and  coalesce(v.test_results = \"Positive\" ,v.hiv_self_rep_status=\"Positive\",e.share_test_results =\"Yes I tested positive\",\n"
-		        + "                                                                      t.final_test_result =\"Positive\")\n"
-		        + "group by e.client_id\n" + "having timestampdiff(MONTH,Max(date(v.visit_date)),date(:endDate))<=3;";
-		cd.setName("knownPositiveTransgender");
-		cd.setQuery(sqlQuery);
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("knownPositiveTransgender");
-		
-		return cd;
+		cd.addSearch("kpCurr",ReportUtils.map(kpCurr(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("transgender",ReportUtils.map(transgender(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("knownPositiveKPs",ReportUtils.map(knownPositiveKPs(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpCurr AND transgender AND knownPositiveKPs");
+	}
+	/**
+	 * KP_CURR Prisoners and people in closed settings Living with HIV
+	 * @return
+	 */
+	public CohortDefinition knownPositivePrisonersClosedSettings() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addSearch("kpCurr",ReportUtils.map(kpCurr(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("prisonsersClosedSettings",ReportUtils.map(prisonsersClosedSettings(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("knownPositiveKPs",ReportUtils.map(knownPositiveKPs(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpCurr AND prisonsersClosedSettings AND knownPositiveKPs");
 	}
 	
 	//receivedPositiveResultsFsw
