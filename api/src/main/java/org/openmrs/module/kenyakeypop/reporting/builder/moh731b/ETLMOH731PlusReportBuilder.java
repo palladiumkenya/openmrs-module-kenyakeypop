@@ -86,33 +86,27 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.moh731BAgeGroups(), "onDate=${endDate}"));
 		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
 		
-		String indParams = "startDate=${startDate},endDate=${endDate}";
+		String indParams = "startDate=${startDate},endDate=${endDate},subCounty=${subCounty}";
 		
-		EmrReportingUtils.addRow(cohortDsd, "Active FSW", "",
-		    ReportUtils.map(moh731bIndicators.activeFsw(), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Active MSM", "",
-		    ReportUtils.map(moh731bIndicators.activeMsm(), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Active MSW", "",
-		    ReportUtils.map(moh731bIndicators.activeMsw(), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Active PWID", "",
-		    ReportUtils.map(moh731bIndicators.activePwid(), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Active PWUD", "",
-		    ReportUtils.map(moh731bIndicators.activePwud(), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "Active FSW", "", ReportUtils.map(moh731bIndicators.activeFsw(), indParams),
+		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "Active MSM", "", ReportUtils.map(moh731bIndicators.activeMsm(), indParams),
+		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "Active MSW", "", ReportUtils.map(moh731bIndicators.activeMsw(), indParams),
+		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "Active PWID", "", ReportUtils.map(moh731bIndicators.activePwid(), indParams),
+		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "Active PWUD", "", ReportUtils.map(moh731bIndicators.activePwud(), indParams),
+		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
 		EmrReportingUtils.addRow(cohortDsd, "Active Transgender", "",
 		    ReportUtils.map(moh731bIndicators.activeTransgender(), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		EmrReportingUtils.addRow(cohortDsd, "Active prisoners and people in closed settings", "",
-				ReportUtils.map(moh731bIndicators.activePrisonersAndClossedSettings(), indParams), kpAgeDisaggregation,
-				Arrays.asList("01", "02", "03", "04", "05"));
-		
-		EmrReportingUtils.addRow(cohortDsd, "Tested FSW", "",
-		    ReportUtils.map(moh731bIndicators.hivTestedFsw(), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(moh731bIndicators.activePrisonersAndClossedSettings(), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
+		
+		EmrReportingUtils.addRow(cohortDsd, "Tested FSW", "", ReportUtils.map(moh731bIndicators.hivTestedFsw(), indParams),
+		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
 		EmrReportingUtils.addRow(cohortDsd, "Tested MSM", "Tested MSM",
 		    ReportUtils.map(moh731bIndicators.hivTestedMsm(), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -129,8 +123,8 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.hivTestedTransgender(), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		EmrReportingUtils.addRow(cohortDsd, "Tested prisoners and people in closed settings", "",
-				ReportUtils.map(moh731bIndicators.hivTestedPrisonersAndClossedSettings(), indParams), kpAgeDisaggregation,
-				Arrays.asList("01", "02", "03", "04", "05"));
+		    ReportUtils.map(moh731bIndicators.hivTestedPrisonersAndClosedSettings(), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
 		
 		cohortDsd.addColumn("Tested_Facility_FSW", "Tested Facility Fsw",
 		    ReportUtils.map(moh731bIndicators.testedAtFacilityFsw(), indParams), "");
@@ -145,8 +139,8 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		cohortDsd.addColumn("Tested_Facility_Transgender", "Tested Facility Transgender",
 		    ReportUtils.map(moh731bIndicators.testedAtFacilityTransgender(), indParams), "");
 		cohortDsd.addColumn("Tested_Facility_Prisoners_Closed_settings", "Prisoners & people in closed settings",
-				ReportUtils.map(moh731bIndicators.testedAtFacilityPrisonsersClosedSettings(), indParams), "");
-
+		    ReportUtils.map(moh731bIndicators.testedAtFacilityPrisonersClosedSettings(), indParams), "");
+		
 		cohortDsd.addColumn("Tested_Community_FSW", "Tested Community Fsw",
 		    ReportUtils.map(moh731bIndicators.testedAtCommunityFsw(), indParams), "");
 		cohortDsd.addColumn("Tested_Community_MSM", "Tested Community Msm",
@@ -159,8 +153,9 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.testedAtCommunityPwud(), indParams), "");
 		cohortDsd.addColumn("Tested_Community_Transgender", "Tested Community Transgender",
 		    ReportUtils.map(moh731bIndicators.testedAtCommunityTransgender(), indParams), "");
-		cohortDsd.addColumn("Tested_Community_Prisoners_Closed_Settings", "Tested Community Prisoners & people in closed settings",
-				ReportUtils.map(moh731bIndicators.testedAtCommunityPrisonsersClosedSettings(), indParams), "");
+		cohortDsd.addColumn("Tested_Community_Prisoners_Closed_Settings",
+		    "Tested Community Prisoners & people in closed settings",
+		    ReportUtils.map(moh731bIndicators.testedAtCommunityPrisonersClosedSettings(), indParams), "");
 		
 		cohortDsd.addColumn("Tested_New_FSW", "Tested New Fsw",
 		    ReportUtils.map(moh731bIndicators.testedNewFsw(), indParams), "");
@@ -175,8 +170,8 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		cohortDsd.addColumn("Tested_New_Transgender", "Tested New Transgender",
 		    ReportUtils.map(moh731bIndicators.testedAtNewTransgender(), indParams), "");
 		cohortDsd.addColumn("Tested_New_Prisoners_Closed_Settings", "Tested New Prisoners & people in closed settings",
-				ReportUtils.map(moh731bIndicators.newlyTestedprisonsersClosedSettings(), indParams), "");
-
+		    ReportUtils.map(moh731bIndicators.newlyTestedprisonersClosedSettings(), indParams), "");
+		
 		cohortDsd.addColumn("Tested_Repeat_FSW", "Tested Repeat Fsw",
 		    ReportUtils.map(moh731bIndicators.testedRepeatFsw(), indParams), "");
 		cohortDsd.addColumn("Tested_Repeat_MSM", "Tested Repeat Msm",
@@ -189,25 +184,25 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.testedRepeatPwud(), indParams), "");
 		cohortDsd.addColumn("Tested_Repeat_Transgender", "Tested Repeat Transgender",
 		    ReportUtils.map(moh731bIndicators.testedRepeatTransgender(), indParams), "");
-			cohortDsd.addColumn("Tested_Repeat_Prisoners_Closed_Settings", "Tested Repeat Prisoners & people in closed settings",
-					ReportUtils.map(moh731bIndicators.testedRepeatPrisonersAndClosedSettings(), indParams), "");
-
-
+		cohortDsd.addColumn("Tested_Repeat_Prisoners_Closed_Settings",
+		    "Tested Repeat Prisoners & people in closed settings",
+		    ReportUtils.map(moh731bIndicators.testedRepeatPrisonersAndClosedSettings(), indParams), "");
+		
 		cohortDsd.addColumn("Self_Tested_FSW", "Self Tested Fsw",
-				ReportUtils.map(moh731bIndicators.selfTestedForHIVFsw(), indParams), "");
+		    ReportUtils.map(moh731bIndicators.selfTestedForHIVFsw(), indParams), "");
 		cohortDsd.addColumn("Self_Tested_MSM", "Self Tested Msm",
-				ReportUtils.map(moh731bIndicators.selfTestedForHIVMsm(), indParams), "");
+		    ReportUtils.map(moh731bIndicators.selfTestedForHIVMsm(), indParams), "");
 		cohortDsd.addColumn("Self_Tested_MSW", "Self Tested Msw",
-				ReportUtils.map(moh731bIndicators.selfTestedForHIVMsw(), indParams), "");
+		    ReportUtils.map(moh731bIndicators.selfTestedForHIVMsw(), indParams), "");
 		cohortDsd.addColumn("Self_Tested_PWID", "Self Tested Pwid",
-				ReportUtils.map(moh731bIndicators.selfTestedForHIVPwid(), indParams), "");
+		    ReportUtils.map(moh731bIndicators.selfTestedForHIVPwid(), indParams), "");
 		cohortDsd.addColumn("Self_Tested_PWUD", "Self Tested Pwud",
-				ReportUtils.map(moh731bIndicators.selfTestedForHIVPwud(), indParams), "");
+		    ReportUtils.map(moh731bIndicators.selfTestedForHIVPwud(), indParams), "");
 		cohortDsd.addColumn("Self_Tested_Transgender", "Self Tested Transgender",
-				ReportUtils.map(moh731bIndicators.selfTestedForHIVTransgender(), indParams), "");
+		    ReportUtils.map(moh731bIndicators.selfTestedForHIVTransgender(), indParams), "");
 		cohortDsd.addColumn("Self_Tested_Prisoners_Closed_Settings", "Self Tested Prisoners & people in closed settings",
-				ReportUtils.map(moh731bIndicators.selfTestedForHIVPrisonersAndClosedSettings(), indParams), "");
-
+		    ReportUtils.map(moh731bIndicators.selfTestedForHIVPrisonersAndClosedSettings(), indParams), "");
+		
 		cohortDsd.addColumn("Known_Positive_FSW", "Known Positive Fsw",
 		    ReportUtils.map(moh731bIndicators.knownPositiveFsw(), indParams), "");
 		cohortDsd.addColumn("Known_Positive_MSM", "Known Positive Msm",
@@ -220,9 +215,10 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.knownPositivePwud(), indParams), "");
 		cohortDsd.addColumn("Known_Positive_Transgender", "Known Positive Transgender",
 		    ReportUtils.map(moh731bIndicators.knownPositivePrisonersClosedSettings(), indParams), "");
-		cohortDsd.addColumn("Known_Positive_Prisoners_Closed_Settings", "Known Positive Prisoners and People in closed settings",
-				ReportUtils.map(moh731bIndicators.knownPositivePrisonersClosedSettings(), indParams), "");
-
+		cohortDsd.addColumn("Known_Positive_Prisoners_Closed_Settings",
+		    "Known Positive Prisoners and People in closed settings",
+		    ReportUtils.map(moh731bIndicators.knownPositivePrisonersClosedSettings(), indParams), "");
+		
 		EmrReportingUtils.addRow(cohortDsd, "Received_Positive_Results_FSW", "Received Positive Results Fsw",
 		    ReportUtils.map(moh731bIndicators.receivedPositiveResultsFsw(), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
@@ -242,6 +238,10 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    "Received Positive Results Transgender",
 		    ReportUtils.map(moh731bIndicators.receivedPositiveResultsTransgender(), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "Received_Positive_Results_Prisoners_Closed_Settings",
+		    "Received Positive Results Prisoners and people in closed settings",
+		    ReportUtils.map(moh731bIndicators.receivedPositiveResultsPrisonersClosedSettings(), indParams),
+		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
 		
 		EmrReportingUtils.addRow(cohortDsd, "Linked_FSW", "HIV+ 3 Months ago and Linked Fsw",
 		    ReportUtils.map(moh731bIndicators.linkedFsw(), indParams), kpAgeDisaggregation,
@@ -261,6 +261,10 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		EmrReportingUtils.addRow(cohortDsd, "Linked_Transgender", "HIV+ 3 Months ago and Linked Transgender",
 		    ReportUtils.map(moh731bIndicators.linkedTransgender(), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "Linked_Prisoners_Closed_Settings",
+		    "HIV+ 3 Months ago and Linked Prisoners and closed settings",
+		    ReportUtils.map(moh731bIndicators.linkedPrisonersClosedSettings(), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
 		
 		cohortDsd.addColumn("Receiving_Condoms_FSW", "Receiving Condoms Fsw",
 		    ReportUtils.map(moh731bIndicators.receivingCondomsFsw(), indParams), "");
@@ -274,7 +278,9 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.receivingCondomsPwud(), indParams), "");
 		cohortDsd.addColumn("Receiving_Condoms_Transgender", "Receiving Condoms Transgender",
 		    ReportUtils.map(moh731bIndicators.receivingCondomsTransgender(), indParams), "");
-		
+		cohortDsd.addColumn("Receiving_Condoms_Prisoners_closed_settings", "Receiving Condoms Prisoners and people in closed settings",
+				ReportUtils.map(moh731bIndicators.receivingCondomsPrisonersClosedSettings(), indParams), "");
+
 		cohortDsd.addColumn("Receiving_Condoms_Per_Need_FSW", "Receiving Condoms Per need Fsw",
 		    ReportUtils.map(moh731bIndicators.receivingCondomsPerNeedPerNeedFsw(), indParams), "");
 		cohortDsd.addColumn("Receiving_Condoms_Per_Need_MSM", "Receiving Condoms Per need Msm",
@@ -287,7 +293,9 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.receivingCondomsPerNeedPwud(), indParams), "");
 		cohortDsd.addColumn("Receiving_Condoms_Per_Need_Transgender", "Receiving Condoms Per need Transgender",
 		    ReportUtils.map(moh731bIndicators.receivingCondomsPerNeedTransgender(), indParams), "");
-		
+		cohortDsd.addColumn("Receiving_Condoms_Per_Need_Prisoners_closed_settings", "Receiving Condoms Per need Prisoners and people in closed settings",
+				ReportUtils.map(moh731bIndicators.receivingCondomsPerNeedPrisonersClosedSettings(), indParams), "");
+
 		cohortDsd.addColumn("Receiving_Needles_and_Syringes_FSW", "Receiving needles and syringes Fsw",
 		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringesFsw(), indParams), "");
 		cohortDsd.addColumn("Receiving_Needles_and_Syringes_MSM", "Receiving needles and syringes Msm",
