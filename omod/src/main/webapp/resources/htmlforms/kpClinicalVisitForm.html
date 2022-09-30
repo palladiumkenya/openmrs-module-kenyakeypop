@@ -589,6 +589,26 @@
 
 
         }
+
+        var matScreened = function () {
+            var matScreened = getValue("mat_screened.value");
+            if (matScreened == 1066) {
+                //jq("#hepc_screened input").prop("disabled", true);
+                jq("#mat_results input").prop("disabled", true);
+                jq("#mat_treated input").prop("disabled", true);
+                jq("#mat_referred input").prop("disabled", true);
+                jq("#matxt input").prop("disabled", true);
+            }
+            else {
+                jq("#mat_screened input").prop("disabled", false);
+                jq("#mat_results input").prop("disabled", false);
+                jq("#mat_treated input").prop("disabled", false);
+                jq("#mat_referred input").prop("disabled", false);
+
+            }
+
+
+        }
         var menResults = function () {
             var menResults = getValue("men_results.value");
 
@@ -603,6 +623,21 @@
             }
 
         }
+        var matResults = function () {
+            var matResults = getValue("mat_results.value");
+
+            if (matResults == 664) {
+                jq("#mat_treated input").prop("disabled", true);
+                jq("#mat_referred input").prop("disabled", true);
+                jq("#matxt input").prop("disabled", true);
+            }
+            else {
+                jq("#mat_treated input").prop("disabled", false);
+                jq("#mat_referred input").prop("disabled", false);
+            }
+
+        }
+
 
         var menReferred = function () {
             var menReferred = getValue("men_referred.value");
@@ -610,6 +645,15 @@
                 jq("#mentxt input").prop("disabled", false);
             } else {
                 jq("#mentxt input").prop("disabled", true);
+            }
+
+        }
+        var matReferred = function () {
+            var matReferred = getValue("mat_referred.value");
+            if (matReferred == 1065) {
+                jq("#matxt input").prop("disabled", false);
+            } else {
+                jq("#matxt input").prop("disabled", true);
             }
 
         }
@@ -1076,6 +1120,11 @@
             jq("#hiv_selfreported input").change(hivTesting);
             jq("#hiv_settingoflasttest input").change(hivSettingOfLastTest);
 
+            //Mat validations
+            jq('#mat_screened').click(matScreened);
+            jq('#mat_results').click(matResults);
+            jq('#mat_referred').click(matReferred);
+
             jq("#hiv_tested input").change(hivTested);
             //jq("#hiv_selftest input").change(numberOfSelfTest);
             jq("#self_tested input").change(SelfTested);
@@ -1118,6 +1167,7 @@
             jq("#risk_screened input").prop("disabled", false);
             jq("#fam_screened input").prop("disabled", false);
             jq("#men_screened input").prop("disabled", false);
+            jq("#mat_screened input").prop("disabled", false);
             jq("#clinical textarea").prop("disabled", false);
             jq("#tca input").prop("disabled", false);
             jq("#selftxt input").prop("disabled", false);
@@ -1146,6 +1196,7 @@
             var risk_reduction = getValue('risk_screened.value');
             var family_planning = getValue('fam_screened.value');
             var mental = getValue('men_screened.value');
+            var mat = getValue('mat_screened.value');
 
             var sti_results = getValue('sti_results.value');
             var sti_results2 = getValue('sti_results.value');
@@ -1167,6 +1218,7 @@
             var risk_reduction_results = getValue('risk_results.value');
             var family_planning_results = getValue('fam_results.value');
             var mental_results = getValue('men_results.value');
+            var mat_results = getValue('mat_results.value');
             var selfReportedStatus = getValue("hiv_selfreported.value");
             var hivTested = getValue('hiv_tested.value');
 
@@ -1217,6 +1269,10 @@
             }
             if (mental == 1065 &amp;&amp; mental_results == false) {
                 getField('men_results.error').html('Results required').show();
+                return false;
+            }
+            if (mat == 1065 &amp;&amp; mat_results == false) {
+                getField('mat_results.error').html('Results required').show();
                 return false;
             }
             if ((selfReportedStatus == 664 || selfReportedStatus == 1067) &amp;&amp; (hivTested == false || hivTested == "")) {
@@ -1895,8 +1951,40 @@
                     </td>
 
                 </tr>
-
-
+                <tr>
+                    <td><p>MAT service </p></td>
+                    <td>
+                        <p>
+                            <obs id="mat_screened" conceptId="166663"
+                                 style="radio" answerConceptIds="1065,1066"/>
+                        </p>
+                    </td>
+                    <td>
+                        <p>
+                            <obs id="mat_results" conceptId="166664"
+                                 style="radio" answerConceptIds="703,664"
+                                 answerLabels="Positive,Negative"/>
+                        </p>
+                    </td>
+                    <td>
+                        <p>
+                            <obs id="mat_treated" conceptId="165052"
+                                 style="radio" answerConceptIds="1065,1066"/>
+                        </p>
+                    </td>
+                    <td>
+                        <p>
+                            <obs id="mat_referred" conceptId="165093"
+                                 style="radio" answerConceptIds="1065,1066"/>
+                        </p>
+                    </td>
+                    <td>
+                        <p>
+                            <obs id="matxt" class="remarks" conceptId="166637"
+                            />
+                        </p>
+                    </td>
+                </tr>
             </table>
 
         </fieldset>
