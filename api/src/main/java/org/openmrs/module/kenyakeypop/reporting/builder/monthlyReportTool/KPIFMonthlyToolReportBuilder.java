@@ -767,7 +767,7 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.acceptedPNS("TRANSGENDER_NOT_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		
-		//29. PNS_ELICITED - Om2TkuDV50S
+		//		//29. PNS_ELICITED - Om2TkuDV50S
 		
 		EmrReportingUtils.addRow(cohortDsd, "PNS_ELICITED_FSW", "Elicited PNS",
 		    ReportUtils.map(monthlyReportIndicator.elicitedPNS("(\"FSW\")"), indParams), kpAgeDisaggregation,
@@ -791,7 +791,7 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.elicitedPNS("TRANSGENDER_NOT_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		
-		//30. PNS_KNOWN_POSITIVE_ENTRY - KMxOHc1sq6A
+		//		//30. PNS_KNOWN_POSITIVE_ENTRY - KMxOHc1sq6A
 		
 		EmrReportingUtils.addRow(cohortDsd, "PNS_KNOWN_POSITIVE_ENTRY_FSW", "PNS known positive at entry",
 		    ReportUtils.map(monthlyReportIndicator.pnsKnownPositiveAtEntry("(\"FSW\")"), indParams), kpAgeDisaggregation,
@@ -815,7 +815,7 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.pnsKnownPositiveAtEntry("TRANSGENDER_NOT_SW"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		
-		//31. PNS_NEW_HIV_POS - FZJvTrHEG9I
+		//		//31. PNS_NEW_HIV_POS - FZJvTrHEG9I
 		
 		EmrReportingUtils.addRow(cohortDsd, "PNS_NEW_HIV_POS_FSW", "PNS tested Positive",
 		    ReportUtils.map(monthlyReportIndicator.pnsTestedPositive("(\"FSW\")"), indParams), kpAgeDisaggregation,
@@ -839,7 +839,7 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.pnsTestedPositive("TRANSGENDER_NOT_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		
-		//32. PNS_NEW_HIV_NEG - zJTUyNwTvCX
+		//		//32. PNS_NEW_HIV_NEG - zJTUyNwTvCX
 		
 		EmrReportingUtils.addRow(cohortDsd, "PNS_NEW_HIV_NEG_FSW", "PNS tested Negative",
 		    ReportUtils.map(monthlyReportIndicator.pnsTestedNegative("(\"FSW\")"), indParams), kpAgeDisaggregation,
@@ -1271,25 +1271,25 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		
 		//47. KP_CURR - IfZnCTNMiec
 		
-		EmrReportingUtils.addRow(cohortDsd, "KP_CURR_FSW", "Cuurent on KP",
+		EmrReportingUtils.addRow(cohortDsd, "KP_CURR_FSW", "Current on KP",
 		    ReportUtils.map(monthlyReportIndicator.kpCurr("(\"FSW\")"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
-		EmrReportingUtils.addRow(cohortDsd, "KP_CURR_MSM", "Cuurent on KP",
+		EmrReportingUtils.addRow(cohortDsd, "KP_CURR_MSM", "Current on KP",
 		    ReportUtils.map(monthlyReportIndicator.kpCurr("(\"MSM\")"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
-		EmrReportingUtils.addRow(cohortDsd, "KP_CURR_MSW", "Cuurent on KP",
+		EmrReportingUtils.addRow(cohortDsd, "KP_CURR_MSW", "Current on KP",
 		    ReportUtils.map(monthlyReportIndicator.kpCurr("(\"MSW\")"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
-		EmrReportingUtils.addRow(cohortDsd, "KP_CURR_PWUD", "Cuurent on KP",
+		EmrReportingUtils.addRow(cohortDsd, "KP_CURR_PWUD", "Current on KP",
 		    ReportUtils.map(monthlyReportIndicator.kpCurr("(\"PWUD\")"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
-		EmrReportingUtils.addRow(cohortDsd, "KP_CURR_PWID", "Cuurent on KP",
+		EmrReportingUtils.addRow(cohortDsd, "KP_CURR_PWID", "Current on KP",
 		    ReportUtils.map(monthlyReportIndicator.kpCurr("(\"PWID\")"), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
-		EmrReportingUtils.addRow(cohortDsd, "KP_CURR_TG_SW", "Cuurent on KP",
+		EmrReportingUtils.addRow(cohortDsd, "KP_CURR_TG_SW", "Current on KP",
 		    ReportUtils.map(monthlyReportIndicator.kpCurr("TRANSGENDER_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
-		EmrReportingUtils.addRow(cohortDsd, "KP_CURR_TG_NOT_SW", "Cuurent on KP",
+		EmrReportingUtils.addRow(cohortDsd, "KP_CURR_TG_NOT_SW", "Current on KP",
 		    ReportUtils.map(monthlyReportIndicator.kpCurr("TRANSGENDER_NOT_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		
@@ -1624,7 +1624,7 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleDoneVerifyNonPEPFAR("TRANSGENDER_NOT_SW"), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
 		
-		//60. MMD
+		//		//60. MMD
 		EmrReportingUtils.addRow(cohortDsd, "MMD_FSW", "Multi month appointments",
 		    ReportUtils.map(monthlyReportIndicator.kpOnMultiMonthART("(\"FSW\")"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
