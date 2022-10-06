@@ -439,503 +439,104 @@ public class ETLMoh731PlusIndicatorLibrary {
 		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
 	}
 	
-	public CohortIndicator screenedForHCVFsw() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.screenedForHCVFsw(),
+	public CohortIndicator screenedForHCV(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.screenedForHCV(kpType),
 		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
 	}
 	
-	public CohortIndicator screenedForHCVMsm() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.screenedForHCVMsm(),
+	public CohortIndicator diagnosedWithHCV(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.diagnosedWithHCV(kpType),
 		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
 	}
 	
-	public CohortIndicator screenedForHCVMsw() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.screenedForHCVMsw(),
+	public CohortIndicator treatedForHCV(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.treatedForHCV(kpType),
 		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
 	}
 	
-	public CohortIndicator screenedForHCVPwid() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.screenedForHCVPwid(),
+	public CohortIndicator screenedForHBV(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.screenedForHBV(kpType),
 		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
 	}
 	
-	public CohortIndicator screenedForHCVPwud() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.screenedForHCVPwud(),
+	public CohortIndicator diagnosedWithHBV(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.diagnosedWithHBV(kpType),
 		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
 	}
 	
-	public CohortIndicator screenedForHCVTransgender() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.screenedForHCVTransgender(),
+	public CohortIndicator treatedForHBV(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.treatedForHBV(kpType),
 		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
 	}
 	
-	public CohortIndicator screenedForHBVFsw() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.screenedForHBVFsw(),
+	public CohortIndicator vaccinatedAgainstHBV(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.vaccinatedAgainstHBV(kpType),
 		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
 	}
 	
-	public CohortIndicator screenedForHBVMsm() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.screenedForHBVMsm(),
+	public CohortIndicator screenedTB(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.screenedTB(kpType),
 		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
 	}
 	
-	public CohortIndicator screenedForHBVMsw() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.screenedForHBVMsw(),
+	public CohortIndicator diagnosedTB(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.diagnosedTB(kpType),
 		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
 	}
 	
-	public CohortIndicator screenedForHBVPwid() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.screenedForHBVPwid(),
+	public CohortIndicator startedTBTX(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.startedTBTX(kpType),
 		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
 	}
 	
-	public CohortIndicator screenedForHBVPwud() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.screenedForHBVPwud(),
+	public CohortIndicator tbClientsOnHAART(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.tbClientsOnHAART(kpType),
 		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
 	}
 	
-	public CohortIndicator screenedForHBVTransgender() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.screenedForHBVTransgender(),
+	public CohortIndicator initiatedPrEP(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.initiatedPrEP(kpType),
 		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
 	}
 	
-	public CohortIndicator positiveHBVFsw() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.positiveHBVFsw(),
+	public CohortIndicator currentOnPrEP(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.currentOnPrEP(kpType),
 		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
 	}
 	
-	public CohortIndicator positiveHBVMsm() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.positiveHBVMsm(),
+	public CohortIndicator turningPositiveWhileOnPrEP(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.turningPositiveWhileOnPrEP(kpType),
 		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
 	}
 	
-	public CohortIndicator positiveHBVMsw() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.positiveHBVMsw(),
+	public CohortIndicator experiencingViolence(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.experiencingViolence(kpType),
 		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
 	}
 	
-	public CohortIndicator positiveHBVPwid() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.positiveHBVPwid(),
+	public CohortIndicator receivingViolenceSupport(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.receivingViolenceSupport(kpType),
 		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
 	}
 	
-	public CohortIndicator positiveHBVPwud() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.positiveHBVPwud(),
+	public CohortIndicator numberExposed(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.numberExposed(kpType),
 		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
 	}
 	
-	public CohortIndicator positiveHBVTransgender() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.positiveHBVTransgender(),
+	public CohortIndicator receivingPEPWithin72Hrs(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.receivingPEPWithin72Hrs(kpType),
 		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
 	}
 	
-	public CohortIndicator treatedHBVFsw() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.treatedHBVFsw(),
+	public CohortIndicator completedPEPWith28Days(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.completedPEPWith28Days(kpType),
 		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
 	}
 	
-	public CohortIndicator treatedHBVMsm() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.treatedHBVMsm(),
+	public CohortIndicator receivedPeerEducation(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.receivedPeerEducation(kpType),
 		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
 	}
 	
-	public CohortIndicator treatedHBVMsw() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.treatedHBVMsw(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator treatedHBVPwid() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.treatedHBVPwid(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator treatedHBVPwud() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.treatedHBVPwud(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator treatedHBVTransgender() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.treatedHBVTransgender(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator negativeHBVVaccinatedFsw() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.negativeHBVVaccinatedFsw(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator negativeHBVVaccinatedMsm() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.negativeHBVVaccinatedMsm(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator negativeHBVVaccinatedMsw() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.negativeHBVVaccinatedMsw(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator negativeHBVVaccinatedPwid() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.negativeHBVVaccinatedPwid(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator negativeHBVVaccinatedPwud() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.negativeHBVVaccinatedPwud(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator negativeHBVVaccinatedTransgender() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.negativeHBVVaccinatedTransgender(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator screenedTBFsw() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.screenedTBFsw(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator screenedTBMsm() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.screenedTBMsm(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator screenedTBMsw() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.screenedTBMsw(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator screenedTBPwid() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.screenedTBPwid(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator screenedTBPwud() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.screenedTBPwud(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator screenedTBTransgender() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.screenedTBTransgender(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator diagnosedTBFsw() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.diagnosedTBFsw(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator diagnosedTBMsm() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.diagnosedTBMsm(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator diagnosedTBMsw() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.diagnosedTBMsw(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator diagnosedTBPwid() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.diagnosedTBPwid(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator diagnosedTBPwud() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.diagnosedTBPwud(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator diagnosedTBTransgender() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.diagnosedTBTransgender(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator startedOnTBTxFsw() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.startedOnTBTxFsw(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator startedOnTBTxMsm() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.startedOnTBTxMsm(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator startedOnTBTxMsw() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.startedOnTBTxMsw(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator startedOnTBTxPwid() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.startedOnTBTxPwid(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator startedOnTBTxPwud() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.startedOnTBTxPwud(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator startedOnTBTxTransgender() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.startedOnTBTxTransgender(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator tbClientsOnHAARTFsw() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.tbClientsOnHAARTFsw(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator tbClientsOnHAARTMsm() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.tbClientsOnHAARTMsm(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator tbClientsOnHAARTMsw() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.tbClientsOnHAARTMsw(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator tbClientsOnHAARTPwid() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.tbClientsOnHAARTPwid(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator tbClientsOnHAARTPwud() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.tbClientsOnHAARTPwud(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator tbClientsOnHAARTTransgender() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.tbClientsOnHAARTTransgender(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator initiatedPrEPFsw() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.initiatedPrEPFsw(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator initiatedPrEPMsm() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.initiatedPrEPMsm(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator initiatedPrEPMsw() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.initiatedPrEPMsw(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator initiatedPrEPPwid() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.initiatedPrEPPwid(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator initiatedPrEPPwud() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.initiatedPrEPPwud(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator initiatedPrEPTransgender() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.initiatedPrEPTransgender(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator currentOnPrEPFsw() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.currentOnPrEPFsw(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator currentOnPrEPMsm() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.currentOnPrEPMsm(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator currentOnPrEPMsw() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.currentOnPrEPMsw(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator currentOnPrEPPwid() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.currentOnPrEPPwid(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator currentOnPrEPPwud() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.currentOnPrEPPwud(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator currentOnPrEPTransgender() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.currentOnPrEPTransgender(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator turningPositiveWhileOnPrEPFsw() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.turningPositiveWhileOnPrEPFsw(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator turningPositiveWhileOnPrEPMsm() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.turningPositiveWhileOnPrEPMsm(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator turningPositiveWhileOnPrEPMsw() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.turningPositiveWhileOnPrEPMsw(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator turningPositiveWhileOnPrEPPwid() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.turningPositiveWhileOnPrEPPwid(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator turningPositiveWhileOnPrEPPwud() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.turningPositiveWhileOnPrEPPwud(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator turningPositiveWhileOnPrEPTransgender() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.turningPositiveWhileOnPrEPTransgender(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator experiencingViolenceFsw() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.experiencingViolenceFsw(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator experiencingViolenceMsm() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.experiencingViolenceMsm(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator experiencingViolenceMsw() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.experiencingViolenceMsw(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator experiencingViolencePwid() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.experiencingViolencePwid(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator experiencingViolencePwud() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.experiencingViolencePwud(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator experiencingViolenceTransgender() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.experiencingViolenceTransgender(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator receivingViolenceSupportFsw() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.receivingViolenceSupportFsw(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator receivingViolenceSupportMsm() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.receivingViolenceSupportMsm(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator receivingViolenceSupportMsw() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.receivingViolenceSupportMsw(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator receivingViolenceSupportPwid() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.receivingViolenceSupportPwid(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator receivingViolenceSupportPwud() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.receivingViolenceSupportPwud(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator receivingViolenceSupportTransgender() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.receivingViolenceSupportTransgender(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator numberExposedFsw() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.numberExposedFsw(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator numberExposedMsm() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.numberExposedMsm(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator numberExposedMsw() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.numberExposedMsw(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator numberExposedPwid() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.numberExposedPwid(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator numberExposedPwud() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.numberExposedPwud(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator numberExposedTransgender() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.numberExposedTransgender(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator receivingPEPWithin72HrsFsw() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.receivingPEPWithin72HrsFsw(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator receivingPEPWithin72HrsMsm() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.receivingPEPWithin72HrsMsm(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator receivingPEPWithin72HrsMsw() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.receivingPEPWithin72HrsMsw(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator receivingPEPWithin72HrsPwid() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.receivingPEPWithin72HrsPwid(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator receivingPEPWithin72HrsPwud() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.receivingPEPWithin72HrsPwud(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	
-	public CohortIndicator receivingPEPWithin72HrsTransgender() {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.receivingPEPWithin72HrsTransgender(),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	}
-	/* public CohortIndicator completedPEPWith28DaysFsw() {
-	     return cohortIndicator("", ReportUtils.map(moh731BCohorts.completedPEPWith28DaysFsw(), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	 }
-
-	 public CohortIndicator completedPEPWith28DaysMsm() {
-	     return cohortIndicator("", ReportUtils.map(moh731BCohorts.completedPEPWith28DaysMsm(), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	 }
-	 public CohortIndicator completedPEPWith28DaysMsw() {
-	     return cohortIndicator("", ReportUtils.map(moh731BCohorts.completedPEPWith28DaysMsw(), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	 }
-	 public CohortIndicator completedPEPWith28DaysPwid() {
-	     return cohortIndicator("", ReportUtils.map(moh731BCohorts.completedPEPWith28DaysPwid(), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	 }
-
-	 public CohortIndicator completedPEPWith28DaysPwud() {
-	     return cohortIndicator("", ReportUtils.map(moh731BCohorts.completedPEPWith28DaysPwud(), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	 }
-	 public CohortIndicator completedPEPWith28DaysTransgender() {
-	     return cohortIndicator("", ReportUtils.map(moh731BCohorts.completedPEPWith28DaysTransgender(), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-	 }*/
 }

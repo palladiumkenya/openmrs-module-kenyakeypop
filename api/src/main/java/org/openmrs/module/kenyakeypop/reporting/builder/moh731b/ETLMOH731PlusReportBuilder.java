@@ -543,225 +543,403 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		cohortDsd.addColumn("STI_Treated_Prisoners_closed_settings",
 		    "Prisoners and people in closed settings Treated for STI",
 		    ReportUtils.map(moh731bIndicators.treatedForSTI(IN_PRISONS), indParams), "");
-		/*
+		
+		//Screened for HCV
+		/**
+		 * Number screened_HCV: number of individuals in each KP type who were screened for HCV in
+		 * the reporting period.
+		 */
 		cohortDsd.addColumn("Screened_HCV_FSW", "HCV Screening Fsw",
-		    ReportUtils.map(moh731bIndicators.screenedForHCVFsw(), indParams), "");
+		    ReportUtils.map(moh731bIndicators.screenedForHCV(FSW), indParams), "");
 		cohortDsd.addColumn("Screened_HCV_MSM", "HCV Screening Msm",
-		    ReportUtils.map(moh731bIndicators.screenedForHCVMsm(), indParams), "");
+		    ReportUtils.map(moh731bIndicators.screenedForHCV(MSM), indParams), "");
 		cohortDsd.addColumn("Screened_HCV_MSW", "HCV Screening Msw",
-		    ReportUtils.map(moh731bIndicators.screenedForHCVMsw(), indParams), "");
+		    ReportUtils.map(moh731bIndicators.screenedForHCV(MSW), indParams), "");
 		cohortDsd.addColumn("Screened_HCV_PWID", "HCV Screening Pwid",
-		    ReportUtils.map(moh731bIndicators.screenedForHCVPwid(), indParams), "");
+		    ReportUtils.map(moh731bIndicators.screenedForHCV(PWID), indParams), "");
 		cohortDsd.addColumn("Screened_HCV_PWUD", "HCV Screening Pwud",
-		    ReportUtils.map(moh731bIndicators.screenedForHCVPwud(), indParams), "");
+		    ReportUtils.map(moh731bIndicators.screenedForHCV(PWUD), indParams), "");
 		cohortDsd.addColumn("Screened_HCV_Transgender", "HCV Screening Transgender",
-		    ReportUtils.map(moh731bIndicators.screenedForHCVTransgender(), indParams), "");
-		
-		cohortDsd.addColumn("Screened_HBV_FSW", "HBV Screening Fsw",
-		    ReportUtils.map(moh731bIndicators.screenedForHBVFsw(), indParams), "");
-		cohortDsd.addColumn("Screened_HBV_MSM", "HBV Screening Msm",
-		    ReportUtils.map(moh731bIndicators.screenedForHBVMsm(), indParams), "");
-		cohortDsd.addColumn("Screened_HBV_MSW", "HBV Screening Msw",
-		    ReportUtils.map(moh731bIndicators.screenedForHBVMsw(), indParams), "");
-		cohortDsd.addColumn("Screened_HBV_PWID", "HBV Screening Per Need Pwid",
-		    ReportUtils.map(moh731bIndicators.screenedForHBVPwid(), indParams), "");
-		cohortDsd.addColumn("Screened_HBV_PWUD", "HBV Screening Pwud",
-		    ReportUtils.map(moh731bIndicators.screenedForHBVPwud(), indParams), "");
-		cohortDsd.addColumn("Screened_HBV_Transgender", "HBV Screening Transgender",
-		    ReportUtils.map(moh731bIndicators.screenedForHBVTransgender(), indParams), "");
-		
+		    ReportUtils.map(moh731bIndicators.screenedForHCV(TRANSGENDER), indParams), "");
+		cohortDsd.addColumn("Screened_HCV_Prisoners_closed_settings",
+		    "HCV Screened Prisoners and people in closed settings",
+		    ReportUtils.map(moh731bIndicators.screenedForHCV(IN_PRISONS), indParams), "");
+		/**
+		 * Positive_HCV: number of individuals in each KP type who were diagnosed with HCV in the
+		 * reporting period.
+		 */
 		cohortDsd.addColumn("Positive_HBV_FSW", "HBV Positive Fsw",
-		    ReportUtils.map(moh731bIndicators.positiveHBVFsw(), indParams), "");
+		    ReportUtils.map(moh731bIndicators.diagnosedWithHCV(FSW), indParams), "");
 		cohortDsd.addColumn("Positive_HBV_MSM", "HBV Positive Msm",
-		    ReportUtils.map(moh731bIndicators.positiveHBVMsm(), indParams), "");
+		    ReportUtils.map(moh731bIndicators.diagnosedWithHCV(MSM), indParams), "");
 		cohortDsd.addColumn("Positive_HBV_MSW", "HBV Positive Msw",
-		    ReportUtils.map(moh731bIndicators.positiveHBVMsw(), indParams), "");
+		    ReportUtils.map(moh731bIndicators.diagnosedWithHCV(MSW), indParams), "");
 		cohortDsd.addColumn("Positive_HBV_PWID", "HBV Positive Pwid",
-		    ReportUtils.map(moh731bIndicators.positiveHBVPwid(), indParams), "");
+		    ReportUtils.map(moh731bIndicators.diagnosedWithHCV(PWID), indParams), "");
 		cohortDsd.addColumn("Positive_HBV_PWUD", "HBV Positive Pwud",
-		    ReportUtils.map(moh731bIndicators.positiveHBVPwud(), indParams), "");
+		    ReportUtils.map(moh731bIndicators.diagnosedWithHCV(PWUD), indParams), "");
 		cohortDsd.addColumn("Positive_HBV_Transgender", "HBV Positive Transgender",
-		    ReportUtils.map(moh731bIndicators.positiveHBVTransgender(), indParams), "");
+		    ReportUtils.map(moh731bIndicators.diagnosedWithHCV(TRANSGENDER), indParams), "");
+		cohortDsd.addColumn("Screened_HCV_Prisoners_closed_settings",
+		    "HBV Positive Prisoners and people in closed settings",
+		    ReportUtils.map(moh731bIndicators.diagnosedWithHCV(IN_PRISONS), indParams), "");
 		
+		/**
+		 * Treated_HCV: number of individuals in each KP type who were treated for HCV in the
+		 * reporting period.
+		 */
+		cohortDsd.addColumn("Treated_HCV_FSW", "HCV Treated Fsw",
+		    ReportUtils.map(moh731bIndicators.treatedForHCV(FSW), indParams), "");
+		cohortDsd.addColumn("Treated_HCV_MSM", "HCV Treated Msm",
+		    ReportUtils.map(moh731bIndicators.treatedForHCV(MSM), indParams), "");
+		cohortDsd.addColumn("Treated_HCV_MSW", "HCV Treated Msw",
+		    ReportUtils.map(moh731bIndicators.treatedForHCV(MSW), indParams), "");
+		cohortDsd.addColumn("Treated_HCV_PWID", "HCV Treated Pwid",
+		    ReportUtils.map(moh731bIndicators.treatedForHCV(PWID), indParams), "");
+		cohortDsd.addColumn("Treated_HCV_PWUD", "HCV Treated Pwud",
+		    ReportUtils.map(moh731bIndicators.treatedForHCV(PWUD), indParams), "");
+		cohortDsd.addColumn("Treated_HCV_Transgender", "HCV Treated Transgender",
+		    ReportUtils.map(moh731bIndicators.treatedForHCV(TRANSGENDER), indParams), "");
+		cohortDsd.addColumn("Screened_HCV_Prisoners_closed_settings", "Prisoners and people in closed settings HCV treated",
+		    ReportUtils.map(moh731bIndicators.treatedForHCV(IN_PRISONS), indParams), "");
+		
+		//4.3 HBV (Hepatitis B)
+		/**
+		 * Number screened_HBV: number of individuals in each KP type who were screened for HBV in
+		 * the reporting period.
+		 */
+		cohortDsd.addColumn("Screened_HBV_FSW", "HBV Screened Fsw",
+		    ReportUtils.map(moh731bIndicators.screenedForHBV(FSW), indParams), "");
+		cohortDsd.addColumn("Screened_HBV_MSM", "HBV Screened Msm",
+		    ReportUtils.map(moh731bIndicators.screenedForHBV(MSM), indParams), "");
+		cohortDsd.addColumn("Screened_HBV_MSW", "HBV Screened Msw",
+		    ReportUtils.map(moh731bIndicators.screenedForHBV(MSW), indParams), "");
+		cohortDsd.addColumn("Screened_HBV_PWID", "HBV Screened Pwid",
+		    ReportUtils.map(moh731bIndicators.screenedForHBV(PWID), indParams), "");
+		cohortDsd.addColumn("Screened_HBV_PWUD", "HBV Screened Pwud",
+		    ReportUtils.map(moh731bIndicators.screenedForHBV(PWUD), indParams), "");
+		cohortDsd.addColumn("Screened_HBV_Transgender", "HBV Screened Transgender",
+		    ReportUtils.map(moh731bIndicators.screenedForHBV(TRANSGENDER), indParams), "");
+		cohortDsd.addColumn("Screened_HCV_Prisoners_closed_settings",
+		    "HBV screened Prisoners and people in closed settings",
+		    ReportUtils.map(moh731bIndicators.screenedForHBV(IN_PRISONS), indParams), "");
+		
+		/**
+		 * Positive_HBV: number of individuals in each KP type who were diagnosed with HBV in the
+		 * reporting period
+		 */
+		cohortDsd.addColumn("Positive_HBV_FSW", "HBV Positive Fsw",
+		    ReportUtils.map(moh731bIndicators.diagnosedWithHBV(FSW), indParams), "");
+		cohortDsd.addColumn("Positive_HBV_MSM", "HBV Positive Msm",
+		    ReportUtils.map(moh731bIndicators.diagnosedWithHBV(MSM), indParams), "");
+		cohortDsd.addColumn("Positive_HBV_MSW", "HBV Positive Msw",
+		    ReportUtils.map(moh731bIndicators.diagnosedWithHBV(MSW), indParams), "");
+		cohortDsd.addColumn("Positive_HBV_PWID", "HBV Positive Pwid",
+		    ReportUtils.map(moh731bIndicators.diagnosedWithHBV(PWID), indParams), "");
+		cohortDsd.addColumn("Positive_HBV_PWUD", "HBV Positive Pwud",
+		    ReportUtils.map(moh731bIndicators.diagnosedWithHBV(PWUD), indParams), "");
+		cohortDsd.addColumn("Positive_HBV_Transgender", "HBV Positive Transgender",
+		    ReportUtils.map(moh731bIndicators.diagnosedWithHBV(TRANSGENDER), indParams), "");
+		cohortDsd.addColumn("Screened_HCV_Prisoners_closed_settings",
+		    "HBV Positive Prisoners and people in closed settings",
+		    ReportUtils.map(moh731bIndicators.diagnosedWithHBV(IN_PRISONS), indParams), "");
+		
+		/**
+		 * Treated_HBV: number of individuals in each KP type who were treated for HBV in the
+		 * reporting period.
+		 */
 		cohortDsd.addColumn("Treated_HBV_FSW", "HBV Treated Fsw",
-		    ReportUtils.map(moh731bIndicators.treatedHBVFsw(), indParams), "");
+		    ReportUtils.map(moh731bIndicators.treatedForHBV(FSW), indParams), "");
 		cohortDsd.addColumn("Treated_HBV_MSM", "HBV Treated Msm",
-		    ReportUtils.map(moh731bIndicators.treatedHBVMsm(), indParams), "");
+		    ReportUtils.map(moh731bIndicators.treatedForHBV(MSM), indParams), "");
 		cohortDsd.addColumn("Treated_HBV_MSW", "HBV Treated Msw",
-		    ReportUtils.map(moh731bIndicators.treatedHBVMsw(), indParams), "");
+		    ReportUtils.map(moh731bIndicators.treatedForHBV(MSW), indParams), "");
 		cohortDsd.addColumn("Treated_HBV_PWID", "HBV Treated Pwid",
-		    ReportUtils.map(moh731bIndicators.treatedHBVPwid(), indParams), "");
+		    ReportUtils.map(moh731bIndicators.treatedForHBV(PWID), indParams), "");
 		cohortDsd.addColumn("Treated_HBV_PWUD", "HBV Treated Pwud",
-		    ReportUtils.map(moh731bIndicators.treatedHBVPwud(), indParams), "");
+		    ReportUtils.map(moh731bIndicators.treatedForHBV(PWUD), indParams), "");
 		cohortDsd.addColumn("Treated_HBV_Transgender", "HBV Treated Transgender",
-		    ReportUtils.map(moh731bIndicators.treatedHBVTransgender(), indParams), "");
+		    ReportUtils.map(moh731bIndicators.treatedForHBV(TRANSGENDER), indParams), "");
+		cohortDsd.addColumn("Screened_HCV_Prisoners_closed_settings", "HBV treated Prisoners and people in closed settings",
+		    ReportUtils.map(moh731bIndicators.treatedForHBV(IN_PRISONS), indParams), "");
 		
-		*//*   cohortDsd.addColumn("NegativeHBV_Vaccinated_FSW", "Negative HBV Vaccinated Fsw", ReportUtils.map(moh731bIndicators.negativeHBVVaccinatedFsw(), indParams),"");
-		  cohortDsd.addColumn("NegativeHBV_Vaccinated_MSM", "Negative HBV Vaccinated Msm", ReportUtils.map(moh731bIndicators.negativeHBVVaccinatedMsm(), indParams),"");
-		  cohortDsd.addColumn("NegativeHBV_Vaccinated_MSW", "Negative HBV Vaccinated Msw", ReportUtils.map(moh731bIndicators.negativeHBVVaccinatedMsw(), indParams),"");
-		  cohortDsd.addColumn("NegativeHBV_Vaccinated_PWID", "Negative HBV Vaccinated Pwid", ReportUtils.map(moh731bIndicators.negativeHBVVaccinatedPwid(), indParams),"");
-		  cohortDsd.addColumn("NegativeHBV_Vaccinated_PWUD", "Negative HBV Vaccinated Pwud", ReportUtils.map(moh731bIndicators.negativeHBVVaccinatedPwud(), indParams),"");
-		  cohortDsd.addColumn("NegativeHBV_Vaccinated_Transgender", "Negative HBV Vaccinated Transgender", ReportUtils.map(moh731bIndicators.negativeHBVVaccinatedTransgender(), indParams),"");
-		  *//*
-		    cohortDsd.addColumn("Screened_TB_FSW", "Screened TB Fsw",
-		      ReportUtils.map(moh731bIndicators.screenedTBFsw(), indParams), "");
-		    cohortDsd.addColumn("Screened_TB_MSM", "Screened TB Msm",
-		      ReportUtils.map(moh731bIndicators.screenedTBMsm(), indParams), "");
-		    cohortDsd.addColumn("Screened_TB_MSW", "Screened TB Msw",
-		      ReportUtils.map(moh731bIndicators.screenedTBMsw(), indParams), "");
-		    cohortDsd.addColumn("Screened_TB_PWID", "Screened TB Pwid",
-		      ReportUtils.map(moh731bIndicators.screenedTBPwid(), indParams), "");
-		    cohortDsd.addColumn("Screened_TB_PWUD", "Screened TB Pwud",
-		      ReportUtils.map(moh731bIndicators.screenedTBPwud(), indParams), "");
-		    cohortDsd.addColumn("Screened_TB_Transgender", "Screened TB Transgender",
-		      ReportUtils.map(moh731bIndicators.screenedTBTransgender(), indParams), "");
-		    
-		    cohortDsd.addColumn("Diagnosed_TB_FSW", "Diagnosed TB Fsw",
-		      ReportUtils.map(moh731bIndicators.diagnosedTBFsw(), indParams), "");
-		    cohortDsd.addColumn("Diagnosed_TB_MSM", "Diagnosed TB Msm",
-		      ReportUtils.map(moh731bIndicators.diagnosedTBMsm(), indParams), "");
-		    cohortDsd.addColumn("Diagnosed_TB_MSW", "Diagnosed TB Msw",
-		      ReportUtils.map(moh731bIndicators.diagnosedTBMsw(), indParams), "");
-		    cohortDsd.addColumn("Diagnosed_TB_PWID", "Diagnosed TB Pwid",
-		      ReportUtils.map(moh731bIndicators.diagnosedTBPwid(), indParams), "");
-		    cohortDsd.addColumn("Diagnosed_TB_PWUD", "Diagnosed TB Pwud",
-		      ReportUtils.map(moh731bIndicators.diagnosedTBPwud(), indParams), "");
-		    cohortDsd.addColumn("Diagnosed_TB_Transgender", "Diagnosed TB Transgender",
-		      ReportUtils.map(moh731bIndicators.diagnosedTBTransgender(), indParams), "");
-		    
-		    cohortDsd.addColumn("Started_on_TB_TX_FSW", "Started on TB TX Fsw",
-		      ReportUtils.map(moh731bIndicators.startedOnTBTxFsw(), indParams), "");
-		    cohortDsd.addColumn("Started_on_TB_TX_MSM", "Started on TB TX Msm",
-		      ReportUtils.map(moh731bIndicators.startedOnTBTxMsm(), indParams), "");
-		    cohortDsd.addColumn("Started_on_TB_TX_MSW", "Started on TB TX Msw",
-		      ReportUtils.map(moh731bIndicators.startedOnTBTxMsw(), indParams), "");
-		    cohortDsd.addColumn("Started_on_TB_TX_PWID", "Started on TB TX Pwid",
-		      ReportUtils.map(moh731bIndicators.startedOnTBTxPwid(), indParams), "");
-		    cohortDsd.addColumn("Started_on_TB_TX_PWUD", "Started on TB TX Pwud",
-		      ReportUtils.map(moh731bIndicators.startedOnTBTxPwud(), indParams), "");
-		    cohortDsd.addColumn("Started_on_TB_TX_Transgender", "Started on TB TX Transgender",
-		      ReportUtils.map(moh731bIndicators.startedOnTBTxTransgender(), indParams), "");
-		    
-		    cohortDsd.addColumn("TB_Clients_on_HAART_FSW", "TB Clients on HAART TX Fsw",
-		      ReportUtils.map(moh731bIndicators.tbClientsOnHAARTFsw(), indParams), "");
-		    cohortDsd.addColumn("TB_Clients_on_HAART_MSM", "TB Clients on HAART TX Msm",
-		      ReportUtils.map(moh731bIndicators.tbClientsOnHAARTMsm(), indParams), "");
-		    cohortDsd.addColumn("TB_Clients_on_HAART_MSW", "TB Clients on HAART TX Msw",
-		      ReportUtils.map(moh731bIndicators.tbClientsOnHAARTMsw(), indParams), "");
-		    cohortDsd.addColumn("TB_Clients_on_HAART_PWID", "TB Clients on HAART TX Pwid",
-		      ReportUtils.map(moh731bIndicators.tbClientsOnHAARTPwid(), indParams), "");
-		    cohortDsd.addColumn("TB_Clients_on_HAART_PWUD", "TB Clients on HAART TX Pwud",
-		      ReportUtils.map(moh731bIndicators.tbClientsOnHAARTPwud(), indParams), "");
-		    cohortDsd.addColumn("TB_Clients_on_HAART_Transgender", "TB Clients on HAART TX Transgender",
-		      ReportUtils.map(moh731bIndicators.tbClientsOnHAARTTransgender(), indParams), "");
-		    
-		    cohortDsd.addColumn("Initiated_PrEP_FSW", "Initiated PrEP Fsw",
-		      ReportUtils.map(moh731bIndicators.initiatedPrEPFsw(), indParams), "");
-		    cohortDsd.addColumn("Initiated_PrEP_MSM", "Initiated PrEP Msm",
-		      ReportUtils.map(moh731bIndicators.initiatedPrEPMsm(), indParams), "");
-		    cohortDsd.addColumn("Initiated_PrEP_MSW", "Initiated PrEP Msw",
-		      ReportUtils.map(moh731bIndicators.initiatedPrEPMsw(), indParams), "");
-		    cohortDsd.addColumn("Initiated_PrEP_PWID", "Initiated PrEP Pwid",
-		      ReportUtils.map(moh731bIndicators.initiatedPrEPPwid(), indParams), "");
-		    cohortDsd.addColumn("Initiated_PrEP_PWUD", "Initiated PrEP Pwud",
-		      ReportUtils.map(moh731bIndicators.initiatedPrEPPwud(), indParams), "");
-		    cohortDsd.addColumn("Initiated_PrEP_Transgender", "Initiated PrEP Transgender",
-		      ReportUtils.map(moh731bIndicators.initiatedPrEPTransgender(), indParams), "");
-		    
-		    cohortDsd.addColumn("Current_on_PrEP_FSW", "Current on PrEP Fsw",
-		      ReportUtils.map(moh731bIndicators.currentOnPrEPFsw(), indParams), "");
-		    cohortDsd.addColumn("Current_on_PrEP_MSM", "Current on PrEP Msm",
-		      ReportUtils.map(moh731bIndicators.currentOnPrEPMsm(), indParams), "");
-		    cohortDsd.addColumn("Current_on_PrEP_MSW", "Current on PrEP Msw",
-		      ReportUtils.map(moh731bIndicators.currentOnPrEPMsw(), indParams), "");
-		    cohortDsd.addColumn("Current_on_PrEP_PWID", "Current on PrEP Pwid",
-		      ReportUtils.map(moh731bIndicators.currentOnPrEPPwid(), indParams), "");
-		    cohortDsd.addColumn("Current_on_PrEP_PWUD", "Current on PrEP Pwud",
-		      ReportUtils.map(moh731bIndicators.currentOnPrEPPwud(), indParams), "");
-		    cohortDsd.addColumn("Current_on_PrEP_Transgender", "Current on PrEP Transgender",
-		      ReportUtils.map(moh731bIndicators.currentOnPrEPTransgender(), indParams), "");
-		    
-		    cohortDsd.addColumn("Turning_Positive_While_On_FSW", "Turning HIV+ While on PrEP Fsw",
-		      ReportUtils.map(moh731bIndicators.turningPositiveWhileOnPrEPFsw(), indParams), "");
-		    cohortDsd.addColumn("Turning_Positive_While_On_MSM", "Turning HIV+ While on PrEP Msm",
-		      ReportUtils.map(moh731bIndicators.turningPositiveWhileOnPrEPMsm(), indParams), "");
-		    cohortDsd.addColumn("Turning_Positive_While_On_MSW", "Turning HIV+ While on PrEP Msw",
-		      ReportUtils.map(moh731bIndicators.turningPositiveWhileOnPrEPMsw(), indParams), "");
-		    cohortDsd.addColumn("Turning_Positive_While_On_PWID", "Turning HIV+ While on PrEP Pwid",
-		      ReportUtils.map(moh731bIndicators.turningPositiveWhileOnPrEPPwid(), indParams), "");
-		    cohortDsd.addColumn("Turning_Positive_While_On_PWUD", "Turning HIV+ While on PrEP Pwud",
-		      ReportUtils.map(moh731bIndicators.turningPositiveWhileOnPrEPPwud(), indParams), "");
-		    cohortDsd.addColumn("Turning_Positive_While_On_Transgender", "Turning HIV+ While on PrEP Transgender",
-		      ReportUtils.map(moh731bIndicators.turningPositiveWhileOnPrEPTransgender(), indParams), "");
-		    
-		    cohortDsd.addColumn("Experiencing_Violence_FSW", "Experiencing Violence Fsw",
-		      ReportUtils.map(moh731bIndicators.experiencingViolenceFsw(), indParams), "");
-		    cohortDsd.addColumn("Experiencing_Violence_MSM", "Experiencing Violence Msm",
-		      ReportUtils.map(moh731bIndicators.experiencingViolenceMsm(), indParams), "");
-		    cohortDsd.addColumn("Experiencing_Violence_MSW", "Experiencing Violence Msw",
-		      ReportUtils.map(moh731bIndicators.experiencingViolenceMsw(), indParams), "");
-		    cohortDsd.addColumn("Experiencing_Violence_PWID", "Experiencing Violence Pwid",
-		      ReportUtils.map(moh731bIndicators.experiencingViolencePwid(), indParams), "");
-		    cohortDsd.addColumn("Experiencing_Violence_PWUD", "Experiencing Violence Pwud",
-		      ReportUtils.map(moh731bIndicators.experiencingViolencePwud(), indParams), "");
-		    cohortDsd.addColumn("Experiencing_Violence_Transgender", "Experiencing Violence Transgender",
-		      ReportUtils.map(moh731bIndicators.experiencingViolenceTransgender(), indParams), "");
-		    
-		    cohortDsd.addColumn("receiving_Violence_Support_FSW", "Receiving Violence Support Fsw",
-		      ReportUtils.map(moh731bIndicators.receivingViolenceSupportFsw(), indParams), "");
-		    cohortDsd.addColumn("receiving_Violence_Support_MSM", "Receiving Violence Support Msm",
-		      ReportUtils.map(moh731bIndicators.receivingViolenceSupportMsm(), indParams), "");
-		    cohortDsd.addColumn("receiving_Violence_Support_MSW", "Receiving Violence Support Msw",
-		      ReportUtils.map(moh731bIndicators.receivingViolenceSupportMsw(), indParams), "");
-		    cohortDsd.addColumn("receiving_Violence_Support_PWID", "Receiving Violence Support Pwid",
-		      ReportUtils.map(moh731bIndicators.receivingViolenceSupportPwid(), indParams), "");
-		    cohortDsd.addColumn("receiving_Violence_Support_PWUD", "Receiving Violence Support Pwud",
-		      ReportUtils.map(moh731bIndicators.receivingViolenceSupportPwud(), indParams), "");
-		    cohortDsd.addColumn("receiving_Violence_Support_Transgender", "Receiving Violence Support Transgender",
-		      ReportUtils.map(moh731bIndicators.receivingViolenceSupportTransgender(), indParams), "");
-		    
-		    cohortDsd.addColumn("Number_Exposed_FSW", "Number Exposed Fsw",
-		      ReportUtils.map(moh731bIndicators.numberExposedFsw(), indParams), "");
-		    cohortDsd.addColumn("Number_Exposed_MSM", "Number Exposed Msm",
-		      ReportUtils.map(moh731bIndicators.numberExposedMsm(), indParams), "");
-		    cohortDsd.addColumn("Number_Exposed_MSW", "Number Exposed Msw",
-		      ReportUtils.map(moh731bIndicators.numberExposedMsw(), indParams), "");
-		    cohortDsd.addColumn("Number_Exposed_PWID", "Number Exposed Pwid",
-		      ReportUtils.map(moh731bIndicators.numberExposedPwid(), indParams), "");
-		    cohortDsd.addColumn("Number_Exposed_PWUD", "Number Exposed Pwud",
-		      ReportUtils.map(moh731bIndicators.numberExposedPwud(), indParams), "");
-		    cohortDsd.addColumn("Number_Exposed_Transgender", "Number Exposed Transgender",
-		      ReportUtils.map(moh731bIndicators.numberExposedTransgender(), indParams), "");
-		    
-		    cohortDsd.addColumn("Receiving_PEP_Within_72hrs_FSW", "Receiving PEP Within 72 hours Fsw",
-		      ReportUtils.map(moh731bIndicators.receivingPEPWithin72HrsFsw(), indParams), "");
-		    cohortDsd.addColumn("Receiving_PEP_Within_72hrs_MSM", "Receiving PEP Within 72 hours Msm",
-		      ReportUtils.map(moh731bIndicators.receivingPEPWithin72HrsMsm(), indParams), "");
-		    cohortDsd.addColumn("Receiving_PEP_Within_72hrs_MSW", "Receiving PEP Within 72 hours Msw",
-		      ReportUtils.map(moh731bIndicators.receivingPEPWithin72HrsMsw(), indParams), "");
-		    cohortDsd.addColumn("Receiving_PEP_Within_72hrs_PWID", "Receiving PEP Within 72 hours Pwid",
-		      ReportUtils.map(moh731bIndicators.receivingPEPWithin72HrsPwid(), indParams), "");
-		    cohortDsd.addColumn("Receiving_PEP_Within_72hrs_PWUD", "Receiving PEP Within 72 hours Pwud",
-		      ReportUtils.map(moh731bIndicators.receivingPEPWithin72HrsPwud(), indParams), "");
-		    cohortDsd.addColumn("Receiving_PEP_Within_72hrs_Transgender", "Receiving PEP Within 72 hours Transgender",
-		      ReportUtils.map(moh731bIndicators.receivingPEPWithin72HrsTransgender(), indParams), "");
-		    */
-		/*
-		        cohortDsd.addColumn("Completed_PEP_Within_28_Days_FSW", "Completed PEP within 28 days Fsw", ReportUtils.map(moh731bIndicators.completedPEPWith28DaysFsw(), indParams),"");
-		        cohortDsd.addColumn("Completed_PEP_Within_28_Days_MSM", "Completed PEP within 28 days Msm", ReportUtils.map(moh731bIndicators.completedPEPWith28DaysMsm(), indParams),"");
-		        cohortDsd.addColumn("Completed_PEP_Within_28_Days_MSW", "Completed PEP within 28 days Msw", ReportUtils.map(moh731bIndicators.completedPEPWith28DaysMsw(), indParams),"");
-		        cohortDsd.addColumn("Completed_PEP_Within_28_Days_PWID", "Completed PEP within 28 days Pwid", ReportUtils.map(moh731bIndicators.completedPEPWith28DaysPwid(), indParams),"");
-		        cohortDsd.addColumn("Completed_PEP_Within_28_Days_PWUD", "Completed PEP within 28 days Pwud", ReportUtils.map(moh731bIndicators.completedPEPWith28DaysPwud(), indParams),"");
-		        cohortDsd.addColumn("Completed_PEP_Within_28_Days_Transgender", "Completed PEP within 28 days Transgender", ReportUtils.map(moh731bIndicators.completedPEPWith28DaysTransgender(), indParams),"");
-
-
-		MOH731BPlusSubCountyBasedCohortDefinition cd = new MOH731BPlusSubCountyBasedCohortDefinition();
-		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
-		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.addParameter(new Parameter("subCounty", "Sub County", Date.class));
-
-		cohortDsd.addRowFilter(cd, paramMapping);
+		/**
+		 * Negative_HBV_vaccinated: number of individuals in each KP type who were vaccinated for
+		 * HBV in the reporting period
+		 */
+		cohortDsd.addColumn("NegativeHBV_Vaccinated_FSW", "Negative HBV Vaccinated Fsw",
+		    ReportUtils.map(moh731bIndicators.vaccinatedAgainstHBV(FSW), indParams), "");
+		cohortDsd.addColumn("NegativeHBV_Vaccinated_MSM", "Negative HBV Vaccinated Msm",
+		    ReportUtils.map(moh731bIndicators.vaccinatedAgainstHBV(MSM), indParams), "");
+		cohortDsd.addColumn("NegativeHBV_Vaccinated_MSW", "Negative HBV Vaccinated Msw",
+		    ReportUtils.map(moh731bIndicators.vaccinatedAgainstHBV(MSW), indParams), "");
+		cohortDsd.addColumn("NegativeHBV_Vaccinated_PWID", "Negative HBV Vaccinated Pwid",
+		    ReportUtils.map(moh731bIndicators.vaccinatedAgainstHBV(PWID), indParams), "");
+		cohortDsd.addColumn("NegativeHBV_Vaccinated_PWUD", "Negative HBV Vaccinated Pwud",
+		    ReportUtils.map(moh731bIndicators.vaccinatedAgainstHBV(PWUD), indParams), "");
+		cohortDsd.addColumn("NegativeHBV_Vaccinated_Transgender", "Negative HBV Vaccinated Transgender",
+		    ReportUtils.map(moh731bIndicators.vaccinatedAgainstHBV(IN_PRISONS), indParams), "");
+		cohortDsd.addColumn("Screened_HCV_Prisoners_closed_settings",
+		    "Negative HBV Vaccinated Prisoners and people in closed settings",
+		    ReportUtils.map(moh731bIndicators.screenedForHCV(IN_PRISONS), indParams), "");
+		
+		//4.4 TB screening
+		/**
+		 * Number screened: number of individuals in each KP type who were screened for TB in the
+		 * reporting period.
+		 */
+		cohortDsd.addColumn("Screened_TB_FSW", "Screened TB Fsw",
+		    ReportUtils.map(moh731bIndicators.screenedTB(FSW), indParams), "");
+		cohortDsd.addColumn("Screened_TB_MSM", "Screened TB Msm",
+		    ReportUtils.map(moh731bIndicators.screenedTB(MSM), indParams), "");
+		cohortDsd.addColumn("Screened_TB_MSW", "Screened TB Msw",
+		    ReportUtils.map(moh731bIndicators.screenedTB(MSW), indParams), "");
+		cohortDsd.addColumn("Screened_TB_PWID", "Screened TB Pwid",
+		    ReportUtils.map(moh731bIndicators.screenedTB(PWID), indParams), "");
+		cohortDsd.addColumn("Screened_TB_PWUD", "Screened TB Pwud",
+		    ReportUtils.map(moh731bIndicators.screenedTB(PWUD), indParams), "");
+		cohortDsd.addColumn("Screened_TB_Transgender", "Screened TB Transgender",
+		    ReportUtils.map(moh731bIndicators.screenedTB(TRANSGENDER), indParams), "");
+		cohortDsd.addColumn("Screened_TB_Prisoners_closed_settings", "Screened TB Prisoners and people in closed settings",
+		    ReportUtils.map(moh731bIndicators.screenedTB(IN_PRISONS), indParams), "");
+		
+		/**
+		 * Number diagnosed: number of individuals in each KP type who were screened for TB in the
+		 * reporting period.
+		 */
+		cohortDsd.addColumn("Diagnosed_TB_FSW", "Diagnosed with TB Fsw",
+		    ReportUtils.map(moh731bIndicators.diagnosedTB(FSW), indParams), "");
+		cohortDsd.addColumn("Diagnosed_TB_MSM", "Diagnosed with TB Msm",
+		    ReportUtils.map(moh731bIndicators.diagnosedTB(MSM), indParams), "");
+		cohortDsd.addColumn("Diagnosed_TB_MSW", "Diagnosed with TB Msw",
+		    ReportUtils.map(moh731bIndicators.diagnosedTB(MSW), indParams), "");
+		cohortDsd.addColumn("Diagnosed_TB_PWID", "Diagnosed with TB Pwid",
+		    ReportUtils.map(moh731bIndicators.diagnosedTB(PWID), indParams), "");
+		cohortDsd.addColumn("Diagnosed_TB_PWUD", "Diagnosed with TB Pwud",
+		    ReportUtils.map(moh731bIndicators.diagnosedTB(PWUD), indParams), "");
+		cohortDsd.addColumn("Diagnosed_TB_Transgender", "Diagnosed with TB Transgender",
+		    ReportUtils.map(moh731bIndicators.diagnosedTB(TRANSGENDER), indParams), "");
+		cohortDsd.addColumn("Diagnosed_TB_Prisoners_closed_settings",
+		    "Prisoners and people in closed settings diagnosed with TB",
+		    ReportUtils.map(moh731bIndicators.diagnosedTB(IN_PRISONS), indParams), "");
+		
+		/**
+		 * Number Started on TB TX: number of individuals in each KP type who were found positive
+		 * with TB and started on treatment in the reporting period
+		 */
+		cohortDsd.addColumn("Started_TB_Tx_FSW", "Started TB Tx Fsw",
+		    ReportUtils.map(moh731bIndicators.startedTBTX(FSW), indParams), "");
+		cohortDsd.addColumn("Started_TB_Tx_MSM", "Started TB Tx Msm",
+		    ReportUtils.map(moh731bIndicators.startedTBTX(MSM), indParams), "");
+		cohortDsd.addColumn("Started_TB_Tx_MSW", "Started TB Tx Msw",
+		    ReportUtils.map(moh731bIndicators.startedTBTX(MSW), indParams), "");
+		cohortDsd.addColumn("Started_TB_Tx_PWID", "Started TB Tx Pwid",
+		    ReportUtils.map(moh731bIndicators.startedTBTX(PWID), indParams), "");
+		cohortDsd.addColumn("Started_TB_Tx_PWUD", "Started TB Tx Pwud",
+		    ReportUtils.map(moh731bIndicators.startedTBTX(PWUD), indParams), "");
+		cohortDsd.addColumn("Started_TB_Tx_Transgender", "Started TB Tx Transgender",
+		    ReportUtils.map(moh731bIndicators.startedTBTX(TRANSGENDER), indParams), "");
+		cohortDsd.addColumn("Started_TB_Tx_Prisoners_closed_settings",
+		    "Prisoners and people in closed settings Started TB Tx",
+		    ReportUtils.map(moh731bIndicators.startedTBTX(IN_PRISONS), indParams), "");
+		
+		/**
+		 * TB clients on HAART: This is the count of TB patients who are receiving ART in each KP
+		 * type. Calculate and enter the sum of all those TB patients who were already on HAART at
+		 * the time of TB diagnosis and TB patients diagnosed with HIV who are started on HAART
+		 * during the reporting month.
+		 */
+		cohortDsd.addColumn("Started_TB_Tx_FSW", "Started TB Tx Fsw",
+		    ReportUtils.map(moh731bIndicators.startedTBTX(FSW), indParams), "");
+		cohortDsd.addColumn("Started_TB_Tx_MSM", "Started TB Tx Msm",
+		    ReportUtils.map(moh731bIndicators.startedTBTX(MSM), indParams), "");
+		cohortDsd.addColumn("Started_TB_Tx_MSW", "Started TB Tx Msw",
+		    ReportUtils.map(moh731bIndicators.startedTBTX(MSW), indParams), "");
+		cohortDsd.addColumn("Started_TB_Tx_PWID", "Started TB Tx Pwid",
+		    ReportUtils.map(moh731bIndicators.startedTBTX(PWID), indParams), "");
+		cohortDsd.addColumn("Started_TB_Tx_PWUD", "Started TB Tx Pwud",
+		    ReportUtils.map(moh731bIndicators.startedTBTX(PWUD), indParams), "");
+		cohortDsd.addColumn("Started_TB_Tx_Transgender", "Started TB Tx Transgender",
+		    ReportUtils.map(moh731bIndicators.startedTBTX(TRANSGENDER), indParams), "");
+		cohortDsd.addColumn("Started_TB_Tx_Prisoners_closed_settings",
+		    "Prisoners and people in closed settings Started TB Tx",
+		    ReportUtils.map(moh731bIndicators.startedTBTX(IN_PRISONS), indParams), "");
+		
+		//4.5 PrEP
+		/**
+		 * Initiated PrEP: number of HIV negative persons in each KP type who have been started on
+		 * PrEP during the reporting month after meeting the eligibility criteria for PrEP.
+		 */
+		cohortDsd.addColumn("Initiated_PrEP_FSW", "Initiated PrEP Fsw",
+		    ReportUtils.map(moh731bIndicators.initiatedPrEP(FSW), indParams), "");
+		cohortDsd.addColumn("Initiated_PrEP_MSM", "Initiated PrEP Msm",
+		    ReportUtils.map(moh731bIndicators.initiatedPrEP(MSM), indParams), "");
+		cohortDsd.addColumn("Initiated_PrEP_MSW", "Initiated PrEP Msw",
+		    ReportUtils.map(moh731bIndicators.initiatedPrEP(MSW), indParams), "");
+		cohortDsd.addColumn("Initiated_PrEP_PWID", "Initiated PrEP Pwid",
+		    ReportUtils.map(moh731bIndicators.initiatedPrEP(PWID), indParams), "");
+		cohortDsd.addColumn("Initiated_PrEP_PWUD", "Initiated PrEP Pwud",
+		    ReportUtils.map(moh731bIndicators.initiatedPrEP(PWUD), indParams), "");
+		cohortDsd.addColumn("Initiated_PrEP_Transgender", "Initiated PrEP Transgender",
+		    ReportUtils.map(moh731bIndicators.initiatedPrEP(TRANSGENDER), indParams), "");
+		cohortDsd.addColumn("Initiated_PrEP_Prisoners_closed_settings",
+		    "Prisoners and people in closed settings Initiated PrEP",
+		    ReportUtils.map(moh731bIndicators.initiatedPrEP(IN_PRISONS), indParams), "");
+		/**
+		 * Current on PrEP: number of people in each KP type who are currently receiving PrEP. This
+		 * includes persons newly started on PrEP in the reporting month, persons who come for their
+		 * PrEP refills in the reporting month, and those who do not come for medicine in the
+		 * reporting month but have been given PrEP medications to take them through the reporting
+		 * month
+		 */
+		cohortDsd.addColumn("Current_on_PrEP_FSW", "Current on PrEP Fsw",
+		    ReportUtils.map(moh731bIndicators.currentOnPrEP(FSW), indParams), "");
+		cohortDsd.addColumn("Current_on_PrEP_MSM", "Current on PrEP Msm",
+		    ReportUtils.map(moh731bIndicators.currentOnPrEP(MSM), indParams), "");
+		cohortDsd.addColumn("Current_on_PrEP_MSW", "Current on PrEP Msw",
+		    ReportUtils.map(moh731bIndicators.currentOnPrEP(MSW), indParams), "");
+		cohortDsd.addColumn("Current_on_PrEP_PWID", "Current on PrEP Pwid",
+		    ReportUtils.map(moh731bIndicators.currentOnPrEP(PWID), indParams), "");
+		cohortDsd.addColumn("Current_on_PrEP_PWUD", "Current on PrEP Pwud",
+		    ReportUtils.map(moh731bIndicators.currentOnPrEP(PWUD), indParams), "");
+		cohortDsd.addColumn("Current_on_PrEP_Transgender", "Current on PrEP Transgender",
+		    ReportUtils.map(moh731bIndicators.currentOnPrEP(TRANSGENDER), indParams), "");
+		cohortDsd.addColumn("Current_on_PrEP_Prisoners_closed_settings",
+		    "Prisoners and people in closed settings current on PrEP",
+		    ReportUtils.map(moh731bIndicators.currentOnPrEP(IN_PRISONS), indParams), "");
+		/**
+		 * Turning HIV positive while on PrEP: number of people on PrEP in each KP type who tested
+		 * positive for HIV in the reporting period.
+		 */
+		cohortDsd.addColumn("Turning_Positive_While_On_PrEP_FSW", "Turning HIV+ While on PrEP Fsw",
+		    ReportUtils.map(moh731bIndicators.turningPositiveWhileOnPrEP(FSW), indParams), "");
+		cohortDsd.addColumn("Turning_Positive_While_On_PrEP_MSM", "Turning HIV+ While on PrEP Msm",
+		    ReportUtils.map(moh731bIndicators.turningPositiveWhileOnPrEP(MSM), indParams), "");
+		cohortDsd.addColumn("Turning_Positive_While_On_PrEP_MSW", "Turning HIV+ While on PrEP Msw",
+		    ReportUtils.map(moh731bIndicators.turningPositiveWhileOnPrEP(MSW), indParams), "");
+		cohortDsd.addColumn("Turning_Positive_While_On_PrEP_PWID", "Turning HIV+ While on PrEP Pwid",
+		    ReportUtils.map(moh731bIndicators.turningPositiveWhileOnPrEP(PWID), indParams), "");
+		cohortDsd.addColumn("Turning_Positive_While_On_PrEP_PWUD", "Turning HIV+ While on PrEP Pwud",
+		    ReportUtils.map(moh731bIndicators.turningPositiveWhileOnPrEP(PWUD), indParams), "");
+		cohortDsd.addColumn("Turning_Positive_While_On_PrEP_Transgender", "Turning HIV+ While on PrEP Transgender",
+		    ReportUtils.map(moh731bIndicators.turningPositiveWhileOnPrEP(TRANSGENDER), indParams), "");
+		cohortDsd.addColumn("Turning_Positive_While_On_PrEP_Prisoners_closed_settings",
+		    "Prisoners and people in closed settings turning Positive while on PrEP",
+		    ReportUtils.map(moh731bIndicators.turningPositiveWhileOnPrEP(IN_PRISONS), indParams), "");
+		
+		//4.6 Violence support
+		/**
+		 * Experience violence: number of people in each KP type who experienced violence in the
+		 * reporting period.
+		 */
+		cohortDsd.addColumn("Experiencing_Violence_FSW", "Experiencing Violence Fsw",
+		    ReportUtils.map(moh731bIndicators.experiencingViolence(FSW), indParams), "");
+		cohortDsd.addColumn("Experiencing_Violence_MSM", "Experiencing Violence Msm",
+		    ReportUtils.map(moh731bIndicators.experiencingViolence(MSM), indParams), "");
+		cohortDsd.addColumn("Experiencing_Violence_MSW", "Experiencing Violence Msw",
+		    ReportUtils.map(moh731bIndicators.experiencingViolence(MSW), indParams), "");
+		cohortDsd.addColumn("Experiencing_Violence_PWID", "Experiencing Violence Pwid",
+		    ReportUtils.map(moh731bIndicators.experiencingViolence(PWID), indParams), "");
+		cohortDsd.addColumn("Experiencing_Violence_PWUD", "Experiencing Violence Pwud",
+		    ReportUtils.map(moh731bIndicators.experiencingViolence(PWUD), indParams), "");
+		cohortDsd.addColumn("Experiencing_Violence_Transgender", "Experiencing Violence Transgender",
+		    ReportUtils.map(moh731bIndicators.experiencingViolence(TRANSGENDER), indParams), "");
+		cohortDsd.addColumn("Turning_Positive_While_On_PrEP_Prisoners_closed_settings",
+		    "Prisoners and people in closed settings turning Positive while on PrEP",
+		    ReportUtils.map(moh731bIndicators.experiencingViolence(IN_PRISONS), indParams), "");
+		/**
+		 * Receiving violence support:Number of people in each KP type who were supported by the
+		 * programme when they experienced violence in the reporting period by KP type
+		 */
+		cohortDsd.addColumn("Receiving_Violence_Support_FSW", "Receiving Violence Support Fsw",
+		    ReportUtils.map(moh731bIndicators.receivingViolenceSupport(FSW), indParams), "");
+		cohortDsd.addColumn("Receiving_Violence_Support_MSM", "Receiving Violence Support Msm",
+		    ReportUtils.map(moh731bIndicators.receivingViolenceSupport(MSM), indParams), "");
+		cohortDsd.addColumn("Receiving_Violence_Support_MSW", "Receiving Violence Support Msw",
+		    ReportUtils.map(moh731bIndicators.receivingViolenceSupport(MSW), indParams), "");
+		cohortDsd.addColumn("Receiving_Violence_Support_PWID", "Receiving Violence Support Pwid",
+		    ReportUtils.map(moh731bIndicators.receivingViolenceSupport(PWID), indParams), "");
+		cohortDsd.addColumn("Receiving_Violence_Support_PWUD", "Receiving Violence Support Pwud",
+		    ReportUtils.map(moh731bIndicators.receivingViolenceSupport(PWUD), indParams), "");
+		cohortDsd.addColumn("Receiving_Violence_Support_Transgender", "Receiving Violence Support Transgender",
+		    ReportUtils.map(moh731bIndicators.receivingViolenceSupport(TRANSGENDER), indParams), "");
+		cohortDsd.addColumn("Receiving_Violence_Support_Prisoners_closed_settings",
+		    "Prisoners and people in closed settings receiving violence support",
+		    ReportUtils.map(moh731bIndicators.experiencingViolence(IN_PRISONS), indParams), "");
+		
+		//4.7 PEP
+		/**
+		 * Number exposed: Number of people in each KP type who reported that they were exposed to
+		 * HIV within 72 hours of exposure.
+		 */
+		cohortDsd.addColumn("Number_Exposed_To_HIV_FSW", "Number Exposed Fsw",
+		    ReportUtils.map(moh731bIndicators.numberExposed(FSW), indParams), "");
+		cohortDsd.addColumn("Number_Exposed_To_HIV_MSM", "Number Exposed Msm",
+		    ReportUtils.map(moh731bIndicators.numberExposed(MSM), indParams), "");
+		cohortDsd.addColumn("Number_Exposed_To_HIV_MSW", "Number Exposed Msw",
+		    ReportUtils.map(moh731bIndicators.numberExposed(MSW), indParams), "");
+		cohortDsd.addColumn("Number_Exposed_To_HIV_PWID", "Number Exposed Pwid",
+		    ReportUtils.map(moh731bIndicators.numberExposed(PWID), indParams), "");
+		cohortDsd.addColumn("Number_Exposed_To_HIV_PWUD", "Number Exposed Pwud",
+		    ReportUtils.map(moh731bIndicators.numberExposed(PWUD), indParams), "");
+		cohortDsd.addColumn("Number_Exposed_To_HIV_Transgender", "Number Exposed Transgender",
+		    ReportUtils.map(moh731bIndicators.numberExposed(TRANSGENDER), indParams), "");
+		cohortDsd.addColumn("Number_Exposed_To_HIV_Prisoners_closed_settings",
+		    "Prisoners and people in closed settings exposed to HIV",
+		    ReportUtils.map(moh731bIndicators.numberExposed(IN_PRISONS), indParams), "");
+		/**
+		 * Number receiving PEP<72hrs: Number of people in each KP type who were initiated on PEP
+		 * within 72 hours of HIV exposure.
+		 */
+		cohortDsd.addColumn("Receiving_PEP_Within_72hrs_FSW", "Receiving PEP Within 72 hours Fsw",
+		    ReportUtils.map(moh731bIndicators.receivingPEPWithin72Hrs(FSW), indParams), "");
+		cohortDsd.addColumn("Receiving_PEP_Within_72hrs_MSM", "Receiving PEP Within 72 hours Msm",
+		    ReportUtils.map(moh731bIndicators.receivingPEPWithin72Hrs(MSM), indParams), "");
+		cohortDsd.addColumn("Receiving_PEP_Within_72hrs_MSW", "Receiving PEP Within 72 hours Msw",
+		    ReportUtils.map(moh731bIndicators.receivingPEPWithin72Hrs(MSW), indParams), "");
+		cohortDsd.addColumn("Receiving_PEP_Within_72hrs_PWID", "Receiving PEP Within 72 hours Pwid",
+		    ReportUtils.map(moh731bIndicators.receivingPEPWithin72Hrs(PWID), indParams), "");
+		cohortDsd.addColumn("Receiving_PEP_Within_72hrs_PWUD", "Receiving PEP Within 72 hours Pwud",
+		    ReportUtils.map(moh731bIndicators.receivingPEPWithin72Hrs(PWUD), indParams), "");
+		cohortDsd.addColumn("Receiving_PEP_Within_72hrs_Transgender", "Receiving PEP Within 72 hours Transgender",
+		    ReportUtils.map(moh731bIndicators.receivingPEPWithin72Hrs(TRANSGENDER), indParams), "");
+		cohortDsd.addColumn("Receiving_PEP_Within_72hrs_Prisoners_closed_settings",
+		    "Prisoners and people in closed settings receiving PEP within 72 hrs",
+		    ReportUtils.map(moh731bIndicators.receivingPEPWithin72Hrs(IN_PRISONS), indParams), "");
+		/**
+		 * Number completed PEP within 28 days: Number of people in each KP type who completed
+		 * taking PEP within 28 days.
+		 */
+		/*	cohortDsd.addColumn("Completed_PEP_Within_28_Days_FSW", "Completed PEP within 28 days Fsw", ReportUtils.map(moh731bIndicators.completedPEPWith28Days(FSW), indParams),"");
+			cohortDsd.addColumn("Completed_PEP_Within_28_Days_MSM", "Completed PEP within 28 days Msm", ReportUtils.map(moh731bIndicators.completedPEPWith28Days(MSM), indParams),"");
+			cohortDsd.addColumn("Completed_PEP_Within_28_Days_MSW", "Completed PEP within 28 days Msw", ReportUtils.map(moh731bIndicators.completedPEPWith28Days(MSW), indParams),"");
+			cohortDsd.addColumn("Completed_PEP_Within_28_Days_PWID", "Completed PEP within 28 days Pwid", ReportUtils.map(moh731bIndicators.completedPEPWith28Days(PWID), indParams),"");
+			cohortDsd.addColumn("Completed_PEP_Within_28_Days_PWUD", "Completed PEP within 28 days Pwud", ReportUtils.map(moh731bIndicators.completedPEPWith28Days(PWUD), indParams),"");
+			cohortDsd.addColumn("Completed_PEP_Within_28_Days_Transgender", "Completed PEP within 28 days Transgender", ReportUtils.map(moh731bIndicators.completedPEPWith28Days(TRANSGENDER), indParams),"");
+			cohortDsd.addColumn("Completed_PEP_Within_28_Days_Prisoners_closed_settings", "Prisoners and people in closed settings completing PEP within 72 hrs", ReportUtils.map(moh731bIndicators.completedPEPWith28Days(IN_PRISONS), indParams),"");
 		*/
+		//4.8 Peer education
+		/**
+		 * Receiving peer education: Number of people in each KP type who received peer education in
+		 * the reporting period.
+		 */
+		/*	cohortDsd.addColumn("Received_Peer_education_FSW", "Received peer education Fsw", ReportUtils.map(moh731bIndicators.receivedPeerEducation(FSW), indParams),"");
+			cohortDsd.addColumn("Received_Peer_education_MSM", "Received peer education Msm", ReportUtils.map(moh731bIndicators.receivedPeerEducation(MSM), indParams),"");
+			cohortDsd.addColumn("Received_Peer_education_MSW", "Received peer education Msw", ReportUtils.map(moh731bIndicators.receivedPeerEducation(MSW), indParams),"");
+			cohortDsd.addColumn("Received_Peer_education_PWID", "Received peer education Pwid", ReportUtils.map(moh731bIndicators.receivedPeerEducation(PWID), indParams),"");
+			cohortDsd.addColumn("Received_Peer_education_PWUD", "Received peer education Pwud", ReportUtils.map(moh731bIndicators.receivedPeerEducation(PWUD), indParams),"");
+			cohortDsd.addColumn("Received_Peer_education_Transgender", "Received peer education Transgender", ReportUtils.map(moh731bIndicators.receivedPeerEducation(TRANSGENDER), indParams),"");
+			cohortDsd.addColumn("Received_Peer_education_Prisoners_closed_settings", "Prisoners and people in closed settings received peer education", ReportUtils.map(moh731bIndicators.receivedPeerEducation(IN_PRISONS), indParams),"");
+		*/
+		
+		/*
+				MOH731BPlusSubCountyBasedCohortDefinition cd = new MOH731BPlusSubCountyBasedCohortDefinition();
+				cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+				cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+				cd.addParameter(new Parameter("subCounty", "Sub County", Date.class));
+
+				cohortDsd.addRowFilter(cd, paramMapping);
+				*/
 		
 		return cohortDsd;
 		
