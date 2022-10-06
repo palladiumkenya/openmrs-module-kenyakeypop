@@ -1271,25 +1271,25 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		
 		//47. KP_CURR - IfZnCTNMiec
 		
-		EmrReportingUtils.addRow(cohortDsd, "KP_CURR_FSW", "Cuurent on KP",
+		EmrReportingUtils.addRow(cohortDsd, "KP_CURR_FSW", "Current on KP",
 		    ReportUtils.map(monthlyReportIndicator.kpCurr("(\"FSW\")"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
-		EmrReportingUtils.addRow(cohortDsd, "KP_CURR_MSM", "Cuurent on KP",
+		EmrReportingUtils.addRow(cohortDsd, "KP_CURR_MSM", "Current on KP",
 		    ReportUtils.map(monthlyReportIndicator.kpCurr("(\"MSM\")"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
-		EmrReportingUtils.addRow(cohortDsd, "KP_CURR_MSW", "Cuurent on KP",
+		EmrReportingUtils.addRow(cohortDsd, "KP_CURR_MSW", "Current on KP",
 		    ReportUtils.map(monthlyReportIndicator.kpCurr("(\"MSW\")"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
-		EmrReportingUtils.addRow(cohortDsd, "KP_CURR_PWUD", "Cuurent on KP",
+		EmrReportingUtils.addRow(cohortDsd, "KP_CURR_PWUD", "Current on KP",
 		    ReportUtils.map(monthlyReportIndicator.kpCurr("(\"PWUD\")"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
-		EmrReportingUtils.addRow(cohortDsd, "KP_CURR_PWID", "Cuurent on KP",
+		EmrReportingUtils.addRow(cohortDsd, "KP_CURR_PWID", "Current on KP",
 		    ReportUtils.map(monthlyReportIndicator.kpCurr("(\"PWID\")"), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
-		EmrReportingUtils.addRow(cohortDsd, "KP_CURR_TG_SW", "Cuurent on KP",
+		EmrReportingUtils.addRow(cohortDsd, "KP_CURR_TG_SW", "Current on KP",
 		    ReportUtils.map(monthlyReportIndicator.kpCurr("TRANSGENDER_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
-		EmrReportingUtils.addRow(cohortDsd, "KP_CURR_TG_NOT_SW", "Cuurent on KP",
+		EmrReportingUtils.addRow(cohortDsd, "KP_CURR_TG_NOT_SW", "Current on KP",
 		    ReportUtils.map(monthlyReportIndicator.kpCurr("TRANSGENDER_NOT_SW"), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		
