@@ -2131,4 +2131,25 @@ public class ETLMoh731PlusCohortLibrary {
 		
 		return cd;
 	}
+
+	/**
+	 * Number of people of each KP type who were enrolled in care this month or in a previous month and made a clinical
+	 * visit on site in preparation for ART but have not started on ART during this visit. They should be counted only if
+	 * there is no intention to start them on ART during the reporting month in this site.
+	 * @param kpType
+	 * @return
+	 */
+	public CohortDefinition onPreART(String kpType) {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Sub County", String.class));
+		cd.addSearch("kpType",
+				ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		cd.addSearch("receivedPeerEducationSQL",
+				ReportUtils.map(receivedPeerEducationSQL(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpType AND receivedPeerEducationSQL");
+
+		return cd;
+	}
 }

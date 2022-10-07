@@ -538,5 +538,9 @@ public class ETLMoh731PlusIndicatorLibrary {
 		return cohortIndicator("", ReportUtils.map(moh731BCohorts.receivedPeerEducation(kpType),
 		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
 	}
-	
+
+	public CohortIndicator onPreART(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.onPreART(kpType),
+				"startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+	}
 }
