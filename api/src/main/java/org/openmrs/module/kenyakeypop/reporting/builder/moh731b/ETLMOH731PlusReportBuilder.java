@@ -931,7 +931,24 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 			cohortDsd.addColumn("Received_Peer_education_Transgender", "Received peer education Transgender", ReportUtils.map(moh731bIndicators.receivedPeerEducation(TRANSGENDER), indParams),"");
 			cohortDsd.addColumn("Received_Peer_education_Prisoners_closed_settings", "Prisoners and people in closed settings received peer education", ReportUtils.map(moh731bIndicators.receivedPeerEducation(IN_PRISONS), indParams),"");
 		*/
-		
+		// 5.0 Care and treatment
+
+		/**
+		 * 5.1 Current on Pre-ART
+		 * On site
+		 * On pre-ART disaggregated by age  15-19, 20-24,25-29,30+
+		 *  number of people of each KP type who were enrolled in care this month or in a previous month and made a
+		 *  clinical visit on site in preparation for ART but have not started on ART during this visit.
+		 *  They should be counted only if there is no intention to start them on ART during the reporting month
+		 *  in this site.
+		 */
+		cohortDsd.addColumn("On_pre-ART_FSW", "On pre-ART Fsw", ReportUtils.map(moh731bIndicators.onPreART(FSW), indParams),"");
+		cohortDsd.addColumn("On_pre-ART_MSM", "On pre-ART Msm", ReportUtils.map(moh731bIndicators.onPreART(MSM), indParams),"");
+		cohortDsd.addColumn("On_pre-ART_MSW", "On pre-ART Msw", ReportUtils.map(moh731bIndicators.onPreART(MSW), indParams),"");
+		cohortDsd.addColumn("On_pre-ART_PWID", "On pre-ART Pwid", ReportUtils.map(moh731bIndicators.onPreART(PWID), indParams),"");
+		cohortDsd.addColumn("On_pre-ART_PWUD", "On pre-ART Pwud", ReportUtils.map(moh731bIndicators.onPreART(PWUD), indParams),"");
+		cohortDsd.addColumn("On_pre-ART_Transgender", "On pre-ART Transgender", ReportUtils.map(moh731bIndicators.onPreART(TRANSGENDER), indParams),"");
+		cohortDsd.addColumn("On_pre-ART_Prisoners_closed_settings", "On pre-ART people in closed settings received peer education", ReportUtils.map(moh731bIndicators.onPreART(IN_PRISONS), indParams),"");
 		/*
 				MOH731BPlusSubCountyBasedCohortDefinition cd = new MOH731BPlusSubCountyBasedCohortDefinition();
 				cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
