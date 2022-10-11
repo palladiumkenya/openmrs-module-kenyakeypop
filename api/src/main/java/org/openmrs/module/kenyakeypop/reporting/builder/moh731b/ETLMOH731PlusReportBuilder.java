@@ -75,15 +75,14 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 	@Override
 	protected List<Parameter> getParameters(ReportDescriptor reportDescriptor) {
 		return Arrays.asList(new Parameter("startDate", "Start Date", Date.class), new Parameter("endDate", "End Date",
-		        Date.class), new Parameter("location", "Sub County", String.class), new Parameter("dateBasedReporting", "",
+		        Date.class), new Parameter("subCounty", "Sub County", String.class), new Parameter("dateBasedReporting", "",
 		        String.class));
 	}
 	
 	@Override
 	protected List<Mapped<DataSetDefinition>> buildDataSets(ReportDescriptor reportDescriptor,
 	        ReportDefinition reportDefinition) {
-		return Arrays
-		        .asList(ReportUtils.map(kpDataSet(), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		return Arrays.asList(ReportUtils.map(kpDataSet(), "startDate=${startDate},endDate=${endDate},location=${location}"));
 	}
 	
 	/**
@@ -100,7 +99,7 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.moh731BAgeGroups(), "onDate=${endDate}"));
 		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
 		
-		String indParams = "startDate=${startDate},endDate=${endDate},location=${subCounty}";
+		String indParams = "startDate=${startDate},endDate=${endDate},location=${location}";
 		
 		/**
 		 * Active KPs disaggregated by KP type
@@ -891,7 +890,7 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		 * Number receiving PEP<72hrs: Number of people in each KP type who were initiated on PEP
 		 * within 72 hours of HIV exposure.
 		 */
-		cohortDsd.addColumn("Receiving_PEP_Within_72hrs_FSW", "Receiving PEP Within 72 hours Fsw",
+		/*cohortDsd.addColumn("Receiving_PEP_Within_72hrs_FSW", "Receiving PEP Within 72 hours Fsw",
 		    ReportUtils.map(moh731bIndicators.receivingPEPWithin72Hrs(FSW), indParams), "");
 		cohortDsd.addColumn("Receiving_PEP_Within_72hrs_MSM", "Receiving PEP Within 72 hours Msm",
 		    ReportUtils.map(moh731bIndicators.receivingPEPWithin72Hrs(MSM), indParams), "");
@@ -905,7 +904,7 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.receivingPEPWithin72Hrs(TRANSGENDER), indParams), "");
 		cohortDsd.addColumn("Receiving_PEP_Within_72hrs_Prisoners_closed_settings",
 		    "Prisoners and people in closed settings receiving PEP within 72 hrs",
-		    ReportUtils.map(moh731bIndicators.receivingPEPWithin72Hrs(IN_PRISONS), indParams), "");
+		    ReportUtils.map(moh731bIndicators.receivingPEPWithin72Hrs(IN_PRISONS), indParams), "");*/
 		/**
 		 * Number completed PEP within 28 days: Number of people in each KP type who completed
 		 * taking PEP within 28 days.
@@ -932,23 +931,29 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 			cohortDsd.addColumn("Received_Peer_education_Prisoners_closed_settings", "Prisoners and people in closed settings received peer education", ReportUtils.map(moh731bIndicators.receivedPeerEducation(IN_PRISONS), indParams),"");
 		*/
 		// 5.0 Care and treatment
-
+		
 		/**
-		 * 5.1 Current on Pre-ART
-		 * On site
-		 * On pre-ART disaggregated by age  15-19, 20-24,25-29,30+
-		 *  number of people of each KP type who were enrolled in care this month or in a previous month and made a
-		 *  clinical visit on site in preparation for ART but have not started on ART during this visit.
-		 *  They should be counted only if there is no intention to start them on ART during the reporting month
-		 *  in this site.
+		 * 5.1 Current on Pre-ART On site On pre-ART disaggregated by age 15-19, 20-24,25-29,30+
+		 * number of people of each KP type who were enrolled in care this month or in a previous
+		 * month and made a clinical visit on site in preparation for ART but have not started on
+		 * ART during this visit. They should be counted only if there is no intention to start them
+		 * on ART during the reporting month in this site.
 		 */
-		cohortDsd.addColumn("On_pre-ART_FSW", "On pre-ART Fsw", ReportUtils.map(moh731bIndicators.onPreART(FSW), indParams),"");
-		cohortDsd.addColumn("On_pre-ART_MSM", "On pre-ART Msm", ReportUtils.map(moh731bIndicators.onPreART(MSM), indParams),"");
-		cohortDsd.addColumn("On_pre-ART_MSW", "On pre-ART Msw", ReportUtils.map(moh731bIndicators.onPreART(MSW), indParams),"");
-		cohortDsd.addColumn("On_pre-ART_PWID", "On pre-ART Pwid", ReportUtils.map(moh731bIndicators.onPreART(PWID), indParams),"");
-		cohortDsd.addColumn("On_pre-ART_PWUD", "On pre-ART Pwud", ReportUtils.map(moh731bIndicators.onPreART(PWUD), indParams),"");
-		cohortDsd.addColumn("On_pre-ART_Transgender", "On pre-ART Transgender", ReportUtils.map(moh731bIndicators.onPreART(TRANSGENDER), indParams),"");
-		cohortDsd.addColumn("On_pre-ART_Prisoners_closed_settings", "On pre-ART people in closed settings received peer education", ReportUtils.map(moh731bIndicators.onPreART(IN_PRISONS), indParams),"");
+		/*		cohortDsd.addColumn("On_pre-ART_FSW", "On pre-ART Fsw", ReportUtils.map(moh731bIndicators.onPreART(FSW), indParams),
+				    "");
+				cohortDsd.addColumn("On_pre-ART_MSM", "On pre-ART Msm", ReportUtils.map(moh731bIndicators.onPreART(MSM), indParams),
+				    "");
+				cohortDsd.addColumn("On_pre-ART_MSW", "On pre-ART Msw", ReportUtils.map(moh731bIndicators.onPreART(MSW), indParams),
+				    "");
+				cohortDsd.addColumn("On_pre-ART_PWID", "On pre-ART Pwid",
+				    ReportUtils.map(moh731bIndicators.onPreART(PWID), indParams), "");
+				cohortDsd.addColumn("On_pre-ART_PWUD", "On pre-ART Pwud",
+				    ReportUtils.map(moh731bIndicators.onPreART(PWUD), indParams), "");
+				cohortDsd.addColumn("On_pre-ART_Transgender", "On pre-ART Transgender",
+				    ReportUtils.map(moh731bIndicators.onPreART(TRANSGENDER), indParams), "");
+				cohortDsd.addColumn("On_pre-ART_Prisoners_closed_settings",
+				    "On pre-ART people in closed settings received peer education",
+				    ReportUtils.map(moh731bIndicators.onPreART(IN_PRISONS), indParams), "");*/
 		/*
 				MOH731BPlusSubCountyBasedCohortDefinition cd = new MOH731BPlusSubCountyBasedCohortDefinition();
 				cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
