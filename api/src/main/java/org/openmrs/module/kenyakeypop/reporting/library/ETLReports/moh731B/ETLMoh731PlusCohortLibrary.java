@@ -14,6 +14,7 @@ import org.openmrs.module.reporting.cohort.definition.SqlCohortDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.springframework.stereotype.Component;
 import org.openmrs.module.kenyaemr.reporting.library.ETLReports.MOH731Greencard.ETLMoh731GreenCardCohortLibrary;
+import org.openmrs.module.kenyaemr.reporting.library.ETLReports.RevisedDatim.DatimCohortLibrary;
 import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
 import org.openmrs.module.kenyacore.report.ReportUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,9 @@ public class ETLMoh731PlusCohortLibrary {
 	
 	@Autowired
 	private ETLMoh731GreenCardCohortLibrary moh731Cohorts;
+	
+	@Autowired
+	private DatimCohortLibrary datimCohorts;
 	
 	/**
 	 * KPs who received atleast 1 service within the last 3 months from the effective date
@@ -1890,6 +1894,98 @@ public class ETLMoh731PlusCohortLibrary {
 	}
 	
 	/**
+	 * Clients enrolled in HIV care program within the reporting period - in this Facility/on-site
+	 * 
+	 * @return
+	 */
+	public CohortDefinition enrolledInCareReportingPeriod() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select e.patient_id from kenyaemr_etl.etl_hiv_enrollment e\n"
+		        + "where e.visit_date between date(:startDate)\n" + "and date(:endDate);";
+		cd.setName("enrolledInCareReportingPeriod");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("enrolledInCareReportingPeriod");
+		
+		return cd;
+	}
+	
+	/**
+	 * Clients enrolled in HIV care program before reporting period - in this
+	 * Facility/on-site
+	 * 
+	 * @return
+	 */
+	public CohortDefinition enrolledInCareBeforeReportingPeriod() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select a.patient_id\n" +
+				"from (select e.patient_id,\n" +
+				"             max(e.visit_date)     as enroll_date,\n" +
+				"             d.effective_disc_date as disc_date,\n" +
+				"             d.patient_id          as disc_patient\n" +
+				"      from kenyaemr_etl.etl_hiv_enrollment e\n" +
+				"               left join (\n" +
+				"          select patient_id,\n" +
+				"                 coalesce(date(effective_discontinuation_date), visit_date) visit_date,\n" +
+				"                 max(date(effective_discontinuation_date)) as               effective_disc_date\n" +
+				"          from kenyaemr_etl.etl_patient_program_discontinuation\n" +
+				"          where date(visit_date) <= date(:endDate)\n" +
+				"            and program_name = 'HIV'\n" +
+				"          group by patient_id\n" +
+				"      ) d on e.patient_id = d.patient_id\n" +
+				"      where e.visit_date < date(:startDate)\n" +
+				"      group by e.patient_id\n" +
+				"      having enroll_date > disc_date\n" +
+				"          or disc_patient is null) a\n" +
+				"group by a.patient_id;";
+		cd.setName("enrolledInCarePreviousBeforePeriod");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("enrolledInCareBeforeReportingPeriod");
+		
+		return cd;
+	}
+	
+	/**
+	 * ART clients - This facility/on-site
+	 * 
+	 * @return
+	 */
+	public CohortDefinition artPatients() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select d.patient_id from kenyaemr_etl.etl_drug_event d where date(d.date_started) <=date(:endDate)\n"
+		        + "and d.program = 'HIV';";
+		cd.setName("artPatients");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("artPatients");
+		
+		return cd;
+	}
+	
+	/**
+	 * Clients with Clinical visits within reporting period - This facility/on-site and not started
+	 * on ART
+	 * 
+	 * @return
+	 */
+	public CohortDefinition hadClinicalVisitReportingPeriod() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v where date(v.visit_date) between date(:startDate) and date(:endDate)\n"
+		        + "and v.initiated_art_this_month != 'Yes' and v.active_art !='Yes';\n";
+		cd.setName("hadClinicalVisitReportingPeriod");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("hadClinicalVisitReportingPeriod");
+		
+		return cd;
+	}
+	
+	/**
 	 * Number of people of each KP type who were enrolled in care this month or in a previous month
 	 * and made a clinical visit on site in preparation for ART but have not started on ART during
 	 * this visit. They should be counted only if there is no intention to start them on ART during
@@ -1898,17 +1994,259 @@ public class ETLMoh731PlusCohortLibrary {
 	 * @param kpType
 	 * @return
 	 */
-	public CohortDefinition onPreART(String kpType) {
+	public CohortDefinition onSitePreART(String kpType) {
 		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
 		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-		cd.addSearch("receivedPeerEducationSQL",
-		    ReportUtils.map(receivedPeerEducationSQL(), "startDate=${startDate},endDate=${endDate}"));
-		cd.setCompositionString("kpType AND receivedPeerEducationSQL");
+		cd.addSearch("enrolledInCareReportingPeriod",
+		    ReportUtils.map(enrolledInCareReportingPeriod(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("enrolledInCareBeforeReportingPeriod",
+		    ReportUtils.map(enrolledInCareBeforeReportingPeriod(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("artPatients", ReportUtils.map(artPatients(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("hadClinicalVisitReportingPeriod",
+		    ReportUtils.map(hadClinicalVisitReportingPeriod(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpType AND ((enrolledInCareBeforeReportingPeriod AND hadClinicalVisitReportingPeriod) OR enrolledInCareReportingPeriod) AND NOT artPatients");
 		
 		return cd;
 	}
+	
+	/**
+	 * Number of people of each KP type who were enrolled in care this month or in a previous month
+	 * and made a clinical visit off site in preparation for ART but have not started on ART during
+	 * this visit. They should be counted only if there is no intention to start them on ART during
+	 * the reporting month in another site.
+	 * 
+	 * @param kpType
+	 * @return
+	 */
+	public CohortDefinition offSitePreART(String kpType) {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Sub County", String.class));
+		cd.addSearch("kpType",
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		//cd.addSearch("enrolledInCareReportingPeriod",ReportUtils.map(enrolledInCareReportingPeriod(), "startDate=${startDate},endDate=${endDate}"));
+		//cd.addSearch("enrolledInCareBeforeReportingPeriod",ReportUtils.map(enrolledInCareBeforeReportingPeriod(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("artPatients", ReportUtils.map(artPatients(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("hadClinicalVisitReportingPeriod",
+		    ReportUtils.map(hadClinicalVisitReportingPeriod(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpType AND ((enrolledInCareBeforeReportingPeriod AND hadClinicalVisitReportingPeriod) OR enrolledInCareReportingPeriod) AND NOT artPatients");
+		
+		return cd;
+	}
+	
+	/**
+	 * Total Pre-ART = Onsite + Offsite
+	 * 
+	 * @return
+	 */
+	public CohortDefinition totalOnPreART(String kpType) {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Sub County", String.class));
+		cd.addSearch("offSitePreART",
+		    ReportUtils.map(offSitePreART(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		cd.addSearch("onSitePreART",
+		    ReportUtils.map(onSitePreART(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		cd.setCompositionString("onSitePreART OR offSitePreART");
+		
+		return cd;
+	}
+	
+	/**
+	 * Clients who had a clinical visit within the reporting period and were recorded to starting
+	 * ART during the visit - This facility/on site
+	 * 
+	 * @return
+	 */
+	public CohortDefinition hadClinicalVisitReportingPeriodAndStartingARTOnSite() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v\n"
+		        + "where date(v.visit_date) between date(:startDate) and date(:endDate)\n"
+		        + "      and v.initiated_art_this_month = 'Yes' and hiv_care_facility = 'Provided here';";
+		cd.setName("hadClinicalVisitReportingPeriodAndStartingARTOnSite");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("hadClinicalVisitReportingPeriodAndStartingARTOnSite");
+		
+		return cd;
+	}
+	
+	/**
+	 * Clients who had a clinical visit within the reporting period and were recorded to starting
+	 * ART during the visit - off site
+	 * 
+	 * @return
+	 */
+	public CohortDefinition hadClinicalVisitReportingPeriodAndStartingARTOffSite() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v\n"
+		        + "where date(v.visit_date) between date(:startDate) and date(:endDate)\n"
+		        + "      and v.initiated_art_this_month = 'Yes' and hiv_care_facility = 'Provided elsewhere';";
+		cd.setName("hadClinicalVisitReportingPeriodAndStartingARTOffSite");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("hadClinicalVisitReportingPeriodAndStartingARTOffSite");
+		
+		return cd;
+	}
+	
+	/**
+	 * Number of people of each KP type started on HAART for treatment at this site within the
+	 * reporting period - This facility/On-site
+	 * 
+	 * @param kpType
+	 * @return
+	 */
+	public CohortDefinition onSiteStartingART(String kpType) {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Sub County", String.class));
+		cd.addSearch("kpType",
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		cd.addSearch("startedARTReportingPeriod",
+		    ReportUtils.map(datimCohorts.startedOnART(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("hadClinicalVisitReportingPeriodAndStartingARTOnSite", ReportUtils.map(
+		    hadClinicalVisitReportingPeriodAndStartingARTOnSite(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpType AND (startedARTReportingPeriod OR hadClinicalVisitReportingPeriodAndStartingARTOnSite)");
+		
+		return cd;
+	}
+	
+	/**
+	 * Number of people of each KP type started on HAART for treatment in another site within the
+	 * reporting period
+	 * 
+	 * @param kpType
+	 * @return
+	 */
+	public CohortDefinition offSiteStartingART(String kpType) {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Sub County", String.class));
+		cd.addSearch("kpType",
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		cd.addSearch("hadClinicalVisitReportingPeriodAndStartingARTOffSite", ReportUtils.map(
+		    hadClinicalVisitReportingPeriodAndStartingARTOffSite(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpType AND hadClinicalVisitReportingPeriodAndStartingARTOffSite");
+		
+		return cd;
+	}
+	
+	/**
+	 * Total starting ART = On site + off site
+	 * 
+	 * @param kpType
+	 * @return
+	 */
+	public CohortDefinition totalStartingART(String kpType) {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Sub County", String.class));
+		cd.addSearch("onSiteStartingART",
+		    ReportUtils.map(onSiteStartingART(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		cd.addSearch("offSiteStartingART",
+		    ReportUtils.map(offSiteStartingART(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		cd.setCompositionString("currentlyOnARTOnSite OR offSiteStartingART");
+		
+		return cd;
+	}
+	
+	/**
+	 * Current ART - On site Number of people in each KP type who: 1. started therapy on site this
+	 * month or 2. started therapy on site before this month but made a visit to collect drugs this
+	 * month or 3. started therapy on site before this month but did not make a visit to the
+	 * facility during this month because they had been given enough drugs during visits before this
+	 * month to cover the reporting month.
+	 * 
+	 * @param kpType
+	 * @return
+	 */
+	public CohortDefinition currentlyOnARTOnSite(String kpType) {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Sub County", String.class));
+		cd.addSearch("kpType",
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		cd.addSearch("currentlyOnArt",
+		    ReportUtils.map(datimCohorts.currentlyOnArt(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpType AND currentlyOnArt");
+		
+		return cd;
+	}
+	
+	/**
+	 * Current on ART elsewhere as reported during clinical visit within the reporting period
+	 * 
+	 * @return
+	 */
+	public CohortDefinition reportedCurrentOnARTElsewhereClinicalVisit() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v\n"
+		        + "where date(v.visit_date) between date(:startDate) and date(:endDate)\n"
+		        + "      and hiv_care_facility = 'Provided elsewhere' and (v.initiated_art_this_month = 'Yes' or v.active_art = 'Yes');";
+		cd.setName("reportedCurrentOnARTElsewhereClinicalVisit");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("reportedCurrentOnARTElsewhereClinicalVisit");
+		
+		return cd;
+	}
+	
+	/**
+	 * Current ART - Off site Number of people in each KP type who: 1. started therapy on site this
+	 * month or 2. started therapy on site before this month but made a visit to collect drugs this
+	 * month or 3. started therapy on site before this month but did not make a visit to the
+	 * facility during this month because they had been given enough drugs during visits before this
+	 * month to cover the reporting month.
+	 * 
+	 * @param kpType
+	 * @return
+	 */
+	public CohortDefinition currentlyOnARTOffSite(String kpType) {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Sub County", String.class));
+		cd.addSearch("kpType",
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		cd.addSearch("reportedCurrentOnARTElsewhereClinicalVisit",
+		    ReportUtils.map(reportedCurrentOnARTElsewhereClinicalVisit(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpType AND reportedCurrentOnARTElsewhereClinicalVisit");
+		
+		return cd;
+	}
+	
+	/**
+	 * Current ART = On site + offsite
+	 * 
+	 * @param kpType
+	 * @return
+	 */
+	public CohortDefinition totalCurrentlyOnART(String kpType) {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Sub County", String.class));
+		cd.addSearch("currentlyOnARTOnSite",
+		    ReportUtils.map(currentlyOnARTOnSite(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		cd.addSearch("currentlyOnARTOffSite", ReportUtils.map(currentlyOnARTOffSite(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		cd.setCompositionString("currentlyOnARTOnSite OR currentlyOnARTOffSite");
+		
+		return cd;
+	}
+	
 }

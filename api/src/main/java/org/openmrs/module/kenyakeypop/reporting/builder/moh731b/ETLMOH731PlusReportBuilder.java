@@ -939,22 +939,242 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		 * ART during this visit. They should be counted only if there is no intention to start them
 		 * on ART during the reporting month in this site.
 		 */
-		/*		cohortDsd.addColumn("On_pre-ART_FSW", "On pre-ART Fsw", ReportUtils.map(moh731bIndicators.onPreART(FSW), indParams),
-				    "");
-				cohortDsd.addColumn("On_pre-ART_MSM", "On pre-ART Msm", ReportUtils.map(moh731bIndicators.onPreART(MSM), indParams),
-				    "");
-				cohortDsd.addColumn("On_pre-ART_MSW", "On pre-ART Msw", ReportUtils.map(moh731bIndicators.onPreART(MSW), indParams),
-				    "");
-				cohortDsd.addColumn("On_pre-ART_PWID", "On pre-ART Pwid",
-				    ReportUtils.map(moh731bIndicators.onPreART(PWID), indParams), "");
-				cohortDsd.addColumn("On_pre-ART_PWUD", "On pre-ART Pwud",
-				    ReportUtils.map(moh731bIndicators.onPreART(PWUD), indParams), "");
-				cohortDsd.addColumn("On_pre-ART_Transgender", "On pre-ART Transgender",
-				    ReportUtils.map(moh731bIndicators.onPreART(TRANSGENDER), indParams), "");
-				cohortDsd.addColumn("On_pre-ART_Prisoners_closed_settings",
-				    "On pre-ART people in closed settings received peer education",
-				    ReportUtils.map(moh731bIndicators.onPreART(IN_PRISONS), indParams), "");*/
+		EmrReportingUtils.addRow(cohortDsd, "On_site_pre-ART_FSW", "On site pre-ART Fsw",
+		    ReportUtils.map(moh731bIndicators.onSitePreART(FSW), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "On_site_pre-ART_MSM", "On site pre-ART Msm",
+		    ReportUtils.map(moh731bIndicators.onSitePreART(MSM), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "On_site_pre-ART_MSW", "On site pre-ART Msw",
+		    ReportUtils.map(moh731bIndicators.onSitePreART(MSW), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "On_site_pre-ART_PWID", "On pre-ART Pwid",
+		    ReportUtils.map(moh731bIndicators.onSitePreART(PWID), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "On_site_pre-ART_PWUD", "On pre-ART Pwud",
+		    ReportUtils.map(moh731bIndicators.onSitePreART(PWUD), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "On_site_pre-ART_Transgender", "On pre-ART Transgender",
+		    ReportUtils.map(moh731bIndicators.onSitePreART(TRANSGENDER), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "On_site_pre-ART_Prisoners_closed_settings",
+		    "On pre-ART people in closed settings received peer education",
+		    ReportUtils.map(moh731bIndicators.onSitePreART(IN_PRISONS), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		
+		/**
+		 * 5.1 Current on Pre-ART Off site Number of people of each KP type who were enrolled in
+		 * care this month or in a previous month and made a clinical visit off site in preparation
+		 * for ART but have not started on ART during this visit. They should be counted only if
+		 * there is no intention to start them on ART during the reporting month in another site.
+		 */
+		EmrReportingUtils.addRow(cohortDsd, "Off_site_pre-ART_FSW", "Off site pre-ART Fsw",
+		    ReportUtils.map(moh731bIndicators.offSitePreART(FSW), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "Off_site_pre-ART_MSM", "Off site pre-ART Msm",
+		    ReportUtils.map(moh731bIndicators.offSitePreART(MSM), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "Off_site_pre-ART_MSW", "Off site pre-ART Msw",
+		    ReportUtils.map(moh731bIndicators.offSitePreART(MSW), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "Off_site_pre-ART_PWID", "Off site pre-ART Pwid",
+		    ReportUtils.map(moh731bIndicators.offSitePreART(PWID), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "Off_site_pre-ART_PWUD", "Off site pre-ART Pwud",
+		    ReportUtils.map(moh731bIndicators.offSitePreART(PWUD), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "Off_site_pre-ART_Transgender", "Off site pre-ART Transgender",
+		    ReportUtils.map(moh731bIndicators.offSitePreART(TRANSGENDER), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "Off_site_pre-ART_Prisoners_closed_settings",
+		    "Off site pre-ART people in closed settings received peer education",
+		    ReportUtils.map(moh731bIndicators.offSitePreART(IN_PRISONS), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		
+		/**
+		 * Total on Pre-ART
+		 */
+		cohortDsd.addColumn("Total_pre_ART_FSW", "Fsw total on Pre-ART",
+		    ReportUtils.map(moh731bIndicators.totalOnPreART(FSW), indParams), "");
+		cohortDsd.addColumn("Total_pre_ART_MSM", "Msm total on Pre-ART",
+		    ReportUtils.map(moh731bIndicators.totalOnPreART(MSM), indParams), "");
+		cohortDsd.addColumn("Total_pre_ART_MSW", "Msw total on Pre-ART",
+		    ReportUtils.map(moh731bIndicators.totalOnPreART(MSW), indParams), "");
+		cohortDsd.addColumn("Total_pre_ART_PWID", "Pwid total on Pre-ART",
+		    ReportUtils.map(moh731bIndicators.totalOnPreART(PWID), indParams), "");
+		cohortDsd.addColumn("Total_pre_ART_PWUD", "Pwud total on Pre-ART",
+		    ReportUtils.map(moh731bIndicators.totalOnPreART(PWUD), indParams), "");
+		cohortDsd.addColumn("Total_pre_ART_Transgender", "Transgender total on Pre-ART",
+		    ReportUtils.map(moh731bIndicators.totalOnPreART(TRANSGENDER), indParams), "");
+		cohortDsd.addColumn("Total_pre_ART_Prisoners_closed_settings",
+		    "Prisoners and people in closed settings total on Pre-ART",
+		    ReportUtils.map(moh731bIndicators.totalOnPreART(IN_PRISONS), indParams), "");
+		/**
+		 * 5.2 Starting ART On site Number of people of each KP type starting HAART for treatment at
+		 * this site within the reporting period.
+		 */
+		EmrReportingUtils.addRow(cohortDsd, "On_site_Starting_ART_FSW", "Fsw starting ART within the period on site",
+		    ReportUtils.map(moh731bIndicators.onSiteStartingART(FSW), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "On_site_Starting_ART_MSM", "Msm starting ART within the period on site",
+		    ReportUtils.map(moh731bIndicators.onSiteStartingART(MSM), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "On_site_Starting_ART_MSW", "Msw starting ART within the period on site",
+		    ReportUtils.map(moh731bIndicators.onSiteStartingART(MSW), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "On_site_Starting_ART_PWID", "Pwid starting ART within the period on site",
+		    ReportUtils.map(moh731bIndicators.onSiteStartingART(PWID), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "On_site_Starting_ART_PWUD", "Pwud starting ART within the period on site",
+		    ReportUtils.map(moh731bIndicators.onSiteStartingART(PWUD), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "On_site_Starting_ART_Transgender",
+		    "Transgender starting ART within the period on site",
+		    ReportUtils.map(moh731bIndicators.onSiteStartingART(TRANSGENDER), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "On_site_Starting_ART_Prisoners_closed_settings",
+		    "People in prisons and closed settings starting ART within the period on site ",
+		    ReportUtils.map(moh731bIndicators.onSiteStartingART(IN_PRISONS), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		/**
+		 * 5.2 Starting ART Off site Number of people of each KP type starting HAART for treatment
+		 * off site within the reporting period.
+		 */
+		EmrReportingUtils.addRow(cohortDsd, "Off_site_Starting_ART_FSW", "Fsw starting ART within the period off-site",
+		    ReportUtils.map(moh731bIndicators.offSiteStartingART(FSW), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "Off_site_Starting_ART_MSM", "Msm starting ART within the period off-site",
+		    ReportUtils.map(moh731bIndicators.offSiteStartingART(MSM), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "Off_site_Starting_ART_MSW", "Msw starting ART within the period off-site",
+		    ReportUtils.map(moh731bIndicators.offSiteStartingART(MSW), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "Off_site_Starting_ART_PWID", "Pwid starting ART within the period off-site",
+		    ReportUtils.map(moh731bIndicators.offSiteStartingART(PWID), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "Off_site_Starting_ART_PWUD", "Pwud starting ART within the period off-site",
+		    ReportUtils.map(moh731bIndicators.offSiteStartingART(PWUD), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "Off_site_Starting_ART_Transgender",
+		    "Transgender starting ART within the period off-site",
+		    ReportUtils.map(moh731bIndicators.offSiteStartingART(TRANSGENDER), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "Off_site_Starting_ART_Prisoners_closed_settings",
+		    "People in prisons and closed settings starting ART within the period off-site",
+		    ReportUtils.map(moh731bIndicators.offSiteStartingART(IN_PRISONS), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		
+		/**
+		 * Total Starting ART
+		 */
+		cohortDsd.addColumn("Total_starting_ART_FSW", "Fsw total starting ART",
+		    ReportUtils.map(moh731bIndicators.totalStartingART(FSW), indParams), "");
+		cohortDsd.addColumn("Total_starting_ART_MSM", "Msm total starting ART",
+		    ReportUtils.map(moh731bIndicators.totalStartingART(MSM), indParams), "");
+		cohortDsd.addColumn("Total_starting_ART_MSW", "Msw total starting ART",
+		    ReportUtils.map(moh731bIndicators.totalStartingART(MSW), indParams), "");
+		cohortDsd.addColumn("Total_starting_ART_PWID", "Pwid total starting ART",
+		    ReportUtils.map(moh731bIndicators.totalStartingART(PWID), indParams), "");
+		cohortDsd.addColumn("Total_starting_ART_PWUD", "Pwud total starting ART",
+		    ReportUtils.map(moh731bIndicators.totalStartingART(PWUD), indParams), "");
+		cohortDsd.addColumn("Total_starting_ART_Transgender", "Transgender total starting ART",
+		    ReportUtils.map(moh731bIndicators.totalStartingART(TRANSGENDER), indParams), "");
+		cohortDsd.addColumn("Total_starting_ART_Prisoners_closed_settings",
+		    "Prisoners and people in closed settings total starting ART",
+		    ReportUtils.map(moh731bIndicators.totalStartingART(IN_PRISONS), indParams), "");
+		
+		/**
+		 * 5.3 Current ART On site Number of people in each KP type who: 1. started therapy on site
+		 * this month or 2. started therapy on site before this month but made a visit to collect
+		 * drugs this month or 3. started therapy on site before this month but did not make a visit
+		 * to the facility during this month because they had been given enough drugs during visits
+		 * before this month to cover the reporting month.
+		 */
+		EmrReportingUtils.addRow(cohortDsd, "On_site_currently_on_ART_FSW",
+		    "Fsw currently on ART on site within the period",
+		    ReportUtils.map(moh731bIndicators.currentlyOnARTOnSite(FSW), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "On_site_currently_on_ART_MSM",
+		    "Msm currently on ART on site within the period",
+		    ReportUtils.map(moh731bIndicators.currentlyOnARTOnSite(MSM), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "On_site_currently_on_ART_MSW",
+		    "Msw currently on ART on site within the period",
+		    ReportUtils.map(moh731bIndicators.currentlyOnARTOnSite(MSW), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "On_site_currently_on_ART_PWID",
+		    "Pwid currently on ART on site within the period",
+		    ReportUtils.map(moh731bIndicators.currentlyOnARTOnSite(PWID), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "On_site_currently_on_ART_PWUD",
+		    "Pwud currently on ART on site within the period",
+		    ReportUtils.map(moh731bIndicators.currentlyOnARTOnSite(PWUD), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "On_site_currently_on_ART_Transgender",
+		    "Transgender currently on ART on site within the period",
+		    ReportUtils.map(moh731bIndicators.currentlyOnARTOnSite(TRANSGENDER), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "On_site_currently_on_ART_Prisoners_closed_settings",
+		    "People in prisons and closed settings currently on ART on site within the period ",
+		    ReportUtils.map(moh731bIndicators.currentlyOnARTOnSite(IN_PRISONS), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		
+		/**
+		 * 5.3 Current ART Off site Number of people in each KP type who: 1. started therapy this
+		 * month off site or 2. started therapy off site before this month but visited the offsite
+		 * clinic to collect drugs this month or 3. started therapy off site before this month but
+		 * did not make a visit to the facility during this month because they had been given enough
+		 * drugs during visits before this month to cover the reporting month.
+		 */
+		EmrReportingUtils.addRow(cohortDsd, "Off_site_currently_on_ART_FSW",
+		    "Fsw currently on ART off site within the period",
+		    ReportUtils.map(moh731bIndicators.currentlyOnARTOffSite(FSW), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "Off_site_currently_on_ART_MSM",
+		    "Msm currently on ART off site within the period",
+		    ReportUtils.map(moh731bIndicators.currentlyOnARTOffSite(MSM), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "Off_site_currently_on_ART_MSW",
+		    "Msw currently on ART off site within the period",
+		    ReportUtils.map(moh731bIndicators.currentlyOnARTOffSite(MSW), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "Off_site_currently_on_ART_PWID",
+		    "Pwid currently on ART off site within the period",
+		    ReportUtils.map(moh731bIndicators.currentlyOnARTOffSite(PWID), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "Off_site_currently_on_ART_PWUD",
+		    "Pwud currently on ART off site within the period",
+		    ReportUtils.map(moh731bIndicators.currentlyOnARTOffSite(PWUD), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "Off_site_currently_on_ART_Transgender",
+		    "Transgender currently on ART off site within the period",
+		    ReportUtils.map(moh731bIndicators.currentlyOnARTOffSite(TRANSGENDER), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "Off_site_currently_on_ART_Prisoners_closed_settings",
+		    "People in prisons and closed settings currently on ART off site within the period ",
+		    ReportUtils.map(moh731bIndicators.currentlyOnARTOffSite(IN_PRISONS), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		
+		/**
+		 * Total currently on ART
+		 */
+		cohortDsd.addColumn("Total_currently_ART_FSW", "Total Fsw currently on ART",
+		    ReportUtils.map(moh731bIndicators.totalCurrentlyOnART(FSW), indParams), "");
+		cohortDsd.addColumn("Total_currently_ART_MSM", "Total Msm currently on ART",
+		    ReportUtils.map(moh731bIndicators.totalCurrentlyOnART(MSM), indParams), "");
+		cohortDsd.addColumn("Total_currently_ART_MSW", "Total Msw currently on ART",
+		    ReportUtils.map(moh731bIndicators.totalCurrentlyOnART(MSW), indParams), "");
+		cohortDsd.addColumn("Total_currently_ART_PWID", "Total Pwid currently on ART",
+		    ReportUtils.map(moh731bIndicators.totalCurrentlyOnART(PWID), indParams), "");
+		cohortDsd.addColumn("Total_currently_ART_PWUD", "Total Pwud currently on ART",
+		    ReportUtils.map(moh731bIndicators.totalCurrentlyOnART(PWUD), indParams), "");
+		cohortDsd.addColumn("Total_currently_ART_Transgender", "Total Transgender currently on ART",
+		    ReportUtils.map(moh731bIndicators.totalCurrentlyOnART(TRANSGENDER), indParams), "");
+		cohortDsd.addColumn("Total_currently_ART_Prisoners_closed_settings",
+		    "Total Prisoners and people in closed settings currently on ART ",
+		    ReportUtils.map(moh731bIndicators.totalCurrentlyOnART(IN_PRISONS), indParams), "");
 		/*
+
 				MOH731BPlusSubCountyBasedCohortDefinition cd = new MOH731BPlusSubCountyBasedCohortDefinition();
 				cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 				cd.addParameter(new Parameter("endDate", "End Date", Date.class));
@@ -966,5 +1186,4 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		return cohortDsd;
 		
 	}
-	
 }
