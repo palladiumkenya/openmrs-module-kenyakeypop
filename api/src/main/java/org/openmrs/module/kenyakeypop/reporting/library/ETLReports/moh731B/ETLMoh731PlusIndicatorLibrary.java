@@ -36,354 +36,51 @@ public class ETLMoh731PlusIndicatorLibrary {
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 	}
 	
-	/*
-		public CohortIndicator activeMsm(String kpType) {
-			return cohortIndicator("",
-			    ReportUtils.map(moh731BCohorts.activeMsm(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
-		}
-
-		public CohortIndicator activeMsw(String kpType) {
-			return cohortIndicator("",
-			    ReportUtils.map(moh731BCohorts.activeMsw(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
-		}
-
-		public CohortIndicator activePwid(String kpType) {
-			return cohortIndicator("",
-			    ReportUtils.map(moh731BCohorts.activePwid(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
-		}*/
-	
-	/*public CohortIndicator activePwud(String kpType) {
-		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.activePwud(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
-	}
-	
-	public CohortIndicator activeTransgender(String kpType) {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.activeTransgender(kpType),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-	}
-	
-	public CohortIndicator activePrisonersAndClossedSettings(String kpType) {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.activePrisonersAndClossedSettings(kpType),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-	}*/
-	
 	public CohortIndicator hivTestedKPs(String kpType) {
 		return cohortIndicator("", ReportUtils.map(moh731BCohorts.hivTestedKPs(kpType),
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 	}
-	
-	/*
-	public CohortIndicator hivTestedMsm(String kpType) {
-		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.hivTestedMsm(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
-	}
-	
-	public CohortIndicator hivTestedMsw(String kpType) {
-		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.hivTestedMsw(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
-	}
-	
-	public CohortIndicator hivTestedPwid(String kpType) {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.hivTestedPwid(kpType),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-	}
-	
-	public CohortIndicator hivTestedPwud(String kpType) {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.hivTestedPwud(kpType),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-	}
-	
-	public CohortIndicator hivTestedTransgender(String kpType) {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.hivTestedTransgender(kpType),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-	}
-	
-	public CohortIndicator hivTestedPrisonersAndClosedSettings(String kpType) {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.hivTestedPrisonersAndClosedSettings(kpType),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-	}*/
 	
 	public CohortIndicator htsNumberTestedAtFacilityKPs(String kpType) {
 		return cohortIndicator("", ReportUtils.map(moh731BCohorts.htsNumberTestedAtFacilityKPs(kpType),
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 	}
 	
-	/*	public CohortIndicator testedAtFacilityMsm(String kpType) {
-			return cohortIndicator("", ReportUtils.map(moh731BCohorts.testedAtFacilityMsm(kpType),
-			    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		}
-		
-		public CohortIndicator testedAtFacilityMsw(String kpType) {
-			return cohortIndicator("", ReportUtils.map(moh731BCohorts.testedAtFacilityMsw(kpType),
-			    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		}
-		
-		public CohortIndicator testedAtFacilityPwid(String kpType) {
-			return cohortIndicator("", ReportUtils.map(moh731BCohorts.testedAtFacilityPwid(kpType),
-			    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		}
-		
-		public CohortIndicator testedAtFacilityPwud(String kpType) {
-			return cohortIndicator("", ReportUtils.map(moh731BCohorts.testedAtFacilityPwud(kpType),
-			    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		}
-		
-		public CohortIndicator testedAtFacilityTransgender(String kpType) {
-			return cohortIndicator("", ReportUtils.map(moh731BCohorts.testedAtFacilityTransgender(kpType),
-			    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		}
-		
-		public CohortIndicator testedAtFacilityPrisonersClosedSettings(String kpType) {
-			return cohortIndicator("", ReportUtils.map(moh731BCohorts.testedAtFacilityPrisonersClosedSettings(kpType),
-			    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		}*/
-	
 	public CohortIndicator htsNumberTestedAtCommunityKPs(String kpType) {
 		return cohortIndicator("", ReportUtils.map(moh731BCohorts.htsNumberTestedAtCommunityKPs(kpType),
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 	}
-	
-	/*	public CohortIndicator testedAtCommunityMsm(String kpType) {
-			return cohortIndicator("", ReportUtils.map(moh731BCohorts.testedAtCommunityMsm(kpType),
-			    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		}
-		
-		public CohortIndicator testedAtCommunityMsw(String kpType) {
-			return cohortIndicator("", ReportUtils.map(moh731BCohorts.testedAtCommunityMsw(kpType),
-			    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		}
-		
-		public CohortIndicator testedAtCommunityPwid(String kpType) {
-			return cohortIndicator("", ReportUtils.map(moh731BCohorts.testedAtCommunityPwid(kpType),
-			    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		}
-		
-		public CohortIndicator testedAtCommunityPwud(String kpType) {
-			return cohortIndicator("", ReportUtils.map(moh731BCohorts.testedAtCommunityPwud(kpType),
-			    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		}
-		
-		public CohortIndicator testedAtCommunityTransgender(String kpType) {
-			return cohortIndicator("", ReportUtils.map(moh731BCohorts.testedAtCommunityTransgender(kpType),
-			    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		}
-		
-		public CohortIndicator testedAtCommunityPrisonersClosedSettings(String kpType) {
-			return cohortIndicator("", ReportUtils.map(moh731BCohorts.testedAtCommunityPrisonersClosedSettings(kpType),
-			    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		}*/
 	
 	public CohortIndicator kpsNewlyTestedForHIV(String kpType) {
 		return cohortIndicator("", ReportUtils.map(moh731BCohorts.kpsNewlyTestedForHIV(kpType),
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 	}
 	
-	/*	
-		public CohortIndicator testedNewMsm(String kpType) {
-			return cohortIndicator("",
-			    ReportUtils.map(moh731BCohorts.testedNewMsm(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
-		}
-		
-		public CohortIndicator testedNewMsw(String kpType) {
-			return cohortIndicator("",
-			    ReportUtils.map(moh731BCohorts.testedNewMsw(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
-		}
-		
-		public CohortIndicator testedNewPwid(String kpType) {
-			return cohortIndicator("", ReportUtils.map(moh731BCohorts.testedNewPwid(kpType),
-			    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		}
-		
-		public CohortIndicator testedNewPwud(String kpType) {
-			return cohortIndicator("", ReportUtils.map(moh731BCohorts.testedNewPwud(kpType),
-			    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		}
-		
-		public CohortIndicator testedAtNewTransgender(String kpType) {
-			return cohortIndicator("", ReportUtils.map(moh731BCohorts.testedAtNewTransgender(kpType),
-			    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		}
-		
-		public CohortIndicator newlyTestedprisonersClosedSettings(String kpType) {
-			return cohortIndicator("", ReportUtils.map(moh731BCohorts.newlyTestedprisonersClosedSettings(kpType),
-			    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		}*/
-	
 	public CohortIndicator testedRepeat(String kpType) {
 		return cohortIndicator("", ReportUtils.map(moh731BCohorts.testedRepeat(kpType),
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 	}
-	
-	/*
-	public CohortIndicator testedRepeatMsm(String kpType) {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.testedRepeatMsm(kpType),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-	}
-	
-	public CohortIndicator testedRepeatMsw(String kpType) {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.testedRepeatMsw(kpType),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-	}
-	
-	public CohortIndicator testedRepeatPwid(String kpType) {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.testedRepeatPwid(kpType),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-	}
-	
-	public CohortIndicator testedRepeatPwud(String kpType) {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.testedRepeatPwud(kpType),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-	}
-	
-	public CohortIndicator testedRepeatTransgender(String kpType) {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.testedRepeatTransgender(kpType),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-	}
-	
-	public CohortIndicator testedRepeatPrisonersAndClosedSettings(String kpType) {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.testedRepeatPrisonersAndClosedSettings(kpType),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-	}*/
 	
 	public CohortIndicator selfTestedForHIV(String kpType) {
 		return cohortIndicator("", ReportUtils.map(moh731BCohorts.selfTestedForHIV(kpType),
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 	}
 	
-	/*
-	public CohortIndicator selfTestedForHIVMsm(String kpType) {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.selfTestedForHIVMsm(kpType),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-	}
-	
-	public CohortIndicator selfTestedForHIVMsw(String kpType) {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.selfTestedForHIVMsw(kpType),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-	}
-	
-	public CohortIndicator selfTestedForHIVPwid(String kpType) {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.selfTestedForHIVPwid(kpType),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-	}
-	
-	public CohortIndicator selfTestedForHIVPwud(String kpType) {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.selfTestedForHIVPwud(kpType),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-	}
-	
-	public CohortIndicator selfTestedForHIVTransgender(String kpType) {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.selfTestedForHIVTransgender(kpType),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-	}
-	
-	public CohortIndicator selfTestedForHIVPrisonersAndClosedSettings(String kpType) {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.selfTestedForHIVPrisonersAndClosedSettings(kpType),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-	}*/
-	
 	public CohortIndicator knownPositive(String kpType) {
 		return cohortIndicator("", ReportUtils.map(moh731BCohorts.knownPositive(kpType),
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 	}
-	
-	/*
-	public CohortIndicator knownPositiveMsm(String kpType) {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.knownPositiveMsm(kpType),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-	}
-	
-	public CohortIndicator knownPositiveMsw(String kpType) {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.knownPositiveMsw(kpType),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-	}
-	
-	public CohortIndicator knownPositivePwid(String kpType) {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.knownPositivePwid(kpType),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-	}
-	
-	public CohortIndicator knownPositivePwud(String kpType) {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.knownPositivePwud(kpType),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-	}
-	
-	public CohortIndicator knownPositiveTransgender(String kpType) {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.knownPositiveTransgender(kpType),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-	}
-	
-	public CohortIndicator knownPositivePrisonersClosedSettings(String kpType) {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.knownPositivePrisonersClosedSettings(kpType),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-	}*/
 	
 	public CohortIndicator receivedPositiveHIVResults(String kpType) {
 		return cohortIndicator("", ReportUtils.map(moh731BCohorts.receivedPositiveHIVResults(kpType),
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 	}
 	
-	/*
-	public CohortIndicator receivedPositiveResultsMsm(String kpType) {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.receivedPositiveResultsMsm(kpType),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-	}
-	
-	public CohortIndicator receivedPositiveResultsMsw(String kpType) {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.receivedPositiveResultsMsw(kpType),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-	}
-	
-	public CohortIndicator receivedPositiveResultsPwid(String kpType) {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.receivedPositiveResultsPwid(kpType),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-	}
-	
-	public CohortIndicator receivedPositiveResultsPwud(String kpType) {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.receivedPositiveResultsPwud(kpType),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-	}
-	
-	public CohortIndicator receivedPositiveResultsTransgender(String kpType) {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.receivedPositiveResultsTransgender(kpType),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-	}
-	
-	public CohortIndicator receivedPositiveResultsPrisonersClosedSettings(String kpType) {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.receivedPositiveResultsPrisonersClosedSettings(kpType),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-	}*/
-	
 	public CohortIndicator linked(String kpType) {
 		return cohortIndicator("",
 		    ReportUtils.map(moh731BCohorts.linked(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 	}
 	
-	/*
-	public CohortIndicator linkedMsm(String kpType) {
-		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.linkedMsm(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
-	}
-	
-	public CohortIndicator linkedMsw(String kpType) {
-		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.linkedMsw(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
-	}
-	
-	public CohortIndicator linkedPwid(String kpType) {
-		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.linkedPwid(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
-	}
-	
-	public CohortIndicator linkedPwud(String kpType) {
-		return cohortIndicator("",
-		    ReportUtils.map(moh731BCohorts.linkedPwud(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
-	}
-	
-	public CohortIndicator linkedTransgender(String kpType) {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.linkedTransgender(kpType),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-	}
-	*/
 	public CohortIndicator positiveMonthsAgo(String kpType) {
 		return cohortIndicator("", ReportUtils.map(moh731BCohorts.testedHIVPositiveMonthsAgo(kpType),
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
@@ -539,8 +236,49 @@ public class ETLMoh731PlusIndicatorLibrary {
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 	}
 	
-	public CohortIndicator onPreART(String kpType) {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.onPreART(kpType),
+	public CohortIndicator onSitePreART(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.onSitePreART(kpType),
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 	}
+	
+	public CohortIndicator offSitePreART(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.offSitePreART(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator totalOnPreART(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.totalOnPreART(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator onSiteStartingART(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.onSiteStartingART(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator offSiteStartingART(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.offSiteStartingART(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator totalStartingART(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.totalStartingART(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator currentlyOnARTOnSite(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.currentlyOnARTOnSite(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator currentlyOnARTOffSite(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.currentlyOnARTOffSite(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator totalCurrentlyOnART(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.totalCurrentlyOnART(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
 }
