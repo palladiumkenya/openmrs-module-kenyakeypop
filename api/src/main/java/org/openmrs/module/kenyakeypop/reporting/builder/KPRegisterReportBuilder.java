@@ -9,19 +9,24 @@
  */
 package org.openmrs.module.kenyakeypop.reporting.builder;
 
+import org.openmrs.PatientIdentifierType;
 import org.openmrs.module.kenyacore.report.HybridReportDescriptor;
 import org.openmrs.module.kenyacore.report.ReportDescriptor;
 import org.openmrs.module.kenyacore.report.ReportUtils;
 import org.openmrs.module.kenyacore.report.builder.AbstractHybridReportBuilder;
 import org.openmrs.module.kenyacore.report.builder.Builds;
 //import org.openmrs.module.kenyakeypop.metadata.CommonMetadata;
+import org.openmrs.module.kenyakeypop.metadata.KpMetadata;
 import org.openmrs.module.kenyakeypop.reporting.cohort.definition.KPRegisterCohortDefinition;
 import org.openmrs.module.kenyakeypop.reporting.data.converter.definition.kp.*;
+import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.common.SortCriteria;
 import org.openmrs.module.reporting.data.DataDefinition;
 import org.openmrs.module.reporting.data.converter.DataConverter;
 import org.openmrs.module.reporting.data.converter.ObjectFormatter;
+import org.openmrs.module.reporting.data.patient.definition.ConvertedPatientDataDefinition;
+import org.openmrs.module.reporting.data.patient.definition.PatientIdentifierDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.*;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.PatientDataSetDefinition;
@@ -75,13 +80,14 @@ public class KPRegisterReportBuilder extends AbstractHybridReportBuilder {
 	protected PatientDataSetDefinition kpDataSetDefinition() {
 		
 		PatientDataSetDefinition dsd = new PatientDataSetDefinition("KPRegister");
+		PatientIdentifierType upn = MetadataUtils.existing(PatientIdentifierType.class,
+		    KpMetadata._PatientIdentifierType.KP_UNIQUE_PATIENT_NUMBER);
+		DataConverter identifierFormatter = new ObjectFormatter("{identifier}");
+		DataDefinition identifierDef = new ConvertedPatientDataDefinition("identifier", new PatientIdentifierDataDefinition(
+		        upn.getName(), upn), identifierFormatter);
 		dsd.addSortCriteria("DOBAndAge", SortCriteria.SortDirection.DESC);
 		dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		
-		// PatientIdentifierType upn = MetadataUtils.existing(PatientIdentifierType.class, CommonMetadata._PatientIdentifierType.KP_UNIQUE_PATIENT_NUMBER);
-		DataConverter identifierFormatter = new ObjectFormatter("{identifier}");
-		//DataDefinition identifierDef = new ConvertedPatientDataDefinition("identifier", new PatientIdentifierDataDefinition(upn.getName(), upn), identifierFormatter);
 		
 		DataConverter nameFormatter = new ObjectFormatter("{familyName}, {givenName}");
 		DataDefinition nameDef = new ConvertedPersonDataDefinition("name", new PreferredNameDataDefinition(), nameFormatter);
@@ -92,7 +98,7 @@ public class KPRegisterReportBuilder extends AbstractHybridReportBuilder {
 		dsd.addColumn("Hotspot Typology", new HotspotTypologyDataDefinition(), "");
 		dsd.addColumn("Ward", new WardDataDefinition(), "");
 		dsd.addColumn("Phone Number", new KpPhoneNumberDataDefinition(), "");
-		//dsd.addColumn("Unique Identifier code", identifierDef, "");
+		dsd.addColumn("UIC number", identifierDef, "");
 		dsd.addColumn("Key Population Type", new KeyPopTypeDataDefinition(), "");
 		dsd.addColumn("DOB", new BirthdateDataDefinition(), "");
 		dsd.addColumn("Age", new AgeDataDefinition(), "");
