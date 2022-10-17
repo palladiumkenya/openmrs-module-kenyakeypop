@@ -281,4 +281,48 @@ public class ETLMoh731PlusIndicatorLibrary {
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 	}
 	
+	public CohortIndicator onARTAt12MonthsOnsite(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.onARTAt12MonthsOnsite(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator netCohortAt12MonthsOnsite(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.netCohortAt12MonthsOnsite(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator viralLoad12MonthsOnsite(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.viralLoad12MonthsOnsite(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator suppressedViralLoad12MonthsCohortOnsite(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.suppressedViralLoad12MonthsCohortOnsite(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator viralLoad12MonthsOffsite(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.viralLoad12MonthsOffsite(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator suppressedViralLoad12MonthsCohortOffsite(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.suppressedViralLoad12MonthsCohortOffsite(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator experiencedOverdose(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.experiencedOverdose(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator experiencedOverdoseGivenNaloxone(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.experiencedOverdoseGivenNaloxone(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator overdoseDeaths() {
+		return cohortIndicator("",
+		    ReportUtils.map(moh731BCohorts.overdoseDeaths(), "startDate=${startDate},endDate=${endDate}"));
+	}
 }
