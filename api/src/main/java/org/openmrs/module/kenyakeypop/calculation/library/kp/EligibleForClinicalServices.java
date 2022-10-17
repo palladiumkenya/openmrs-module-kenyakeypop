@@ -37,54 +37,54 @@ import java.util.Map;
 import java.util.Set;
 
 public class EligibleForClinicalServices extends BaseEmrCalculation {
-
+	
 	protected static final Log log = LogFactory.getLog(EligibleForClinicalServices.class);
-
+	
 	@Override
 	public CalculationResultMap evaluate(Collection<Integer> cohort, Map<String, Object> parameterValues,
-										 PatientCalculationContext context) {
-
+	        PatientCalculationContext context) {
+		
 		Program kPProgram = MetadataUtils.existing(Program.class, KpMetadata._Program.KEY_POPULATION);
 		CalculationResultMap ret = new CalculationResultMap();
 		Set<Integer> activeInKpProgram = Filters.inProgram(kPProgram, cohort, context);
 		ProgramWorkflowService service = Context.getProgramWorkflowService();
-
+		
 		EncounterService encounterService = Context.getEncounterService();
 		PatientService patientService = Context.getPatientService();
 		FormService formService = Context.getFormService();
-
+		
 		StringBuilder sb = new StringBuilder();
 		boolean eligible = false;
-
+		
 		for (Integer ptId : cohort) {
 			Patient patient = patientService.getPatient(ptId);
 			Date lastKpenrollmentDate = null;
 			int priorityPopQuestionConcept = 138643;
-
+			
 			if (activeInKpProgram.contains(ptId)) {
 				List<PatientProgram> programs = service.getPatientPrograms(Context.getPatientService().getPatient(ptId),
-						kPProgram, null, null, null, null, true);
+				    kPProgram, null, null, null, null, true);
 				if (programs.size() > 0) {
 					lastKpenrollmentDate = programs.get(programs.size() - 1).getDateEnrolled();
-
+					
 					Encounter lastClinicalContactEnc = EmrUtils.lastEncounter(patient,
-							encounterService.getEncounterTypeByUuid(KpMetadata._EncounterType.KP_CONTACT),
-							formService.getFormByUuid(KpMetadata._Form.KP_CONTACT_FORM));
+					    encounterService.getEncounterTypeByUuid(KpMetadata._EncounterType.KP_CONTACT),
+					    formService.getFormByUuid(KpMetadata._Form.KP_CONTACT_FORM));
 					if (lastClinicalContactEnc != null) {
 						for (Obs obs : lastClinicalContactEnc.getObs()) {
 							if (obs.getConcept().getConceptId() == priorityPopQuestionConcept
-									&& obs.getValueCoded().getConceptId() != null) {
+							        && obs.getValueCoded().getConceptId() != null) {
 								eligible = true;
 							}
 						}
 					}
-
+					
 					Encounter lastClinicalEnrolmentEnc = EmrUtils.lastEncounter(patient,
-							encounterService.getEncounterTypeByUuid(KpMetadata._EncounterType.KP_CLIENT_ENROLLMENT),
-							formService.getFormByUuid(KpMetadata._Form.KP_CLIENT_ENROLLMENT));
-
+					    encounterService.getEncounterTypeByUuid(KpMetadata._EncounterType.KP_CLIENT_ENROLLMENT),
+					    formService.getFormByUuid(KpMetadata._Form.KP_CLIENT_ENROLLMENT));
+					
 					if (lastClinicalEnrolmentEnc != null
-							&& lastKpenrollmentDate.before(lastClinicalEnrolmentEnc.getEncounterDatetime())) {
+					        && lastKpenrollmentDate.before(lastClinicalEnrolmentEnc.getEncounterDatetime())) {
 						eligible = true;
 					}
 				}
@@ -93,5 +93,5 @@ public class EligibleForClinicalServices extends BaseEmrCalculation {
 		}
 		return ret;
 	}
-
+	
 }
