@@ -96,6 +96,7 @@ public class KPRegisterReportBuilder extends AbstractHybridReportBuilder {
 		dsd.addColumn("Name", nameDef, "");
 		dsd.addColumn("Hotspot", new HotspotDataDefinition(), "");
 		dsd.addColumn("Hotspot Typology", new HotspotTypologyDataDefinition(), "");
+		dsd.addColumn("Sub County", new SubCountyOfImplementationDataDefinition(), "");
 		dsd.addColumn("Ward", new WardDataDefinition(), "");
 		dsd.addColumn("Phone Number", new KpPhoneNumberDataDefinition(), "");
 		dsd.addColumn("UIC number", identifierDef, "");
