@@ -242,7 +242,7 @@ public class MonthlyReportCohortLibrary {
 		        + "  left join (select v.client_id from kenyaemr_etl.etl_clinical_visit v where v.voided = 0 group by v.client_id having max(v.visit_date) between date_sub(date(:endDate), INTERVAL 3 MONTH ) and date(:endDate)) cv on c.client_id=cv.client_id\n"
 		        + "  left join (select d.patient_id, max(d.visit_date) latest_visit from kenyaemr_etl.etl_patient_program_discontinuation d where d.program_name='KP') d on c.client_id = d.patient_id\n"
 		        + "where (d.patient_id is null or d.latest_visit > date(:endDate)) and c.voided = 0 and c.key_population_type = '"
-		        + kpType + "'\n" + "  and cp.client_id is not null or cv.client_id is not null\n"
+		        + kpType + "'\n" + "  and (cp.client_id is not null or cv.client_id is not null)\n"
 		        + "  group by c.client_id;\n";
 		cd.setName("kpCurr");
 		cd.setQuery(sqlQuery);
@@ -430,7 +430,7 @@ public class MonthlyReportCohortLibrary {
 		        + "  left join (select t.patient_id as patient_id,t.final_test_result from kenyaemr_etl.etl_hts_test t where t.final_test_result = 'Positive'\n"
 		        + "             and t.test_type = 2 group by t.patient_id) ht on ht.patient_id = d.patient_id\n"
 		        + "  left join (select e.patient_id as patient_id from kenyaemr_etl.etl_hiv_enrollment e group by e.patient_id) he on he.patient_id = d.patient_id\n"
-		        + " where ht.patient_id is not null or he.patient_id is not null\n" + "GROUP BY d.patient_id;\n";
+		        + " where (ht.patient_id is not null or he.patient_id is not null)\n" + "GROUP BY d.patient_id;\n";
 		
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		cd.setName("LHIV");
@@ -801,7 +801,7 @@ public class MonthlyReportCohortLibrary {
 		        + "from kenyaemr_etl.etl_laboratory_extract x\n"
 		        + "where x.lab_test in (1305, 856)\n"
 		        + "group by x.patient_id\n"
-		        + ") vl on c.client_id= vl.patient_id where vl.latest_vl_result <1000 or vl.latest_vl_result = 'LDL' and vl.latest_vl_date between date_sub(:endDate, interval 1 YEAR) and date(:endDate)\n"
+		        + ") vl on c.client_id= vl.patient_id where (vl.latest_vl_result <1000 or vl.latest_vl_result = 'LDL') and vl.latest_vl_date between date_sub(:endDate, interval 1 YEAR) and date(:endDate)\n"
 		        + "and c.key_population_type = '" + kpType + "' and c.voided = 0\n" + "group by c.client_id;";
 		cd.setName("kplhivSuppressedVl");
 		cd.setQuery(sqlQuery);
@@ -825,7 +825,7 @@ public class MonthlyReportCohortLibrary {
 		        + "from kenyaemr_etl.etl_laboratory_extract x\n"
 		        + "where x.lab_test in (1305, 856)\n"
 		        + "group by x.patient_id\n"
-		        + ") vl on c.client_id= vl.patient_id where vl.latest_vl_result is not null or vl.latest_vl_result !='' and vl.latest_vl_date between date_sub(:endDate, interval 1 YEAR) and date(:endDate)\n"
+		        + ") vl on c.client_id= vl.patient_id where (vl.latest_vl_result is not null or vl.latest_vl_result !='') and vl.latest_vl_date between date_sub(:endDate, interval 1 YEAR) and date(:endDate)\n"
 		        + "and c.key_population_type = '" + kpType + "' and c.voided = 0\n" + "group by c.client_id;";
 		cd.setName("kplhivWithVlResult");
 		cd.setQuery(sqlQuery);
