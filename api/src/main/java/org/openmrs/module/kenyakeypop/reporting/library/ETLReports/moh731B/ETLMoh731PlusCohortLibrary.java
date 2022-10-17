@@ -48,16 +48,16 @@ public class ETLMoh731PlusCohortLibrary {
 		String sqlQuery = "select c.client_id\n"
 		        + "from kenyaemr_etl.etl_contact c\n"
 		        + "         join kenyaemr_etl.etl_client_enrollment e on c.client_id = e.client_id and e.voided = 0\n"
-		        + "         join (select p.client_id\n"
+		        + "         join (select p.client_id, max(visit_date) as latest_peer_date\n"
 		        + "               from kenyaemr_etl.etl_peer_calendar p\n"
-		        + "               where p.voided = 0\n"
+		        + "               where p.voided = 0 and date(p.visit_date) <= date(:endDate)\n"
 		        + "               group by p.client_id\n"
 		        + "               having max(p.visit_date) between DATE_SUB(date(date_sub(date(:endDate), interval 3 MONTH)), INTERVAL - 1 DAY) and date(:endDate)) p\n"
-		        + "              on c.client_id = p.client_id\n"
-		        + "         left join (select d.patient_id, max(d.visit_date) latest_visit\n"
+		        + "               on c.client_id = p.client_id\n"
+		        + "         left join (select d.patient_id, max(d.visit_date) latest_disc_date\n"
 		        + "                    from kenyaemr_etl.etl_patient_program_discontinuation d\n"
 		        + "                    where d.program_name = 'KP') d on c.client_id = d.patient_id\n"
-		        + "where (d.patient_id is null or d.latest_visit > date(:endDate))   and c.voided = 0\n"
+		        + "where (d.patient_id is null or p.latest_peer_date > d.latest_disc_date)\n" + "  and c.voided = 0\n"
 		        + "group by c.client_id;";
 		cd.setName("kpCurr");
 		cd.setQuery(sqlQuery);
@@ -1912,33 +1912,25 @@ public class ETLMoh731PlusCohortLibrary {
 	}
 	
 	/**
-	 * Clients enrolled in HIV care program before reporting period - in this
-	 * Facility/on-site
+	 * Clients enrolled in HIV care program before reporting period - in this Facility/on-site
 	 * 
 	 * @return
 	 */
 	public CohortDefinition enrolledInCareBeforeReportingPeriod() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select a.patient_id\n" +
-				"from (select e.patient_id,\n" +
-				"             max(e.visit_date)     as enroll_date,\n" +
-				"             d.effective_disc_date as disc_date,\n" +
-				"             d.patient_id          as disc_patient\n" +
-				"      from kenyaemr_etl.etl_hiv_enrollment e\n" +
-				"               left join (\n" +
-				"          select patient_id,\n" +
-				"                 coalesce(date(effective_discontinuation_date), visit_date) visit_date,\n" +
-				"                 max(date(effective_discontinuation_date)) as               effective_disc_date\n" +
-				"          from kenyaemr_etl.etl_patient_program_discontinuation\n" +
-				"          where date(visit_date) <= date(:endDate)\n" +
-				"            and program_name = 'HIV'\n" +
-				"          group by patient_id\n" +
-				"      ) d on e.patient_id = d.patient_id\n" +
-				"      where e.visit_date < date(:startDate)\n" +
-				"      group by e.patient_id\n" +
-				"      having enroll_date > disc_date\n" +
-				"          or disc_patient is null) a\n" +
-				"group by a.patient_id;";
+		String sqlQuery = "select a.patient_id\n" + "from (select e.patient_id,\n"
+		        + "             max(e.visit_date)     as enroll_date,\n"
+		        + "             d.effective_disc_date as disc_date,\n"
+		        + "             d.patient_id          as disc_patient\n" + "      from kenyaemr_etl.etl_hiv_enrollment e\n"
+		        + "               left join (\n" + "          select patient_id,\n"
+		        + "                 coalesce(date(effective_discontinuation_date), visit_date) visit_date,\n"
+		        + "                 max(date(effective_discontinuation_date)) as               effective_disc_date\n"
+		        + "          from kenyaemr_etl.etl_patient_program_discontinuation\n"
+		        + "          where date(visit_date) <= date(:endDate)\n" + "            and program_name = 'HIV'\n"
+		        + "          group by patient_id\n" + "      ) d on e.patient_id = d.patient_id\n"
+		        + "      where e.visit_date < date(:startDate)\n" + "      group by e.patient_id\n"
+		        + "      having enroll_date > disc_date\n" + "          or disc_patient is null) a\n"
+		        + "group by a.patient_id;";
 		cd.setName("enrolledInCarePreviousBeforePeriod");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -2249,4 +2241,397 @@ public class ETLMoh731PlusCohortLibrary {
 		return cd;
 	}
 	
+	/**
+	 * Started ART 12 months ago
+	 * 
+	 * @return
+	 */
+	public CohortDefinition startedART12MonthsAgo() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select patient_id\n"
+		        + "from (select e.patient_id,\n"
+		        + "             e.date_started\n"
+		        + "      from (select dr.patient_id,\n"
+		        + "                   min(date(dr.date_started)) as date_started\n"
+		        + "            from kenyaemr_etl.etl_drug_event dr\n"
+		        + "                     join kenyaemr_etl.etl_hiv_enrollment e on dr.patient_id = e.patient_id\n"
+		        + "                     join kenyaemr_etl.etl_patient_demographics p on p.patient_id = dr.patient_id and p.voided = 0\n"
+		        + "            where dr.program = 'HIV'\n"
+		        + "            group by dr.patient_id) e\n"
+		        + "      where date(e.date_started) between date_sub(date(:startDate), INTERVAL 12 MONTH) and date_sub(date(:endDate), INTERVAL 12 MONTH)\n"
+		        + "      group by e.patient_id) a;";
+		cd.setName("startedART12MonthsAgo");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("startedART12MonthsAgo");
+		
+		return cd;
+	}
+	
+	/**
+	 * Transfered out within last 12 months to effective reporting date
+	 * 
+	 * @return
+	 */
+	public CohortDefinition transferOutsSince12MonthsAgo() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select a.patient_id\n"
+		        + "from (select d.patient_id,\n"
+		        + "             coalesce(mid(max(concat(date(d.visit_date), date(d.transfer_date))), 11),\n"
+		        + "                      mid(max(concat(date(d.visit_date), date(date(d.effective_discontinuation_date)))), 11),\n"
+		        + "                      max(date(d.visit_date))) as to_date\n"
+		        + "      from kenyaemr_etl.etl_patient_program_discontinuation d\n" + "      where program_name = 'HIV'\n"
+		        + "        and date(d.visit_date) <= date(:endDate)\n" + "        and d.discontinuation_reason = 159492\n"
+		        + "      group by d.patient_id\n"
+		        + "      having to_date between date_sub(date(:startDate), INTERVAL 12 MONTH) and (date(:endDate))) a;";
+		cd.setName("transferOutsSince12MonthsAgo");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("transferOutsSince12MonthsAgo");
+		
+		return cd;
+	}
+	
+	/**
+	 * Transfered in within last 12 months to effective reporting date
+	 * 
+	 * @return
+	 */
+	public CohortDefinition transferInsSince12MonthsAgo() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select a.patient_id\n" + "from (select e.patient_id,\n"
+		        + "             mid(max(concat(date(e.visit_date), e.patient_type)), 11) as patient_type,\n"
+		        + "             coalesce(mid(max(concat(date(e.visit_date), date(e.transfer_in_date))), 11),\n"
+		        + "                      max(date(e.visit_date)))                        as ti_date\n"
+		        + "      from kenyaemr_etl.etl_hiv_enrollment e\n" + "      group by e.patient_id\n"
+		        + "      having patient_type = 160563\n"
+		        + "         and ti_date between date_sub(date(:startDate), INTERVAL 12 MONTH) and (date(:endDate))) a;";
+		cd.setName("transferInsSince12MonthsAgo");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("transferInsSince12MonthsAgo");
+		
+		return cd;
+	}
+	
+	/**
+	 * 5.4 Retention on ART: On-site On ART at 12 months: Number of clients still on ART 12 months
+	 * after starting ART regardless of regimen.
+	 * 
+	 * @param kpType
+	 * @return
+	 */
+	public CohortDefinition onARTAt12MonthsOnsite(String kpType) {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Sub County", String.class));
+		cd.addSearch("kpType",
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		cd.addSearch("currentlyOnArt",
+		    ReportUtils.map(datimCohorts.currentlyOnArt(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("startedART12MonthsAgo",
+		    ReportUtils.map(startedART12MonthsAgo(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpType AND startedART12MonthsAgo AND currentlyOnArt");
+		
+		return cd;
+	}
+	
+	/**
+	 * Net cohort at 12 months : This refers to the number of clients started ART in the same month
+	 * plus transfer ins and minus transfer outs. Take the number of patients in the original
+	 * cohort, add the Transfers In (TIs), and subtract the Transfers Out (TOs) to get the net
+	 * cohort
+	 * 
+	 * @param kpType
+	 * @return
+	 */
+	public CohortDefinition netCohortAt12MonthsOnsite(String kpType) {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Sub County", String.class));
+		cd.addSearch("kpType",
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		cd.addSearch("startedART12MonthsAgo",
+		    ReportUtils.map(startedART12MonthsAgo(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("transferInsSince12MonthsAgo",
+		    ReportUtils.map(transferInsSince12MonthsAgo(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("transferOutsSince12MonthsAgo",
+		    ReportUtils.map(transferOutsSince12MonthsAgo(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpType AND ((startedART12MonthsAgo AND NOT transferOutsSince12MonthsAgo) OR (startedART12MonthsAgo AND transferInsSince12MonthsAgo))");
+		
+		return cd;
+	}
+	
+	/**
+	 * Viral load result_12mths: On-site Number of people in the 12-month cohort in each KP type who
+	 * had a viral load test on site at 12 months and whose results were available at the time of
+	 * analysis
+	 * 
+	 * @param kpType
+	 * @return
+	 */
+	public CohortDefinition viralLoad12MonthsOnsite(String kpType) {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Sub County", String.class));
+		cd.addSearch("kpType",
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		cd.addSearch("patientsWithVLResultsLast12Months",
+		    ReportUtils.map(moh731Cohorts.patientsWithVLResultsLast12Months(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpType AND patientsWithVLResultsLast12Months");
+		
+		return cd;
+	}
+	
+/**
+	 * Viral load <1000_12mths: On-site
+	 * 	number of people in the 12-month cohort in each KP type whose 12-month viral load test
+	 *  was done on site and who have a viral load less than 1000 copies per ML.
+ 	 * @param kpType
+	 * @return
+	 */
+	public CohortDefinition suppressedViralLoad12MonthsCohortOnsite(String kpType) {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Sub County", String.class));
+		cd.addSearch("kpType",
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		cd.addSearch("patientsWithSuppressedVlLast12Months", ReportUtils.map(
+		    moh731Cohorts.patientsWithSuppressedVlLast12Months(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpType AND patientsWithSuppressedVlLast12Months");
+		
+		return cd;
+	}
+	
+	/**
+	 * Had a offsite vl test done within the last 12 months
+	 * 
+	 * @return
+	 */
+	public CohortDefinition vlTestDoneWithinLast12MonthsOffsite() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select c.client_id\n" + "from kenyaemr_etl.etl_clinical_visit c\n"
+		        + "where date(c.visit_date) between date_sub(date(:startDate), INTERVAL 12 MONTH) and date(:endDate)\n"
+		        + "  and c.hiv_care_facility = 'Provided elsewhere'\n" + "  and c.vl_results in ('Y', 'N');";
+		cd.setName("vlTestDoneWithinLast12MonthsOffsite");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("vlTestDoneWithinLast12MonthsOffsite");
+		
+		return cd;
+	}
+	
+	/**
+	 * Had a suppressed VL test result within the last 12 months
+	 * 
+	 * @return
+	 */
+	public CohortDefinition suppresedVlWithinLast12MonthsOffsite() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select c.client_id\n" + "from kenyaemr_etl.etl_clinical_visit c\n"
+		        + "where date(c.visit_date) between date_sub(date(:startDate), INTERVAL 12 MONTH) and date(:endDate)\n"
+		        + "  and c.hiv_care_facility = 'Provided elsewhere'\n" + "  and c.vl_results = 'Y';";
+		cd.setName("suppresedVlWithinLast12MonthsOffsite");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("suppresedVlWithinLast12MonthsOffsite");
+		
+		return cd;
+	}
+	
+	/**
+	 * Current on ART elsewhere : Has latest clinical visit on or before reporting date and next
+	 * appointment date >= reporting start date
+	 * 
+	 * @return
+	 */
+	public CohortDefinition currentOnArtOffsite() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select c.client_id\n" + "from kenyaemr_etl.etl_clinical_visit c\n"
+		        + "where date(c.visit_date) <= date(:endDate)\n" + "  and c.hiv_care_facility = 'Provided elsewhere'\n"
+		        + "  and c.active_art = 'Yes'\n" + "group by c.client_id\n"
+		        + "having mid(max(concat(date(c.visit_date),date(c.appointment_date))),11) >= date(:startDate);";
+		cd.setName("currentOnArtOffsite");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("currentOnArtOffsite");
+		
+		return cd;
+	}
+	
+	/**
+	 * Started ART 12 months ago elsewhere
+	 * 
+	 * @return
+	 */
+	public CohortDefinition startedArt12MonthsAgoOffsite() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select c.client_id\n"
+		        + "from kenyaemr_etl.etl_clinical_visit c\n"
+		        + "where date(c.visit_date) between date_sub(date(:startDate), INTERVAL 12 MONTH) and date_sub(date(:endDate), INTERVAL 12 MONTH)\n"
+		        + "  and c.hiv_care_facility = 'Provided elsewhere'\n" + "  and c.initiated_art_this_month = 'Yes';";
+		cd.setName("startedArt12MonthsAgoOffsite");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("startedArt12MonthsAgoOffsite");
+		
+		return cd;
+	}
+	
+	/**
+	 * Viral load result_12mths: Off-site Number of people in the 12-month cohort in each KP type
+	 * who had a viral load test on site at 12 months and whose results were available at the time
+	 * of analysis
+	 * 
+	 * @param kpType
+	 * @return
+	 */
+	public CohortDefinition viralLoad12MonthsOffsite(String kpType) {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Sub County", String.class));
+		cd.addSearch("kpType",
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		cd.addSearch("startedArt12MonthsAgoOffsite",
+		    ReportUtils.map(startedArt12MonthsAgoOffsite(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("currentOnArtOffsite",
+		    ReportUtils.map(currentOnArtOffsite(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("vlTestDoneWithinLast12MonthsOffsite",
+		    ReportUtils.map(vlTestDoneWithinLast12MonthsOffsite(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpType AND startedArt12MonthsAgoOffsite AND currentOnArtOffsite AND vlTestDoneWithinLast12MonthsOffsite");
+		
+		return cd;
+	}
+	
+/**
+	 * Viral load <1000_12mths: Off-site
+	 * 	number of people in the 12-month cohort in each KP type whose 12-month viral load test
+	 *  was done off site and who have a viral load less than 1000 copies per ML.
+	 * @param kpType
+	 * @return
+	 */
+	public CohortDefinition suppressedViralLoad12MonthsCohortOffsite(String kpType) {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Sub County", String.class));
+		cd.addSearch("kpType",
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		cd.addSearch("startedArt12MonthsAgoOffsite",
+		    ReportUtils.map(startedArt12MonthsAgoOffsite(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("currentOnArtOffsite",
+		    ReportUtils.map(currentOnArtOffsite(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("suppresedVlWithinLast12MonthsOffsite",
+		    ReportUtils.map(suppresedVlWithinLast12MonthsOffsite(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpType AND startedArt12MonthsAgoOffsite AND currentOnArtOffsite AND suppresedVlWithinLast12MonthsOffsite");
+		
+		return cd;
+	}
+	
+	/**
+	 * Number experienced overdose in the reporting period
+	 * 
+	 * @return
+	 */
+	public CohortDefinition experiencedOverdoseReportingPeriod() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select r.client_id\n" + "from kenyaemr_etl.etl_overdose_reporting r\n"
+		        + "where date(r.visit_date) between date(:startDate) and date(:endDate);";
+		cd.setName("experiencedOverdoseReportingPeriod");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("experiencedOverdoseReportingPeriod");
+		
+		return cd;
+	}
+	
+	/**
+	 * Number of PWID/PWUD who experienced overdose in the reporting period
+	 * 
+	 * @param kpType
+	 * @return
+	 */
+	public CohortDefinition experiencedOverdose(String kpType) {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Sub County", String.class));
+		cd.addSearch("kpType",
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		cd.addSearch("experiencedOverdoseReportingPeriod",
+		    ReportUtils.map(experiencedOverdoseReportingPeriod(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpType AND experiencedOverdoseReportingPeriod");
+		
+		return cd;
+	}
+	
+	/**
+	 * Number had overdose and received naloxone
+	 * 
+	 * @return
+	 */
+	public CohortDefinition experiencedOverdoseRcvdNaloxoneReportingPeriod() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select r.client_id\n" + "from kenyaemr_etl.etl_overdose_reporting r\n"
+		        + "where date(r.visit_date) between date(:startDate) and date(:endDate)\n"
+		        + "  and r.naloxone_provided = 1065;";
+		cd.setName("experiencedOverdoseRcvdNaloxoneReportingPeriod");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("experiencedOverdoseRcvdNaloxoneReportingPeriod");
+		
+		return cd;
+	}
+	
+	/**
+	 * Number of PWID/PWUD who had overdose and received naloxone
+	 * 
+	 * @param kpType
+	 * @return
+	 */
+	public CohortDefinition experiencedOverdoseGivenNaloxone(String kpType) {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Sub County", String.class));
+		cd.addSearch("kpType",
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		cd.addSearch("experiencedOverdoseRcvdNaloxoneReportingPeriod",
+		    ReportUtils.map(experiencedOverdoseRcvdNaloxoneReportingPeriod(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpType AND experiencedOverdoseRcvdNaloxoneReportingPeriod");
+		
+		return cd;
+	}
+	
+	/**
+	 * Number of deaths due to overdose in the reporting period
+	 * 
+	 * @return
+	 */
+	public CohortDefinition overdoseDeaths() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select r.client_id from kenyaemr_etl.etl_overdose_reporting r where date(r.visit_date) between date(:startDate) and date(:endDate)\n"
+		        + "and r.outcome = 160034;";
+		cd.setName("overdoseDeaths");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("overdoseDeaths");
+		
+		return cd;
+	}
 }

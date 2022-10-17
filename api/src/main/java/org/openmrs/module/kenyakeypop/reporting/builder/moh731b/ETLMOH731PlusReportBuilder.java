@@ -1158,21 +1158,191 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		/**
 		 * Total currently on ART
 		 */
-		cohortDsd.addColumn("Total_currently_ART_FSW", "Total Fsw currently on ART",
-		    ReportUtils.map(moh731bIndicators.totalCurrentlyOnART(FSW), indParams), "");
-		cohortDsd.addColumn("Total_currently_ART_MSM", "Total Msm currently on ART",
-		    ReportUtils.map(moh731bIndicators.totalCurrentlyOnART(MSM), indParams), "");
-		cohortDsd.addColumn("Total_currently_ART_MSW", "Total Msw currently on ART",
-		    ReportUtils.map(moh731bIndicators.totalCurrentlyOnART(MSW), indParams), "");
-		cohortDsd.addColumn("Total_currently_ART_PWID", "Total Pwid currently on ART",
-		    ReportUtils.map(moh731bIndicators.totalCurrentlyOnART(PWID), indParams), "");
-		cohortDsd.addColumn("Total_currently_ART_PWUD", "Total Pwud currently on ART",
-		    ReportUtils.map(moh731bIndicators.totalCurrentlyOnART(PWUD), indParams), "");
-		cohortDsd.addColumn("Total_currently_ART_Transgender", "Total Transgender currently on ART",
-		    ReportUtils.map(moh731bIndicators.totalCurrentlyOnART(TRANSGENDER), indParams), "");
-		cohortDsd.addColumn("Total_currently_ART_Prisoners_closed_settings",
+		EmrReportingUtils.addRow(cohortDsd, "Total_currently_ART_FSW", "Total Fsw currently on ART",
+		    ReportUtils.map(moh731bIndicators.totalCurrentlyOnART(FSW), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "Total_currently_ART_MSM", "Total Msm currently on ART",
+		    ReportUtils.map(moh731bIndicators.totalCurrentlyOnART(MSM), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "Total_currently_ART_MSW", "Total Msw currently on ART",
+		    ReportUtils.map(moh731bIndicators.totalCurrentlyOnART(MSW), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "Total_currently_ART_PWID", "Total Pwid currently on ART",
+		    ReportUtils.map(moh731bIndicators.totalCurrentlyOnART(PWID), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "Total_currently_ART_PWUD", "Total Pwud currently on ART",
+		    ReportUtils.map(moh731bIndicators.totalCurrentlyOnART(PWUD), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "Total_currently_ART_Transgender", "Total Transgender currently on ART",
+		    ReportUtils.map(moh731bIndicators.totalCurrentlyOnART(TRANSGENDER), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "Total_currently_ART_Prisoners_closed_settings",
 		    "Total Prisoners and people in closed settings currently on ART ",
-		    ReportUtils.map(moh731bIndicators.totalCurrentlyOnART(IN_PRISONS), indParams), "");
+		    ReportUtils.map(moh731bIndicators.totalCurrentlyOnART(IN_PRISONS), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		
+		// 5.4 Retention on ART
+		/**
+		 * 5.4 Retention on ART: On-site On ART at 12 months: Number of clients still on ART 12
+		 * months after starting ART regardless of regimen.
+		 */
+		cohortDsd.addColumn("On_ART_At_12_Months_Onsite_FSW", "Fsw on ART at 12 months - Onsite",
+		    ReportUtils.map(moh731bIndicators.onARTAt12MonthsOnsite(FSW), indParams), "");
+		cohortDsd.addColumn("On_ART_At_12_Months_Onsite_MSM", "Msm on ART at 12 months - Onsite",
+		    ReportUtils.map(moh731bIndicators.onARTAt12MonthsOnsite(MSM), indParams), "");
+		cohortDsd.addColumn("On_ART_At_12_Months_Onsite_MSW", "Msw on ART at 12 months - Onsite",
+		    ReportUtils.map(moh731bIndicators.onARTAt12MonthsOnsite(MSW), indParams), "");
+		cohortDsd.addColumn("On_ART_At_12_Months_Onsite_PWID", "Pwid on ART at 12 months - Onsite",
+		    ReportUtils.map(moh731bIndicators.onARTAt12MonthsOnsite(PWID), indParams), "");
+		cohortDsd.addColumn("On_ART_At_12_Months_Onsite_PWUD", "Pwud on ART at 12 months - Onsite",
+		    ReportUtils.map(moh731bIndicators.onARTAt12MonthsOnsite(PWUD), indParams), "");
+		cohortDsd.addColumn("On_ART_At_12_Months_Onsite_Transgender", "Transgender on ART at 12 months - Onsite",
+		    ReportUtils.map(moh731bIndicators.onARTAt12MonthsOnsite(TRANSGENDER), indParams), "");
+		cohortDsd.addColumn("On_ART_At_12_Months_Onsite_Prisoners_closed_settings",
+		    "Prisoners and people in closed settings on ART at 12 months - Onsite",
+		    ReportUtils.map(moh731bIndicators.onARTAt12MonthsOnsite(IN_PRISONS), indParams), "");
+		
+		/**
+		 * Net cohort at 12 months : On-site This refers to the number of clients started ART in the
+		 * same month plus transfer ins and minus transfer outs. Take the number of patients in the
+		 * original cohort, add the Transfers In (TIs), and subtract the Transfers Out (TOs) to get
+		 * the net cohort
+		 */
+		cohortDsd.addColumn("Net_Cohort_At_12_Months_Onsite_FSW", "Fsw net cohort at 12 months - Onsite",
+		    ReportUtils.map(moh731bIndicators.netCohortAt12MonthsOnsite(FSW), indParams), "");
+		cohortDsd.addColumn("Net_Cohort_At_12_Months_Onsite_MSM", "Msm net cohort at 12 months - Onsite",
+		    ReportUtils.map(moh731bIndicators.netCohortAt12MonthsOnsite(MSM), indParams), "");
+		cohortDsd.addColumn("Net_Cohort_At_12_Months_Onsite_MSW", "Msw net cohort at 12 months - Onsite",
+		    ReportUtils.map(moh731bIndicators.netCohortAt12MonthsOnsite(MSW), indParams), "");
+		cohortDsd.addColumn("Net_Cohort_At_12_Months_Onsite_PWID", "Pwid net cohort at 12 months - Onsite",
+		    ReportUtils.map(moh731bIndicators.netCohortAt12MonthsOnsite(PWID), indParams), "");
+		cohortDsd.addColumn("Net_Cohort_At_12_Months_Onsite_PWUD", "Pwud net cohort at 12 months - Onsite",
+		    ReportUtils.map(moh731bIndicators.netCohortAt12MonthsOnsite(PWUD), indParams), "");
+		cohortDsd.addColumn("Net_Cohort_At_12_Months_Onsite_Transgender", "Transgender net cohort at 12 months - Onsite",
+		    ReportUtils.map(moh731bIndicators.netCohortAt12MonthsOnsite(TRANSGENDER), indParams), "");
+		cohortDsd.addColumn("Net_Cohort_At_12_Months_Onsite_Prisoners_closed_settings",
+		    "Prisoners and people in closed settings net cohort at 12 months - Onsite",
+		    ReportUtils.map(moh731bIndicators.netCohortAt12MonthsOnsite(IN_PRISONS), indParams), "");
+		
+		// 5.5 Viral Load Tracking
+		/**
+		 * Viral load result_12mths: On-site Number of people in the 12-month cohort in each KP type
+		 * who had a viral load test on site at 12 months and whose results were available at the
+		 * time of analysis
+		 */
+		cohortDsd.addColumn("Viral_Load_12_Months_Onsite_FSW", "Fsw viral load 12 months - Onsite",
+		    ReportUtils.map(moh731bIndicators.viralLoad12MonthsOnsite(FSW), indParams), "");
+		cohortDsd.addColumn("Viral_Load_12_Months_Onsite_MSM", "Msm viral load 12 months - Onsite",
+		    ReportUtils.map(moh731bIndicators.viralLoad12MonthsOnsite(MSM), indParams), "");
+		cohortDsd.addColumn("Viral_Load_12_Months_Onsite_MSW", "Msw viral load 12 months - Onsite",
+		    ReportUtils.map(moh731bIndicators.viralLoad12MonthsOnsite(MSW), indParams), "");
+		cohortDsd.addColumn("Viral_Load_12_Months_Onsite_PWID", "Pwid viral load 12 months - Onsite",
+		    ReportUtils.map(moh731bIndicators.viralLoad12MonthsOnsite(PWID), indParams), "");
+		cohortDsd.addColumn("Viral_Load_12_Months_Onsite_PWUD", "Pwud viral load 12 months - Onsite",
+		    ReportUtils.map(moh731bIndicators.viralLoad12MonthsOnsite(PWUD), indParams), "");
+		cohortDsd.addColumn("Viral_Load_12_Months_Onsite_Transgender", "Transgender viral load 12 months - Onsite",
+		    ReportUtils.map(moh731bIndicators.viralLoad12MonthsOnsite(TRANSGENDER), indParams), "");
+		cohortDsd.addColumn("Viral_Load_12_Months_Onsite_Prisoners_closed_settings",
+		    "Prisoners and people in closed settings viral load 12 months - Onsite",
+		    ReportUtils.map(moh731bIndicators.viralLoad12MonthsOnsite(IN_PRISONS), indParams), "");
+		
+/**
+		 * Viral load <1000_12mths: On-site
+		 * number of people in the 12-month cohort in each KP type whose 12-month viral load test
+		 * was done on site and who have a viral load less than 1000 copies per ML.
+		 */
+		cohortDsd.addColumn("Suppressed_Viral_Load_12_Months_Onsite_FSW",
+		    "Fsw viral load < 1000 cps/ml 12 months cohort - Onsite",
+		    ReportUtils.map(moh731bIndicators.suppressedViralLoad12MonthsCohortOnsite(FSW), indParams), "");
+		cohortDsd.addColumn("Suppressed_Viral_Load_12_Months_Onsite_MSM",
+		    "Msm viral load < 1000 cps/ml 12 months cohort - Onsite",
+		    ReportUtils.map(moh731bIndicators.suppressedViralLoad12MonthsCohortOnsite(MSM), indParams), "");
+		cohortDsd.addColumn("Suppressed_Viral_Load_12_Months_Onsite_MSW",
+		    "Msw viral load < 1000 cps/ml 12 months cohort - Onsite",
+		    ReportUtils.map(moh731bIndicators.suppressedViralLoad12MonthsCohortOnsite(MSW), indParams), "");
+		cohortDsd.addColumn("Suppressed_Viral_Load_12_Months_Onsite_PWID",
+		    "Pwid viral load < 1000 cps/ml 12 months cohort - Onsite",
+		    ReportUtils.map(moh731bIndicators.suppressedViralLoad12MonthsCohortOnsite(PWID), indParams), "");
+		cohortDsd.addColumn("Suppressed_Viral_Load_12_Months_Onsite_PWUD",
+		    "Pwud viral load < 1000 cps/ml 12 months cohort - Onsite",
+		    ReportUtils.map(moh731bIndicators.suppressedViralLoad12MonthsCohortOnsite(PWUD), indParams), "");
+		cohortDsd.addColumn("Suppressed_Viral_Load_12_Months_Onsite_Transgender",
+		    "Transgender viral load < 1000 cps/ml 12 months cohort - Onsite",
+		    ReportUtils.map(moh731bIndicators.suppressedViralLoad12MonthsCohortOnsite(TRANSGENDER), indParams), "");
+		cohortDsd.addColumn("Suppressed_Viral_Load_12_Months_Onsite_Prisoners_closed_settings",
+		    "Prisoners and people in closed settings viral load < 1000 cps/ml 12 months cohort - Onsite",
+		    ReportUtils.map(moh731bIndicators.suppressedViralLoad12MonthsCohortOnsite(IN_PRISONS), indParams), "");
+		
+		/**
+		 * Viral load result_12mths: Off-site Number of people in the 12-month cohort in each KP
+		 * type who had a viral load test off site at 12 months and whose results were available at
+		 * the time of analysis
+		 */
+		cohortDsd.addColumn("Viral_Load_12_Months_Offsite_FSW", "Fsw viral load 12 months - Offsite",
+		    ReportUtils.map(moh731bIndicators.viralLoad12MonthsOffsite(FSW), indParams), "");
+		cohortDsd.addColumn("Viral_Load_12_Months_Offsite_MSM", "Msm viral load 12 months - Offsite",
+		    ReportUtils.map(moh731bIndicators.viralLoad12MonthsOffsite(MSM), indParams), "");
+		cohortDsd.addColumn("Viral_Load_12_Months_Offsite_MSW", "Msw viral load 12 months - Offsite",
+		    ReportUtils.map(moh731bIndicators.viralLoad12MonthsOffsite(MSW), indParams), "");
+		cohortDsd.addColumn("Viral_Load_12_Months_Offsite_PWID", "Pwid viral load 12 months - Offsite",
+		    ReportUtils.map(moh731bIndicators.viralLoad12MonthsOffsite(PWID), indParams), "");
+		cohortDsd.addColumn("Viral_Load_12_Months_Offsite_PWUD", "Pwud viral load 12 months - Offsite",
+		    ReportUtils.map(moh731bIndicators.viralLoad12MonthsOffsite(PWUD), indParams), "");
+		cohortDsd.addColumn("Viral_Load_12_Months_Offsite_Transgender", "Transgender viral load 12 months - Offsite",
+		    ReportUtils.map(moh731bIndicators.viralLoad12MonthsOffsite(TRANSGENDER), indParams), "");
+		cohortDsd.addColumn("Viral_Load_12_Months_Offsite_Prisoners_closed_settings",
+		    "Prisoners and people in closed settings viral load 12 months - Offsite",
+		    ReportUtils.map(moh731bIndicators.viralLoad12MonthsOffsite(IN_PRISONS), indParams), "");
+		
+/**
+		 * Viral load <1000_12mths: Off-site
+		 * number of people in the 12-month cohort in each KP type whose 12-month viral load test
+		 * was done on site and who have a viral load less than 1000 copies per ML.
+		 */
+		cohortDsd.addColumn("Suppressed_Viral_Load_12_Months_Offsite_FSW",
+		    "Fsw viral load < 1000 cps/ml 12 months cohort - Offsite",
+		    ReportUtils.map(moh731bIndicators.suppressedViralLoad12MonthsCohortOffsite(FSW), indParams), "");
+		cohortDsd.addColumn("Suppressed_Viral_Load_12_Months_Offsite_MSM",
+		    "Msm viral load < 1000 cps/ml 12 months cohort - Offsite",
+		    ReportUtils.map(moh731bIndicators.suppressedViralLoad12MonthsCohortOffsite(MSM), indParams), "");
+		cohortDsd.addColumn("Suppressed_Viral_Load_12_Months_Offsite_MSW",
+		    "Msw viral load < 1000 cps/ml 12 months cohort - Offsite",
+		    ReportUtils.map(moh731bIndicators.suppressedViralLoad12MonthsCohortOffsite(MSW), indParams), "");
+		cohortDsd.addColumn("Suppressed_Viral_Load_12_Months_Offsite_PWID",
+		    "Pwid viral load < 1000 cps/ml 12 months cohort - Offsite",
+		    ReportUtils.map(moh731bIndicators.suppressedViralLoad12MonthsCohortOffsite(PWID), indParams), "");
+		cohortDsd.addColumn("Suppressed_Viral_Load_12_Months_Offsite_PWUD",
+		    "Pwud viral load < 1000 cps/ml 12 months cohort - Offsite",
+		    ReportUtils.map(moh731bIndicators.suppressedViralLoad12MonthsCohortOffsite(PWUD), indParams), "");
+		cohortDsd.addColumn("Suppressed_Viral_Load_12_Months_Offsite_Transgender",
+		    "Transgender viral load < 1000 cps/ml 12 months cohort - Offsite",
+		    ReportUtils.map(moh731bIndicators.suppressedViralLoad12MonthsCohortOffsite(TRANSGENDER), indParams), "");
+		cohortDsd.addColumn("Suppressed_Viral_Load_12_Months_Offsite_Prisoners_closed_settings",
+		    "Prisoners and people in closed settings viral load < 1000 cps/ml 12 months cohort - Offsite",
+		    ReportUtils.map(moh731bIndicators.suppressedViralLoad12MonthsCohortOffsite(IN_PRISONS), indParams), "");
+		
+		// 7.0 Overdose
+		/**
+		 * Number of PWID/PWUD who experienced overdose in the reporting period.
+		 */
+		cohortDsd.addColumn("Experienced_Overdose_PWID", "Pwid who experienced overdose",
+		    ReportUtils.map(moh731bIndicators.experiencedOverdose(PWID), indParams), "");
+		cohortDsd.addColumn("Experienced_Overdose_PWUD", "Pwud who experienced overdose",
+		    ReportUtils.map(moh731bIndicators.experiencedOverdose(PWUD), indParams), "");
+		
+		/**
+		 * Number of PWID/PWUD who had overdose and received naloxone
+		 */
+		cohortDsd.addColumn("Overdose_Given_Naloxone_PWID", "Pwid who had overdose and received naloxone",
+		    ReportUtils.map(moh731bIndicators.experiencedOverdoseGivenNaloxone(PWID), indParams), "");
+		cohortDsd.addColumn("Overdose_Given_Naloxone_PWUD", "Pwud who had overdose and received naloxone",
+		    ReportUtils.map(moh731bIndicators.experiencedOverdoseGivenNaloxone(PWUD), indParams), "");
+		
+		/**
+		 * Number of deaths due to overdose in the reporting period
+		 */
+		cohortDsd.addColumn("Overdose_Deaths", "Number of deaths due to overdose",
+		    ReportUtils.map(moh731bIndicators.overdoseDeaths(), indParams), "");
 		/*
 
 				MOH731BPlusSubCountyBasedCohortDefinition cd = new MOH731BPlusSubCountyBasedCohortDefinition();
