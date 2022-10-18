@@ -331,4 +331,23 @@ public class MonthlyReportIndicatorLibrary {
 		    "startDate=${startDate},endDate=${endDate}"));
 	}
 	
+	public CohortIndicator kpPrepScreened(String kpType) {
+		return cohortIndicator("",
+		    ReportUtils.map(monthlyReportCohortLibrary.kpPrepScreened(kpType), "startDate=${startDate},endDate=${endDate}"));
+	}
+	
+	public CohortIndicator kpPrepEligible(String kpType) {
+		return cohortIndicator("",
+		    ReportUtils.map(monthlyReportCohortLibrary.kpPrepEligible(kpType), "startDate=${startDate},endDate=${endDate}"));
+	}
+	
+	public CohortIndicator kpPrepNewDice(String kpType) {
+		return cohortIndicator("",
+		    ReportUtils.map(monthlyReportCohortLibrary.kpPrepNewDice(kpType), "startDate=${startDate},endDate=${endDate}"));
+	}
+	
+	public CohortIndicator kpPrepCurrDice(String kpType) {
+		return cohortIndicator("",
+		    ReportUtils.map(monthlyReportCohortLibrary.kpPrepCurrDice(kpType), "startDate=${startDate},endDate=${endDate}"));
+	}
 }
