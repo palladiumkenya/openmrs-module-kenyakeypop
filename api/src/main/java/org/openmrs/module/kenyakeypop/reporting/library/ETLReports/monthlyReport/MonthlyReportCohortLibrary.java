@@ -1390,4 +1390,76 @@ public class MonthlyReportCohortLibrary {
 		
 		return cd;
 	}
+	
+	/*
+	*Number of HIV negative KPs Screened for PrEP this month
+	 */
+	public CohortDefinition kpPrepScreened(String kpType) {
+		
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_clinical_visit v\n"
+		        + "  inner join kenyaemr_etl.etl_contact c on c.client_id=v.client_id\n"
+		        + "where v. prep_screened = 'Yes' and c.voided = 0 and c.key_population_type = '" + kpType + "'\n"
+		        + "  and date(v.visit_date) between date(:startDate) and date(:endDate)\n" + "group by c.client_id;";
+		cd.setName("kpPrepScreened");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("kpPrepScreened");
+		
+		return cd;
+	}
+	
+	/*
+	*Number of KPs eligible for PrEP among those screened
+	 */
+	public CohortDefinition kpPrepEligible(String kpType) {
+		
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_clinical_visit v\n"
+		        + "  inner join kenyaemr_etl.etl_contact c on c.client_id=v.client_id\n"
+		        + "where v. prep_results = 'Eligible' and c.voided = 0 and c.key_population_type = '" + kpType + "'\n"
+		        + "      and date(v.visit_date) between date(:startDate) and date(:endDate)\n" + "group by c.client_id;";
+		cd.setName("kpPrepEligible");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("kpPrepEligible");
+		
+		return cd;
+	}
+	
+	/*
+	*Number of KPs started on PrEP this month in this DICE
+	 */
+	public CohortDefinition kpPrepNewDice(String kpType) {
+		
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_prep_enrolment e\n"
+		        + "  inner join kenyaemr_etl.etl_contact c on c.client_id=e.patient_id\n"
+		        + "where e.patient_type = 'New Patient' and c.voided = 0 and c.key_population_type = '" + kpType + "'\n"
+		        + "      and date(e.visit_date) between date(:startDate) and date(:endDate)\n" + "group by c.client_id;";
+		cd.setName("kpPrepNewDice");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("kpPrepNewDice");
+		
+		return cd;
+	}
+	
+	/**
+	 * KP PrEP_CURR_DICE currentInKP AND prepCT from Datim Compositions for PrEP_CURR_DICE indicator
+	 * 
+	 * @return
+	 */
+	public CohortDefinition kpPrepCurrDice(String kpType) {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addSearch("currentInKP", ReportUtils.map(kpCurr(kpType), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("prepCT", ReportUtils.map(datimCohortLibrary.prepCT(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("currentInKP AND prepCT");
+		return cd;
+	}
 }
