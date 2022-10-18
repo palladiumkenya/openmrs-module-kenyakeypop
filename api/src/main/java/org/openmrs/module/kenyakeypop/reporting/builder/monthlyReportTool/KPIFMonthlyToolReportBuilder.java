@@ -1264,6 +1264,19 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		EmrReportingUtils.addRow(cohortDsd, "TX_MMD_TG", "Multi month appointments",
 		    ReportUtils.map(monthlyReportIndicator.kpOnMultiMonthART(TG), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
+		//61. PrEP
+		EmrReportingUtils.addRow(cohortDsd, "PrEP_SCREEN", "HIV negative KP Screened PrEP",
+		    ReportUtils.map(monthlyReportIndicator.kpPrepScreened(FSW), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04"));
+		EmrReportingUtils.addRow(cohortDsd, "PrEP_ELIGIBLE", "Eligible for PrEP among screened",
+		    ReportUtils.map(monthlyReportIndicator.kpPrepEligible(MSM), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04"));
+		EmrReportingUtils.addRow(cohortDsd, "PrEP_NEW_DICE", "Started on PrEP in this DICE",
+		    ReportUtils.map(monthlyReportIndicator.kpPrepNewDice(PWID), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04"));
+		EmrReportingUtils.addRow(cohortDsd, "PrEP_CURR_DICE", "KPs currently on PrEP in this DICE",
+		    ReportUtils.map(monthlyReportIndicator.kpPrepCurrDice(IN_PRISONS), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04"));
 		
 		return cohortDsd;
 	}
