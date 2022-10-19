@@ -62,7 +62,7 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 	
 	ColumnParameters below_15_f = new ColumnParameters(null, "<15, Female", "gender=F|age=<15");
 	
-	ColumnParameters below_15_m = new ColumnParameters(null, "<15, Male", "gender=F|age=<15");
+	ColumnParameters below_15_m = new ColumnParameters(null, "<15, Male", "gender=M|age=<15");
 	
 	ColumnParameters kp15_to_19 = new ColumnParameters(null, "15-19", "age=15-19");
 	
