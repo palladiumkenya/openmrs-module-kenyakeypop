@@ -1462,4 +1462,82 @@ public class MonthlyReportCohortLibrary {
 		cd.setCompositionString("currentInKP AND prepCT");
 		return cd;
 	}
+	
+	/*
+	 *KP Number ever put on MAT
+	 */
+	public CohortDefinition kpEverOnMat(String kpType) {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c\n"
+		        + "  inner join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id where c.key_population_type = '"
+		        + kpType + "'\n" + "   and v.voided = 0 and v.mat_treated = 'Yes'\n" + "group by c.client_id\n"
+		        + "having  max(date(v.visit_date)) between date(:startDate) and date(:endDate);";
+		cd.setName("kpEverOnMat");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("kpEverOnMat");
+		
+		return cd;
+	}
+	
+	/*
+	 *KP Number prepared or screened for MAT
+	 */
+	public CohortDefinition kpMatPrepared(String kpType) {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c\n"
+		        + "  inner join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id where c.key_population_type = '"
+		        + kpType
+		        + "'\n"
+		        + "   and v.voided = 0 group by c.client_id\n"
+		        + "having mid(max(concat(v.visit_date,v.mat_screened)),11)= 'Yes' and max(date(v.visit_date)) between date(:startDate) and date(:endDate);";
+		cd.setName("kpMatPrepared");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("kpMatPrepared");
+		
+		return cd;
+	}
+	
+	/*
+	 *KP Number eligible for MAT
+	 */
+	public CohortDefinition kpMatEligible(String kpType) {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c\n"
+		        + "  inner join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id where c.key_population_type = '"
+		        + kpType
+		        + "'\n"
+		        + "   and v.voided = 0 group by c.client_id\n"
+		        + "having mid(max(concat(v.visit_date,v.mat_results)),11)= 'Positive' and max(date(v.visit_date)) between date(:startDate) and date(:endDate);";
+		cd.setName("kpMatEligible");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("kpMatEligible");
+		
+		return cd;
+	}
+	
+	/*
+	 *KP New MAT
+	 */
+	public CohortDefinition kpMatNew(String kpType) {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c\n"
+		        + "  inner join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id where c.key_population_type = '"
+		        + kpType
+		        + "'\n"
+		        + "   and v.voided = 0 group by c.client_id\n"
+		        + "having mid(max(concat(v.visit_date,v.mat_treated)),11)= 'Yes' and max(date(v.visit_date)) between date(:startDate) and date(:endDate);";
+		cd.setName("kpMatNew");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("kpMatNew");
+		
+		return cd;
+	}
 }
