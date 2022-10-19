@@ -39,7 +39,44 @@ public class ETLMoh731PlusCohortLibrary {
 	private DatimCohortLibrary datimCohorts;
 	
 	/**
-	 * KPs who received atleast 1 service within the last 3 months from the effective date
+	 * Returns clients who belongs to a certain kp type
+	 * 
+	 * @param kpType
+	 * @return
+	 */
+	public CohortDefinition kpType(String kpType) {
+		
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "";
+		
+		if (kpType.equals("TRANSMAN")) {
+			sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c\n"
+			        + "inner join kenyaemr_etl.etl_patient_demographics d on d.patient_id = c.client_id\n"
+			        + "         where d.gender = 'F' and date(c.visit_date) <= date(:endDate) and c.implementation_subcounty = :location\n"
+			        + "         group by c.client_id having mid(max(concat(date(c.visit_date), c.key_population_type)), 11) = 'Transgender';";
+		} else if (kpType.equals("TRANSWOMAN")) {
+			sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c\n"
+			        + "inner join kenyaemr_etl.etl_patient_demographics d on d.patient_id = c.client_id\n"
+			        + "         where d.gender = 'M' and date(c.visit_date) <= date(:endDate) and c.implementation_subcounty = :location\n"
+			        + "         group by c.client_id having mid(max(concat(date(c.visit_date), c.key_population_type)), 11) = 'Transgender';";
+		} else
+			sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c\n"
+			        + "where date(c.visit_date) <= date(:endDate) and c.implementation_subcounty = :location\n"
+			        + "group by c.client_id having mid(max(concat(date(c.visit_date), c.key_population_type)), 11) = '"
+			        + kpType + "';";
+		
+		cd.setName("kpType");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Sub County", String.class));
+		cd.setDescription("kpType");
+		return cd;
+	}
+	
+	/**
+	 * KPs who received atleast 1 service within the last 3 months from the effective date either
+	 * through clinical service encounter or peer educator/calendar
 	 * 
 	 * @return
 	 */
@@ -47,46 +84,29 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id\n"
 		        + "from kenyaemr_etl.etl_contact c\n"
-		        + "         join kenyaemr_etl.etl_client_enrollment e on c.client_id = e.client_id and e.voided = 0\n"
-		        + "         join (select p.client_id, max(visit_date) as latest_peer_date\n"
-		        + "               from kenyaemr_etl.etl_peer_calendar p\n"
-		        + "               where p.voided = 0 and date(p.visit_date) <= date(:endDate)\n"
-		        + "               group by p.client_id\n"
-		        + "               having max(p.visit_date) between DATE_SUB(date(date_sub(date(:endDate), interval 3 MONTH)), INTERVAL - 1 DAY) and date(:endDate)) p\n"
+		        + "         left join (select p.client_id, max(date(visit_date)) as latest_peer_date\n"
+		        + "                           from kenyaemr_etl.etl_peer_calendar p\n"
+		        + "                           where p.voided = 0 and date(p.visit_date) <= date(:endDate)\n"
+		        + "                           group by p.client_id\n"
+		        + "                           having max(date(p.visit_date)) between DATE_SUB(date(date_sub(date(:endDate), interval 3 MONTH)), INTERVAL - 1 DAY) and date(:endDate)) p\n"
 		        + "               on c.client_id = p.client_id\n"
-		        + "         left join (select d.patient_id, max(d.visit_date) latest_disc_date\n"
+		        + "                 left join (select v.client_id, max(visit_date) as latest_visit_date\n"
+		        + "                            from kenyaemr_etl.etl_clinical_visit v\n"
+		        + "                            where v.voided = 0 and date(v.visit_date) <= date(:endDate)\n"
+		        + "                            group by v.client_id\n"
+		        + "                            having max(date(v.visit_date)) between DATE_SUB(date(date_sub(date(:endDate), interval 3 MONTH)), INTERVAL - 1 DAY) and date(:endDate)) v\n"
+		        + "               on c.client_id = v.client_id\n"
+		        + "         left join (select d.patient_id, max(date(d.visit_date)) latest_disc_date\n"
 		        + "                    from kenyaemr_etl.etl_patient_program_discontinuation d\n"
 		        + "                    where d.program_name = 'KP') d on c.client_id = d.patient_id\n"
-		        + "where (d.patient_id is null or p.latest_peer_date > d.latest_disc_date)\n" + "  and c.voided = 0\n"
-		        + "group by c.client_id;";
+		        + "where (d.patient_id is null or p.latest_peer_date > d.latest_disc_date or v.latest_visit_date > d.latest_disc_date) and c.voided = 0\n"
+		        + "            and (p.client_id is not null or v.client_id is not null) group by c.client_id;";
 		cd.setName("kpCurr");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.setDescription("kpCurr");
 		
-		return cd;
-	}
-	
-	/**
-	 * Returns clients who belongs to a certain kp type
-	 * 
-	 * @param kpType
-	 * @return
-	 */
-	public CohortDefinition kpType(String kpType) {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c\n"
-		        + "where date(c.visit_date) <= date(:endDate) and c.implementation_subcounty = :location\n"
-		        + "group by c.client_id " + "having mid(max(concat(date(c.visit_date), c.key_population_type)), 11) = '"
-		        + kpType + "';";
-		cd.setName("kpType");
-		System.out.println("--------------" + sqlQuery);
-		cd.setQuery(sqlQuery);
-		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
-		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.addParameter(new Parameter("location", "Sub County", String.class));
-		cd.setDescription("kpType");
 		return cd;
 	}
 	
@@ -103,7 +123,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpCurr", ReportUtils.map(kpCurr(), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.setCompositionString("kpCurr AND kpType");
 		return cd;
 	}
@@ -139,7 +159,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("htsAllNumberTestedKeyPopulation",
 		    ReportUtils.map(htsAllNumberTestedKeyPopulation(), "startDate=${startDate},endDate=${endDate}"));
 		cd.setCompositionString("kpType AND htsAllNumberTestedKeyPopulation");
@@ -178,7 +198,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("htsNumberTestedAtFacility",
 		    ReportUtils.map(htsNumberTestedAtFacility(), "startDate=${startDate},endDate=${endDate}"));
 		cd.setCompositionString("kpType AND htsNumberTestedAtFacility");
@@ -217,7 +237,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("htsNumberTestedAtCommunity",
 		    ReportUtils.map(htsNumberTestedAtCommunity(), "startDate=${startDate},endDate=${endDate}"));
 		cd.setCompositionString("kpType AND htsNumberTestedAtCommunity");
@@ -255,7 +275,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("newlyTestedForHIV", ReportUtils.map(newlyTestedForHIV(), "startDate=${startDate},endDate=${endDate}"));
 		cd.setCompositionString("kpType AND newlyTestedForHIV");
 		
@@ -311,7 +331,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("repeatHTSTestWithinReportingPeriod",
 		    ReportUtils.map(repeatHTSTestWithinReportingPeriod(), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("reportedRepeatHIVTest",
@@ -370,7 +390,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("selfHIVTestClinicalVisit",
 		    ReportUtils.map(selfHIVTestClinicalVisit(), "startDate=${startDate},endDate=${endDate}"));
 		cd.setCompositionString("kpType AND selfHIVTestClinicalVisit");
@@ -434,7 +454,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpCurr", ReportUtils.map(kpCurr(), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("knownPositiveKPs", ReportUtils.map(knownPositiveKPs(), "startDate=${startDate},endDate=${endDate}"));
 		cd.setCompositionString("kpCurr AND kpType AND knownPositiveKPs");
 		
@@ -473,7 +493,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("receivedPositiveHTSResults",
 		    ReportUtils.map(receivedPositiveHTSResults(), "startDate=${startDate},endDate=${endDate}"));
 		cd.setCompositionString("kpType AND receivedPositiveHTSResults");
@@ -574,7 +594,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("testedHIVPositive3MonthsAgo",
 		    ReportUtils.map(testedHIVPositive3MonthsAgo(), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("linkedHTS", ReportUtils.map(linkedHTS(), "startDate=${startDate},endDate=${endDate}"));
@@ -599,7 +619,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("testedHIVPositive3MonthsAgo",
 		    ReportUtils.map(testedHIVPositive3MonthsAgo(), "startDate=${startDate},endDate=${endDate}"));
 		cd.setCompositionString("kpType AND testedHIVPositive3MonthsAgo");
@@ -679,7 +699,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("receivingCondomsFromClinicalVisit",
 		    ReportUtils.map(receivingCondomsFromClinicalVisit(), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("receivingCondomsFromPeerOutreach",
@@ -737,7 +757,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("receivingCondomsPerNeedPerNeedSql",
 		    ReportUtils.map(receivingCondomsPerNeedPerNeedSql(), "startDate=${startDate},endDate=${endDate}"));
 		cd.setCompositionString("kpType AND receivingCondomsPerNeedPerNeedSql");
@@ -907,7 +927,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("numberScreenedForSTISQL",
 		    ReportUtils.map(numberScreenedForSTISQL(), "startDate=${startDate},endDate=${endDate}"));
 		cd.setCompositionString("kpType AND numberScreenedForSTISQL");
@@ -946,7 +966,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("diagnosedWithSTISQL",
 		    ReportUtils.map(diagnosedWithSTISQL(), "startDate=${startDate},endDate=${endDate}"));
 		cd.setCompositionString("kpType AND diagnosedWithSTISQL");
@@ -985,7 +1005,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("treatedForSTISQL", ReportUtils.map(treatedForSTISQL(), "startDate=${startDate},endDate=${endDate}"));
 		cd.setCompositionString("kpType AND treatedForSTISQL");
 		
@@ -1024,7 +1044,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("screenedForHCVSQL", ReportUtils.map(screenedForHCVSQL(), "startDate=${startDate},endDate=${endDate}"));
 		cd.setCompositionString("kpType AND screenedForHCVSQL");
 		
@@ -1063,7 +1083,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("diagnosedWithHCVSQL",
 		    ReportUtils.map(diagnosedWithHCVSQL(), "startDate=${startDate},endDate=${endDate}"));
 		cd.setCompositionString("kpType AND diagnosedWithHCVSQL");
@@ -1104,7 +1124,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("treatedForHCVSQL", ReportUtils.map(treatedForHCVSQL(), "startDate=${startDate},endDate=${endDate}"));
 		cd.setCompositionString("kpType AND treatedForHCVSQL");
 		
@@ -1143,7 +1163,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("screenedForHBVSQL", ReportUtils.map(screenedForHBVSQL(), "startDate=${startDate},endDate=${endDate}"));
 		cd.setCompositionString("kpType AND screenedForHBVSQL");
 		
@@ -1182,7 +1202,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("diagnosedWithHBVSQL",
 		    ReportUtils.map(diagnosedWithHBVSQL(), "startDate=${startDate},endDate=${endDate}"));
 		cd.setCompositionString("kpType AND diagnosedWithHBVSQL");
@@ -1223,7 +1243,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("treatedForHBVSQL", ReportUtils.map(treatedForHBVSQL(), "startDate=${startDate},endDate=${endDate}"));
 		cd.setCompositionString("kpType AND treatedForHBVSQL");
 		
@@ -1263,7 +1283,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("vaccinatedAgainstHBVSQL",
 		    ReportUtils.map(vaccinatedAgainstHBVSQL(), "startDate=${startDate},endDate=${endDate}"));
 		cd.setCompositionString("kpType AND vaccinatedAgainstHBVSQL");
@@ -1302,7 +1322,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("screenedTBSQL", ReportUtils.map(screenedTBSQL(), "startDate=${startDate},endDate=${endDate}"));
 		cd.setCompositionString("kpType AND screenedTBSQL");
 		
@@ -1341,7 +1361,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("diagnosedTBSQL", ReportUtils.map(diagnosedTBSQL(), "startDate=${startDate},endDate=${endDate}"));
 		cd.setCompositionString("kpType AND diagnosedTBSQL");
 		
@@ -1380,7 +1400,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("startedTBTXSQL", ReportUtils.map(startedTBTXSQL(), "startDate=${startDate},endDate=${endDate}"));
 		cd.setCompositionString("kpType AND startedTBTXSQL");
 		
@@ -1420,7 +1440,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("tbClientsOnHAARTSQL",
 		    ReportUtils.map(tbClientsOnHAARTSQL(), "startDate=${startDate},endDate=${endDate}"));
 		cd.setCompositionString("kpType AND tbClientsOnHAARTSQL");
@@ -1496,7 +1516,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("initiatedPrEPReportingPeriodClinicalVisit",
 		    ReportUtils.map(initiatedPrEPReportingPeriodClinicalVisit(), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("initiatedPrEPBeforeReportingPeriodClinicalVisit",
@@ -1581,7 +1601,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("currentOnPrEPClinicalVisit",
 		    ReportUtils.map(currentOnPrEPClinicalVisit(), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("initiatedPrEP", ReportUtils.map(initiatedPrEP(kpType), "startDate=${startDate},endDate=${endDate}"));
@@ -1644,7 +1664,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("currentOnPrEP",
-		    ReportUtils.map(currentOnPrEP(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(currentOnPrEP(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("testedHIVPositiveWithinPeriodHTS",
 		    ReportUtils.map(testedHIVPositiveWithinPeriodHTS(), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("testedHIVPositiveWithinPeriodClinicalVisit",
@@ -1688,7 +1708,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("experiencingViolenceSQL",
 		    ReportUtils.map(experiencingViolenceSQL(), "startDate=${startDate},endDate=${endDate}"));
 		cd.setCompositionString("kpType AND experiencingViolenceSQL");
@@ -1728,7 +1748,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("receivingViolenceSupportSQL",
 		    ReportUtils.map(experiencingViolenceSQL(), "startDate=${startDate},endDate=${endDate}"));
 		cd.setCompositionString("kpType AND receivingViolenceSupportSQL");
@@ -1769,7 +1789,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("numberExposedSQL", ReportUtils.map(numberExposedSQL(), "startDate=${startDate},endDate=${endDate}"));
 		cd.setCompositionString("kpType AND numberExposedSQL");
 		
@@ -1807,7 +1827,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("receivingPEPWithin72HrsSQL",
 		    ReportUtils.map(receivingPEPWithin72HrsSQL(), "startDate=${startDate},endDate=${endDate}"));
 		cd.setCompositionString("kpType AND receivingPEPWithin72HrsSQL");
@@ -1846,7 +1866,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("completedPEPWith28DaysSQL",
 		    ReportUtils.map(completedPEPWith28DaysSQL(), "startDate=${startDate},endDate=${endDate}"));
 		cd.setCompositionString("kpType AND completedPEPWith28DaysSQL");
@@ -1885,7 +1905,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("receivedPeerEducationSQL",
 		    ReportUtils.map(receivedPeerEducationSQL(), "startDate=${startDate},endDate=${endDate}"));
 		cd.setCompositionString("kpType AND receivedPeerEducationSQL");
@@ -1959,8 +1979,7 @@ public class ETLMoh731PlusCohortLibrary {
 	}
 	
 	/**
-	 * Clients with Clinical visits within reporting period - This facility/on-site and not started
-	 * on ART
+	 * Clients with Clinical visits within reporting period and not started on ART
 	 * 
 	 * @return
 	 */
@@ -1973,6 +1992,24 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.setDescription("hadClinicalVisitReportingPeriod");
+		
+		return cd;
+	}
+	
+	/**
+	 * Pre-ART Clients with Clinical visits within reporting period and receiving care elsewhere
+	 * 
+	 * @return
+	 */
+	public CohortDefinition preARTReceivingCareElsewhere() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v where date(v.visit_date) between date(:startDate) and date(:endDate)\n"
+		        + "and v.initiated_art_this_month != 'Yes' and v.active_art !='Yes' and v.hiv_care_facility ='Provided elsewhere';";
+		cd.setName("preARTReceivingCareElsewhere");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("preARTReceivingCareElsewhere");
 		
 		return cd;
 	}
@@ -1992,7 +2029,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("enrolledInCareReportingPeriod",
 		    ReportUtils.map(enrolledInCareReportingPeriod(), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("enrolledInCareBeforeReportingPeriod",
@@ -2020,13 +2057,10 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-		//cd.addSearch("enrolledInCareReportingPeriod",ReportUtils.map(enrolledInCareReportingPeriod(), "startDate=${startDate},endDate=${endDate}"));
-		//cd.addSearch("enrolledInCareBeforeReportingPeriod",ReportUtils.map(enrolledInCareBeforeReportingPeriod(), "startDate=${startDate},endDate=${endDate}"));
-		cd.addSearch("artPatients", ReportUtils.map(artPatients(), "startDate=${startDate},endDate=${endDate}"));
-		cd.addSearch("hadClinicalVisitReportingPeriod",
-		    ReportUtils.map(hadClinicalVisitReportingPeriod(), "startDate=${startDate},endDate=${endDate}"));
-		cd.setCompositionString("kpType AND ((enrolledInCareBeforeReportingPeriod AND hadClinicalVisitReportingPeriod) OR enrolledInCareReportingPeriod) AND NOT artPatients");
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("preARTReceivingCareElsewhere",
+		    ReportUtils.map(preARTReceivingCareElsewhere(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpType AND preARTReceivingCareElsewhere");
 		
 		return cd;
 	}
@@ -2042,9 +2076,9 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("offSitePreART",
-		    ReportUtils.map(offSitePreART(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(offSitePreART(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("onSitePreART",
-		    ReportUtils.map(onSitePreART(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(onSitePreART(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.setCompositionString("onSitePreART OR offSitePreART");
 		
 		return cd;
@@ -2103,7 +2137,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("startedARTReportingPeriod",
 		    ReportUtils.map(datimCohorts.startedOnART(), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("hadClinicalVisitReportingPeriodAndStartingARTOnSite", ReportUtils.map(
@@ -2126,7 +2160,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("hadClinicalVisitReportingPeriodAndStartingARTOffSite", ReportUtils.map(
 		    hadClinicalVisitReportingPeriodAndStartingARTOffSite(), "startDate=${startDate},endDate=${endDate}"));
 		cd.setCompositionString("kpType AND hadClinicalVisitReportingPeriodAndStartingARTOffSite");
@@ -2146,10 +2180,10 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("onSiteStartingART",
-		    ReportUtils.map(onSiteStartingART(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(onSiteStartingART(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("offSiteStartingART",
-		    ReportUtils.map(offSiteStartingART(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-		cd.setCompositionString("currentlyOnARTOnSite OR offSiteStartingART");
+		    ReportUtils.map(offSiteStartingART(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.setCompositionString("onSiteStartingART OR offSiteStartingART");
 		
 		return cd;
 	}
@@ -2170,7 +2204,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("currentlyOnArt",
 		    ReportUtils.map(datimCohorts.currentlyOnArt(), "startDate=${startDate},endDate=${endDate}"));
 		cd.setCompositionString("kpType AND currentlyOnArt");
@@ -2180,7 +2214,11 @@ public class ETLMoh731PlusCohortLibrary {
 	
 	/**
 	 * Current on ART elsewhere as reported during clinical visit within the reporting period
-	 * 
+	 * Includes:
+	 * 1.started therapy this month off site
+	 * 2.started therapy off site before this month but visited the offsite clinic to collect drugs this month
+	 * Should include <3.started therapy off site before this month but did not make a visit to the facility during this month because they had been given
+	 * enough drugs during visits before this month to cover the reporting month> when hiv followup tca is collected during a KP clinical visit
 	 * @return
 	 */
 	public CohortDefinition reportedCurrentOnARTElsewhereClinicalVisit() {
@@ -2213,7 +2251,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("reportedCurrentOnARTElsewhereClinicalVisit",
 		    ReportUtils.map(reportedCurrentOnARTElsewhereClinicalVisit(), "startDate=${startDate},endDate=${endDate}"));
 		cd.setCompositionString("kpType AND reportedCurrentOnARTElsewhereClinicalVisit");
@@ -2233,9 +2271,9 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("currentlyOnARTOnSite",
-		    ReportUtils.map(currentlyOnARTOnSite(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
-		cd.addSearch("currentlyOnARTOffSite", ReportUtils.map(currentlyOnARTOffSite(kpType),
-		    "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(currentlyOnARTOnSite(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("currentlyOnARTOffSite",
+		    ReportUtils.map(currentlyOnARTOffSite(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.setCompositionString("currentlyOnARTOnSite OR currentlyOnARTOffSite");
 		
 		return cd;
@@ -2330,7 +2368,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("currentlyOnArt",
 		    ReportUtils.map(datimCohorts.currentlyOnArt(), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("startedART12MonthsAgo",
@@ -2355,7 +2393,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("startedART12MonthsAgo",
 		    ReportUtils.map(startedART12MonthsAgo(), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("transferInsSince12MonthsAgo",
@@ -2381,7 +2419,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("patientsWithVLResultsLast12Months",
 		    ReportUtils.map(moh731Cohorts.patientsWithVLResultsLast12Months(), "startDate=${startDate},endDate=${endDate}"));
 		cd.setCompositionString("kpType AND patientsWithVLResultsLast12Months");
@@ -2402,7 +2440,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("patientsWithSuppressedVlLast12Months", ReportUtils.map(
 		    moh731Cohorts.patientsWithSuppressedVlLast12Months(), "startDate=${startDate},endDate=${endDate}"));
 		cd.setCompositionString("kpType AND patientsWithSuppressedVlLast12Months");
@@ -2456,9 +2494,9 @@ public class ETLMoh731PlusCohortLibrary {
 	 */
 	public CohortDefinition currentOnArtOffsite() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select c.client_id\n" + "from kenyaemr_etl.etl_clinical_visit c\n"
-		        + "where date(c.visit_date) <= date(:endDate)\n" + "  and c.hiv_care_facility = 'Provided elsewhere'\n"
-		        + "  and c.active_art = 'Yes'\n" + "group by c.client_id\n"
+		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_clinical_visit c\n"
+		        + "where date(c.visit_date) <= date(:endDate) and c.hiv_care_facility = 'Provided elsewhere'\n"
+		        + "  and (c.active_art = 'Yes' or c.initiated_art_this_month = 'Yes') group by c.client_id\n"
 		        + "having mid(max(concat(date(c.visit_date),date(c.appointment_date))),11) >= date(:startDate);";
 		cd.setName("currentOnArtOffsite");
 		cd.setQuery(sqlQuery);
@@ -2503,7 +2541,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("startedArt12MonthsAgoOffsite",
 		    ReportUtils.map(startedArt12MonthsAgoOffsite(), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("currentOnArtOffsite",
@@ -2528,7 +2566,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("startedArt12MonthsAgoOffsite",
 		    ReportUtils.map(startedArt12MonthsAgoOffsite(), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("currentOnArtOffsite",
@@ -2570,7 +2608,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("experiencedOverdoseReportingPeriod",
 		    ReportUtils.map(experiencedOverdoseReportingPeriod(), "startDate=${startDate},endDate=${endDate}"));
 		cd.setCompositionString("kpType AND experiencedOverdoseReportingPeriod");
@@ -2609,7 +2647,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${subCounty}"));
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("experiencedOverdoseRcvdNaloxoneReportingPeriod",
 		    ReportUtils.map(experiencedOverdoseRcvdNaloxoneReportingPeriod(), "startDate=${startDate},endDate=${endDate}"));
 		cd.setCompositionString("kpType AND experiencedOverdoseRcvdNaloxoneReportingPeriod");

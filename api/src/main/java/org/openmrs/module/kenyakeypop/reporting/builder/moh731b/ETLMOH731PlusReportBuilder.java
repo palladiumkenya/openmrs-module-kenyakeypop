@@ -15,7 +15,6 @@ import org.openmrs.module.kenyacore.report.builder.AbstractReportBuilder;
 import org.openmrs.module.kenyacore.report.builder.Builds;
 import org.openmrs.module.kenyaemr.reporting.ColumnParameters;
 import org.openmrs.module.kenyaemr.reporting.EmrReportingUtils;
-import org.openmrs.module.kenyakeypop.reporting.cohort.definition.MOH731BPlusSubCountyBasedCohortDefinition;
 import org.openmrs.module.kenyakeypop.reporting.library.ETLReports.moh731B.ETLMoh731PlusIndicatorLibrary;
 import org.openmrs.module.kenyakeypop.reporting.library.shared.common.CommonKpDimensionLibrary;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
@@ -56,9 +55,9 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 	
 	public static final String PWUD = "PWUD";
 	
-	public static final String TRANSGENDER = "Transgender";
+	public static final String TRANSMAN = "TRANSMAN";
 	
-	public static final String IN_PRISONS = "People in prison and other closed settings";
+	public static final String TRANSWOMAN = "TRANSWOMAN";
 	
 	ColumnParameters kp15_to_19 = new ColumnParameters(null, "15-19", "age=15-19");
 	
@@ -75,7 +74,7 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 	@Override
 	protected List<Parameter> getParameters(ReportDescriptor reportDescriptor) {
 		return Arrays.asList(new Parameter("startDate", "Start Date", Date.class), new Parameter("endDate", "End Date",
-		        Date.class), new Parameter("subCounty", "Sub County", String.class), new Parameter("dateBasedReporting", "",
+		        Date.class), new Parameter("location", "Sub-County", String.class), new Parameter("dateBasedReporting", "",
 		        String.class));
 	}
 	
@@ -95,7 +94,7 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		cohortDsd.setName("4");
 		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cohortDsd.addParameter(new Parameter("location", "Sub County", String.class));
+		cohortDsd.addParameter(new Parameter("location", "Sub-County", String.class));
 		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.moh731BAgeGroups(), "onDate=${endDate}"));
 		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
 		
@@ -104,48 +103,50 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		/**
 		 * Active KPs disaggregated by KP type
 		 */
-		EmrReportingUtils.addRow(cohortDsd, "Active FSW", "", ReportUtils.map(moh731bIndicators.activeKPs(FSW), indParams),
+		EmrReportingUtils.addRow(cohortDsd, "Active_FSW", "Active FSW",
+		    ReportUtils.map(moh731bIndicators.activeKPs(FSW), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "Active_MSM", "Active MSM",
+		    ReportUtils.map(moh731bIndicators.activeKPs(MSM), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "Active_MSW", "", ReportUtils.map(moh731bIndicators.activeKPs(MSW), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Active MSM", "", ReportUtils.map(moh731bIndicators.activeKPs(MSM), indParams),
-		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Active MSW", "", ReportUtils.map(moh731bIndicators.activeKPs(MSW), indParams),
-		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Active PWID", "",
+		EmrReportingUtils.addRow(cohortDsd, "Active_PWID", "Active PWID",
 		    ReportUtils.map(moh731bIndicators.activeKPs(PWID), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Active PWUD", "",
+		EmrReportingUtils.addRow(cohortDsd, "Active_PWUD", "Active PWUD",
 		    ReportUtils.map(moh731bIndicators.activeKPs(PWUD), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Active Transgender", "",
-		    ReportUtils.map(moh731bIndicators.activeKPs(TRANSGENDER), indParams), kpAgeDisaggregation,
+		EmrReportingUtils.addRow(cohortDsd, "Active_Transman", "Active Transman",
+		    ReportUtils.map(moh731bIndicators.activeKPs(TRANSMAN), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Active prisoners and people in closed settings", "",
-		    ReportUtils.map(moh731bIndicators.activeKPs(IN_PRISONS), indParams), kpAgeDisaggregation,
+		EmrReportingUtils.addRow(cohortDsd, "Active_Transwoman", "Active Transwoman",
+		    ReportUtils.map(moh731bIndicators.activeKPs(TRANSWOMAN), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
 		/**
 		 * KPs tested for HIV disaggregated by KP type
 		 */
-		EmrReportingUtils.addRow(cohortDsd, "Tested FSW", "",
+		EmrReportingUtils.addRow(cohortDsd, "Tested_FSW", "Tested FSW",
 		    ReportUtils.map(moh731bIndicators.hivTestedKPs(FSW), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Tested MSM", "Tested MSM",
+		EmrReportingUtils.addRow(cohortDsd, "Tested_MSM", "Tested MSM",
 		    ReportUtils.map(moh731bIndicators.hivTestedKPs(MSM), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Tested MSW", "Tested MSW",
+		EmrReportingUtils.addRow(cohortDsd, "Tested_MSW", "Tested MSW",
 		    ReportUtils.map(moh731bIndicators.hivTestedKPs(MSW), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Tested PWID", "Tested PWID",
+		EmrReportingUtils.addRow(cohortDsd, "Tested_PWID", "Tested PWID",
 		    ReportUtils.map(moh731bIndicators.hivTestedKPs(PWID), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Tested PWUD", "Tested PWUD",
+		EmrReportingUtils.addRow(cohortDsd, "Tested_PWUD", "Tested PWUD",
 		    ReportUtils.map(moh731bIndicators.hivTestedKPs(PWUD), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Tested Transgender", "Tested Transgender",
-		    ReportUtils.map(moh731bIndicators.hivTestedKPs(TRANSGENDER), indParams), kpAgeDisaggregation,
+		EmrReportingUtils.addRow(cohortDsd, "Tested_Transman", "Tested Transman",
+		    ReportUtils.map(moh731bIndicators.hivTestedKPs(TRANSMAN), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Tested prisoners and people in closed settings", "",
-		    ReportUtils.map(moh731bIndicators.hivTestedKPs(IN_PRISONS), indParams), kpAgeDisaggregation,
+		EmrReportingUtils.addRow(cohortDsd, "Tested_Transwoman", "Tested Transwoman",
+		    ReportUtils.map(moh731bIndicators.hivTestedKPs(TRANSWOMAN), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
 		/**
@@ -161,10 +162,10 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.htsNumberTestedAtFacilityKPs(PWID), indParams), "");
 		cohortDsd.addColumn("Tested_Facility_PWUD", "Tested Facility Pwud",
 		    ReportUtils.map(moh731bIndicators.htsNumberTestedAtFacilityKPs(PWUD), indParams), "");
-		cohortDsd.addColumn("Tested_Facility_Transgender", "Tested Facility Transgender",
-		    ReportUtils.map(moh731bIndicators.htsNumberTestedAtFacilityKPs(TRANSGENDER), indParams), "");
-		cohortDsd.addColumn("Tested_Facility_Prisoners_Closed_settings", "Prisoners & people in closed settings",
-		    ReportUtils.map(moh731bIndicators.htsNumberTestedAtFacilityKPs(IN_PRISONS), indParams), "");
+		cohortDsd.addColumn("Tested_Facility_Transman", "Tested Facility Transman",
+		    ReportUtils.map(moh731bIndicators.htsNumberTestedAtFacilityKPs(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Tested_Facility_Transwoman", "Tested Facility Transwoman",
+		    ReportUtils.map(moh731bIndicators.htsNumberTestedAtFacilityKPs(TRANSWOMAN), indParams), "");
 		/**
 		 * KPs tested for HIV at the community level disaggregated by KP type
 		 */
@@ -178,11 +179,10 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.htsNumberTestedAtCommunityKPs(PWID), indParams), "");
 		cohortDsd.addColumn("Tested_Community_PWUD", "Tested Community Pwud",
 		    ReportUtils.map(moh731bIndicators.htsNumberTestedAtCommunityKPs(PWUD), indParams), "");
-		cohortDsd.addColumn("Tested_Community_Transgender", "Tested Community Transgender",
-		    ReportUtils.map(moh731bIndicators.htsNumberTestedAtCommunityKPs(TRANSGENDER), indParams), "");
-		cohortDsd.addColumn("Tested_Community_Prisoners_Closed_Settings",
-		    "Tested Community Prisoners & people in closed settings",
-		    ReportUtils.map(moh731bIndicators.htsNumberTestedAtCommunityKPs(IN_PRISONS), indParams), "");
+		cohortDsd.addColumn("Tested_Community_Transman", "Tested Community Transman",
+		    ReportUtils.map(moh731bIndicators.htsNumberTestedAtCommunityKPs(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Tested_Community_Transwoman", "Tested Community Transwoman",
+		    ReportUtils.map(moh731bIndicators.htsNumberTestedAtCommunityKPs(TRANSWOMAN), indParams), "");
 		/**
 		 * Tested new (1st testers): KPS newly tested for HIV disaggregated by KP type
 		 */
@@ -196,10 +196,10 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.kpsNewlyTestedForHIV(PWID), indParams), "");
 		cohortDsd.addColumn("Tested_New_PWUD", "Tested New Pwud",
 		    ReportUtils.map(moh731bIndicators.kpsNewlyTestedForHIV(PWUD), indParams), "");
-		cohortDsd.addColumn("Tested_New_Transgender", "Tested New Transgender",
-		    ReportUtils.map(moh731bIndicators.kpsNewlyTestedForHIV(TRANSGENDER), indParams), "");
-		cohortDsd.addColumn("Tested_New_Prisoners_Closed_Settings", "Tested New Prisoners & people in closed settings",
-		    ReportUtils.map(moh731bIndicators.kpsNewlyTestedForHIV(IN_PRISONS), indParams), "");
+		cohortDsd.addColumn("Tested_New_Transman", "Tested New Transman",
+		    ReportUtils.map(moh731bIndicators.kpsNewlyTestedForHIV(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Tested_New_Transwoman", "Tested New Transwoman",
+		    ReportUtils.map(moh731bIndicators.kpsNewlyTestedForHIV(TRANSWOMAN), indParams), "");
 		
 		/**
 		 * Tested repeat:Clients with repeat HIV tests within the period
@@ -214,11 +214,10 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.testedRepeat(PWID), indParams), "");
 		cohortDsd.addColumn("Tested_Repeat_PWUD", "Tested Repeat Pwud",
 		    ReportUtils.map(moh731bIndicators.testedRepeat(PWUD), indParams), "");
-		cohortDsd.addColumn("Tested_Repeat_Transgender", "Tested Repeat Transgender",
-		    ReportUtils.map(moh731bIndicators.testedRepeat(TRANSGENDER), indParams), "");
-		cohortDsd.addColumn("Tested_Repeat_Prisoners_Closed_Settings",
-		    "Tested Repeat Prisoners & people in closed settings",
-		    ReportUtils.map(moh731bIndicators.testedRepeat(IN_PRISONS), indParams), "");
+		cohortDsd.addColumn("Tested_Repeat_Transman", "Tested Repeat Transman",
+		    ReportUtils.map(moh731bIndicators.testedRepeat(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Tested_Repeat_Transwoman", "Tested Repeat Transwoman",
+		    ReportUtils.map(moh731bIndicators.testedRepeat(TRANSWOMAN), indParams), "");
 		
 		/**
 		 * Self-tested for HIV: Number of clients who self tested for HIV within the reporting
@@ -234,10 +233,10 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.selfTestedForHIV(PWID), indParams), "");
 		cohortDsd.addColumn("Self_Tested_PWUD", "Self Tested Pwud",
 		    ReportUtils.map(moh731bIndicators.selfTestedForHIV(PWUD), indParams), "");
-		cohortDsd.addColumn("Self_Tested_Transgender", "Self Tested Transgender",
-		    ReportUtils.map(moh731bIndicators.selfTestedForHIV(TRANSGENDER), indParams), "");
-		cohortDsd.addColumn("Self_Tested_Prisoners_Closed_Settings", "Self Tested Prisoners & people in closed settings",
-		    ReportUtils.map(moh731bIndicators.selfTestedForHIV(IN_PRISONS), indParams), "");
+		cohortDsd.addColumn("Self_Tested_Transman", "Self Tested Transman",
+		    ReportUtils.map(moh731bIndicators.selfTestedForHIV(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Self_Tested_Transwoman", "Self Tested Transwoman",
+		    ReportUtils.map(moh731bIndicators.selfTestedForHIV(TRANSWOMAN), indParams), "");
 		
 		/**
 		 * Known positives (Active) : number of individuals living with HIV among the active
@@ -253,11 +252,10 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.knownPositive(PWID), indParams), "");
 		cohortDsd.addColumn("Known_Positive_PWUD", "Known Positive Pwud",
 		    ReportUtils.map(moh731bIndicators.knownPositive(PWUD), indParams), "");
-		cohortDsd.addColumn("Known_Positive_Transgender", "Known Positive Transgender",
-		    ReportUtils.map(moh731bIndicators.knownPositive(TRANSGENDER), indParams), "");
-		cohortDsd.addColumn("Known_Positive_Prisoners_Closed_Settings",
-		    "Known Positive Prisoners and People in closed settings",
-		    ReportUtils.map(moh731bIndicators.knownPositive(IN_PRISONS), indParams), "");
+		cohortDsd.addColumn("Known_Positive_Transman", "Known Positive Transman",
+		    ReportUtils.map(moh731bIndicators.knownPositive(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Known_Positive_Transwoman", "Known Positive Transwoman",
+		    ReportUtils.map(moh731bIndicators.knownPositive(TRANSWOMAN), indParams), "");
 		/**
 		 * 2.2 Receiving positive results: clients who tested positive and were made aware of their
 		 * HIV positive result after the test.
@@ -277,13 +275,11 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		EmrReportingUtils.addRow(cohortDsd, "Received_Positive_Results_PWUD", "Received Positive Results Pwud",
 		    ReportUtils.map(moh731bIndicators.receivedPositiveHIVResults(PWUD), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Received_Positive_Results_Transgender",
-		    "Received Positive Results Transgender",
-		    ReportUtils.map(moh731bIndicators.receivedPositiveHIVResults(TRANSGENDER), indParams), kpAgeDisaggregation,
+		EmrReportingUtils.addRow(cohortDsd, "Received_Positive_Results_Transman", "Received Positive Results Transman",
+		    ReportUtils.map(moh731bIndicators.receivedPositiveHIVResults(TRANSMAN), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Received_Positive_Results_Prisoners_Closed_Settings",
-		    "Received Positive Results Prisoners and people in closed settings",
-		    ReportUtils.map(moh731bIndicators.receivedPositiveHIVResults(IN_PRISONS), indParams), kpAgeDisaggregation,
+		EmrReportingUtils.addRow(cohortDsd, "Received_Positive_Results_Transwoman", "Received Positive Results Transwoman",
+		    ReportUtils.map(moh731bIndicators.receivedPositiveHIVResults(TRANSWOMAN), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
 		/**
@@ -306,40 +302,31 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		EmrReportingUtils.addRow(cohortDsd, "Linked_PWUD", "HIV+ 3 Months ago and Linked Pwud",
 		    ReportUtils.map(moh731bIndicators.linked(PWUD), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Linked_Transgender", "HIV+ 3 Months ago and Linked Transgender",
-		    ReportUtils.map(moh731bIndicators.linked(TRANSGENDER), indParams), kpAgeDisaggregation,
+		EmrReportingUtils.addRow(cohortDsd, "Linked_Transman", "HIV+ 3 Months ago and Linked Transman",
+		    ReportUtils.map(moh731bIndicators.linked(TRANSMAN), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Linked_Prisoners_Closed_Settings",
-		    "HIV+ 3 Months ago and Linked Prisoners and closed settings",
-		    ReportUtils.map(moh731bIndicators.linked(IN_PRISONS), indParams), kpAgeDisaggregation,
+		EmrReportingUtils.addRow(cohortDsd, "Linked_Transwoman", "HIV+ 3 Months ago and Linked Transwoman",
+		    ReportUtils.map(moh731bIndicators.linked(TRANSWOMAN), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
 		/**
 		 * Total positive 3 months ago: Total number of KPs in each KP type who were HIV positive
 		 * three months ago.
 		 */
-		EmrReportingUtils.addRow(cohortDsd, "Total_Positive_3_Months_Ago_FSW", "HIV+ 3 Months ago",
-		    ReportUtils.map(moh731bIndicators.positiveMonthsAgo(FSW), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Total_Positive_3_Months_Ago_MSM", "HIV+ 3 Months ago",
-		    ReportUtils.map(moh731bIndicators.positiveMonthsAgo(MSM), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Total_Positive_3_Months_Ago_MSW", "HIV+ 3 Months ago",
-		    ReportUtils.map(moh731bIndicators.positiveMonthsAgo(MSW), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Total_Positive_3_Months_Ago_PWID", "HIV+ 3 Months ago",
-		    ReportUtils.map(moh731bIndicators.positiveMonthsAgo(PWID), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Total_Positive_3_Months_Ago_PWUD", "HIV+ 3 Months ago",
-		    ReportUtils.map(moh731bIndicators.positiveMonthsAgo(PWUD), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Total_Positive_3_Months_Ago_Transgender", "HIV+ 3 Months ago",
-		    ReportUtils.map(moh731bIndicators.positiveMonthsAgo(TRANSGENDER), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Total_Positive_3_Months_Ago_Prisoners_Closed_Settings",
-		    "HIV+ 3 Months ago and.positiveMonthsAgo Prisoners and closed settings",
-		    ReportUtils.map(moh731bIndicators.positiveMonthsAgo(IN_PRISONS), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04", "05"));
+		cohortDsd.addColumn("Total_Positive_3_Months_Ago_FSW", "HIV+ 3 Months ago",
+		    ReportUtils.map(moh731bIndicators.positiveMonthsAgo(FSW), indParams), "");
+		cohortDsd.addColumn("Total_Positive_3_Months_Ago_MSM", "HIV+ 3 Months ago",
+		    ReportUtils.map(moh731bIndicators.positiveMonthsAgo(MSM), indParams), "");
+		cohortDsd.addColumn("Total_Positive_3_Months_Ago_MSW", "HIV+ 3 Months ago",
+		    ReportUtils.map(moh731bIndicators.positiveMonthsAgo(MSW), indParams), "");
+		cohortDsd.addColumn("Total_Positive_3_Months_Ago_PWID", "HIV+ 3 Months ago",
+		    ReportUtils.map(moh731bIndicators.positiveMonthsAgo(PWID), indParams), "");
+		cohortDsd.addColumn("Total_Positive_3_Months_Ago_PWUD", "HIV+ 3 Months ago",
+		    ReportUtils.map(moh731bIndicators.positiveMonthsAgo(PWUD), indParams), "");
+		cohortDsd.addColumn("Total_Positive_3_Months_Ago_Transman", "HIV+ 3 Months ago",
+		    ReportUtils.map(moh731bIndicators.positiveMonthsAgo(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Total_Positive_3_Months_Ago_Transwoman", "HIV+ 3 Months ago",
+		    ReportUtils.map(moh731bIndicators.positiveMonthsAgo(TRANSWOMAN), indParams), "");
 		
 		/**
 		 * Receiving condoms
@@ -354,11 +341,10 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.receivingCondoms(PWID), indParams), "");
 		cohortDsd.addColumn("Receiving_Condoms_PWUD", "Receiving Condoms Pwud",
 		    ReportUtils.map(moh731bIndicators.receivingCondoms(PWUD), indParams), "");
-		cohortDsd.addColumn("Receiving_Condoms_Transgender", "Receiving Condoms Transgender",
-		    ReportUtils.map(moh731bIndicators.receivingCondoms(TRANSGENDER), indParams), "");
-		cohortDsd.addColumn("Receiving_Condoms_Prisoners_closed_settings",
-		    "Receiving Condoms Prisoners and people in closed settings",
-		    ReportUtils.map(moh731bIndicators.receivingCondoms(IN_PRISONS), indParams), "");
+		cohortDsd.addColumn("Receiving_Condoms_Transman", "Receiving Condoms Transman",
+		    ReportUtils.map(moh731bIndicators.receivingCondoms(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Receiving_Condoms_Transwoman", "Receiving Condoms Transwoman",
+		    ReportUtils.map(moh731bIndicators.receivingCondoms(TRANSWOMAN), indParams), "");
 		
 		/**
 		 * Number receiving condoms per need: number of individuals in each KP type who received
@@ -374,11 +360,10 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.receivingCondomsPerNeedPerNeed(PWID), indParams), "");
 		cohortDsd.addColumn("Receiving_Condoms_Per_Need_PWUD", "Receiving Condoms Per need Pwud",
 		    ReportUtils.map(moh731bIndicators.receivingCondomsPerNeedPerNeed(PWUD), indParams), "");
-		cohortDsd.addColumn("Receiving_Condoms_Per_Need_Transgender", "Receiving Condoms Per need Transgender",
-		    ReportUtils.map(moh731bIndicators.receivingCondomsPerNeedPerNeed(TRANSGENDER), indParams), "");
-		cohortDsd.addColumn("Receiving_Condoms_Per_Need_Prisoners_closed_settings",
-		    "Receiving Condoms Per need Prisoners and people in closed settings",
-		    ReportUtils.map(moh731bIndicators.receivingCondomsPerNeedPerNeed(IN_PRISONS), indParams), "");
+		cohortDsd.addColumn("Receiving_Condoms_Per_Need_Transman", "Receiving Condoms Per need Transman",
+		    ReportUtils.map(moh731bIndicators.receivingCondomsPerNeedPerNeed(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Receiving_Condoms_Per_Need_Transwoman", "Receiving Condoms Per need Transwoman",
+		    ReportUtils.map(moh731bIndicators.receivingCondomsPerNeedPerNeed(TRANSWOMAN), indParams), "");
 		
 		/**
 		 * Number receiving needles & syringes: number of individuals in each KP type who received
@@ -394,11 +379,10 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringes(PWID), indParams), "");
 		cohortDsd.addColumn("Receiving_Needles_and_Syringes_PWUD", "Receiving needles and syringes Pwud",
 		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringes(PWUD), indParams), "");
-		cohortDsd.addColumn("Receiving_Needles_and_Syringes_Transgender", "Receiving needles and syringes Transgender",
-		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringes(IN_PRISONS), indParams), "");
-		cohortDsd.addColumn("Receiving_Needles_and_Syringes_Prisoners_closed_settings",
-		    "Prisoners and people in closed settings receiving needles and syringes",
-		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringes(IN_PRISONS), indParams), "");
+		cohortDsd.addColumn("Receiving_Needles_and_Syringes_Transman", "Receiving needles and syringes Transman",
+		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringes(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Receiving_Needles_and_Syringes_Transwoman", "Transwoman receiving needles and syringes",
+		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringes(TRANSWOMAN), indParams), "");
 		
 		/**
 		 * Number receiving needles & syringes per need number of individuals in each KP type who
@@ -415,12 +399,12 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringesPerNeed(PWID), indParams), "");
 		cohortDsd.addColumn("Receiving_Needles_and_Syringes_Per_Need_PWUD", "Receiving needs & syringes per need Pwud",
 		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringesPerNeed(PWUD), indParams), "");
-		cohortDsd.addColumn("Receiving_Needles_and_Syringes_Per_Need_Transgender",
-		    "Receiving needs & syringes per need Transgender",
-		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringesPerNeed(IN_PRISONS), indParams), "");
-		cohortDsd.addColumn("Receiving_Needles_and_Syringes_Per_Need_Prisoners_closed_settings",
-		    "Prisoners and people in closed settings receiving needs & syringes per need",
-		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringesPerNeed(IN_PRISONS), indParams), "");
+		cohortDsd.addColumn("Receiving_Needles_and_Syringes_Per_Need_Transman",
+		    "Receiving needs & syringes per need Transman",
+		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringesPerNeed(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Receiving_Needles_and_Syringes_Per_Need_Transwoman",
+		    "Transwoman receiving needs & syringes per need",
+		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringesPerNeed(TRANSWOMAN), indParams), "");
 		
 		/**
 		 * Number receiving lubricants Number of individuals in each KP type who received lubricants
@@ -436,11 +420,10 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.receivingLubricants(PWID), indParams), "");
 		cohortDsd.addColumn("Receiving_Lubricants_PWUD", "Receiving Lubricants Pwud",
 		    ReportUtils.map(moh731bIndicators.receivingLubricants(PWUD), indParams), "");
-		cohortDsd.addColumn("Receiving_Lubricants_Transgender", "Receiving Lubricants Transgender",
-		    ReportUtils.map(moh731bIndicators.receivingLubricants(TRANSGENDER), indParams), "");
-		cohortDsd.addColumn("Receiving_Lubricants_Prisoners_closed_settings",
-		    "Prisoners and people in closed settings receiving Lubricants",
-		    ReportUtils.map(moh731bIndicators.receivingLubricants(IN_PRISONS), indParams), "");
+		cohortDsd.addColumn("Receiving_Lubricants_Transman", "Receiving Lubricants Transman",
+		    ReportUtils.map(moh731bIndicators.receivingLubricants(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Receiving_Lubricants_Transwoman", "Transwoman receiving Lubricants",
+		    ReportUtils.map(moh731bIndicators.receivingLubricants(TRANSWOMAN), indParams), "");
 		
 		/**
 		 * Number receiving lubricants per need Number of individuals in each KP type who received
@@ -456,11 +439,10 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.receivingLubricantsPerNeed(PWID), indParams), "");
 		cohortDsd.addColumn("Receiving_Lubricants_Per_Need_PWUD", "Receiving Lubricants Per Need Pwud",
 		    ReportUtils.map(moh731bIndicators.receivingLubricantsPerNeed(PWUD), indParams), "");
-		cohortDsd.addColumn("Receiving_Lubricants_Per_Need_Transgender", "Receiving Lubricants Per Need Transgender",
-		    ReportUtils.map(moh731bIndicators.receivingLubricantsPerNeed(TRANSGENDER), indParams), "");
-		cohortDsd.addColumn("Receiving_Lubricants_Per_Need_Prisoners_closed_settings",
-		    "Prisoners and people in closed settings receiving Lubricants per need",
-		    ReportUtils.map(moh731bIndicators.receivingLubricantsPerNeed(IN_PRISONS), indParams), "");
+		cohortDsd.addColumn("Receiving_Lubricants_Per_Need_Transman", "Receiving Lubricants Per Need Transman",
+		    ReportUtils.map(moh731bIndicators.receivingLubricantsPerNeed(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Receiving_Lubricants_Per_Need_Transwoman", "Transwoman receiving Lubricants per need",
+		    ReportUtils.map(moh731bIndicators.receivingLubricantsPerNeed(TRANSWOMAN), indParams), "");
 		
 		/**
 		 * Number receiving self-test kits: number of individuals in each KP type who received an
@@ -476,11 +458,10 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.receivingSelfTestKits(PWID), indParams), "");
 		cohortDsd.addColumn("Receiving_Self_Test_Kits_PWUD", "Receiving Self Test Kits",
 		    ReportUtils.map(moh731bIndicators.receivingSelfTestKits(PWUD), indParams), "");
-		cohortDsd.addColumn("Receiving_Self_Test_Kits_Transgender", "Receiving Self Test Kits",
-		    ReportUtils.map(moh731bIndicators.receivingSelfTestKits(TRANSGENDER), indParams), "");
-		cohortDsd.addColumn("Receiving_Self_Test_Kits_Prisoners_closed_settings",
-		    "Prisoners and people in closed settings receiving Self Test Kits",
-		    ReportUtils.map(moh731bIndicators.receivingSelfTestKits(IN_PRISONS), indParams), "");
+		cohortDsd.addColumn("Receiving_Self_Test_Kits_Transman", "Receiving Self Test Kits",
+		    ReportUtils.map(moh731bIndicators.receivingSelfTestKits(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Receiving_Self_Test_Kits_Transwoman", "Transwoman receiving Self Test Kits",
+		    ReportUtils.map(moh731bIndicators.receivingSelfTestKits(TRANSWOMAN), indParams), "");
 		
 		// 4.1 STI screening
 		
@@ -498,11 +479,10 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.screenedForSTI(PWID), indParams), "");
 		cohortDsd.addColumn("STI_Screening_PWUD", "STI Screening Pwud",
 		    ReportUtils.map(moh731bIndicators.screenedForSTI(PWUD), indParams), "");
-		cohortDsd.addColumn("STI_Screening_Transgender", "STI Screening Transgender",
-		    ReportUtils.map(moh731bIndicators.screenedForSTI(TRANSGENDER), indParams), "");
-		cohortDsd.addColumn("STI_Screening_Prisoners_closed_settings",
-		    "Prisoners and people in closed settings screening for STI",
-		    ReportUtils.map(moh731bIndicators.screenedForSTI(IN_PRISONS), indParams), "");
+		cohortDsd.addColumn("STI_Screening_Transman", "STI Screening Transman",
+		    ReportUtils.map(moh731bIndicators.screenedForSTI(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("STI_Screening_Transwoman", "Transwoman screening for STI",
+		    ReportUtils.map(moh731bIndicators.screenedForSTI(TRANSWOMAN), indParams), "");
 		/**
 		 * Diagnosed_STI: number of individuals in each KP type who were diagnosed with STI in the
 		 * reporting period.
@@ -517,11 +497,10 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.diagnosedWithSTI(PWID), indParams), "");
 		cohortDsd.addColumn("STI_Diagnosed_PWUD", "Pwud diagnosed with STI",
 		    ReportUtils.map(moh731bIndicators.diagnosedWithSTI(PWUD), indParams), "");
-		cohortDsd.addColumn("STI_Diagnosed_Transgender", "Transgenders diagnosed with STI",
-		    ReportUtils.map(moh731bIndicators.diagnosedWithSTI(TRANSGENDER), indParams), "");
-		cohortDsd.addColumn("STI_Diagnosed_Prisoners_closed_settings",
-		    "Prisoners and people in closed settings diagnosed with STI",
-		    ReportUtils.map(moh731bIndicators.diagnosedWithSTI(IN_PRISONS), indParams), "");
+		cohortDsd.addColumn("STI_Diagnosed_Transman", "Transmans diagnosed with STI",
+		    ReportUtils.map(moh731bIndicators.diagnosedWithSTI(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("STI_Diagnosed_Transwoman", "Transwoman diagnosed with STI",
+		    ReportUtils.map(moh731bIndicators.diagnosedWithSTI(TRANSWOMAN), indParams), "");
 		
 		/**
 		 * Treated_STI: number of individuals in each KP type who were treated for STI in the
@@ -537,11 +516,10 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.treatedForSTI(PWID), indParams), "");
 		cohortDsd.addColumn("STI_Treated_PWUD", "PWUD treated for STI",
 		    ReportUtils.map(moh731bIndicators.treatedForSTI(PWUD), indParams), "");
-		cohortDsd.addColumn("STI_Treated_Transgender", "Transgender treated for STI",
-		    ReportUtils.map(moh731bIndicators.treatedForSTI(TRANSGENDER), indParams), "");
-		cohortDsd.addColumn("STI_Treated_Prisoners_closed_settings",
-		    "Prisoners and people in closed settings Treated for STI",
-		    ReportUtils.map(moh731bIndicators.treatedForSTI(IN_PRISONS), indParams), "");
+		cohortDsd.addColumn("STI_Treated_Transman", "Transman treated for STI",
+		    ReportUtils.map(moh731bIndicators.treatedForSTI(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("STI_Treated_Transwoman", "Transwoman Treated for STI",
+		    ReportUtils.map(moh731bIndicators.treatedForSTI(TRANSWOMAN), indParams), "");
 		
 		//Screened for HCV
 		/**
@@ -558,30 +536,28 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.screenedForHCV(PWID), indParams), "");
 		cohortDsd.addColumn("Screened_HCV_PWUD", "HCV Screening Pwud",
 		    ReportUtils.map(moh731bIndicators.screenedForHCV(PWUD), indParams), "");
-		cohortDsd.addColumn("Screened_HCV_Transgender", "HCV Screening Transgender",
-		    ReportUtils.map(moh731bIndicators.screenedForHCV(TRANSGENDER), indParams), "");
-		cohortDsd.addColumn("Screened_HCV_Prisoners_closed_settings",
-		    "HCV Screened Prisoners and people in closed settings",
-		    ReportUtils.map(moh731bIndicators.screenedForHCV(IN_PRISONS), indParams), "");
+		cohortDsd.addColumn("Screened_HCV_Transman", "HCV Screening Transman",
+		    ReportUtils.map(moh731bIndicators.screenedForHCV(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Screened_HCV_Transwoman", "HCV Screened Transwoman",
+		    ReportUtils.map(moh731bIndicators.screenedForHCV(TRANSWOMAN), indParams), "");
 		/**
 		 * Positive_HCV: number of individuals in each KP type who were diagnosed with HCV in the
 		 * reporting period.
 		 */
-		cohortDsd.addColumn("Positive_HBV_FSW", "HBV Positive Fsw",
+		cohortDsd.addColumn("Positive_HCV_FSW", "HCV Positive Fsw",
 		    ReportUtils.map(moh731bIndicators.diagnosedWithHCV(FSW), indParams), "");
-		cohortDsd.addColumn("Positive_HBV_MSM", "HBV Positive Msm",
+		cohortDsd.addColumn("Positive_HCV_MSM", "HCV Positive Msm",
 		    ReportUtils.map(moh731bIndicators.diagnosedWithHCV(MSM), indParams), "");
-		cohortDsd.addColumn("Positive_HBV_MSW", "HBV Positive Msw",
+		cohortDsd.addColumn("Positive_HCV_MSW", "HCV Positive Msw",
 		    ReportUtils.map(moh731bIndicators.diagnosedWithHCV(MSW), indParams), "");
-		cohortDsd.addColumn("Positive_HBV_PWID", "HBV Positive Pwid",
+		cohortDsd.addColumn("Positive_HCV_PWID", "HCV Positive Pwid",
 		    ReportUtils.map(moh731bIndicators.diagnosedWithHCV(PWID), indParams), "");
-		cohortDsd.addColumn("Positive_HBV_PWUD", "HBV Positive Pwud",
+		cohortDsd.addColumn("Positive_HCV_PWUD", "HCV Positive Pwud",
 		    ReportUtils.map(moh731bIndicators.diagnosedWithHCV(PWUD), indParams), "");
-		cohortDsd.addColumn("Positive_HBV_Transgender", "HBV Positive Transgender",
-		    ReportUtils.map(moh731bIndicators.diagnosedWithHCV(TRANSGENDER), indParams), "");
-		cohortDsd.addColumn("Screened_HCV_Prisoners_closed_settings",
-		    "HBV Positive Prisoners and people in closed settings",
-		    ReportUtils.map(moh731bIndicators.diagnosedWithHCV(IN_PRISONS), indParams), "");
+		cohortDsd.addColumn("Positive_HCV_Transman", "HCV Positive Transman",
+		    ReportUtils.map(moh731bIndicators.diagnosedWithHCV(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Positive_HCV_Transwoman", "HCV Positive Transwoman",
+		    ReportUtils.map(moh731bIndicators.diagnosedWithHCV(TRANSWOMAN), indParams), "");
 		
 		/**
 		 * Treated_HCV: number of individuals in each KP type who were treated for HCV in the
@@ -597,10 +573,10 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.treatedForHCV(PWID), indParams), "");
 		cohortDsd.addColumn("Treated_HCV_PWUD", "HCV Treated Pwud",
 		    ReportUtils.map(moh731bIndicators.treatedForHCV(PWUD), indParams), "");
-		cohortDsd.addColumn("Treated_HCV_Transgender", "HCV Treated Transgender",
-		    ReportUtils.map(moh731bIndicators.treatedForHCV(TRANSGENDER), indParams), "");
-		cohortDsd.addColumn("Screened_HCV_Prisoners_closed_settings", "Prisoners and people in closed settings HCV treated",
-		    ReportUtils.map(moh731bIndicators.treatedForHCV(IN_PRISONS), indParams), "");
+		cohortDsd.addColumn("Treated_HCV_Transman", "HCV Treated Transman",
+		    ReportUtils.map(moh731bIndicators.treatedForHCV(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Treated_HCV_Transwoman", "Transwoman HCV treated",
+		    ReportUtils.map(moh731bIndicators.treatedForHCV(TRANSWOMAN), indParams), "");
 		
 		//4.3 HBV (Hepatitis B)
 		/**
@@ -617,11 +593,10 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.screenedForHBV(PWID), indParams), "");
 		cohortDsd.addColumn("Screened_HBV_PWUD", "HBV Screened Pwud",
 		    ReportUtils.map(moh731bIndicators.screenedForHBV(PWUD), indParams), "");
-		cohortDsd.addColumn("Screened_HBV_Transgender", "HBV Screened Transgender",
-		    ReportUtils.map(moh731bIndicators.screenedForHBV(TRANSGENDER), indParams), "");
-		cohortDsd.addColumn("Screened_HCV_Prisoners_closed_settings",
-		    "HBV screened Prisoners and people in closed settings",
-		    ReportUtils.map(moh731bIndicators.screenedForHBV(IN_PRISONS), indParams), "");
+		cohortDsd.addColumn("Screened_HBV_Transman", "HBV Screened Transman",
+		    ReportUtils.map(moh731bIndicators.screenedForHBV(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Screened_HBV_Transwoman", "HBV screened Transwoman",
+		    ReportUtils.map(moh731bIndicators.screenedForHBV(TRANSWOMAN), indParams), "");
 		
 		/**
 		 * Positive_HBV: number of individuals in each KP type who were diagnosed with HBV in the
@@ -637,11 +612,10 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.diagnosedWithHBV(PWID), indParams), "");
 		cohortDsd.addColumn("Positive_HBV_PWUD", "HBV Positive Pwud",
 		    ReportUtils.map(moh731bIndicators.diagnosedWithHBV(PWUD), indParams), "");
-		cohortDsd.addColumn("Positive_HBV_Transgender", "HBV Positive Transgender",
-		    ReportUtils.map(moh731bIndicators.diagnosedWithHBV(TRANSGENDER), indParams), "");
-		cohortDsd.addColumn("Screened_HCV_Prisoners_closed_settings",
-		    "HBV Positive Prisoners and people in closed settings",
-		    ReportUtils.map(moh731bIndicators.diagnosedWithHBV(IN_PRISONS), indParams), "");
+		cohortDsd.addColumn("Positive_HBV_Transman", "HBV Positive Transman",
+		    ReportUtils.map(moh731bIndicators.diagnosedWithHBV(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Positive_HBV_Transwoman", "HBV Positive Transwoman",
+		    ReportUtils.map(moh731bIndicators.diagnosedWithHBV(TRANSWOMAN), indParams), "");
 		
 		/**
 		 * Treated_HBV: number of individuals in each KP type who were treated for HBV in the
@@ -657,10 +631,10 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.treatedForHBV(PWID), indParams), "");
 		cohortDsd.addColumn("Treated_HBV_PWUD", "HBV Treated Pwud",
 		    ReportUtils.map(moh731bIndicators.treatedForHBV(PWUD), indParams), "");
-		cohortDsd.addColumn("Treated_HBV_Transgender", "HBV Treated Transgender",
-		    ReportUtils.map(moh731bIndicators.treatedForHBV(TRANSGENDER), indParams), "");
-		cohortDsd.addColumn("Screened_HCV_Prisoners_closed_settings", "HBV treated Prisoners and people in closed settings",
-		    ReportUtils.map(moh731bIndicators.treatedForHBV(IN_PRISONS), indParams), "");
+		cohortDsd.addColumn("Treated_HBV_Transman", "HBV Treated Transman",
+		    ReportUtils.map(moh731bIndicators.treatedForHBV(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Treated_HBV_Transwoman", "HBV treated Transwoman",
+		    ReportUtils.map(moh731bIndicators.treatedForHBV(TRANSWOMAN), indParams), "");
 		
 		/**
 		 * Negative_HBV_vaccinated: number of individuals in each KP type who were vaccinated for
@@ -676,11 +650,10 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.vaccinatedAgainstHBV(PWID), indParams), "");
 		cohortDsd.addColumn("NegativeHBV_Vaccinated_PWUD", "Negative HBV Vaccinated Pwud",
 		    ReportUtils.map(moh731bIndicators.vaccinatedAgainstHBV(PWUD), indParams), "");
-		cohortDsd.addColumn("NegativeHBV_Vaccinated_Transgender", "Negative HBV Vaccinated Transgender",
-		    ReportUtils.map(moh731bIndicators.vaccinatedAgainstHBV(IN_PRISONS), indParams), "");
-		cohortDsd.addColumn("Screened_HCV_Prisoners_closed_settings",
-		    "Negative HBV Vaccinated Prisoners and people in closed settings",
-		    ReportUtils.map(moh731bIndicators.screenedForHCV(IN_PRISONS), indParams), "");
+		cohortDsd.addColumn("NegativeHBV_Vaccinated_Transman", "Negative HBV Vaccinated Transman",
+		    ReportUtils.map(moh731bIndicators.vaccinatedAgainstHBV(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("NegativeHBV_Vaccinated_Transwoman", "Negative HBV Vaccinated Transwoman",
+		    ReportUtils.map(moh731bIndicators.screenedForHCV(TRANSWOMAN), indParams), "");
 		
 		//4.4 TB screening
 		/**
@@ -697,10 +670,10 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.screenedTB(PWID), indParams), "");
 		cohortDsd.addColumn("Screened_TB_PWUD", "Screened TB Pwud",
 		    ReportUtils.map(moh731bIndicators.screenedTB(PWUD), indParams), "");
-		cohortDsd.addColumn("Screened_TB_Transgender", "Screened TB Transgender",
-		    ReportUtils.map(moh731bIndicators.screenedTB(TRANSGENDER), indParams), "");
-		cohortDsd.addColumn("Screened_TB_Prisoners_closed_settings", "Screened TB Prisoners and people in closed settings",
-		    ReportUtils.map(moh731bIndicators.screenedTB(IN_PRISONS), indParams), "");
+		cohortDsd.addColumn("Screened_TB_Transman", "Screened TB Transman",
+		    ReportUtils.map(moh731bIndicators.screenedTB(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Screened_TB_Transwoman", "Screened TB Transwoman",
+		    ReportUtils.map(moh731bIndicators.screenedTB(TRANSWOMAN), indParams), "");
 		
 		/**
 		 * Number diagnosed: number of individuals in each KP type who were screened for TB in the
@@ -716,11 +689,10 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.diagnosedTB(PWID), indParams), "");
 		cohortDsd.addColumn("Diagnosed_TB_PWUD", "Diagnosed with TB Pwud",
 		    ReportUtils.map(moh731bIndicators.diagnosedTB(PWUD), indParams), "");
-		cohortDsd.addColumn("Diagnosed_TB_Transgender", "Diagnosed with TB Transgender",
-		    ReportUtils.map(moh731bIndicators.diagnosedTB(TRANSGENDER), indParams), "");
-		cohortDsd.addColumn("Diagnosed_TB_Prisoners_closed_settings",
-		    "Prisoners and people in closed settings diagnosed with TB",
-		    ReportUtils.map(moh731bIndicators.diagnosedTB(IN_PRISONS), indParams), "");
+		cohortDsd.addColumn("Diagnosed_TB_Transman", "Diagnosed with TB Transman",
+		    ReportUtils.map(moh731bIndicators.diagnosedTB(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Diagnosed_TB_Transwoman", "Transwoman diagnosed with TB",
+		    ReportUtils.map(moh731bIndicators.diagnosedTB(TRANSWOMAN), indParams), "");
 		
 		/**
 		 * Number Started on TB TX: number of individuals in each KP type who were found positive
@@ -736,11 +708,10 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.startedTBTX(PWID), indParams), "");
 		cohortDsd.addColumn("Started_TB_Tx_PWUD", "Started TB Tx Pwud",
 		    ReportUtils.map(moh731bIndicators.startedTBTX(PWUD), indParams), "");
-		cohortDsd.addColumn("Started_TB_Tx_Transgender", "Started TB Tx Transgender",
-		    ReportUtils.map(moh731bIndicators.startedTBTX(TRANSGENDER), indParams), "");
-		cohortDsd.addColumn("Started_TB_Tx_Prisoners_closed_settings",
-		    "Prisoners and people in closed settings Started TB Tx",
-		    ReportUtils.map(moh731bIndicators.startedTBTX(IN_PRISONS), indParams), "");
+		cohortDsd.addColumn("Started_TB_Tx_Transman", "Started TB Tx Transman",
+		    ReportUtils.map(moh731bIndicators.startedTBTX(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Started_TB_Tx_Transwoman", "Transwoman Started TB Tx",
+		    ReportUtils.map(moh731bIndicators.startedTBTX(TRANSWOMAN), indParams), "");
 		
 		/**
 		 * TB clients on HAART: This is the count of TB patients who are receiving ART in each KP
@@ -748,21 +719,20 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		 * the time of TB diagnosis and TB patients diagnosed with HIV who are started on HAART
 		 * during the reporting month.
 		 */
-		cohortDsd.addColumn("Started_TB_Tx_FSW", "Started TB Tx Fsw",
-		    ReportUtils.map(moh731bIndicators.startedTBTX(FSW), indParams), "");
-		cohortDsd.addColumn("Started_TB_Tx_MSM", "Started TB Tx Msm",
-		    ReportUtils.map(moh731bIndicators.startedTBTX(MSM), indParams), "");
-		cohortDsd.addColumn("Started_TB_Tx_MSW", "Started TB Tx Msw",
-		    ReportUtils.map(moh731bIndicators.startedTBTX(MSW), indParams), "");
-		cohortDsd.addColumn("Started_TB_Tx_PWID", "Started TB Tx Pwid",
-		    ReportUtils.map(moh731bIndicators.startedTBTX(PWID), indParams), "");
-		cohortDsd.addColumn("Started_TB_Tx_PWUD", "Started TB Tx Pwud",
-		    ReportUtils.map(moh731bIndicators.startedTBTX(PWUD), indParams), "");
-		cohortDsd.addColumn("Started_TB_Tx_Transgender", "Started TB Tx Transgender",
-		    ReportUtils.map(moh731bIndicators.startedTBTX(TRANSGENDER), indParams), "");
-		cohortDsd.addColumn("Started_TB_Tx_Prisoners_closed_settings",
-		    "Prisoners and people in closed settings Started TB Tx",
-		    ReportUtils.map(moh731bIndicators.startedTBTX(IN_PRISONS), indParams), "");
+		cohortDsd.addColumn("TB_Clients_On_HAART_FSW", "TB clients on HAART Fsw",
+		    ReportUtils.map(moh731bIndicators.tbClientsOnHAART(FSW), indParams), "");
+		cohortDsd.addColumn("TB_Clients_On_HAART_MSM", "TB clients on HAART Msm",
+		    ReportUtils.map(moh731bIndicators.tbClientsOnHAART(MSM), indParams), "");
+		cohortDsd.addColumn("TB_Clients_On_HAART_MSW", "TB clients on HAART Msw",
+		    ReportUtils.map(moh731bIndicators.tbClientsOnHAART(MSW), indParams), "");
+		cohortDsd.addColumn("TB_Clients_On_HAART_PWID", "TB clients on HAART Pwid",
+		    ReportUtils.map(moh731bIndicators.tbClientsOnHAART(PWID), indParams), "");
+		cohortDsd.addColumn("TB_Clients_On_HAART_PWUD", "TB clients on HAART Pwud",
+		    ReportUtils.map(moh731bIndicators.tbClientsOnHAART(PWUD), indParams), "");
+		cohortDsd.addColumn("TB_Clients_On_HAART_Transman", "TB clients on HAART Transman",
+		    ReportUtils.map(moh731bIndicators.tbClientsOnHAART(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("TB_Clients_On_HAART_Transwoman", "TB clients on HAART Transwoman",
+		    ReportUtils.map(moh731bIndicators.tbClientsOnHAART(TRANSWOMAN), indParams), "");
 		
 		//4.5 PrEP
 		/**
@@ -779,11 +749,10 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.initiatedPrEP(PWID), indParams), "");
 		cohortDsd.addColumn("Initiated_PrEP_PWUD", "Initiated PrEP Pwud",
 		    ReportUtils.map(moh731bIndicators.initiatedPrEP(PWUD), indParams), "");
-		cohortDsd.addColumn("Initiated_PrEP_Transgender", "Initiated PrEP Transgender",
-		    ReportUtils.map(moh731bIndicators.initiatedPrEP(TRANSGENDER), indParams), "");
-		cohortDsd.addColumn("Initiated_PrEP_Prisoners_closed_settings",
-		    "Prisoners and people in closed settings Initiated PrEP",
-		    ReportUtils.map(moh731bIndicators.initiatedPrEP(IN_PRISONS), indParams), "");
+		cohortDsd.addColumn("Initiated_PrEP_Transman", "Initiated PrEP Transman",
+		    ReportUtils.map(moh731bIndicators.initiatedPrEP(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Initiated_PrEP_Transwoman", "Transwoman Initiated PrEP",
+		    ReportUtils.map(moh731bIndicators.initiatedPrEP(TRANSWOMAN), indParams), "");
 		/**
 		 * Current on PrEP: number of people in each KP type who are currently receiving PrEP. This
 		 * includes persons newly started on PrEP in the reporting month, persons who come for their
@@ -801,11 +770,10 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.currentOnPrEP(PWID), indParams), "");
 		cohortDsd.addColumn("Current_on_PrEP_PWUD", "Current on PrEP Pwud",
 		    ReportUtils.map(moh731bIndicators.currentOnPrEP(PWUD), indParams), "");
-		cohortDsd.addColumn("Current_on_PrEP_Transgender", "Current on PrEP Transgender",
-		    ReportUtils.map(moh731bIndicators.currentOnPrEP(TRANSGENDER), indParams), "");
-		cohortDsd.addColumn("Current_on_PrEP_Prisoners_closed_settings",
-		    "Prisoners and people in closed settings current on PrEP",
-		    ReportUtils.map(moh731bIndicators.currentOnPrEP(IN_PRISONS), indParams), "");
+		cohortDsd.addColumn("Current_on_PrEP_Transman", "Current on PrEP Transman",
+		    ReportUtils.map(moh731bIndicators.currentOnPrEP(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Current_on_PrEP_Transwoman", "Transwoman current on PrEP",
+		    ReportUtils.map(moh731bIndicators.currentOnPrEP(TRANSWOMAN), indParams), "");
 		/**
 		 * Turning HIV positive while on PrEP: number of people on PrEP in each KP type who tested
 		 * positive for HIV in the reporting period.
@@ -820,11 +788,10 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.turningPositiveWhileOnPrEP(PWID), indParams), "");
 		cohortDsd.addColumn("Turning_Positive_While_On_PrEP_PWUD", "Turning HIV+ While on PrEP Pwud",
 		    ReportUtils.map(moh731bIndicators.turningPositiveWhileOnPrEP(PWUD), indParams), "");
-		cohortDsd.addColumn("Turning_Positive_While_On_PrEP_Transgender", "Turning HIV+ While on PrEP Transgender",
-		    ReportUtils.map(moh731bIndicators.turningPositiveWhileOnPrEP(TRANSGENDER), indParams), "");
-		cohortDsd.addColumn("Turning_Positive_While_On_PrEP_Prisoners_closed_settings",
-		    "Prisoners and people in closed settings turning Positive while on PrEP",
-		    ReportUtils.map(moh731bIndicators.turningPositiveWhileOnPrEP(IN_PRISONS), indParams), "");
+		cohortDsd.addColumn("Turning_Positive_While_On_PrEP_Transman", "Turning HIV+ While on PrEP Transman",
+		    ReportUtils.map(moh731bIndicators.turningPositiveWhileOnPrEP(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Turning_Positive_While_On_PrEP_Transwoman", "Transwoman turning Positive while on PrEP",
+		    ReportUtils.map(moh731bIndicators.turningPositiveWhileOnPrEP(TRANSWOMAN), indParams), "");
 		
 		//4.6 Violence support
 		/**
@@ -841,11 +808,10 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.experiencingViolence(PWID), indParams), "");
 		cohortDsd.addColumn("Experiencing_Violence_PWUD", "Experiencing Violence Pwud",
 		    ReportUtils.map(moh731bIndicators.experiencingViolence(PWUD), indParams), "");
-		cohortDsd.addColumn("Experiencing_Violence_Transgender", "Experiencing Violence Transgender",
-		    ReportUtils.map(moh731bIndicators.experiencingViolence(TRANSGENDER), indParams), "");
-		cohortDsd.addColumn("Turning_Positive_While_On_PrEP_Prisoners_closed_settings",
-		    "Prisoners and people in closed settings turning Positive while on PrEP",
-		    ReportUtils.map(moh731bIndicators.experiencingViolence(IN_PRISONS), indParams), "");
+		cohortDsd.addColumn("Experiencing_Violence_Transman", "Experiencing Violence Transman",
+		    ReportUtils.map(moh731bIndicators.experiencingViolence(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Experiencing_Violence_Transwoman", "Transwoman turning Positive while on PrEP",
+		    ReportUtils.map(moh731bIndicators.experiencingViolence(TRANSWOMAN), indParams), "");
 		/**
 		 * Receiving violence support:Number of people in each KP type who were supported by the
 		 * programme when they experienced violence in the reporting period by KP type
@@ -860,11 +826,10 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.receivingViolenceSupport(PWID), indParams), "");
 		cohortDsd.addColumn("Receiving_Violence_Support_PWUD", "Receiving Violence Support Pwud",
 		    ReportUtils.map(moh731bIndicators.receivingViolenceSupport(PWUD), indParams), "");
-		cohortDsd.addColumn("Receiving_Violence_Support_Transgender", "Receiving Violence Support Transgender",
-		    ReportUtils.map(moh731bIndicators.receivingViolenceSupport(TRANSGENDER), indParams), "");
-		cohortDsd.addColumn("Receiving_Violence_Support_Prisoners_closed_settings",
-		    "Prisoners and people in closed settings receiving violence support",
-		    ReportUtils.map(moh731bIndicators.experiencingViolence(IN_PRISONS), indParams), "");
+		cohortDsd.addColumn("Receiving_Violence_Support_Transman", "Receiving Violence Support Transman",
+		    ReportUtils.map(moh731bIndicators.receivingViolenceSupport(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Receiving_Violence_Support_Transwoman", "Transwoman receiving violence support",
+		    ReportUtils.map(moh731bIndicators.experiencingViolence(TRANSWOMAN), indParams), "");
 		
 		//4.7 PEP
 		/**
@@ -881,11 +846,10 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.numberExposed(PWID), indParams), "");
 		cohortDsd.addColumn("Number_Exposed_To_HIV_PWUD", "Number Exposed Pwud",
 		    ReportUtils.map(moh731bIndicators.numberExposed(PWUD), indParams), "");
-		cohortDsd.addColumn("Number_Exposed_To_HIV_Transgender", "Number Exposed Transgender",
-		    ReportUtils.map(moh731bIndicators.numberExposed(TRANSGENDER), indParams), "");
-		cohortDsd.addColumn("Number_Exposed_To_HIV_Prisoners_closed_settings",
-		    "Prisoners and people in closed settings exposed to HIV",
-		    ReportUtils.map(moh731bIndicators.numberExposed(IN_PRISONS), indParams), "");
+		cohortDsd.addColumn("Number_Exposed_To_HIV_Transman", "Number Exposed Transman",
+		    ReportUtils.map(moh731bIndicators.numberExposed(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Number_Exposed_To_HIV_Transwoman", "Transwoman exposed to HIV",
+		    ReportUtils.map(moh731bIndicators.numberExposed(TRANSWOMAN), indParams), "");
 		/**
 		 * Number receiving PEP<72hrs: Number of people in each KP type who were initiated on PEP
 		 * within 72 hours of HIV exposure.
@@ -900,11 +864,10 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.receivingPEPWithin72Hrs(PWID), indParams), "");
 		cohortDsd.addColumn("Receiving_PEP_Within_72hrs_PWUD", "Receiving PEP Within 72 hours Pwud",
 		    ReportUtils.map(moh731bIndicators.receivingPEPWithin72Hrs(PWUD), indParams), "");
-		cohortDsd.addColumn("Receiving_PEP_Within_72hrs_Transgender", "Receiving PEP Within 72 hours Transgender",
-		    ReportUtils.map(moh731bIndicators.receivingPEPWithin72Hrs(TRANSGENDER), indParams), "");
-		cohortDsd.addColumn("Receiving_PEP_Within_72hrs_Prisoners_closed_settings",
-		    "Prisoners and people in closed settings receiving PEP within 72 hrs",
-		    ReportUtils.map(moh731bIndicators.receivingPEPWithin72Hrs(IN_PRISONS), indParams), "");*/
+		cohortDsd.addColumn("Receiving_PEP_Within_72hrs_Transman", "Receiving PEP Within 72 hours Transman",
+		    ReportUtils.map(moh731bIndicators.receivingPEPWithin72Hrs(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Receiving_PEP_Within_72hrs_Transwoman","Transwoman receiving PEP within 72 hrs",
+		    ReportUtils.map(moh731bIndicators.receivingPEPWithin72Hrs(TRANSWOMAN), indParams), "");*/
 		/**
 		 * Number completed PEP within 28 days: Number of people in each KP type who completed
 		 * taking PEP within 28 days.
@@ -914,8 +877,8 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 			cohortDsd.addColumn("Completed_PEP_Within_28_Days_MSW", "Completed PEP within 28 days Msw", ReportUtils.map(moh731bIndicators.completedPEPWith28Days(MSW), indParams),"");
 			cohortDsd.addColumn("Completed_PEP_Within_28_Days_PWID", "Completed PEP within 28 days Pwid", ReportUtils.map(moh731bIndicators.completedPEPWith28Days(PWID), indParams),"");
 			cohortDsd.addColumn("Completed_PEP_Within_28_Days_PWUD", "Completed PEP within 28 days Pwud", ReportUtils.map(moh731bIndicators.completedPEPWith28Days(PWUD), indParams),"");
-			cohortDsd.addColumn("Completed_PEP_Within_28_Days_Transgender", "Completed PEP within 28 days Transgender", ReportUtils.map(moh731bIndicators.completedPEPWith28Days(TRANSGENDER), indParams),"");
-			cohortDsd.addColumn("Completed_PEP_Within_28_Days_Prisoners_closed_settings", "Prisoners and people in closed settings completing PEP within 72 hrs", ReportUtils.map(moh731bIndicators.completedPEPWith28Days(IN_PRISONS), indParams),"");
+			cohortDsd.addColumn("Completed_PEP_Within_28_Days_Transman", "Completed PEP within 28 days Transman", ReportUtils.map(moh731bIndicators.completedPEPWith28Days(TRANSMAN), indParams),"");
+			cohortDsd.addColumn("Completed_PEP_Within_28_Days_Transwoman", "Transwoman completing PEP within 72 hrs", ReportUtils.map(moh731bIndicators.completedPEPWith28Days(TRANSWOMAN), indParams),"");
 		*/
 		//4.8 Peer education
 		/**
@@ -927,8 +890,8 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 			cohortDsd.addColumn("Received_Peer_education_MSW", "Received peer education Msw", ReportUtils.map(moh731bIndicators.receivedPeerEducation(MSW), indParams),"");
 			cohortDsd.addColumn("Received_Peer_education_PWID", "Received peer education Pwid", ReportUtils.map(moh731bIndicators.receivedPeerEducation(PWID), indParams),"");
 			cohortDsd.addColumn("Received_Peer_education_PWUD", "Received peer education Pwud", ReportUtils.map(moh731bIndicators.receivedPeerEducation(PWUD), indParams),"");
-			cohortDsd.addColumn("Received_Peer_education_Transgender", "Received peer education Transgender", ReportUtils.map(moh731bIndicators.receivedPeerEducation(TRANSGENDER), indParams),"");
-			cohortDsd.addColumn("Received_Peer_education_Prisoners_closed_settings", "Prisoners and people in closed settings received peer education", ReportUtils.map(moh731bIndicators.receivedPeerEducation(IN_PRISONS), indParams),"");
+			cohortDsd.addColumn("Received_Peer_education_Transman", "Received peer education Transman", ReportUtils.map(moh731bIndicators.receivedPeerEducation(TRANSMAN), indParams),"");
+			cohortDsd.addColumn("Received_Peer_education_Transwoman", "Transwoman received peer education", ReportUtils.map(moh731bIndicators.receivedPeerEducation(TRANSWOMAN), indParams),"");
 		*/
 		// 5.0 Care and treatment
 		
@@ -954,12 +917,12 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		EmrReportingUtils.addRow(cohortDsd, "On_site_pre-ART_PWUD", "On pre-ART Pwud",
 		    ReportUtils.map(moh731bIndicators.onSitePreART(PWUD), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "On_site_pre-ART_Transgender", "On pre-ART Transgender",
-		    ReportUtils.map(moh731bIndicators.onSitePreART(TRANSGENDER), indParams), kpAgeDisaggregation,
+		EmrReportingUtils.addRow(cohortDsd, "On_site_pre-ART_Transman", "On pre-ART Transman",
+		    ReportUtils.map(moh731bIndicators.onSitePreART(TRANSMAN), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "On_site_pre-ART_Prisoners_closed_settings",
+		EmrReportingUtils.addRow(cohortDsd, "On_site_pre-ART_Transwoman",
 		    "On pre-ART people in closed settings received peer education",
-		    ReportUtils.map(moh731bIndicators.onSitePreART(IN_PRISONS), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(moh731bIndicators.onSitePreART(TRANSWOMAN), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
 		/**
@@ -983,12 +946,12 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		EmrReportingUtils.addRow(cohortDsd, "Off_site_pre-ART_PWUD", "Off site pre-ART Pwud",
 		    ReportUtils.map(moh731bIndicators.offSitePreART(PWUD), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Off_site_pre-ART_Transgender", "Off site pre-ART Transgender",
-		    ReportUtils.map(moh731bIndicators.offSitePreART(TRANSGENDER), indParams), kpAgeDisaggregation,
+		EmrReportingUtils.addRow(cohortDsd, "Off_site_pre-ART_Transman", "Off site pre-ART Transman",
+		    ReportUtils.map(moh731bIndicators.offSitePreART(TRANSMAN), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Off_site_pre-ART_Prisoners_closed_settings",
+		EmrReportingUtils.addRow(cohortDsd, "Off_site_pre-ART_Transwoman",
 		    "Off site pre-ART people in closed settings received peer education",
-		    ReportUtils.map(moh731bIndicators.offSitePreART(IN_PRISONS), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(moh731bIndicators.offSitePreART(TRANSWOMAN), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
 		/**
@@ -1004,11 +967,10 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.totalOnPreART(PWID), indParams), "");
 		cohortDsd.addColumn("Total_pre_ART_PWUD", "Pwud total on Pre-ART",
 		    ReportUtils.map(moh731bIndicators.totalOnPreART(PWUD), indParams), "");
-		cohortDsd.addColumn("Total_pre_ART_Transgender", "Transgender total on Pre-ART",
-		    ReportUtils.map(moh731bIndicators.totalOnPreART(TRANSGENDER), indParams), "");
-		cohortDsd.addColumn("Total_pre_ART_Prisoners_closed_settings",
-		    "Prisoners and people in closed settings total on Pre-ART",
-		    ReportUtils.map(moh731bIndicators.totalOnPreART(IN_PRISONS), indParams), "");
+		cohortDsd.addColumn("Total_pre_ART_Transman", "Transman total on Pre-ART",
+		    ReportUtils.map(moh731bIndicators.totalOnPreART(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Total_pre_ART_Transwoman", "Transwoman total on Pre-ART",
+		    ReportUtils.map(moh731bIndicators.totalOnPreART(TRANSWOMAN), indParams), "");
 		/**
 		 * 5.2 Starting ART On site Number of people of each KP type starting HAART for treatment at
 		 * this site within the reporting period.
@@ -1028,13 +990,13 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		EmrReportingUtils.addRow(cohortDsd, "On_site_Starting_ART_PWUD", "Pwud starting ART within the period on site",
 		    ReportUtils.map(moh731bIndicators.onSiteStartingART(PWUD), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "On_site_Starting_ART_Transgender",
-		    "Transgender starting ART within the period on site",
-		    ReportUtils.map(moh731bIndicators.onSiteStartingART(TRANSGENDER), indParams), kpAgeDisaggregation,
+		EmrReportingUtils.addRow(cohortDsd, "On_site_Starting_ART_Transman",
+		    "Transman starting ART within the period on site",
+		    ReportUtils.map(moh731bIndicators.onSiteStartingART(TRANSMAN), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "On_site_Starting_ART_Prisoners_closed_settings",
-		    "People in prisons and closed settings starting ART within the period on site ",
-		    ReportUtils.map(moh731bIndicators.onSiteStartingART(IN_PRISONS), indParams), kpAgeDisaggregation,
+		EmrReportingUtils.addRow(cohortDsd, "On_site_Starting_ART_Transwoman",
+		    "Transwoman starting ART within the period on site ",
+		    ReportUtils.map(moh731bIndicators.onSiteStartingART(TRANSWOMAN), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		/**
 		 * 5.2 Starting ART Off site Number of people of each KP type starting HAART for treatment
@@ -1055,13 +1017,13 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		EmrReportingUtils.addRow(cohortDsd, "Off_site_Starting_ART_PWUD", "Pwud starting ART within the period off-site",
 		    ReportUtils.map(moh731bIndicators.offSiteStartingART(PWUD), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Off_site_Starting_ART_Transgender",
-		    "Transgender starting ART within the period off-site",
-		    ReportUtils.map(moh731bIndicators.offSiteStartingART(TRANSGENDER), indParams), kpAgeDisaggregation,
+		EmrReportingUtils.addRow(cohortDsd, "Off_site_Starting_ART_Transman",
+		    "Transman starting ART within the period off-site",
+		    ReportUtils.map(moh731bIndicators.offSiteStartingART(TRANSMAN), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Off_site_Starting_ART_Prisoners_closed_settings",
-		    "People in prisons and closed settings starting ART within the period off-site",
-		    ReportUtils.map(moh731bIndicators.offSiteStartingART(IN_PRISONS), indParams), kpAgeDisaggregation,
+		EmrReportingUtils.addRow(cohortDsd, "Off_site_Starting_ART_Transwoman",
+		    "Transwoman starting ART within the period off-site",
+		    ReportUtils.map(moh731bIndicators.offSiteStartingART(TRANSWOMAN), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
 		/**
@@ -1077,11 +1039,10 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.totalStartingART(PWID), indParams), "");
 		cohortDsd.addColumn("Total_starting_ART_PWUD", "Pwud total starting ART",
 		    ReportUtils.map(moh731bIndicators.totalStartingART(PWUD), indParams), "");
-		cohortDsd.addColumn("Total_starting_ART_Transgender", "Transgender total starting ART",
-		    ReportUtils.map(moh731bIndicators.totalStartingART(TRANSGENDER), indParams), "");
-		cohortDsd.addColumn("Total_starting_ART_Prisoners_closed_settings",
-		    "Prisoners and people in closed settings total starting ART",
-		    ReportUtils.map(moh731bIndicators.totalStartingART(IN_PRISONS), indParams), "");
+		cohortDsd.addColumn("Total_starting_ART_Transman", "Transman total starting ART",
+		    ReportUtils.map(moh731bIndicators.totalStartingART(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Total_starting_ART_Transwoman", "Transwoman total starting ART",
+		    ReportUtils.map(moh731bIndicators.totalStartingART(TRANSWOMAN), indParams), "");
 		
 		/**
 		 * 5.3 Current ART On site Number of people in each KP type who: 1. started therapy on site
@@ -1110,13 +1071,13 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    "Pwud currently on ART on site within the period",
 		    ReportUtils.map(moh731bIndicators.currentlyOnARTOnSite(PWUD), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "On_site_currently_on_ART_Transgender",
-		    "Transgender currently on ART on site within the period",
-		    ReportUtils.map(moh731bIndicators.currentlyOnARTOnSite(TRANSGENDER), indParams), kpAgeDisaggregation,
+		EmrReportingUtils.addRow(cohortDsd, "On_site_currently_on_ART_Transman",
+		    "Transman currently on ART on site within the period",
+		    ReportUtils.map(moh731bIndicators.currentlyOnARTOnSite(TRANSMAN), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "On_site_currently_on_ART_Prisoners_closed_settings",
-		    "People in prisons and closed settings currently on ART on site within the period ",
-		    ReportUtils.map(moh731bIndicators.currentlyOnARTOnSite(IN_PRISONS), indParams), kpAgeDisaggregation,
+		EmrReportingUtils.addRow(cohortDsd, "On_site_currently_on_ART_Transwoman",
+		    "Transwoman currently on ART on site within the period ",
+		    ReportUtils.map(moh731bIndicators.currentlyOnARTOnSite(TRANSWOMAN), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
 		/**
@@ -1146,40 +1107,32 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    "Pwud currently on ART off site within the period",
 		    ReportUtils.map(moh731bIndicators.currentlyOnARTOffSite(PWUD), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Off_site_currently_on_ART_Transgender",
-		    "Transgender currently on ART off site within the period",
-		    ReportUtils.map(moh731bIndicators.currentlyOnARTOffSite(TRANSGENDER), indParams), kpAgeDisaggregation,
+		EmrReportingUtils.addRow(cohortDsd, "Off_site_currently_on_ART_Transman",
+		    "Transman currently on ART off site within the period",
+		    ReportUtils.map(moh731bIndicators.currentlyOnARTOffSite(TRANSMAN), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Off_site_currently_on_ART_Prisoners_closed_settings",
-		    "People in prisons and closed settings currently on ART off site within the period ",
-		    ReportUtils.map(moh731bIndicators.currentlyOnARTOffSite(IN_PRISONS), indParams), kpAgeDisaggregation,
+		EmrReportingUtils.addRow(cohortDsd, "Off_site_currently_on_ART_Transwoman",
+		    "Transwoman currently on ART off site within the period ",
+		    ReportUtils.map(moh731bIndicators.currentlyOnARTOffSite(TRANSWOMAN), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
 		/**
 		 * Total currently on ART
 		 */
-		EmrReportingUtils.addRow(cohortDsd, "Total_currently_ART_FSW", "Total Fsw currently on ART",
-		    ReportUtils.map(moh731bIndicators.totalCurrentlyOnART(FSW), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Total_currently_ART_MSM", "Total Msm currently on ART",
-		    ReportUtils.map(moh731bIndicators.totalCurrentlyOnART(MSM), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Total_currently_ART_MSW", "Total Msw currently on ART",
-		    ReportUtils.map(moh731bIndicators.totalCurrentlyOnART(MSW), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Total_currently_ART_PWID", "Total Pwid currently on ART",
-		    ReportUtils.map(moh731bIndicators.totalCurrentlyOnART(PWID), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Total_currently_ART_PWUD", "Total Pwud currently on ART",
-		    ReportUtils.map(moh731bIndicators.totalCurrentlyOnART(PWUD), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Total_currently_ART_Transgender", "Total Transgender currently on ART",
-		    ReportUtils.map(moh731bIndicators.totalCurrentlyOnART(TRANSGENDER), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Total_currently_ART_Prisoners_closed_settings",
-		    "Total Prisoners and people in closed settings currently on ART ",
-		    ReportUtils.map(moh731bIndicators.totalCurrentlyOnART(IN_PRISONS), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04", "05"));
+		cohortDsd.addColumn("Total_currently_ART_FSW", "Total Fsw currently on ART",
+		    ReportUtils.map(moh731bIndicators.totalCurrentlyOnART(FSW), indParams), "");
+		cohortDsd.addColumn("Total_currently_ART_MSM", "Total Msm currently on ART",
+		    ReportUtils.map(moh731bIndicators.totalCurrentlyOnART(MSM), indParams), "");
+		cohortDsd.addColumn("Total_currently_ART_MSW", "Total Msw currently on ART",
+		    ReportUtils.map(moh731bIndicators.totalCurrentlyOnART(MSW), indParams), "");
+		cohortDsd.addColumn("Total_currently_ART_PWID", "Total Pwid currently on ART",
+		    ReportUtils.map(moh731bIndicators.totalCurrentlyOnART(PWID), indParams), "");
+		cohortDsd.addColumn("Total_currently_ART_PWUD", "Total Pwud currently on ART",
+		    ReportUtils.map(moh731bIndicators.totalCurrentlyOnART(PWUD), indParams), "");
+		cohortDsd.addColumn("Total_currently_ART_Transman", "Total Transman currently on ART",
+		    ReportUtils.map(moh731bIndicators.totalCurrentlyOnART(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Total_currently_ART_Transwoman", "Total Transwoman currently on ART",
+		    ReportUtils.map(moh731bIndicators.totalCurrentlyOnART(TRANSWOMAN), indParams), "");
 		
 		// 5.4 Retention on ART
 		/**
@@ -1196,11 +1149,10 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.onARTAt12MonthsOnsite(PWID), indParams), "");
 		cohortDsd.addColumn("On_ART_At_12_Months_Onsite_PWUD", "Pwud on ART at 12 months - Onsite",
 		    ReportUtils.map(moh731bIndicators.onARTAt12MonthsOnsite(PWUD), indParams), "");
-		cohortDsd.addColumn("On_ART_At_12_Months_Onsite_Transgender", "Transgender on ART at 12 months - Onsite",
-		    ReportUtils.map(moh731bIndicators.onARTAt12MonthsOnsite(TRANSGENDER), indParams), "");
-		cohortDsd.addColumn("On_ART_At_12_Months_Onsite_Prisoners_closed_settings",
-		    "Prisoners and people in closed settings on ART at 12 months - Onsite",
-		    ReportUtils.map(moh731bIndicators.onARTAt12MonthsOnsite(IN_PRISONS), indParams), "");
+		cohortDsd.addColumn("On_ART_At_12_Months_Onsite_Transman", "Transman on ART at 12 months - Onsite",
+		    ReportUtils.map(moh731bIndicators.onARTAt12MonthsOnsite(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("On_ART_At_12_Months_Onsite_Transwoman", "Transwoman on ART at 12 months - Onsite",
+		    ReportUtils.map(moh731bIndicators.onARTAt12MonthsOnsite(TRANSWOMAN), indParams), "");
 		
 		/**
 		 * Net cohort at 12 months : On-site This refers to the number of clients started ART in the
@@ -1218,11 +1170,10 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.netCohortAt12MonthsOnsite(PWID), indParams), "");
 		cohortDsd.addColumn("Net_Cohort_At_12_Months_Onsite_PWUD", "Pwud net cohort at 12 months - Onsite",
 		    ReportUtils.map(moh731bIndicators.netCohortAt12MonthsOnsite(PWUD), indParams), "");
-		cohortDsd.addColumn("Net_Cohort_At_12_Months_Onsite_Transgender", "Transgender net cohort at 12 months - Onsite",
-		    ReportUtils.map(moh731bIndicators.netCohortAt12MonthsOnsite(TRANSGENDER), indParams), "");
-		cohortDsd.addColumn("Net_Cohort_At_12_Months_Onsite_Prisoners_closed_settings",
-		    "Prisoners and people in closed settings net cohort at 12 months - Onsite",
-		    ReportUtils.map(moh731bIndicators.netCohortAt12MonthsOnsite(IN_PRISONS), indParams), "");
+		cohortDsd.addColumn("Net_Cohort_At_12_Months_Onsite_Transman", "Transman net cohort at 12 months - Onsite",
+		    ReportUtils.map(moh731bIndicators.netCohortAt12MonthsOnsite(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Net_Cohort_At_12_Months_Onsite_Transwoman", "Transwoman net cohort at 12 months - Onsite",
+		    ReportUtils.map(moh731bIndicators.netCohortAt12MonthsOnsite(TRANSWOMAN), indParams), "");
 		
 		// 5.5 Viral Load Tracking
 		/**
@@ -1240,11 +1191,10 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.viralLoad12MonthsOnsite(PWID), indParams), "");
 		cohortDsd.addColumn("Viral_Load_12_Months_Onsite_PWUD", "Pwud viral load 12 months - Onsite",
 		    ReportUtils.map(moh731bIndicators.viralLoad12MonthsOnsite(PWUD), indParams), "");
-		cohortDsd.addColumn("Viral_Load_12_Months_Onsite_Transgender", "Transgender viral load 12 months - Onsite",
-		    ReportUtils.map(moh731bIndicators.viralLoad12MonthsOnsite(TRANSGENDER), indParams), "");
-		cohortDsd.addColumn("Viral_Load_12_Months_Onsite_Prisoners_closed_settings",
-		    "Prisoners and people in closed settings viral load 12 months - Onsite",
-		    ReportUtils.map(moh731bIndicators.viralLoad12MonthsOnsite(IN_PRISONS), indParams), "");
+		cohortDsd.addColumn("Viral_Load_12_Months_Onsite_Transman", "Transman viral load 12 months - Onsite",
+		    ReportUtils.map(moh731bIndicators.viralLoad12MonthsOnsite(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Viral_Load_12_Months_Onsite_Transwoman", "Transwoman viral load 12 months - Onsite",
+		    ReportUtils.map(moh731bIndicators.viralLoad12MonthsOnsite(TRANSWOMAN), indParams), "");
 		
 /**
 		 * Viral load <1000_12mths: On-site
@@ -1266,12 +1216,12 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		cohortDsd.addColumn("Suppressed_Viral_Load_12_Months_Onsite_PWUD",
 		    "Pwud viral load < 1000 cps/ml 12 months cohort - Onsite",
 		    ReportUtils.map(moh731bIndicators.suppressedViralLoad12MonthsCohortOnsite(PWUD), indParams), "");
-		cohortDsd.addColumn("Suppressed_Viral_Load_12_Months_Onsite_Transgender",
-		    "Transgender viral load < 1000 cps/ml 12 months cohort - Onsite",
-		    ReportUtils.map(moh731bIndicators.suppressedViralLoad12MonthsCohortOnsite(TRANSGENDER), indParams), "");
-		cohortDsd.addColumn("Suppressed_Viral_Load_12_Months_Onsite_Prisoners_closed_settings",
-		    "Prisoners and people in closed settings viral load < 1000 cps/ml 12 months cohort - Onsite",
-		    ReportUtils.map(moh731bIndicators.suppressedViralLoad12MonthsCohortOnsite(IN_PRISONS), indParams), "");
+		cohortDsd.addColumn("Suppressed_Viral_Load_12_Months_Onsite_Transman",
+		    "Transman viral load < 1000 cps/ml 12 months cohort - Onsite",
+		    ReportUtils.map(moh731bIndicators.suppressedViralLoad12MonthsCohortOnsite(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Suppressed_Viral_Load_12_Months_Onsite_Transwoman",
+		    "Transwoman viral load < 1000 cps/ml 12 months cohort - Onsite",
+		    ReportUtils.map(moh731bIndicators.suppressedViralLoad12MonthsCohortOnsite(TRANSWOMAN), indParams), "");
 		
 		/**
 		 * Viral load result_12mths: Off-site Number of people in the 12-month cohort in each KP
@@ -1288,11 +1238,10 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.viralLoad12MonthsOffsite(PWID), indParams), "");
 		cohortDsd.addColumn("Viral_Load_12_Months_Offsite_PWUD", "Pwud viral load 12 months - Offsite",
 		    ReportUtils.map(moh731bIndicators.viralLoad12MonthsOffsite(PWUD), indParams), "");
-		cohortDsd.addColumn("Viral_Load_12_Months_Offsite_Transgender", "Transgender viral load 12 months - Offsite",
-		    ReportUtils.map(moh731bIndicators.viralLoad12MonthsOffsite(TRANSGENDER), indParams), "");
-		cohortDsd.addColumn("Viral_Load_12_Months_Offsite_Prisoners_closed_settings",
-		    "Prisoners and people in closed settings viral load 12 months - Offsite",
-		    ReportUtils.map(moh731bIndicators.viralLoad12MonthsOffsite(IN_PRISONS), indParams), "");
+		cohortDsd.addColumn("Viral_Load_12_Months_Offsite_Transman", "Transman viral load 12 months - Offsite",
+		    ReportUtils.map(moh731bIndicators.viralLoad12MonthsOffsite(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Viral_Load_12_Months_Offsite_Transwoman", "Transwoman viral load 12 months - Offsite",
+		    ReportUtils.map(moh731bIndicators.viralLoad12MonthsOffsite(TRANSWOMAN), indParams), "");
 		
 /**
 		 * Viral load <1000_12mths: Off-site
@@ -1314,12 +1263,12 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		cohortDsd.addColumn("Suppressed_Viral_Load_12_Months_Offsite_PWUD",
 		    "Pwud viral load < 1000 cps/ml 12 months cohort - Offsite",
 		    ReportUtils.map(moh731bIndicators.suppressedViralLoad12MonthsCohortOffsite(PWUD), indParams), "");
-		cohortDsd.addColumn("Suppressed_Viral_Load_12_Months_Offsite_Transgender",
-		    "Transgender viral load < 1000 cps/ml 12 months cohort - Offsite",
-		    ReportUtils.map(moh731bIndicators.suppressedViralLoad12MonthsCohortOffsite(TRANSGENDER), indParams), "");
-		cohortDsd.addColumn("Suppressed_Viral_Load_12_Months_Offsite_Prisoners_closed_settings",
-		    "Prisoners and people in closed settings viral load < 1000 cps/ml 12 months cohort - Offsite",
-		    ReportUtils.map(moh731bIndicators.suppressedViralLoad12MonthsCohortOffsite(IN_PRISONS), indParams), "");
+		cohortDsd.addColumn("Suppressed_Viral_Load_12_Months_Offsite_Transman",
+		    "Transman viral load < 1000 cps/ml 12 months cohort - Offsite",
+		    ReportUtils.map(moh731bIndicators.suppressedViralLoad12MonthsCohortOffsite(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Suppressed_Viral_Load_12_Months_Offsite_Transwoman",
+		    "Transwoman viral load < 1000 cps/ml 12 months cohort - Offsite",
+		    ReportUtils.map(moh731bIndicators.suppressedViralLoad12MonthsCohortOffsite(TRANSWOMAN), indParams), "");
 		
 		// 7.0 Overdose
 		/**
@@ -1343,15 +1292,6 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		 */
 		cohortDsd.addColumn("Overdose_Deaths", "Number of deaths due to overdose",
 		    ReportUtils.map(moh731bIndicators.overdoseDeaths(), indParams), "");
-		/*
-
-				MOH731BPlusSubCountyBasedCohortDefinition cd = new MOH731BPlusSubCountyBasedCohortDefinition();
-				cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
-				cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-				cd.addParameter(new Parameter("subCounty", "Sub County", Date.class));
-
-				cohortDsd.addRowFilter(cd, paramMapping);
-				*/
 		
 		return cohortDsd;
 		
