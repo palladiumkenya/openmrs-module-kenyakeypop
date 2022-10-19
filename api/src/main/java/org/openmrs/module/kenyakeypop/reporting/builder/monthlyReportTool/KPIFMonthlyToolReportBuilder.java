@@ -54,11 +54,15 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 	
 	public static final String IN_PRISONS = "People in prison and other closed settings";
 	
+	ColumnParameters female = new ColumnParameters(null, "F", "gender=F");
+	
+	ColumnParameters male = new ColumnParameters(null, "M", "gender=M");
+	
 	ColumnParameters below_15 = new ColumnParameters(null, "<15", "age=<15");
 	
 	ColumnParameters below_15_f = new ColumnParameters(null, "<15, Female", "gender=F|age=<15");
 	
-	ColumnParameters below_15_m = new ColumnParameters(null, "<15, Male", "gender=M|age=<15");
+	ColumnParameters below_15_m = new ColumnParameters(null, "<15, Male", "gender=F|age=<15");
 	
 	ColumnParameters kp15_to_19 = new ColumnParameters(null, "15-19", "age=15-19");
 	
@@ -79,6 +83,8 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 	ColumnParameters kp25_and_above_m = new ColumnParameters(null, "25+, Male", "gender=M|age=25+");
 	
 	ColumnParameters colTotal = new ColumnParameters(null, "Total", "");
+	
+	List<ColumnParameters> kpGenderDisaggregation = Arrays.asList(female, male);
 	
 	List<ColumnParameters> kpAgeDisaggregation = Arrays.asList(below_15, kp15_to_19, kp20_to_24, kp25_and_above);
 	
@@ -1277,6 +1283,19 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		EmrReportingUtils.addRow(cohortDsd, "PrEP_CURR_DICE", "KPs currently on PrEP in this DICE",
 		    ReportUtils.map(monthlyReportIndicator.kpPrepCurrDice(IN_PRISONS), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
+		//62. MAT
+		EmrReportingUtils.addRow(cohortDsd, "MAT_EVER", "Number ever put on MAT",
+		    ReportUtils.map(monthlyReportIndicator.kpEverOnMat(PWID), indParams), kpGenderDisaggregation,
+		    Arrays.asList("01", "02"));
+		EmrReportingUtils.addRow(cohortDsd, "MAT_PREPARED", "Number prepared for induction of MAT",
+		    ReportUtils.map(monthlyReportIndicator.kpMatPrepared(PWID), indParams), kpGenderDisaggregation,
+		    Arrays.asList("01", "02"));
+		EmrReportingUtils.addRow(cohortDsd, "MAT_ELIGIBLE", "Number of PWID eligible for MAT",
+		    ReportUtils.map(monthlyReportIndicator.kpMatEligible(PWID), indParams), kpGenderDisaggregation,
+		    Arrays.asList("01", "02"));
+		EmrReportingUtils.addRow(cohortDsd, "MAT_NEW", "Number newly started on MAT",
+		    ReportUtils.map(monthlyReportIndicator.kpMatNew(PWID), indParams), kpGenderDisaggregation,
+		    Arrays.asList("01", "02"));
 		
 		return cohortDsd;
 	}
