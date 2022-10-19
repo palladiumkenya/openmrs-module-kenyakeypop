@@ -1271,16 +1271,52 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.kpOnMultiMonthART(TG), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		//61. PrEP
-		EmrReportingUtils.addRow(cohortDsd, "PrEP_SCREEN", "HIV negative KP Screened PrEP",
+		EmrReportingUtils.addRow(cohortDsd, "PrEP_SCREEN_FSW", "HIV negative FSW KP Screened PrEP",
 		    ReportUtils.map(monthlyReportIndicator.kpPrepScreened(FSW), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
-		EmrReportingUtils.addRow(cohortDsd, "PrEP_ELIGIBLE", "Eligible for PrEP among screened",
+		EmrReportingUtils.addRow(cohortDsd, "PrEP_SCREEN_MSM", "HIV negative MSM KP Screened PrEP",
+		    ReportUtils.map(monthlyReportIndicator.kpPrepScreened(MSM), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04"));
+		EmrReportingUtils.addRow(cohortDsd, "PrEP_SCREEN_PWID", "HIV negative PWID KP Screened PrEP",
+		    ReportUtils.map(monthlyReportIndicator.kpPrepScreened(PWID), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04"));
+		EmrReportingUtils.addRow(cohortDsd, "PrEP_SCREEN_IN_PRISONS", "HIV negative prisoner KP Screened PrEP",
+		    ReportUtils.map(monthlyReportIndicator.kpPrepScreened(IN_PRISONS), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04"));
+		EmrReportingUtils.addRow(cohortDsd, "PrEP_ELIGIBLE_FSW", "Eligible FSW for PrEP among screened",
+		    ReportUtils.map(monthlyReportIndicator.kpPrepEligible(FSW), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04"));
+		EmrReportingUtils.addRow(cohortDsd, "PrEP_ELIGIBLE_MSM", "Eligible MSM for PrEP among screened",
 		    ReportUtils.map(monthlyReportIndicator.kpPrepEligible(MSM), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
-		EmrReportingUtils.addRow(cohortDsd, "PrEP_NEW_DICE", "Started on PrEP in this DICE",
+		EmrReportingUtils.addRow(cohortDsd, "PrEP_ELIGIBLE_PWID", "Eligible PWID for PrEP among screened",
+		    ReportUtils.map(monthlyReportIndicator.kpPrepEligible(PWID), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04"));
+		EmrReportingUtils.addRow(cohortDsd, "PrEP_ELIGIBLE_IN_PRISONS", "Eligible prisoner for PrEP among screened",
+		    ReportUtils.map(monthlyReportIndicator.kpPrepEligible(IN_PRISONS), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04"));
+		EmrReportingUtils.addRow(cohortDsd, "PrEP_NEW_DICE_FSW", "Started FSW on PrEP in this DICE",
+		    ReportUtils.map(monthlyReportIndicator.kpPrepNewDice(FSW), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04"));
+		EmrReportingUtils.addRow(cohortDsd, "PrEP_NEW_DICE_MSM", "Started MSM on PrEP in this DICE",
+		    ReportUtils.map(monthlyReportIndicator.kpPrepNewDice(MSM), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04"));
+		EmrReportingUtils.addRow(cohortDsd, "PrEP_NEW_DICE_PWID", "Started PWID on PrEP in this DICE",
 		    ReportUtils.map(monthlyReportIndicator.kpPrepNewDice(PWID), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
-		EmrReportingUtils.addRow(cohortDsd, "PrEP_CURR_DICE", "KPs currently on PrEP in this DICE",
+		EmrReportingUtils.addRow(cohortDsd, "PrEP_NEW_DICE_IN_PRISONS", "Prisoner Started on PrEP in this DICE",
+		    ReportUtils.map(monthlyReportIndicator.kpPrepNewDice(IN_PRISONS), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04"));
+		EmrReportingUtils.addRow(cohortDsd, "PrEP_CURR_DICE_FSW", "FSW KPs currently on PrEP in this DICE",
+		    ReportUtils.map(monthlyReportIndicator.kpPrepCurrDice(FSW), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04"));
+		EmrReportingUtils.addRow(cohortDsd, "PrEP_CURR_DICE_MSM", "MSM KPs currently on PrEP in this DICE",
+		    ReportUtils.map(monthlyReportIndicator.kpPrepCurrDice(MSM), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04"));
+		EmrReportingUtils.addRow(cohortDsd, "PrEP_CURR_DICE_PWID", "PWID KPs currently on PrEP in this DICE",
+		    ReportUtils.map(monthlyReportIndicator.kpPrepCurrDice(PWID), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04"));
+		EmrReportingUtils.addRow(cohortDsd, "PrEP_CURR_DICE_IN_PRISONS", "Prisoner KPs currently on PrEP in this DICE",
 		    ReportUtils.map(monthlyReportIndicator.kpPrepCurrDice(IN_PRISONS), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		//62. MAT
