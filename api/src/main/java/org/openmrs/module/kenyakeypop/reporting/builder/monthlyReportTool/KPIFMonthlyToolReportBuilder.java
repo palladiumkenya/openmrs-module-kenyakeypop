@@ -1283,6 +1283,9 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		EmrReportingUtils.addRow(cohortDsd, "PrEP_SCREEN_IN_PRISONS", "HIV negative prisoner KP Screened PrEP",
 		    ReportUtils.map(monthlyReportIndicator.kpPrepScreened(IN_PRISONS), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
+		EmrReportingUtils.addRow(cohortDsd, "PrEP_SCREEN_TG", "HIV negative TG KP Screened PrEP",
+				ReportUtils.map(monthlyReportIndicator.kpPrepScreened(TG), indParams), kpAgeDisaggregation,
+				Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "PrEP_ELIGIBLE_FSW", "Eligible FSW for PrEP among screened",
 		    ReportUtils.map(monthlyReportIndicator.kpPrepEligible(FSW), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
@@ -1295,6 +1298,9 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		EmrReportingUtils.addRow(cohortDsd, "PrEP_ELIGIBLE_IN_PRISONS", "Eligible prisoner for PrEP among screened",
 		    ReportUtils.map(monthlyReportIndicator.kpPrepEligible(IN_PRISONS), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
+		EmrReportingUtils.addRow(cohortDsd, "PrEP_ELIGIBLE_TG", "Eligible transgender for PrEP among screened",
+				ReportUtils.map(monthlyReportIndicator.kpPrepEligible(TG), indParams), kpAgeDisaggregation,
+				Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "PrEP_NEW_DICE_FSW", "Started FSW on PrEP in this DICE",
 		    ReportUtils.map(monthlyReportIndicator.kpPrepNewDice(FSW), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
@@ -1307,6 +1313,9 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		EmrReportingUtils.addRow(cohortDsd, "PrEP_NEW_DICE_IN_PRISONS", "Prisoner Started on PrEP in this DICE",
 		    ReportUtils.map(monthlyReportIndicator.kpPrepNewDice(IN_PRISONS), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
+		EmrReportingUtils.addRow(cohortDsd, "PrEP_NEW_DICE_IN_TG", "Transgender Started on PrEP in this DICE",
+				ReportUtils.map(monthlyReportIndicator.kpPrepNewDice(TG), indParams), kpAgeDisaggregation,
+				Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "PrEP_CURR_DICE_FSW", "FSW KPs currently on PrEP in this DICE",
 		    ReportUtils.map(monthlyReportIndicator.kpPrepCurrDice(FSW), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
@@ -1319,6 +1328,9 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		EmrReportingUtils.addRow(cohortDsd, "PrEP_CURR_DICE_IN_PRISONS", "Prisoner KPs currently on PrEP in this DICE",
 		    ReportUtils.map(monthlyReportIndicator.kpPrepCurrDice(IN_PRISONS), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
+		EmrReportingUtils.addRow(cohortDsd, "PrEP_CURR_DICE_IN_TG", "Transgender KPs currently on PrEP in this DICE",
+				ReportUtils.map(monthlyReportIndicator.kpPrepCurrDice(TG), indParams), kpAgeDisaggregation,
+				Arrays.asList("01", "02", "03", "04"));
 		//62. MAT
 		EmrReportingUtils.addRow(cohortDsd, "MAT_EVER", "Number ever put on MAT",
 		    ReportUtils.map(monthlyReportIndicator.kpEverOnMat(PWID), indParams), kpGenderDisaggregation,
