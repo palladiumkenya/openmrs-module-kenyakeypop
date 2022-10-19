@@ -1468,10 +1468,10 @@ public class MonthlyReportCohortLibrary {
 	 */
 	public CohortDefinition kpEverOnMat(String kpType) {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c\n"
-		        + "  inner join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id where c.key_population_type = '"
-		        + kpType + "'\n" + "   and v.voided = 0 and v.mat_treated = 'Yes'\n" + "group by c.client_id\n"
-		        + "having  max(date(v.visit_date)) between date(:startDate) and date(:endDate);";
+		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c\n" +
+                "  inner join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id where c.key_population_type = '" + kpType + "'\n" +
+                "    and v.voided = 0 and v.mat_treated = 'Yes' and  date(v.visit_date) <= date(:endDate)\n" +
+                "group by c.client_id;";
 		cd.setName("kpEverOnMat");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
