@@ -1313,9 +1313,15 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		EmrReportingUtils.addRow(cohortDsd, "PrEP_NEW_DICE_IN_PRISONS", "Prisoner Started on PrEP in this DICE",
 		    ReportUtils.map(monthlyReportIndicator.kpPrepNewDice(IN_PRISONS), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
+<<<<<<< HEAD
 		EmrReportingUtils.addRow(cohortDsd, "PrEP_NEW_DICE_TG", "Transgender Started on PrEP in this DICE",
 				ReportUtils.map(monthlyReportIndicator.kpPrepNewDice(TG), indParams), kpAgeDisaggregation,
 				Arrays.asList("01", "02", "03", "04"));
+=======
+		EmrReportingUtils.addRow(cohortDsd, "PrEP_NEW_DICE_IN_TG", "Transgender Started on PrEP in this DICE",
+		    ReportUtils.map(monthlyReportIndicator.kpPrepNewDice(TG), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04"));
+>>>>>>> Updated kp contact form added priority pop to be able to save without adding Unique kp Number
 		EmrReportingUtils.addRow(cohortDsd, "PrEP_CURR_DICE_FSW", "FSW KPs currently on PrEP in this DICE",
 		    ReportUtils.map(monthlyReportIndicator.kpPrepCurrDice(FSW), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
@@ -1328,9 +1334,15 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		EmrReportingUtils.addRow(cohortDsd, "PrEP_CURR_DICE_IN_PRISONS", "Prisoner KPs currently on PrEP in this DICE",
 		    ReportUtils.map(monthlyReportIndicator.kpPrepCurrDice(IN_PRISONS), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
+<<<<<<< HEAD
 		EmrReportingUtils.addRow(cohortDsd, "PrEP_CURR_DICE_TG", "Transgender KPs currently on PrEP in this DICE",
 				ReportUtils.map(monthlyReportIndicator.kpPrepCurrDice(TG), indParams), kpAgeDisaggregation,
 				Arrays.asList("01", "02", "03", "04"));
+=======
+		EmrReportingUtils.addRow(cohortDsd, "PrEP_CURR_DICE_IN_TG", "Transgender KPs currently on PrEP in this DICE",
+		    ReportUtils.map(monthlyReportIndicator.kpPrepCurrDice(TG), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04"));
+>>>>>>> Updated kp contact form added priority pop to be able to save without adding Unique kp Number
 		//62. MAT
 		EmrReportingUtils.addRow(cohortDsd, "MAT_EVER", "Number ever put on MAT",
 		    ReportUtils.map(monthlyReportIndicator.kpEverOnMat(PWID), indParams), kpGenderDisaggregation,
