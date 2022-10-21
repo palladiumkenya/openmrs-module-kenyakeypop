@@ -271,6 +271,7 @@
                     jq('#upn :input').prop('disabled', true);
                     jq('.ke-program-followup-button').hide();
                 }else{
+                    jq('#kp-id :input').show();
                     jq('#kp-id :input').prop('disabled', false);
                     jq('#upn :input').prop('disabled', false);
                     jq('.ke-program-followup-button').show();
@@ -494,13 +495,12 @@
             }else{
                 getField('hotspot_frequented.error').html('Please provide hot spot name mostly frequented.').hide();
             }
-
             if (keyPopType != 1175) {
                 if (kpUPN == "" || kpUPN == false) {
-                    jq('#kp-id').html('Please provide or generate UPN.').show();
+                    jq('#required-star').html('Please provide or generate UPN.').show();
                     return false;
                 } else {
-                    jq('#kp-id').html('Please provide or generate UPN.').hide();
+                    jq('#required-star').html('Please provide or generate UPN.').hide();
                 }
             }
         });
@@ -678,10 +678,13 @@
                     jq("#people_inject_drugs").hide();
                 }
                 if(kpType == 1175){
+                    jq('#kp-id').hide();
+                    jq('#required-star').hide();
                     jq('#kp-id :input').prop('disabled', true);
                     jq('#upn :input').prop('disabled', true);
                     jq('.ke-program-followup-button').hide();
                 }else{
+                    jq('#kp-id').show();
                     jq('#kp-id :input').prop('disabled', false);
                     jq('#upn :input').prop('disabled', false);
                     jq('.ke-program-followup-button').show();
