@@ -13,7 +13,7 @@
 -->
 <htmlform>
     <macros>
-        <macro key="countyNames" value="Nairobi,Mombasa,Kilifi,Kwale,Homa-Bay,Kisumu,Migori,Kisii,Uasin-Gishu,Bomet,Busia,Kiambu,Nyeri,Muranga,Kirinyaga,Nyandarua,Machakos,Kitui,Makueni,Embu,Meru,Isiolo,Marsabit,Turkana,Mandera,Lamu,West Pokot,Bungoma,Vihiga,Kakamega,Siaya,Nyamira,Kericho,Trans Nzoia,Nakuru,Laikipia,Tharaka Nith,Garissa,Taita Taveta,Tana River,Samburu,Elgeyo Marakwet,Nandi,Baringo,Narok,Kajiado,Wajir" />
+        <macro key="countyNames" value="Nairobi,Mombasa,Kilifi,Kwale,Homa Bay,Kisumu,Migori,Kisii,Uasin-Gishu,Bomet,Busia,Kiambu,Nyeri,Muranga,Kirinyaga,Nyandarua,Machakos,Kitui,Makueni,Embu,Meru,Isiolo,Marsabit,Turkana,Mandera,Lamu,West Pokot,Bungoma,Vihiga,Kakamega,Siaya,Nyamira,Kericho,Trans Nzoia,Nakuru,Laikipia,Tharaka Nith,Garissa,Taita Taveta,Tana River,Samburu,Elgeyo Marakwet,Nandi,Baringo,Narok,Kajiado,Wajir" />
         <macro key="subCountyList" value="Select County"/>
         <macro key="wardList" value="Select Sub-County"/>
     </macros>
@@ -119,6 +119,9 @@
             }else {
                     getField('usingDrugs.value').val('');
             }
+            jq('#kp-id :input').prop('disabled', false);
+            jq('#upn :input').prop('disabled', false);
+            jq('.ke-program-followup-button').show();
 
             jq("#other-hotspots-specify").hide();
             jq('#hotspot-type select').click(onOtherHotspotSelected);
@@ -260,6 +263,18 @@
                     jq("#people_inject_drugs").show();
                 }else {
                     jq("#people_inject_drugs").hide();
+                }
+                if(val == 1175){
+                    jq('#kp-id :input').hide();
+                    jq('#required-star').hide();
+                    jq('#kp-id :input').prop('disabled', true);
+                    jq('#upn :input').prop('disabled', true);
+                    jq('.ke-program-followup-button').hide();
+                }else{
+                    jq('#kp-id :input').show();
+                    jq('#kp-id :input').prop('disabled', false);
+                    jq('#upn :input').prop('disabled', false);
+                    jq('.ke-program-followup-button').show();
                 }
 
 
@@ -411,6 +426,7 @@
 
         beforeSubmit.push(function() {
             var hotspot_frequented = getField('hotspot_frequented.value').val();
+            var kpUPN = jq('#kp-id input[type=text]').val();
             var start_sex = getField("startSex.value").val();
             var sex_with_men = getField("sexWithMen.value").val();
             var using_drugs = getField("usingDrugs.value").val();
@@ -473,11 +489,19 @@
                 getField('key_pop_type.error').html('Please provide key population type.').hide();
             }
 
-            if (hotspot_frequented == "") {
+            if (keyPopType != 1175 &amp;&amp; hotspot_frequented == "") {
                 getField('hotspot_frequented.error').html('Please provide hot spot name mostly frequented.').show();
                 return false;
             }else{
                 getField('hotspot_frequented.error').html('Please provide hot spot name mostly frequented.').hide();
+            }
+            if (keyPopType != 1175) {
+                if (kpUPN == "" || kpUPN == false) {
+                    jq('#required-star').html('Please provide or generate UPN.').show();
+                    return false;
+                } else {
+                    jq('#required-star').html('Please provide or generate UPN.').hide();
+                }
             }
         });
 
@@ -653,6 +677,18 @@
                 }else {
                     jq("#people_inject_drugs").hide();
                 }
+                if(kpType == 1175){
+                    jq('#kp-id').hide();
+                    jq('#required-star').hide();
+                    jq('#kp-id :input').prop('disabled', true);
+                    jq('#upn :input').prop('disabled', true);
+                    jq('.ke-program-followup-button').hide();
+                }else{
+                    jq('#kp-id').show();
+                    jq('#kp-id :input').prop('disabled', false);
+                    jq('#upn :input').prop('disabled', false);
+                    jq('.ke-program-followup-button').show();
+                }
 
                 if(peerEducator ==1065){
                     jq("#program_name").show();
@@ -711,8 +747,8 @@
                     <td>Key Population Type</td>
                     <td colspan="3">
                         <obs id="key_pop_type" conceptId="164929"
-                             answerConceptIds="165083,160578,165084,105,165085,165100,162277"
-                             answerLabels="FSW,MSM,MSW,PWID,PWUD,Transgender,Prisoner"
+                             answerConceptIds="165083,160578,165084,105,165085,165100,162277,1175"
+                             answerLabels="FSW,MSM,MSW,PWID,PWUD,Transgender,Prisoner,Not applicable"
                              style="radio" />  <span style="color:red;"><strong>*</strong></span>
                     </td>
                 </tr>
@@ -743,7 +779,8 @@
                 <tr>
                     <td>Unique Identifier code</td>
                     <td>
-                        <span id="kp-id"><patient id="upn" field="identifier" identifierTypeId="b7bfefd0-239b-11e9-ab14-d663bd873d93"  /></span>
+                        <span id="kp-id"><patient id="upn" field="identifier" identifierTypeId="b7bfefd0-239b-11e9-ab14-d663bd873d93" required="false" /></span>
+                        <div id="required-star"><span style="color:red;"><strong>*</strong></span></div>
                         <span>
                             <button type="button" class="ke-program-followup-button" id="btnGenerateIdentifier">Generate Identifier</button>
                         </span>
