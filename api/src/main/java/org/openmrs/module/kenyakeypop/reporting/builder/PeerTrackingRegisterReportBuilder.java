@@ -110,11 +110,11 @@ public class PeerTrackingRegisterReportBuilder extends AbstractHybridReportBuild
 		dsd.addColumn("1st Tracing Type", new FirstTracingTypeDataDefinition(), "");
 		dsd.addColumn("1st Tracing Outcome", new FirstTracingOutcomeDataDefinition(), "");
 		
-		dsd.addColumn("2nd Tracing attempt date", new DateOfSecondTraceDataDefinition(), "");
+		dsd.addColumn("2nd Tracing attempt date", new DateOfSecondTraceDataDefinition(), "", new DateConverter(DATE_FORMAT));
 		dsd.addColumn("2nd Tracing Type", new SecondTracingTypeDataDefinition(), "");
 		dsd.addColumn("2nd Tracing Outcome", new SecondTracingOutcomeDataDefinition(), "");
 		
-		dsd.addColumn("3rd Tracing attempt date", new DateOfThirdTraceDataDefinition(), "");
+		dsd.addColumn("3rd Tracing attempt date", new DateOfThirdTraceDataDefinition(), "", new DateConverter(DATE_FORMAT));
 		dsd.addColumn("3rd Tracing Type", new ThirdTracingTypeDataDefinition(), "");
 		dsd.addColumn("3rd Tracing Outcome", new ThirdTracingOutcomeDataDefinition(), "");
 		
