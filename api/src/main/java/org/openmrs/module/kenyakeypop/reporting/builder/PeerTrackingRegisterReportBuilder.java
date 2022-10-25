@@ -24,6 +24,7 @@ import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.common.SortCriteria;
 import org.openmrs.module.reporting.data.DataDefinition;
 import org.openmrs.module.reporting.data.converter.DataConverter;
+import org.openmrs.module.reporting.data.converter.DateConverter;
 import org.openmrs.module.reporting.data.converter.ObjectFormatter;
 import org.openmrs.module.reporting.data.patient.definition.ConvertedPatientDataDefinition;
 import org.openmrs.module.reporting.data.patient.definition.PatientIdentifierDataDefinition;
@@ -102,10 +103,10 @@ public class PeerTrackingRegisterReportBuilder extends AbstractHybridReportBuild
 		dsd.addColumn("Key Population Type", new KeyPopTypeDataDefinition(), "");
 		dsd.addColumn("Phone Number", new KpPhoneNumberDataDefinition(), "");
 		dsd.addColumn("Hotspot", new HotspotDataDefinition(), "");
-		dsd.addColumn("Ward", new WardDataDefinition(), "");
 		dsd.addColumn("Hotspot Typology", new HotspotTypologyDataDefinition(), "");
-		
-		dsd.addColumn("1st Tracing attempt date", new DateOfFirstTraceDataDefinition(), "");
+		dsd.addColumn("Sub County", new SubCountyOfImplementationDataDefinition(), "");
+		dsd.addColumn("Ward", new WardDataDefinition(), "");
+		dsd.addColumn("1st Tracing attempt date", new DateOfFirstTraceDataDefinition(), "", new DateConverter(DATE_FORMAT));
 		dsd.addColumn("1st Tracing Type", new FirstTracingTypeDataDefinition(), "");
 		dsd.addColumn("1st Tracing Outcome", new FirstTracingOutcomeDataDefinition(), "");
 		
