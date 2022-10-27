@@ -290,8 +290,15 @@ public class ETLMoh731PlusCohortLibrary {
 	 */
 	public CohortDefinition repeatHTSTestWithinReportingPeriod() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select t.patient_id from kenyaemr_etl.etl_hts_test t where t.visit_date between date(:startDate) and date(:endDate)\n"
-		        + "and t.ever_tested_for_hiv = 'Yes' and t.population_type = 'Key Population';";
+		String sqlQuery = "select t.patient_id\n" +
+				"from kenyaemr_etl.etl_hts_test t\n" +
+				"where date(t.visit_date) <= date(:endDate)\n" +
+				"group by t.patient_id\n" +
+				"having max(t.visit_date) between date(:startDate) and date(:endDate)\n" +
+				"   and mid(max(concat(date(t.visit_date), t.test_type)), 11) = 1\n" +
+				"   and mid(max(concat(date(t.visit_date), t.population_type)), 11) = 'Key Population'\n" +
+				"   and min(t.visit_date) < max(t.visit_date) and\n" +
+				"mid(min(concat(date(t.visit_date),t.test_type)),11) = 1;";
 		cd.setName("repeatHTSTestWithinReportingPeriod");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -2214,11 +2221,12 @@ public class ETLMoh731PlusCohortLibrary {
 	
 	/**
 	 * Current on ART elsewhere as reported during clinical visit within the reporting period
-	 * Includes:
-	 * 1.started therapy this month off site
-	 * 2.started therapy off site before this month but visited the offsite clinic to collect drugs this month
-	 * Should include <3.started therapy off site before this month but did not make a visit to the facility during this month because they had been given
-	 * enough drugs during visits before this month to cover the reporting month> when hiv followup tca is collected during a KP clinical visit
+	 * Includes: 1.started therapy this month off site 2.started therapy off site before this month
+	 * but visited the offsite clinic to collect drugs this month Should include <3.started therapy
+	 * off site before this month but did not make a visit to the facility during this month because
+	 * they had been given enough drugs during visits before this month to cover the reporting
+	 * month> when hiv followup tca is collected during a KP clinical visit
+	 * 
 	 * @return
 	 */
 	public CohortDefinition reportedCurrentOnARTElsewhereClinicalVisit() {

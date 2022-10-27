@@ -36,6 +36,26 @@ public class MonthlyReportCohortLibrary {
 	
 	static String startOfYear = "0000-10-01";
 	
+	/**
+	 * Returns Kps of a given typology
+	 * 
+	 * @param kpType
+	 * @return
+	 */
+	public CohortDefinition kpType(String kpType) {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c\n"
+		        + "where date(c.visit_date) <= date(:endDate)\n"
+		        + "group by c.client_id having mid(max(concat(date(c.visit_date), c.key_population_type)), 11) = '" + kpType
+		        + "';";
+		cd.setName("kpType");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("kpType");
+		return cd;
+	}
+	
 	public CohortDefinition contactAll(String kpType) {
 		
 		SqlCohortDefinition cd = new SqlCohortDefinition();
@@ -93,8 +113,8 @@ public class MonthlyReportCohortLibrary {
 		
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c\n"
-		        + "left join (select v.client_id from kenyaemr_etl.etl_clinical_visit v where v.voided = 0 and v.date_created between date(:startDate) and date(:endDate) group by v.client_id ) v on c.client_id=v.client_id\n"
-		        + "left join (select p.client_id from kenyaemr_etl.etl_peer_calendar p where p.voided = 0 and p.date_created between date(:startDate) and date(:endDate) group by p.client_id ) p on c.client_id=p.client_id\n"
+		        + "left join (select v.client_id from kenyaemr_etl.etl_clinical_visit v where v.voided = 0 and v.visit_date between date(:startDate) and date(:endDate) group by v.client_id ) v on c.client_id=v.client_id\n"
+		        + "left join (select p.client_id from kenyaemr_etl.etl_peer_calendar p where p.voided = 0 and p.visit_date between date(:startDate) and date(:endDate) group by p.client_id ) p on c.client_id=p.client_id\n"
 		        + "where (v.client_id is not null or p.client_id is not null ) and c.voided = 0 and c.key_population_type = '"
 		        + kpType + "' group by c.client_id;";
 		cd.setName("contactHCW");
@@ -123,114 +143,166 @@ public class MonthlyReportCohortLibrary {
 		return cd;
 	}
 	
-	public CohortDefinition kpPrev(String kpType) {
+	/**
+	 * Returns KPs who had a clinical encounter or peer outreach encounter within the reporting
+	 * period
+	 * 
+	 * @param kpType
+	 * @return
+	 */
+	public CohortDefinition kpPrevBaseCurrentPeriod() {
 		
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		
-		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c\n"
-		        + "    inner join (select e.client_id,max(e.visit_date) as enrolment_date,mid(max(concat(e.visit_date,e.ever_tested_for_hiv)),11) as ever_tested_for_hiv,mid(max(concat(e.visit_date,e.share_test_results)),11) as hiv_status_at_enrolment from kenyaemr_etl.etl_client_enrollment e group by e.client_id ) e on c.client_id = e.client_id\n"
-		        + "    left join (select t.patient_id,min(t.visit_date) as first_hts_date,mid(min(concat(t.final_test_result)),11) as first_hiv_results from kenyaemr_etl.etl_hts_test t group by t.patient_id)t on c.client_id = t.patient_id\n"
-		        + "    left join (select v.client_id, min(v.visit_date) as first_clinical_visit_date from kenyaemr_etl.etl_clinical_visit v group by v.client_id)v on c.client_id = v.client_id\n"
-		        + "    left join (select p.client_id, min(p.visit_date) as first_peer_enc from kenyaemr_etl.etl_peer_calendar p group by p.client_id)p on c.client_id = p.client_id\n"
-		        + "where((((e.ever_tested_for_hiv = 'No' or e.hiv_status_at_enrolment in('Yes I tested negative','No I do not want to share',null)) and (t.first_hts_date between\n"
-		        + "date(case MONTH(:startDate) when 1 then replace('"
-		        + startOfYear
-		        + "','0000',(YEAR(date_sub(:startDate, INTERVAL 1 YEAR)))) when 2 then replace('"
-		        + startOfYear
-		        + "','0000',(YEAR(date_sub(:startDate, INTERVAL 1 YEAR))))\n"
-		        + "        when 3 then replace('"
-		        + startOfYear
-		        + "','0000',(YEAR(date_sub(:startDate, INTERVAL 1 YEAR)))) when 4 then replace('"
-		        + startOfYear
-		        + "','0000',(YEAR(date_sub(:startDate, INTERVAL 1 YEAR))))\n"
-		        + "        when 5 then replace('"
-		        + startOfYear
-		        + "','0000',(YEAR(date_sub(:startDate, INTERVAL 1 YEAR)))) when 6 then replace('"
-		        + startOfYear
-		        + "','0000',(YEAR(date_sub(:startDate, INTERVAL 1 YEAR))))\n"
-		        + "        when 7 then replace('"
-		        + startOfYear
-		        + "','0000',(YEAR(date_sub(:startDate, INTERVAL 1 YEAR)))) when 8 then replace('"
-		        + startOfYear
-		        + "','0000',(YEAR(date_sub(:startDate, INTERVAL 1 YEAR))))\n"
-		        + "        when 9 then replace('"
-		        + startOfYear
-		        + "','0000',(YEAR(date_sub(:startDate, INTERVAL 1 YEAR)))) when 10 then replace('"
-		        + startOfYear
-		        + "','0000',YEAR(:startDate))\n"
-		        + "        when 11 then replace('"
-		        + startOfYear
-		        + "','0000',YEAR(:startDate)) when 12 then replace('"
-		        + startOfYear
-		        + "','0000',YEAR(:startDate)) else null end) and date(:endDate)))\n"
-		        + "or (v.first_clinical_visit_date between (case MONTH(:startDate) when 1 then replace('"
-		        + startOfYear
-		        + "','0000',(YEAR(date_sub(:startDate, INTERVAL 1 YEAR)))) when 2 then replace('"
-		        + startOfYear
-		        + "','0000',(YEAR(date_sub(:startDate, INTERVAL 1 YEAR))))\n"
-		        + "       when 3 then replace('"
-		        + startOfYear
-		        + "','0000',(YEAR(date_sub(:startDate, INTERVAL 1 YEAR)))) when 4 then replace('"
-		        + startOfYear
-		        + "','0000',(YEAR(date_sub(:startDate, INTERVAL 1 YEAR))))\n"
-		        + "       when 5 then replace('"
-		        + startOfYear
-		        + "','0000',(YEAR(date_sub(:startDate, INTERVAL 1 YEAR)))) when 6 then replace('"
-		        + startOfYear
-		        + "','0000',(YEAR(date_sub(:startDate, INTERVAL 1 YEAR))))\n"
-		        + "       when 7 then replace('"
-		        + startOfYear
-		        + "','0000',(YEAR(date_sub(:startDate, INTERVAL 1 YEAR)))) when 8 then replace('"
-		        + startOfYear
-		        + "','0000',(YEAR(date_sub(:startDate, INTERVAL 1 YEAR))))\n"
-		        + "       when 9 then replace('"
-		        + startOfYear
-		        + "','0000',(YEAR(date_sub(:startDate, INTERVAL 1 YEAR)))) when 10 then replace('"
-		        + startOfYear
-		        + "','0000',YEAR(:startDate))\n"
-		        + "       when 11 then replace('"
-		        + startOfYear
-		        + "','0000',YEAR(:startDate)) when 12 then replace('"
-		        + startOfYear
-		        + "','0000',YEAR(:startDate)) else null end) and date(:endDate))\n"
-		        + "or (p.first_peer_enc between (case MONTH(:startDate) when 1 then replace('"
-		        + startOfYear
-		        + "','0000',(YEAR(date_sub(:startDate, INTERVAL 1 YEAR)))) when 2 then replace('"
-		        + startOfYear
-		        + "','0000',(YEAR(date_sub(:startDate, INTERVAL 1 YEAR))))\n"
-		        + "        when 3 then replace('"
-		        + startOfYear
-		        + "','0000',(YEAR(date_sub(:startDate, INTERVAL 1 YEAR)))) when 4 then replace('"
-		        + startOfYear
-		        + "','0000',(YEAR(date_sub(:startDate, INTERVAL 1 YEAR))))\n"
-		        + "        when 5 then replace('"
-		        + startOfYear
-		        + "','0000',(YEAR(date_sub(:startDate, INTERVAL 1 YEAR)))) when 6 then replace('"
-		        + startOfYear
-		        + "','0000',(YEAR(date_sub(:startDate, INTERVAL 1 YEAR))))\n"
-		        + "        when 7 then replace('"
-		        + startOfYear
-		        + "','0000',(YEAR(date_sub(:startDate, INTERVAL 1 YEAR)))) when 8 then replace('"
-		        + startOfYear
-		        + "','0000',(YEAR(date_sub(:startDate, INTERVAL 1 YEAR))))\n"
-		        + "        when 9 then replace('"
-		        + startOfYear
-		        + "','0000',(YEAR(date_sub(:startDate, INTERVAL 1 YEAR)))) when 10 then replace('"
-		        + startOfYear
-		        + "','0000',YEAR(:startDate))\n"
-		        + "        when 11 then replace('"
-		        + startOfYear
-		        + "','0000',YEAR(:startDate)) when 12 then replace('"
-		        + startOfYear
-		        + "','0000',YEAR(:startDate)) else null end) and date(:endDate))) and c.key_population_type = '"
-		        + kpType
-		        + "' and c.voided=0)\n" + "group by c.client_id;\n";
-		cd.setName("kpPrev");
+		String sqlQuery = "select c.client_id\n" + "from kenyaemr_etl.etl_contact c\n" + "inner join (select e.client_id\n"
+		        + "     from kenyaemr_etl.etl_client_enrollment e\n" + "     where e.visit_date <= date(:endDate)) e\n"
+		        + "    on c.client_id = e.client_id\n" + "left join (select v.client_id, v.visit_date\n"
+		        + "    from kenyaemr_etl.etl_clinical_visit v) v on c.client_id = v.client_id\n"
+		        + "left join (select p.client_id, p.visit_date as first_peer_enc\n"
+		        + "    from kenyaemr_etl.etl_peer_calendar p\n" + "    ) p on c.client_id = p.client_id\n"
+		        + "where (((v.visit_date between date(:startDate) and date(:endDate))\n"
+		        + "or (p.first_peer_enc between date(:startDate) and date(:endDate)) and c.voided = 0))\n"
+		        + "group by c.client_id;";
+		cd.setName("kpPrevBaseCurrentPeriod");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("kpPrev");
+		cd.setDescription("kpPrevBaseCurrentPeriod");
 		
+		return cd;
+	}
+	
+	/**
+	 * Returns KPs who had a clinical encounter or peer outreach encounter since beginning of FY
+	 * till previous month to reporting period
+	 * 
+	 * @param kpType
+	 * @return
+	 */
+	public CohortDefinition kpPrevBasePreviousPeriod() {
+		
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select c.client_id\n" + "from kenyaemr_etl.etl_contact c\n" + "inner join (select e.client_id\n"
+		        + "from kenyaemr_etl.etl_client_enrollment e\n"
+		        + "where e.visit_date <= date(:endDate)) e on c.client_id = e.client_id\n"
+		        + "left join (select v.client_id, v.visit_date\n" + "from kenyaemr_etl.etl_clinical_visit v\n"
+		        + "where v.visit_date <= date(:endDate)) v on c.client_id = v.client_id\n"
+		        + "left join (select p.client_id, p.visit_date as first_peer_enc\n"
+		        + "from kenyaemr_etl.etl_peer_calendar p\n"
+		        + "where p.visit_date <= date(:endDate)) p on c.client_id = p.client_id\n"
+		        + "where ((v.visit_date between (CASE MONTH(date(:startDate))\n" + "when 11 then\n"
+		        + "date_sub(date(:startDate), INTERVAL 1 MONTH)\n"
+		        + "when 12 then date_sub(date(:startDate), INTERVAL 2 MONTH)\n" + "when 1 then replace('"
+		        + startOfYear
+		        + "', '0000',\n"
+		        + "YEAR(date_sub(date(:startDate), INTERVAL 1 YEAR)))\n"
+		        + "when 2 then replace('"
+		        + startOfYear
+		        + "', '0000',\n"
+		        + "YEAR(date_sub(date(:startDate), INTERVAL 1 YEAR)))\n"
+		        + "when 3 then replace('"
+		        + startOfYear
+		        + "', '0000',\n"
+		        + "YEAR(date_sub(date(:startDate), INTERVAL 1 YEAR)))\n"
+		        + "when 4 then replace('"
+		        + startOfYear
+		        + "', '0000',\n"
+		        + "YEAR(date_sub(date(:startDate), INTERVAL 1 YEAR)))\n"
+		        + "when 5 then replace('"
+		        + startOfYear
+		        + "', '0000',\n"
+		        + "YEAR(date_sub(date(:startDate), INTERVAL 1 YEAR)))\n"
+		        + "when 6 then replace('"
+		        + startOfYear
+		        + "', '0000',\n"
+		        + "YEAR(date_sub(date(:startDate), INTERVAL 1 YEAR)))\n"
+		        + "when 7 then replace('"
+		        + startOfYear
+		        + "', '0000',\n"
+		        + "YEAR(date_sub(date(:startDate), INTERVAL 1 YEAR)))\n"
+		        + "when 8 then replace('"
+		        + startOfYear
+		        + "', '0000',\n"
+		        + "YEAR(date_sub(date(:startDate), INTERVAL 1 YEAR)))\n"
+		        + "when 9 then replace('"
+		        + startOfYear
+		        + "', '0000',\n"
+		        + "YEAR(date_sub(date(:startDate), INTERVAL 1 YEAR)))\n"
+		        + "else null end) and (case MONTH(date(:endDate))\n"
+		        + "when 10 then null\n"
+		        + "else\n"
+		        + "   last_day(date_sub(date(:endDate), INTERVAL 1 MONTH)) end))\n"
+		        + "or (p.first_peer_enc between (CASE MONTH(date(:startDate))\n"
+		        + "when 11 then\n"
+		        + "date_sub(date(:startDate), INTERVAL 1 MONTH)\n"
+		        + "when 12 then date_sub(date(:startDate), INTERVAL 2 MONTH)\n"
+		        + "when 1 then replace('"
+		        + startOfYear
+		        + "', '0000',\n"
+		        + "YEAR(date_sub(date(:startDate), INTERVAL 1 YEAR)))\n"
+		        + "when 2 then replace('"
+		        + startOfYear
+		        + "', '0000',\n"
+		        + "YEAR(date_sub(date(:startDate), INTERVAL 1 YEAR)))\n"
+		        + "when 3 then replace('"
+		        + startOfYear
+		        + "', '0000',\n"
+		        + "YEAR(date_sub(date(:startDate), INTERVAL 1 YEAR)))\n"
+		        + "when 4 then replace('"
+		        + startOfYear
+		        + "', '0000',\n"
+		        + "YEAR(date_sub(date(:startDate), INTERVAL 1 YEAR)))\n"
+		        + "when 5 then replace('"
+		        + startOfYear
+		        + "', '0000',\n"
+		        + "YEAR(date_sub(date(:startDate), INTERVAL 1 YEAR)))\n"
+		        + "when 6 then replace('"
+		        + startOfYear
+		        + "', '0000',\n"
+		        + "YEAR(date_sub(date(:startDate), INTERVAL 1 YEAR)))\n"
+		        + "when 7 then replace('"
+		        + startOfYear
+		        + "', '0000',\n"
+		        + "YEAR(date_sub(date(:startDate), INTERVAL 1 YEAR)))\n"
+		        + "when 8 then replace('"
+		        + startOfYear
+		        + "', '0000',\n"
+		        + "YEAR(date_sub(date(:startDate), INTERVAL 1 YEAR)))\n"
+		        + "when 9 then replace('"
+		        + startOfYear
+		        + "', '0000',\n"
+		        + "YEAR(date_sub(date(:startDate), INTERVAL 1 YEAR)))\n"
+		        + "else null end) and (case MONTH(date(:endDate))\n"
+		        + "  when 10 then null\n"
+		        + "  else\n"
+		        + "      last_day(date_sub(date(:endDate), INTERVAL 1 MONTH)) end)\n"
+		        + "and\n"
+		        + "c.voided = 0))\n"
+		        + "group by c.client_id;";
+		cd.setName("kpPrevBasePreviousPeriod");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("kpPrevBasePreviousPeriod");
+		
+		return cd;
+	}
+	
+	/**
+	 * KPs who received services for the 1st time this month within the current FY
+	 * 
+	 * @param kpType
+	 * @return
+	 */
+	public CohortDefinition kpPrev(String kpType) {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addSearch("kpPrevBaseCurrentPeriod",
+		    ReportUtils.map(kpPrevBaseCurrentPeriod(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("kpPrevBasePreviousPeriod",
+		    ReportUtils.map(kpPrevBasePreviousPeriod(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("kpType", ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("(kpPrevBaseCurrentPeriod AND NOT kpPrevBasePreviousPeriod) AND kpType");
 		return cd;
 	}
 	
