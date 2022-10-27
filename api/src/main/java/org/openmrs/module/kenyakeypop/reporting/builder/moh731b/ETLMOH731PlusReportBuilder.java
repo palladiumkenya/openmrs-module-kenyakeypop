@@ -885,14 +885,39 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		 * Receiving peer education: Number of people in each KP type who received peer education in
 		 * the reporting period.
 		 */
-		/*	cohortDsd.addColumn("Received_Peer_education_FSW", "Received peer education Fsw", ReportUtils.map(moh731bIndicators.receivedPeerEducation(FSW), indParams),"");
-			cohortDsd.addColumn("Received_Peer_education_MSM", "Received peer education Msm", ReportUtils.map(moh731bIndicators.receivedPeerEducation(MSM), indParams),"");
-			cohortDsd.addColumn("Received_Peer_education_MSW", "Received peer education Msw", ReportUtils.map(moh731bIndicators.receivedPeerEducation(MSW), indParams),"");
-			cohortDsd.addColumn("Received_Peer_education_PWID", "Received peer education Pwid", ReportUtils.map(moh731bIndicators.receivedPeerEducation(PWID), indParams),"");
-			cohortDsd.addColumn("Received_Peer_education_PWUD", "Received peer education Pwud", ReportUtils.map(moh731bIndicators.receivedPeerEducation(PWUD), indParams),"");
-			cohortDsd.addColumn("Received_Peer_education_Transman", "Received peer education Transman", ReportUtils.map(moh731bIndicators.receivedPeerEducation(TRANSMAN), indParams),"");
-			cohortDsd.addColumn("Received_Peer_education_Transwoman", "Transwoman received peer education", ReportUtils.map(moh731bIndicators.receivedPeerEducation(TRANSWOMAN), indParams),"");
-		*/
+		cohortDsd.addColumn("Received_Peer_education_FSW", "Received peer education Fsw",
+		    ReportUtils.map(moh731bIndicators.receivedPeerEducation(FSW), indParams), "");
+		cohortDsd.addColumn("Received_Peer_education_MSM", "Received peer education Msm",
+		    ReportUtils.map(moh731bIndicators.receivedPeerEducation(MSM), indParams), "");
+		cohortDsd.addColumn("Received_Peer_education_MSW", "Received peer education Msw",
+		    ReportUtils.map(moh731bIndicators.receivedPeerEducation(MSW), indParams), "");
+		cohortDsd.addColumn("Received_Peer_education_PWID", "Received peer education Pwid",
+		    ReportUtils.map(moh731bIndicators.receivedPeerEducation(PWID), indParams), "");
+		cohortDsd.addColumn("Received_Peer_education_PWUD", "Received peer education Pwud",
+		    ReportUtils.map(moh731bIndicators.receivedPeerEducation(PWUD), indParams), "");
+		cohortDsd.addColumn("Received_Peer_education_Transman", "Received peer education Transman",
+		    ReportUtils.map(moh731bIndicators.receivedPeerEducation(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Received_Peer_education_Transwoman", "Received peer education Transwoman",
+		    ReportUtils.map(moh731bIndicators.receivedPeerEducation(TRANSWOMAN), indParams), "");
+		/**
+		 * Receiving peer education: Number of people in each KP type who received peer education in
+		 * the reporting period.
+		 */
+		cohortDsd.addColumn("Received_Clinical_services_FSW", "Received clinical services Fsw",
+		    ReportUtils.map(moh731bIndicators.receivedClinicalServices(FSW), indParams), "");
+		cohortDsd.addColumn("Received_Clinical_services_MSM", "Received clinical services Msm",
+		    ReportUtils.map(moh731bIndicators.receivedClinicalServices(MSM), indParams), "");
+		cohortDsd.addColumn("Received_Clinical_services_MSW", "Received clinical services Msw",
+		    ReportUtils.map(moh731bIndicators.receivedClinicalServices(MSW), indParams), "");
+		cohortDsd.addColumn("Received_Clinical_services_PWID", "Received clinical services Pwid",
+		    ReportUtils.map(moh731bIndicators.receivedClinicalServices(PWID), indParams), "");
+		cohortDsd.addColumn("Received_Clinical_services_PWUD", "Received clinical services Pwud",
+		    ReportUtils.map(moh731bIndicators.receivedClinicalServices(PWUD), indParams), "");
+		cohortDsd.addColumn("Received_Clinical_services_Transman", "Received clinical services Transman",
+		    ReportUtils.map(moh731bIndicators.receivedClinicalServices(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Received_Clinical_services_Transwoman", "Received clinical services Transwoman",
+		    ReportUtils.map(moh731bIndicators.receivedClinicalServices(TRANSWOMAN), indParams), "");
+		
 		// 5.0 Care and treatment
 		
 		/**
@@ -920,8 +945,7 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		EmrReportingUtils.addRow(cohortDsd, "On_site_pre-ART_Transman", "On pre-ART Transman",
 		    ReportUtils.map(moh731bIndicators.onSitePreART(TRANSMAN), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "On_site_pre-ART_Transwoman",
-		    "On pre-ART people in closed settings received peer education",
+		EmrReportingUtils.addRow(cohortDsd, "On_site_pre-ART_Transwoman", "On pre-ART people in closed settings",
 		    ReportUtils.map(moh731bIndicators.onSitePreART(TRANSWOMAN), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
@@ -949,8 +973,7 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		EmrReportingUtils.addRow(cohortDsd, "Off_site_pre-ART_Transman", "Off site pre-ART Transman",
 		    ReportUtils.map(moh731bIndicators.offSitePreART(TRANSMAN), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Off_site_pre-ART_Transwoman",
-		    "Off site pre-ART people in closed settings received peer education",
+		EmrReportingUtils.addRow(cohortDsd, "Off_site_pre-ART_Transwoman", "Off site pre-ART people in closed settings",
 		    ReportUtils.map(moh731bIndicators.offSitePreART(TRANSWOMAN), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		

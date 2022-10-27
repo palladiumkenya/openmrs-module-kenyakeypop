@@ -236,6 +236,11 @@ public class ETLMoh731PlusIndicatorLibrary {
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 	}
 	
+	public CohortIndicator receivedClinicalServices(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.receivedClinicalServices(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
 	public CohortIndicator onSitePreART(String kpType) {
 		return cohortIndicator("", ReportUtils.map(moh731BCohorts.onSitePreART(kpType),
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
