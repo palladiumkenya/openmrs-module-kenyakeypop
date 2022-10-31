@@ -598,9 +598,12 @@ public class MonthlyReportCohortLibrary {
 		
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c\n"
-		        + "  inner join (select b.patient_id,b.visit_date from kenyaemr_etl.etl_gbv_screening b where b.voided = 0\n"
-		        + "  group by b.patient_id having max(b.visit_date) between date(:startDate) and date(:endDate)) gb on c.client_id=gb.patient_id\n"
-		        + " where c.voided = 0 and c.key_population_type = '" + kpType + "' group by c.client_id;";
+		        + " left join (select b.patient_id,b.visit_date from kenyaemr_etl.etl_gbv_screening b where b.voided = 0\n"
+		        + " group by b.patient_id having max(b.visit_date) between date(:startDate) and date(:endDate)) gb on c.client_id=gb.patient_id\n"
+		        + "  left join (select v.client_id,v.visit_date from kenyaemr_etl.etl_clinical_visit v where v.voided = 0 and v.violence_screened = 'Yes'\n"
+		        + "  group by v.client_id having max(v.visit_date) between date(:startDate) and date(:endDate)) vg on c.client_id=vg.client_id\n"
+		        + "where c.voided = 0 and c.key_population_type = '" + kpType
+		        + "' and (gb.patient_id is not null or vg.client_id is not null)\n" + "group by c.client_id;";
 		cd.setName("screenedForGbv");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -615,9 +618,12 @@ public class MonthlyReportCohortLibrary {
 		
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c\n"
-		        + "  inner join (select b.patient_id,b.visit_date from kenyaemr_etl.etl_gbv_screening b where b.voided = 0\n"
-		        + "  and b.ipv in (1065,158358,118688,152370,1582) group by b.patient_id having max(b.visit_date) between date(:startDate) and date(:endDate)) gb on c.client_id=gb.patient_id\n"
-		        + "where c.voided = 0 and c.key_population_type = '" + kpType + "' group by c.client_id;\n";
+		        + " left join (select b.patient_id,b.visit_date from kenyaemr_etl.etl_gbv_screening b where b.voided = 0\n"
+		        + " and b.ipv in (1065,158358,118688,152370,1582) group by b.patient_id having max(b.visit_date) between date(:startDate) and date(:endDate)) gb on c.client_id=gb.patient_id\n"
+		        + "  left join (select v.client_id,v.visit_date from kenyaemr_etl.etl_clinical_visit v where v.voided = 0 and v.violence_results in ('Harrasment','Assault','Illegal arrest','Verbal Abuse','Rape/Sexual assault','Discrimination')\n"
+		        + "  group by v.client_id having max(v.visit_date) between date(:startDate) and date(:endDate)) vg on c.client_id=vg.client_id\n"
+		        + "where c.voided = 0 and c.key_population_type =  '" + kpType
+		        + "' and (gb.patient_id is not null or vg.client_id is not null)\n" + "group by c.client_id;";
 		cd.setName("experiencedGbv");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -632,9 +638,12 @@ public class MonthlyReportCohortLibrary {
 		
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c\n"
-		        + "  inner join (select a.patient_id,a.visit_date from kenyaemr_etl.etl_gbv_screening_action a where a.voided = 0 and a.action_taken in (165070,165203,160570,1356,165200,1185,165171,127910,165184,165274)\n"
+		        + "  left join (select a.patient_id,a.visit_date from kenyaemr_etl.etl_gbv_screening_action a where a.voided = 0 and a.action_taken in (165070,165203,160570,1356,165200,1185,165171,127910,165184,165274)\n"
 		        + "  group by a.patient_id having max(a.visit_date) between date(:startDate) and date(:endDate)) ac on c.client_id=ac.patient_id\n"
-		        + "where c.voided = 0 and c.key_population_type = '" + kpType + "' group by c.client_id;";
+		        + "  left join (select v.client_id,v.visit_date from kenyaemr_etl.etl_clinical_visit v where v.voided = 0 and v.violence_treated = 'Supported'\n"
+		        + "  group by v.client_id having max(v.visit_date) between date(:startDate) and date(:endDate)) vg on c.client_id=vg.client_id\n"
+		        + "where c.voided = 0 and c.key_population_type = '" + kpType
+		        + "' and (ac.patient_id is not null or vg.client_id is not null)\n" + "group by c.client_id;";
 		cd.setName("receivedGbvClinicalCare");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
