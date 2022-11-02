@@ -17,6 +17,7 @@ import org.openmrs.module.reporting.cohort.definition.SqlCohortDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.openmrs.module.kenyakeypop.reporting.library.ETLReports.moh731B.ETLMoh731PlusCohortLibrary;
 
 import java.util.Date;
 
@@ -33,6 +34,9 @@ public class MonthlyReportCohortLibrary {
 	
 	@Autowired
 	private DatimCohortLibrary datimCohortLibrary;
+	
+	@Autowired
+	private ETLMoh731PlusCohortLibrary moh731BCohorts;
 	
 	static String startOfYear = "0000-10-01";
 	
@@ -312,7 +316,7 @@ public class MonthlyReportCohortLibrary {
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c \n"
 		        + "left join (select p.client_id from kenyaemr_etl.etl_peer_calendar p where p.voided = 0 group by p.client_id having max(p.visit_date) between date_sub(date(:endDate), INTERVAL 3 MONTH ) and date(:endDate)) cp on c.client_id=cp.client_id\n"
 		        + "  left join (select v.client_id from kenyaemr_etl.etl_clinical_visit v where v.voided = 0 group by v.client_id having max(v.visit_date) between date_sub(date(:endDate), INTERVAL 3 MONTH ) and date(:endDate)) cv on c.client_id=cv.client_id\n"
-		        + "  left join (select d.patient_id, max(d.visit_date) latest_visit from kenyaemr_etl.etl_patient_program_discontinuation d where d.program_name='KP') d on c.client_id = d.patient_id\n"
+		        + "  left join (select d.patient_id, max(d.visit_date) latest_visit from kenyaemr_etl.etl_patient_program_discontinuation d where d.program_name='KP' group by d.patient_id) d on c.client_id = d.patient_id\n"
 		        + "where (d.patient_id is null or d.latest_visit > date(:endDate)) and c.voided = 0 and c.key_population_type = '"
 		        + kpType + "'\n" + "  and (cp.client_id is not null or cv.client_id is not null)\n"
 		        + "  group by c.client_id;\n";
@@ -342,23 +346,20 @@ public class MonthlyReportCohortLibrary {
 		return cd;
 	}
 	
+	/**
+	 * Number of KPs ever identified HIV positive in this DICE irrespective of their current status.
+	 * This includes those known positive at enrolment into the program.
+	 * 
+	 * @param kpType
+	 * @return
+	 */
 	public CohortDefinition kpKnownPositiveEnrolled(String kpType) {
-		
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c inner join kenyaemr_etl.etl_patient_demographics d on c.client_id = d.patient_id\n"
-		        + "  left join (select t.patient_id as patient_id,t.final_test_result from kenyaemr_etl.etl_hts_test t where t.final_test_result = 'Positive'\n"
-		        + "           and t.test_type = 2 group by t.patient_id) ht on ht.patient_id = c.client_id\n"
-		        + "  left join (select e.patient_id as patient_id from kenyaemr_etl.etl_hiv_enrollment e group by e.patient_id) he on he.patient_id = c.client_id\n"
-		        + "  left join (select ce.client_id from kenyaemr_etl.etl_client_enrollment ce where ce.share_test_results='Yes I tested positive') hc on hc.client_id = c.client_id\n"
-		        + "where c.key_population_type = '"
-		        + kpType
-		        + "' and (c.patient_type is null or c.patient_type !='Transfer in') and (ht.patient_id is not null or he.patient_id is not null or hc.client_id is not null)\n"
-		        + "group by c.client_id having max(date(c.visit_date)) between date(:startDate) and date(:endDate);";
-		cd.setQuery(sqlQuery);
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("kpKnownPositiveEnrolled");
-		
+		cd.addSearch("kpType", ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("knownPositiveKPs", ReportUtils.map(knownPositiveKPs(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpType AND knownPositiveKPs");
 		return cd;
 	}
 	
@@ -460,18 +461,54 @@ public class MonthlyReportCohortLibrary {
 	public CohortDefinition htsTestedNegative(String kpType) {
 		
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c\n"
-		        + "  inner join kenyaemr_etl.etl_hts_test t on c.client_id = t.patient_id where c.key_population_type = '"
-		        + kpType
-		        + "' and c.voided = 0\n"
-		        + "  group by c.client_id\n"
-		        + "  having max(t.visit_date) between date(:startDate) and date(:endDate)  and max(c.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "         and mid(max(concat(t.visit_date,t.final_test_result)),11)='Negative';";
+		String sqlQuery = "select c.client_id\n" + "from kenyaemr_etl.etl_contact c\n"
+		        + "         inner join kenyaemr_etl.etl_hts_test t on c.client_id = t.patient_id\n"
+		        + "    and c.voided = 0\n" + "    and t.visit_date between date(:startDate) and date(:endDate)\n"
+		        + "    and t.test_type = 1\n" + "    and t.final_test_result = 'Negative'\n"
+		        + "and date(c.visit_date) <= date(:endDate)\n" + "group by c.client_id\n"
+		        + "having mid(max(concat(c.visit_date, c.key_population_type)), 11) = '" + kpType + "';";
 		cd.setName("htsTestedNegative");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.setDescription("htsTestedNegative");
+		
+		return cd;
+	}
+	
+	/**
+	 * Known Positive KPS
+	 * 
+	 * @return
+	 */
+	public CohortDefinition knownPositiveKPs() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select a.kp_client from (select c.client_id as kp_client,\n"
+		        + "  max(e.kp_enrollment_date) as latest_kp_enrollment,\n"
+		        + "  e.client_id           as kp_known_pos, e.kp_enrollment_date as kp_enrollment_date,\n"
+		        + "  h.patient_id          as hiv_enrolled, h.hiv_enrollment_date as hiv_enroll_date,\n"
+		        + "  t.patient_id          as hts_positive_patient,\n"
+		        + "  t.hts_date            as hts_date from kenyaemr_etl.etl_contact c\n"
+		        + "    left join (select e.client_id, e.visit_date as kp_enrollment_date\n"
+		        + "               from kenyaemr_etl.etl_client_enrollment e\n"
+		        + "               where e.visit_date <= date(:endDate)\n"
+		        + "                 and e.share_test_results = 'Yes I tested positive') e\n"
+		        + "              on c.client_id = e.client_id\n"
+		        + "    left join (select h.patient_id, h.visit_date as hiv_enrollment_date\n"
+		        + "               from kenyaemr_etl.etl_hiv_enrollment h\n"
+		        + "               where h.visit_date <= date(:endDate)) h on c.client_id = h.patient_id\n"
+		        + "    left join (select t.patient_id, t.visit_date as hts_date\n"
+		        + "               from kenyaemr_etl.etl_hts_test t\n"
+		        + "               where t.population_type= 'Key Population'\n"
+		        + "                 and t.visit_date <= date(:endDate) and t.test_type = 1\n"
+		        + "                 and t.final_test_result = 'Positive') t on c.client_id = t.patient_id\n"
+		        + "group by c.client_id having latest_kp_enrollment <= date(:endDate)\n"
+		        + "and (kp_known_pos is not null or hiv_enrolled is not null or hts_positive_patient is not null)) a;";
+		cd.setName("knownPositiveKPs");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("knownPositiveKPs");
 		
 		return cd;
 	}
@@ -486,8 +523,8 @@ public class MonthlyReportCohortLibrary {
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addSearch("currentInKP", ReportUtils.map(kpCurr(kpType), "startDate=${startDate},endDate=${endDate}"));
-		cd.addSearch("livingWithHiv", ReportUtils.map(livingWithHiv(), ""));
-		cd.setCompositionString("currentInKP AND livingWithHiv");
+		cd.addSearch("knownPositiveKPs", ReportUtils.map(knownPositiveKPs(), ""));
+		cd.setCompositionString("currentInKP AND knownPositiveKPs");
 		return cd;
 	}
 	
@@ -500,7 +537,7 @@ public class MonthlyReportCohortLibrary {
 		String sqlQuery = "select d.patient_id\n"
 		        + "from kenyaemr_etl.etl_patient_demographics d\n"
 		        + "  left join (select t.patient_id as patient_id,t.final_test_result from kenyaemr_etl.etl_hts_test t where t.final_test_result = 'Positive'\n"
-		        + "             and t.test_type = 2 group by t.patient_id) ht on ht.patient_id = d.patient_id\n"
+		        + "             and t.test_type = 1 group by t.patient_id) ht on ht.patient_id = d.patient_id\n"
 		        + "  left join (select e.patient_id as patient_id from kenyaemr_etl.etl_hiv_enrollment e group by e.patient_id) he on he.patient_id = d.patient_id\n"
 		        + " where (ht.patient_id is not null or he.patient_id is not null)\n" + "GROUP BY d.patient_id;\n";
 		
@@ -520,10 +557,11 @@ public class MonthlyReportCohortLibrary {
 		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.addSearch("currentInKP", ReportUtils.map(kpCurr(kpType), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("kpType", ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("knownPositiveKPs", ReportUtils.map(knownPositiveKPs(), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("txcurr",
 		    ReportUtils.map(datimCohortLibrary.currentlyOnArt(), "startDate=${startDate},endDate=${endDate}"));
-		cd.setCompositionString("currentInKP AND txcurr");
+		cd.setCompositionString("knownPositiveKPs AND txcurr and kpType");
 		return cd;
 	}
 	
@@ -1043,20 +1081,40 @@ public class MonthlyReportCohortLibrary {
 	}
 	
 	//acceptedPNS
-	public CohortDefinition acceptedPNS(String kpType) {
+	public CohortDefinition acceptedPNSSql(String kpType) {
 		
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c\n"
-		        + "  inner join (select c.patient_related_to from kenyaemr_hiv_testing_patient_contact c inner join kenyaemr_etl.etl_hts_test t\n"
-		        + "  on c.patient_related_to = t.patient_id where c.relationship_type in (163565, 5617, 162221) and t.voided=0 and c.voided = 0 and t.test_type = 2 and t.visit_date between date(:startDate) and date(:endDate)\n"
-		        + " group by c.patient_related_to having max(date(c.date_created)) between date(:startDate) and date(:endDate))pns on c.client_id = pns.patient_related_to \n"
-		        + " where c.key_population_type = '" + kpType + "' and c.voided = 0 group by c.client_id;";
-		cd.setName("acceptedPNS");
+		String sqlQuery = "select c.client_id\n" + "from kenyaemr_etl.etl_contact c\n"
+		        + "         inner join (select c.patient_related_to\n"
+		        + "                     from kenyaemr_hiv_testing_patient_contact c\n"
+		        + "                     where c.relationship_type in (163565, 5617, 162221)\n"
+		        + "                       and c.voided = 0\n"
+		        + "                       and date(c.date_created) between date(:startDate) and date(:endDate)\n"
+		        + "                     group by c.patient_related_to) pns\n"
+		        + "                    on c.client_id = pns.patient_related_to\n" + "where c.key_population_type = '"
+		        + kpType + "';";
+		cd.setName("acceptedPNSSql");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("acceptedPNS");
+		cd.setDescription("acceptedPNSSql");
 		
+		return cd;
+	}
+	
+	/**
+	 * Number of KPLHIV who accepted to provide details of their sexual partners this month.
+	 * 
+	 * @param kpType
+	 * @return
+	 */
+	public CohortDefinition acceptedPNS(String kpType) {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addSearch("knownPositiveKPs", ReportUtils.map(knownPositiveKPs(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("acceptedPNSSql", ReportUtils.map(acceptedPNSSql(kpType), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("(knownPositiveKPs AND acceptedPNSSql");
 		return cd;
 	}
 	
@@ -1064,7 +1122,7 @@ public class MonthlyReportCohortLibrary {
 	public CohortDefinition elicitedPNS(String kpType) {
 		
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select p.patient_id from openmrs.kenyaemr_hiv_testing_patient_contact p\n"
+		String sqlQuery = "select p.patient_id from kenyaemr_hiv_testing_patient_contact p\n"
 		        + "  inner join kenyaemr_etl.etl_patient_demographics d on  d.patient_id = p.patient_id and d.voided = 0\n"
 		        + "  inner join (select c.client_id,c.visit_date from kenyaemr_etl.etl_contact c\n"
 		        + "  where c.key_population_type = '"
@@ -1478,10 +1536,12 @@ public class MonthlyReportCohortLibrary {
 	public CohortDefinition kpPrepScreened(String kpType) {
 		
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_clinical_visit v\n"
-		        + "  inner join kenyaemr_etl.etl_contact c on c.client_id=v.client_id\n"
-		        + "where v. prep_screened = 'Yes' and c.voided = 0 and c.key_population_type = '" + kpType + "'\n"
-		        + "  and date(v.visit_date) between date(:startDate) and date(:endDate)\n" + "group by c.client_id;";
+		String sqlQuery = "select c.client_id\n" + "from kenyaemr_etl.etl_clinical_visit v\n"
+		        + "         inner join kenyaemr_etl.etl_contact c on c.client_id = v.client_id\n"
+		        + "where v.prep_screened = 'Yes'\n" + "  and c.voided = 0\n"
+		        + "  and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
+		        + "  and date(c.visit_date) <= date(:endDate)\n" + "group by c.client_id\n"
+		        + "having mid(max(concat(c.visit_date, c.key_population_type)), 11) = '" + kpType + "';";
 		cd.setName("kpPrepScreened");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -1497,10 +1557,12 @@ public class MonthlyReportCohortLibrary {
 	public CohortDefinition kpPrepEligible(String kpType) {
 		
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_clinical_visit v\n"
-		        + "  inner join kenyaemr_etl.etl_contact c on c.client_id=v.client_id\n"
-		        + "where v. prep_results = 'Eligible' and c.voided = 0 and c.key_population_type = '" + kpType + "'\n"
-		        + "      and date(v.visit_date) between date(:startDate) and date(:endDate)\n" + "group by c.client_id;";
+		String sqlQuery = "select c.client_id\n" + "from kenyaemr_etl.etl_clinical_visit v\n"
+		        + "         inner join kenyaemr_etl.etl_contact c on c.client_id = v.client_id\n"
+		        + "where v.prep_results = 'Eligible'\n" + "  and c.voided = 0\n"
+		        + "  and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
+		        + "  and date(c.visit_date) <= date(:endDate)\n" + "group by c.client_id\n"
+		        + "having mid(max(concat(c.visit_date, c.key_population_type)), 11) = '" + kpType + "';";
 		cd.setName("kpPrepEligible");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
