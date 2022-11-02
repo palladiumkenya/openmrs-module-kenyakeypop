@@ -1185,75 +1185,6 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.kplhivSuppressedVlArtNonPEPFARSite(TG), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		
-		//55. TX_PVLS_ELIGIBLE_DONE_DICE- mhkO6IPf1nE
-		
-		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_ELIGIBLE_DONE_DICE_FSW",
-		    "On ART in this DICE and Eligible for VL within last 12 months whose samples were taken",
-		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleDoneDice(FSW), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04"));
-		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_ELIGIBLE_DONE_DICE_MSM",
-		    "On ART in this DICE and Eligible for VL within last 12 months whose samples were taken",
-		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleDoneDice(MSM), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04"));
-		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_ELIGIBLE_DONE_DICE_PWID",
-		    "On ART in this DICE and Eligible for VL within last 12 months whose samples were taken",
-		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleDoneDice(PWID), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04"));
-		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_ELIGIBLE_DONE_DICE_IN_PRISONS",
-		    "On ART in this DICE and Eligible for VL within last 12 months whose samples were taken",
-		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleDoneDice(IN_PRISONS), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04"));
-		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_ELIGIBLE_DONE_DICE_TG",
-		    "On ART in this DICE and Eligible for VL within last 12 months whose samples were taken",
-		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleDoneDice(TG), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04"));
-		
-		//57. TX_PVLS_ELIGIBLE_DONE_VERIFY_PEPFAR_SITE - cn1u70K6fMZ
-		
-		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_ELIGIBLE_DONE_VERIFY_PEPFAR_SITE_FSW",
-		    "On ART in other PEPFAR sites Eligible for VL within last 12 months whose samples were taken",
-		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleDoneVerifyPEPFAR(FSW), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04"));
-		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_ELIGIBLE_DONE_VERIFY_PEPFAR_SITE_MSM",
-		    "On ART in other PEPFAR sites Eligible for VL within last 12 months whose samples were taken",
-		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleDoneVerifyPEPFAR(MSM), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04"));
-		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_ELIGIBLE_DONE_VERIFY_PEPFAR_SITE_PWID",
-		    "On ART in other PEPFAR sites Eligible for VL within last 12 months whose samples were taken",
-		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleDoneVerifyPEPFAR(PWID), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04"));
-		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_ELIGIBLE_DONE_VERIFY_PEPFAR_SITE_IN_PRISONS",
-		    "On ART in other PEPFAR sites Eligible for VL within last 12 months whose samples were taken",
-		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleDoneVerifyPEPFAR(IN_PRISONS), indParams),
-		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
-		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_ELIGIBLE_DONE_VERIFY_PEPFAR_SITE_TG",
-		    "On ART in other PEPFAR sites Eligible for VL within last 12 months whose samples were taken",
-		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleDoneVerifyPEPFAR(TG), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04"));
-		
-		//59. TX_PVLS_ELIGIBLE_DONE_VERIFY_NON_PEPFAR_SITE - O4M0FcApmzi
-		
-		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_ELIGIBLE_DONE_VERIFY_NON_PEPFAR_SITE_FSW",
-		    "On ART in other non PEPFAR sites Eligible for VL within last 12 months whose samples were taken",
-		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleDoneVerifyNonPEPFAR(FSW), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04"));
-		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_ELIGIBLE_DONE_VERIFY_NON_PEPFAR_SITE_MSM",
-		    "On ART in other non PEPFAR sites Eligible for VL within last 12 months whose samples were taken",
-		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleDoneVerifyNonPEPFAR(MSM), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04"));
-		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_ELIGIBLE_DONE_VERIFY_NON_PEPFAR_SITE_PWID",
-		    "On ART in other non PEPFAR sites Eligible for VL within last 12 months whose samples were taken",
-		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleDoneVerifyNonPEPFAR(PWID), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04"));
-		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_ELIGIBLE_DONE_VERIFY_NON_PEPFAR_SITE_IN_PRISONS",
-		    "On ART in other non PEPFAR sites Eligible for VL within last 12 months whose samples were taken",
-		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleDoneVerifyNonPEPFAR(IN_PRISONS), indParams),
-		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04"));
-		EmrReportingUtils.addRow(cohortDsd, "TX_PVLS_ELIGIBLE_DONE_VERIFY_NON_PEPFAR_SITE_TG",
-		    "On ART in other non PEPFAR sites Eligible for VL within last 12 months whose samples were taken",
-		    ReportUtils.map(monthlyReportIndicator.txPvlsEligibleDoneVerifyNonPEPFAR(TG), indParams), kpAgeDisaggregation,
-		    Arrays.asList("01", "02", "03", "04"));
-		
 		//60. TX_MMD
 		EmrReportingUtils.addRow(cohortDsd, "TX_MMD_FSW", "Multi month appointments",
 		    ReportUtils.map(monthlyReportIndicator.kpOnMultiMonthART(FSW), indParams), kpAgeDisaggregation,
@@ -1314,8 +1245,8 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.kpPrepNewDice(IN_PRISONS), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "PrEP_NEW_DICE_TG", "Transgender Started on PrEP in this DICE",
-				ReportUtils.map(monthlyReportIndicator.kpPrepNewDice(TG), indParams), kpAgeDisaggregation,
-				Arrays.asList("01", "02", "03", "04"));
+		    ReportUtils.map(monthlyReportIndicator.kpPrepNewDice(TG), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "PrEP_CURR_DICE_FSW", "FSW KPs currently on PrEP in this DICE",
 		    ReportUtils.map(monthlyReportIndicator.kpPrepCurrDice(FSW), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
@@ -1329,8 +1260,8 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.kpPrepCurrDice(IN_PRISONS), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "PrEP_CURR_DICE_TG", "Transgender KPs currently on PrEP in this DICE",
-				ReportUtils.map(monthlyReportIndicator.kpPrepCurrDice(TG), indParams), kpAgeDisaggregation,
-				Arrays.asList("01", "02", "03", "04"));
+		    ReportUtils.map(monthlyReportIndicator.kpPrepCurrDice(TG), indParams), kpAgeDisaggregation,
+		    Arrays.asList("01", "02", "03", "04"));
 		//62. MAT
 		EmrReportingUtils.addRow(cohortDsd, "MAT_EVER", "Number ever put on MAT",
 		    ReportUtils.map(monthlyReportIndicator.kpEverOnMat(PWID), indParams), kpGenderDisaggregation,
