@@ -523,7 +523,7 @@ public class MonthlyReportCohortLibrary {
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addSearch("currentInKP", ReportUtils.map(kpCurr(kpType), "startDate=${startDate},endDate=${endDate}"));
-		cd.addSearch("knownPositiveKPs", ReportUtils.map(knownPositiveKPs(), ""));
+		cd.addSearch("knownPositiveKPs", ReportUtils.map(knownPositiveKPs(), "startDate=${startDate},endDate=${endDate}"));
 		cd.setCompositionString("currentInKP AND knownPositiveKPs");
 		return cd;
 	}
