@@ -708,58 +708,111 @@ public class MonthlyReportCohortLibrary {
 		return cd;
 	}
 	
-	//eligibleForRetest
+	//Tested Negative for HIV over 3 months ago
+	public CohortDefinition testedHIVNegOver3MonthsAgo() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select a.patient_id from (select t.patient_id,\n"
+		        + "       max(t.visit_date)                                       as last_test_date,\n"
+		        + "       mid(max(concat(t.visit_date, t.final_test_result)), 11) as last_test_result\n"
+		        + "from kenyaemr_etl.etl_hts_test t\n" + "where voided = 0 and t.visit_date < date(:endDate)\n"
+		        + "group by t.patient_id\n" + "having timestampdiff(DAY, date(last_test_date),date(:endDate)) > 90\n"
+		        + "and last_test_result = 'Negative')a;";
+		cd.setName("testedHIVNegOver3MonthsAgo");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("testedHIVNegOver3MonthsAgo");
+		
+		return cd;
+	}
+	
+	/**
+	 * KPs eligible for HIV retest
+	 * 
+	 * @param kpType
+	 * @return
+	 */
 	public CohortDefinition eligibleForRetest(String kpType) {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addSearch("kpPrev", ReportUtils.map(kpPrev(kpType), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("testedHIVNegOver3MonthsAgo",
+		    ReportUtils.map(testedHIVNegOver3MonthsAgo(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpPrev AND testedHIVNegOver3MonthsAgo");
+		return cd;
+	}
+	
+	/**
+	 * Tested for HIV within period
+	 * 
+	 * @return
+	 */
+	public CohortDefinition testedForHIVWithinPeriod() {
 		
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c inner join\n"
-		        + "(select t.patient_id,max(t.visit_date) as last_test_date,mid(max(concat(t.visit_date,t.final_test_result)),11) as last_test_result from kenyaemr_etl.etl_hts_test t where voided = 0 group by t.patient_id)t  on c.client_id = t.patient_id\n"
-		        + "where datediff(date(:startDate),date(t.last_test_date))>90 and t.last_test_result='Negative' and c.key_population_type = '"
-		        + kpType + "' and c.voided = 0 group by c.client_id;";
-		cd.setName("eligibleForRetest");
+		String sqlQuery = "select t.patient_id from kenyaemr_etl.etl_hts_test t where t.visit_date between date(:startDate) and date(:endDate) and t.final_test_result is not null;";
+		cd.setName("testedForHIVWithinPeriod");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("eligibleForRetest");
+		cd.setDescription("testedForHIVWithinPeriod");
 		
 		return cd;
 	}
 	
-	//htsTstEligibleForRetest
+	/**
+	 * Retested for HIV within the reporting period
+	 * 
+	 * @param kpType
+	 * @return
+	 */
 	public CohortDefinition htsTstEligibleRetested(String kpType) {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addSearch("eligibleForRetest",
+		    ReportUtils.map(eligibleForRetest(kpType), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("testedForHIVWithinPeriod",
+		    ReportUtils.map(testedForHIVWithinPeriod(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("eligibleForRetest AND testedForHIVWithinPeriod");
+		return cd;
+	}
+	
+	/**
+	 * Tested HIV positive within period
+	 * 
+	 * @return
+	 */
+	public CohortDefinition testedHIVPositiveWithinPeriod() {
 		
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c inner join\n"
-		        + "(select pt.patient_id from (select pt.patient_id,max(pt.visit_date) as prev_test_date,mid(max(concat(pt.visit_date,pt.final_test_result)),11) as prev_test_result from kenyaemr_etl.etl_hts_test pt\n"
-		        + "group by pt.patient_id having datediff(date(:startDate),date(max(pt.visit_date)))>90 and mid(max(concat(pt.visit_date,pt.final_test_result)),11)='Negative')pt\n"
-		        + "inner join(select ct.patient_id,max(ct.visit_date) as curr_test_date,mid(max(concat(ct.visit_date,ct.final_test_result)),11) as curr_test_result from kenyaemr_etl.etl_hts_test ct\n"
-		        + "group by ct.patient_id having max(ct.visit_date) between date(:startDate) and date(:endDate))ct  on pt.patient_id = ct.patient_id) hts on c.client_id = hts.patient_id \n"
-		        + "where c.key_population_type = '" + kpType + "' group by c.client_id;";
-		cd.setName("htsTstEligibleRetested");
+		String sqlQuery = "select t.patient_id from kenyaemr_etl.etl_hts_test t where t.visit_date between date(:startDate) and date(:endDate) and t.test_type = 1\n"
+		        + "and t.final_test_result = 'Positive';";
+		cd.setName("testedHIVPositiveWithinPeriod");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("htsTstEligibleRetested");
+		cd.setDescription("testedHIVPositiveWithinPeriod");
 		
 		return cd;
 	}
 	
-	//retestedHIVPositive
+	/**
+	 * Retested HIV positive within period
+	 * 
+	 * @param kpType
+	 * @return
+	 */
 	public CohortDefinition retestedHIVPositive(String kpType) {
-		
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c inner join\n"
-		        + "(select pt.patient_id from (select pt.patient_id,max(pt.visit_date) as prev_test_date,mid(max(concat(pt.visit_date,pt.final_test_result)),11) as prev_test_result from kenyaemr_etl.etl_hts_test pt\n"
-		        + "  group by pt.patient_id having datediff(date(:startDate),date(max(pt.visit_date)))>90 and mid(max(concat(pt.visit_date,pt.final_test_result)),11)='Negative')pt\n"
-		        + "inner join(select ct.patient_id,max(ct.visit_date) as curr_test_date,mid(max(concat(ct.visit_date,ct.final_test_result)),11) as curr_test_result from kenyaemr_etl.etl_hts_test ct\n"
-		        + "group by ct.patient_id having max(ct.visit_date) between date(:startDate) and date(:endDate) and mid(max(concat(ct.visit_date,ct.final_test_result)),11)='Positive')ct  on pt.patient_id = ct.patient_id) hts on c.client_id = hts.patient_id\n"
-		        + "where c.key_population_type = '" + kpType + "' group by c.client_id;";
-		cd.setName("retestedHIVPositive");
-		cd.setQuery(sqlQuery);
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("retestedHIVPositive");
-		
+		cd.addSearch("eligibleForRetest",
+		    ReportUtils.map(eligibleForRetest(kpType), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("testedHIVPositiveWithinPeriod",
+		    ReportUtils.map(testedHIVPositiveWithinPeriod(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("eligibleForRetest AND testedHIVPositiveWithinPeriod");
 		return cd;
 	}
 	
@@ -1206,23 +1259,12 @@ public class MonthlyReportCohortLibrary {
 	
 	//KP_EVER_POS
 	public CohortDefinition kpEverPos(String kpType) {
-		
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select c.client_id from  kenyaemr_etl.etl_contact c\n"
-		        + "  left join (select t.patient_id,max(t.visit_date) as test_date from kenyaemr_etl.etl_hts_test t where t.voided = 0 group by t.patient_id\n"
-		        + "  having mid(max(concat(t.visit_date,t.final_test_result)),11)='Positive' and test_date <=date(:endDate)) ht on c.client_id = ht.patient_id\n"
-		        + "  left join (select e.client_id,e.share_test_results as share_results from kenyaemr_etl.etl_client_enrollment e where e.share_test_results ='Yes I tested positive'\n"
-		        + "  having max(date(e.visit_date)) between date(:startDate) and date(:endDate)) ce on ce.client_id = c.client_id\n"
-		        + "  left join (select v.client_id,v.test_confirmatory_results as confirmatory_results from kenyaemr_etl.etl_clinical_visit v where v.self_tested ='Y'\n"
-		        + "  having max(date(v.visit_date)) between date(:startDate) and date(:endDate)) ve on ve.client_id = c.client_id\n"
-		        + "where (ht.patient_id is not null or ce.client_id is not null or ve.client_id is not null) and c.key_population_type = '"
-		        + kpType + "'\n" + "group by c.client_id;\n";
-		cd.setName("kpEverPos");
-		cd.setQuery(sqlQuery);
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("kpEverPos");
-		
+		cd.addSearch("kpType", ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("knownPositiveKPs", ReportUtils.map(knownPositiveKPs(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpType AND knownPositiveKPs");
 		return cd;
 	}
 	
@@ -1531,9 +1573,9 @@ public class MonthlyReportCohortLibrary {
 	}
 	
 	/*
-	*Number of HIV negative KPs Screened for PrEP this month
+	*Number KPs Screened for PrEP this month
 	 */
-	public CohortDefinition kpPrepScreened(String kpType) {
+	public CohortDefinition kpPrepScreenedDuringVisit(String kpType) {
 		
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id\n" + "from kenyaemr_etl.etl_clinical_visit v\n"
@@ -1542,19 +1584,37 @@ public class MonthlyReportCohortLibrary {
 		        + "  and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "  and date(c.visit_date) <= date(:endDate)\n" + "group by c.client_id\n"
 		        + "having mid(max(concat(c.visit_date, c.key_population_type)), 11) = '" + kpType + "';";
-		cd.setName("kpPrepScreened");
+		cd.setName("kpPrepScreenedDuringVisit");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("kpPrepScreened");
+		cd.setDescription("kpPrepScreenedDuringVisit");
 		
 		return cd;
 	}
 	
-	/*
-	*Number of KPs eligible for PrEP among those screened
+	/**
+	 * Number of HIV negative KPs Screened for PrEP this month
+	 * 
+	 * @param kpType
+	 * @return
 	 */
-	public CohortDefinition kpPrepEligible(String kpType) {
+	public CohortDefinition kpPrepScreened(String kpType) {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addSearch("kpPrepScreenedDuringVisit",
+		    ReportUtils.map(kpPrepScreenedDuringVisit(kpType), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("htsTestedNegative",
+		    ReportUtils.map(htsTestedNegative(kpType), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpPrepScreenedDuringVisit AND htsTestedNegative");
+		return cd;
+	}
+	
+	/*
+	* Number of KPs eligible for PrEP among those screened during visit
+	*/
+	public CohortDefinition kpPrepEligibleDuringVisit(String kpType) {
 		
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id\n" + "from kenyaemr_etl.etl_clinical_visit v\n"
@@ -1572,27 +1632,64 @@ public class MonthlyReportCohortLibrary {
 		return cd;
 	}
 	
+	/**
+	 * Number of HIV negative KPs eligible for PrEP
+	 * 
+	 * @param kpType
+	 * @return
+	 */
+	public CohortDefinition kpPrepEligible(String kpType) {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addSearch("kpPrepEligibleDuringVisit",
+		    ReportUtils.map(kpPrepEligibleDuringVisit(kpType), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("htsTestedNegative",
+		    ReportUtils.map(htsTestedNegative(kpType), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpPrepEligibleDuringVisit AND htsTestedNegative");
+		return cd;
+	}
+	
 	/*
 	*Number of KPs started on PrEP this month in this DICE
 	 */
-	public CohortDefinition kpPrepNewDice(String kpType) {
+	public CohortDefinition kpPrepNewDiceDuringVisit(String kpType) {
 		
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_prep_enrolment e\n"
 		        + "  inner join kenyaemr_etl.etl_contact c on c.client_id=e.patient_id\n"
 		        + "where e.patient_type = 'New Patient' and c.voided = 0 and c.key_population_type = '" + kpType + "'\n"
 		        + "      and date(e.visit_date) between date(:startDate) and date(:endDate)\n" + "group by c.client_id;";
-		cd.setName("kpPrepNewDice");
+		cd.setName("kpPrepNewDiceDuringVisit");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("kpPrepNewDice");
+		cd.setDescription("kpPrepNewDiceDuringVisit");
 		
 		return cd;
 	}
 	
 	/**
+	 * HIV negative KPs started on PrEP within period
+	 * 
+	 * @param kpType
+	 * @return
+	 */
+	public CohortDefinition kpPrepNewDice(String kpType) {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addSearch("kpPrepNewDiceDuringVisit",
+		    ReportUtils.map(kpPrepNewDiceDuringVisit(kpType), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("htsTestedNegative",
+		    ReportUtils.map(htsTestedNegative(kpType), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpPrepNewDiceDuringVisit AND htsTestedNegative");
+		return cd;
+	}
+	
+	/**
 	 * KP PrEP_CURR_DICE currentInKP AND prepCT from Datim Compositions for PrEP_CURR_DICE indicator
+	 * Includes newly started on PrEP
 	 * 
 	 * @return
 	 */
@@ -1602,7 +1699,8 @@ public class MonthlyReportCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addSearch("currentInKP", ReportUtils.map(kpCurr(kpType), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("prepCT", ReportUtils.map(datimCohortLibrary.prepCT(), "startDate=${startDate},endDate=${endDate}"));
-		cd.setCompositionString("currentInKP AND prepCT");
+		cd.addSearch("kpPrepNewDice", ReportUtils.map(kpPrepNewDice(kpType), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("currentInKP AND (prepCT or kpPrepNewDice)");
 		return cd;
 	}
 	
