@@ -37,7 +37,9 @@ public class OnIPTDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select p.client_id, p.health_edu from kenyaemr_etl.etl_peer_calendar p;";
+		String qry = "select c.client_id, 'Y' from kenyaemr_etl.etl_contact c\n"
+		        + "  inner join kenyaemr_etl.etl_patient_program pp on pp.patient_id = c.client_id and pp.program ='TPT'\n"
+		        + "group by c.client_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");

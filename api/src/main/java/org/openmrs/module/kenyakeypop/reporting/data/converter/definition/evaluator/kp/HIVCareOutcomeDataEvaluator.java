@@ -37,7 +37,16 @@ public class HIVCareOutcomeDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select v.client_id,v.prep_treated from kenyaemr_etl.etl_clinical_visit v";
+		String qry = "select c.client_id, case when TIMESTAMPDIFF(DAY,max(date(hf.latest_tca)),max(date(hf.latest_hiv_visit))) >= 90 then 'LTFU'\n"
+		        + "                         when TIMESTAMPDIFF(DAY,max(date(hf.latest_tca)),max(date(hf.latest_hiv_visit))) between 1 and 30 then 'DT'\n"
+		        + "                         when d.patient_id is not null and d.discontinuation_reason=159492 then 'TO'\n"
+		        + "                         when d.patient_id is not null and d.discontinuation_reason=160034 then 'D'\n"
+		        + "                         when d.patient_id is null and max(date(hf.latest_tca)) > max(date(hf.latest_hiv_visit)) then 'A' else '' end as hiv_outcome\n"
+		        + "from kenyaemr_etl.etl_contact c\n"
+		        + "  left outer join kenyaemr_etl.etl_hts_test t on c.client_id = t.patient_id  left outer join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id\n"
+		        + "  left join (select d.patient_id, date(max(d.visit_date)) latest_visit,d.discontinuation_reason as discontinuation_reason from kenyaemr_etl.etl_patient_program_discontinuation d where d.program_name='HIV' group by d.patient_id) d on c.client_id = d.patient_id\n"
+		        + "  left join (select h.patient_id, date(max(h.visit_date)) latest_hiv_visit,date(max(h.next_appointment_reason)) as latest_tca from kenyaemr_etl.etl_patient_hiv_followup h group by h.patient_id) hf on c.client_id = hf.patient_id\n"
+		        + "where (v.client_id is not null or d.patient_id is not null or hf.patient_id is not null) group by c.client_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");

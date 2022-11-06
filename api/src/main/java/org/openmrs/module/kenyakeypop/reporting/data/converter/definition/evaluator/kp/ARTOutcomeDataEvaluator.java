@@ -36,13 +36,16 @@ public class ARTOutcomeDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select r.patient_id,if( r.dead= 0,(coalesce((case when timestampdiff(Month,max(date(v.visit_date)),date(curDate()))<=3  then \"A\" when timestampdiff(Month,max(date(v.visit_date)),date(curDate())) between 4 and 9 then \"DT\"\n"
-		        + "when timestampdiff(Month,max(date(v.visit_date)),date(curDate())) > 9 then \"LTFU\" else \"\" end),(case when timestampdiff(Month,max(date(p.visit_date)),date(curDate()))<=3  then \"A\" when timestampdiff(Month,max(date(p.visit_date)),date(curDate())) between 4 and 9 then \"DT\"\n"
-		        + "when timestampdiff(Month,max(date(p.visit_date)),date(curdate())) > 9 then \"LTFU\" else \"\" end))),\"D\") as status_in_program from kenyaemr_etl.etl_patient_demographics r\n"
-		        + "inner join kenyaemr_etl.etl_contact c on r.patient_id = c.client_id\n"
-		        + "left outer join kenyaemr_etl.etl_clinical_visit v\n"
-		        + "on v.client_id = r.patient_id\n"
-		        + "left outer  join kenyaemr_etl.etl_peer_calendar p on r.patient_id = p.client_id group by v.client_id;";
+		String qry = "select c.client_id, case when TIMESTAMPDIFF(DAY,max(date(hf.latest_tca)),max(date(hf.latest_hiv_visit))) >= 90 then 'LTFU'\n"
+		        + "                         when TIMESTAMPDIFF(DAY,max(date(hf.latest_tca)),max(date(hf.latest_hiv_visit))) between 1 and 30 then 'DT'\n"
+		        + "                         when d.patient_id is not null and d.discontinuation_reason=159492 then 'TO'\n"
+		        + "                         when d.patient_id is not null and d.discontinuation_reason=160034 then 'D'\n"
+		        + "                         when d.patient_id is null and max(date(hf.latest_tca)) > max(date(hf.latest_hiv_visit)) then 'A' else '' end as hiv_outcome\n"
+		        + "from kenyaemr_etl.etl_contact c\n"
+		        + "  left outer join kenyaemr_etl.etl_hts_test t on c.client_id = t.patient_id  left outer join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id\n"
+		        + "  left join (select d.patient_id, date(max(d.visit_date)) latest_visit,d.discontinuation_reason as discontinuation_reason from kenyaemr_etl.etl_patient_program_discontinuation d where d.program_name='HIV' group by d.patient_id) d on c.client_id = d.patient_id\n"
+		        + "  left join (select h.patient_id, date(max(h.visit_date)) latest_hiv_visit,date(max(h.next_appointment_reason)) as latest_tca from kenyaemr_etl.etl_patient_hiv_followup h group by h.patient_id) hf on c.client_id = hf.patient_id\n"
+		        + "where (v.client_id is not null or d.patient_id is not null or hf.patient_id is not null) group by c.client_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");

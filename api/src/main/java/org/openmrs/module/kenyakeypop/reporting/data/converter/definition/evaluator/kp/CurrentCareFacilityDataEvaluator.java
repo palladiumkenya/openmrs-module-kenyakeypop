@@ -37,7 +37,12 @@ public class CurrentCareFacilityDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select v.client_id,v.hiv_care_facility from kenyaemr_etl.etl_clinical_visit v group by v.client_id;";
+		String qry = "select r.patient_id r, case coalesce(max(t.final_test_result),max(v.self_test_results),max(v.hiv_self_rep_status)) when 'Positive'  then\n"
+		        + "  (case when max(v.active_art) = 'Yes' then (case when max(v.hiv_care_facility)='Provided here' then (select FacilityName from kenyaemr_etl.etl_default_facility_info)\n"
+		        + "                                             when max(v.hiv_care_facility)='Provided elsewhere' then v.hiv_care_facility else '' end)\n"
+		        + "    else '' end)  else '' end as facility_of_care\n"
+		        + "from kenyaemr_etl.etl_patient_demographics r left outer join kenyaemr_etl.etl_hts_test t on r.patient_id = t.patient_id  left outer join kenyaemr_etl.etl_clinical_visit v on r.patient_id = v.client_id\n"
+		        + "where v.client_id is not null or t.patient_id is not null group by r.patient_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");
