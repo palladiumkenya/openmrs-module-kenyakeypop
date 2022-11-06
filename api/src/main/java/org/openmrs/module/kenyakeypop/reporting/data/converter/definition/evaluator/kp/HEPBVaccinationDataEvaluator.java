@@ -37,7 +37,10 @@ public class HEPBVaccinationDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select v.client_id,v.hepatitisB_treated from kenyaemr_etl.etl_clinical_visit v group by v.client_id;";
+		String qry = "select v.client_id, (case mid(max(concat(v.visit_date,v.hepatitisB_treated)),11)\n"
+		        + "                     when 'Vaccinated' then 'Y' else '' end) as hepatitis_b_vaccinated\n"
+		        + "from kenyaemr_etl.etl_clinical_visit v where date(v.visit_date) between date(:startDate) and date(:endDate)\n"
+		        + "group by v.client_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");

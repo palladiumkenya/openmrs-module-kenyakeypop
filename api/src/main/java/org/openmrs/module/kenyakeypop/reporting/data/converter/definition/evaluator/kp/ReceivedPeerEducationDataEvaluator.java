@@ -37,7 +37,8 @@ public class ReceivedPeerEducationDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select c.client_id, c.health_edu from kenyaemr_etl.etl_peer_calendar c group by c.client_id;";
+		String qry = "select c.client_id, mid(max(concat(c.visit_date,c.health_edu)),11) as peer_education from kenyaemr_etl.etl_peer_calendar c\n"
+		        + "where date(c.visit_date) between date(:startDate) and date(:endDate)\n" + "group by c.client_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");

@@ -37,7 +37,9 @@ public class ReceivedVLResultsDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select v.client_id,v.received_vl_results from kenyaemr_etl.etl_clinical_visit v group by v.client_id;";
+		String qry = "select v.client_id,(case mid(max(concat(v.visit_date,v.received_vl_results)),11) when 'Y' then 'Y' when 'N' then 'N' else '' end) as received_vl_results\n"
+		        + "from kenyaemr_etl.etl_clinical_visit v  where date(v.visit_date) between date(:startDate) and date(:endDate)\n"
+		        + "group by v.client_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");
