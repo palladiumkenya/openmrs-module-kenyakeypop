@@ -37,7 +37,12 @@ public class KpHIVStatusDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select v.client_id,v.prep_treated from kenyaemr_etl.etl_clinical_visit v;";
+		String qry = "select c.client_id,coalesce((case v.test_results when \"Positive\" then \"P\" when \"Negative\" then \"N\" when \"Known Positive\" then \"P\" else \" \" end ),\n"
+		        + "                            (case t.final_test_result when \"Positive\" then \"P\" when \"Negative\" then \"N\" else \" \" end)) as hiv_status\n"
+		        + "from kenyaemr_etl.etl_contact c\n"
+		        + "  left outer join kenyaemr_etl.etl_clinical_visit v on v.client_id = c.client_id\n"
+		        + "  left outer join kenyaemr_etl.etl_hts_test t on t.patient_id = c.client_id\n"
+		        + "where v.client_id is not null or t.patient_id is not null\n" + "group by c.client_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");

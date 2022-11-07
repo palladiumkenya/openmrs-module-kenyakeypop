@@ -37,7 +37,12 @@ public class VLSuppressedDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select v.client_id,v.vl_results as suppressed from kenyaemr_etl.etl_clinical_visit v group by v.client_id;";
+		String qry = "select c.client_id, mid(max(concat(le.visit_date, if(le.lab_test = 856 and le.test_result >= 1000, 'N',\n"
+		        + "                                  if(le.lab_test = 856 and le.test_result between 50 and 999, 'Y',\n"
+		        + "if((le.lab_test= 856 and le.test_result <50) or (le.lab_test=1305 and le.test_result = 1302), 'Y ',''))), '' )),11) as suppression_status\n"
+		        + "from kenyaemr_etl.etl_contact c\n"
+		        + "inner join kenyaemr_etl.etl_laboratory_extract le on le.patient_id = c.client_id\n"
+		        + "GROUP BY c.client_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");
