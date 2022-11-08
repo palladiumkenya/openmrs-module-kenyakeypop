@@ -130,14 +130,35 @@ public class MonthlyReportCohortLibrary {
 		return cd;
 	}
 	
+	/**
+	 * KPs net enrolled: Currently enrolled (including transferred in) and not discontinued due to
+	 * death or Transferring out
+	 * 
+	 * @param kpType
+	 * @return
+	 */
 	public CohortDefinition netEnroll(String kpType) {
 		
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c\n"
-		        + "left join (select d.patient_id, mid(max(concat(date(d.visit_date),d.discontinuation_reason)),11) as latest_disc_reason from kenyaemr_etl.etl_patient_program_discontinuation d where d.program_name='KP') d   on d.patient_id = c.client_id\n"
-		        + "where c.key_population_type = '" + kpType
-		        + "' and (d.patient_id is null or d.latest_disc_reason not in (160034,159492))\n"
-		        + "group by c.client_id having max(date(c.visit_date)) <= DATE(:endDate);";
+		String sqlQuery = "select b.client_id\n"
+		        + "from (select c.client_id                                                     as client_id,\n"
+		        + "             max(c.visit_date)                                               as enr_date,\n"
+		        + "             mid(max(concat(date(c.visit_date), c.key_population_type)), 11) as kp_type,\n"
+		        + "             d.patient_id                                                    as disc_patient,\n"
+		        + "             d.disc_date                                                     as disc_date\n"
+		        + "      from kenyaemr_etl.etl_contact c\n"
+		        + "               left join (select a.patient_id, a.disc_date, a.disc_reason\n"
+		        + "                          from (select patient_id,\n"
+		        + "                                       max(coalesce(date(transfer_date), date(visit_date)))           as disc_date,\n"
+		        + "                                       mid(max(concat(date(visit_date), discontinuation_reason)), 11) as disc_reason\n"
+		        + "                                from kenyaemr_etl.etl_patient_program_discontinuation\n"
+		        + "                                where date(visit_date) <= date(:endDate)\n"
+		        + "                                  and program_name = 'KP'\n"
+		        + "                                group by patient_id) a\n"
+		        + "                          where a.disc_date <= date(:endDate)\n"
+		        + "                            and a.disc_reason in (160034, 159492)) d on c.client_id = d.patient_id\n"
+		        + "      group by c.client_id) b\n" + "where b.enr_date <= date(:endDate)\n" + "  and b.kp_type = '"
+		        + kpType + "'\n" + "  and (b.disc_patient is null or b.enr_date >= b.disc_date);";
 		cd.setName("netEnroll");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
