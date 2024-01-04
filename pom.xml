@@ -52,9 +52,9 @@
         <reportingVersion>1.18.0</reportingVersion>
         <serializationxstreamVersion>0.2.14</serializationxstreamVersion>
         <uiframeworkVersion>3.15.0</uiframeworkVersion>
-        <kenyacoreVersion>3.0.0</kenyacoreVersion>
+        <kenyacoreVersion>3.0.1</kenyacoreVersion>
         <kenyauiVersion>3.0.0</kenyauiVersion>
-        <kenyaemrVersion>18.3.2</kenyaemrVersion>
+        <kenyaemrVersion>18.7.0</kenyaemrVersion>
         <jodaTimeVersion>2.9.1</jodaTimeVersion>
         <webservices.restVersion>2.26.0</webservices.restVersion>
         <logicVersion>0.5.2</logicVersion>
@@ -315,35 +315,35 @@
         <repository>
             <id>openmrs-repo</id>
             <name>OpenMRS Nexus Repository</name>
-            <url>http://mavenrepo.openmrs.org/nexus/content/repositories/public</url>
+            <url>https://mavenrepo.openmrs.org/nexus/content/repositories/public</url>
         </repository>
         <repository>
             <id>central</id>
             <name>Maven Repository Switchboard</name>
             <layout>default</layout>
-            <url>http://repo1.maven.org/maven2</url>
+            <url>https://repo1.maven.org/maven2</url>
         </repository>
     </repositories>
     <pluginRepositories>
         <pluginRepository>
             <id>openmrs-repo</id>
             <name>OpenMRS Nexus Repository</name>
-            <url>http://mavenrepo.openmrs.org/nexus/content/repositories/public</url>
+            <url>https://mavenrepo.openmrs.org/nexus/content/repositories/public</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
-    <distributionManagement>
+	<distributionManagement>
 		<repository>
-			<id>mks-nexus</id>
-			<name>Mekom Nexus Releases</name>
-			<url>https://nexus.mekomsolutions.net/releases</url>
+			<id>mks-repo</id>
+			<name>Mekom Solutions Nexus Releases</name>
+			<url>https://nexus.mekomsolutions.net/repository/maven-releases</url>
 		</repository>
 		<snapshotRepository>
-			<id>mks-nexus</id>
-			<name>Mekom Nexus Snapshots</name>
-			<url>https://nexus.mekomsolutions.net/snapshots</url>
+			<id>mks-repo-snapshots</id>
+			<name>Mekom Solutions Nexus Snapshots</name>
+			<url>https://nexus.mekomsolutions.net/repository/maven-snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
 </project>
