@@ -55,6 +55,7 @@
         </property>
         <property name="visitForms">
             <set>
+                <ref bean="kenyakeypop.form.kpClientEnrollment" />
                 <ref bean="kenyakeypop.form.kpClientTracing"/>
                 <ref bean="kenyakeypop.form.kpSTITreatment"/>
                 <ref bean="kenyakeypop.form.kpPeerOverdoseReporting"/>
@@ -68,9 +69,6 @@
                 <ref bean="kenyakeypop.form.prepTreatmentVerification" />
                 <ref bean="kenyakeypop.form.genderBasedViolence" />
                 <ref bean="kenyaemr.common.form.tbScreening" />
-
-
-
             </set>
         </property>
 
@@ -117,6 +115,7 @@
                 <ref bean="kenyakeypop.app.keypopulation.provider" />
             </set>
         </property>
+        <property name="showIfCalculation" value="org.openmrs.module.kenyakeypop.calculation.library.kp.EligibleForKPVisitFormsCalculation" />
         <property name="icon" value="kenyaui:forms/generic.png" />
         <property name="htmlform" value="kenyakeypop:kpClientEnrollment.html" />
 
