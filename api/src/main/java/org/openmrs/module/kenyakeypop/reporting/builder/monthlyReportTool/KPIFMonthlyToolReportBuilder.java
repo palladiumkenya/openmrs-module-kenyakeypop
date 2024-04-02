@@ -159,7 +159,7 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(monthlyReportIndicator.kpPrev(PWID), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "KP_PREV_IN_PRISONS", "Received care for the first time this year",
-		    ReportUtils.map(monthlyReportIndicator.kpPrev(TG), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(monthlyReportIndicator.kpPrev(IN_PRISONS), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04"));
 		EmrReportingUtils.addRow(cohortDsd, "KP_PREV_TG", "Received care for the first time this year",
 		    ReportUtils.map(monthlyReportIndicator.kpPrev(TG), indParams), kpAgeDisaggregation,
