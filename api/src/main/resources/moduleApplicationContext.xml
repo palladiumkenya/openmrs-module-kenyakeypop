@@ -48,11 +48,6 @@
         <property name="eligibilityCalculation" value="org.openmrs.module.kenyakeypop.calculation.library.kp.EligibleForKPProgramCalculation" />
         <property name="defaultEnrollmentForm" ref="kenyakeypop.form.kpContact"  />
         <property name="defaultCompletionForm" ref="kenyakeypop.form.completion" />
-        <property name="patientForms">
-            <set>
-                <ref bean="kenyakeypop.form.kpClientEnrollment" />
-            </set>
-        </property>
         <property name="visitForms">
             <set>
                 <ref bean="kenyakeypop.form.kpClientEnrollment" />
@@ -115,7 +110,7 @@
                 <ref bean="kenyakeypop.app.keypopulation.provider" />
             </set>
         </property>
-        <property name="showIfCalculation" value="org.openmrs.module.kenyakeypop.calculation.library.kp.EligibleForKPVisitFormsCalculation" />
+        <property name="showIfCalculation" value="org.openmrs.module.kenyakeypop.calculation.library.kp.EligibleForNonClinicalServices" />
         <property name="icon" value="kenyaui:forms/generic.png" />
         <property name="htmlform" value="kenyakeypop:kpClientEnrollment.html" />
 
