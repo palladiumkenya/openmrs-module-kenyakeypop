@@ -462,7 +462,7 @@
     </bean>
 
     <!--  Gender Based Violence Form-->
-    <bean id="kenyakeypop.form.genderBasedViolence" class="org.openmrs.module.kenyacore.form.FormDescriptor">
+    <!-- <bean id="kenyakeypop.form.genderBasedViolence" class="org.openmrs.module.kenyacore.form.FormDescriptor">
         <property name="targetUuid" value="94eec122-83a1-11ea-bc55-0242ac130003" />
         <property name="apps">
             <set>
@@ -475,7 +475,7 @@
         <property name="icon" value="kenyaui:forms/generic.png" />
         <property name="htmlform" value="kenyakeypop:kpGenderBasedViolence.html" />
         <property name="order" value="201023" />
-    </bean>
+    </bean> -->
 
     <!-- Clinical Encounter - TB Screening -->
     <bean id="kenyaemr.common.form.tbScreening" class="org.openmrs.module.kenyacore.form.FormDescriptor">
