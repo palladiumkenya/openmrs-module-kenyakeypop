@@ -96,6 +96,11 @@ public class KPRegisterReportBuilder extends AbstractHybridReportBuilder {
 		receivedPeerEducationDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		ProvidedWithClinicalServicesDataDefinition providedWithClinicalServicesDataDefinition = new ProvidedWithClinicalServicesDataDefinition();
 		providedWithClinicalServicesDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		ScreenedTBResultsDataDefinition screenedTBResultsDataDefinition = new ScreenedTBResultsDataDefinition();
+		screenedTBResultsDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		ScreenedForCervicalCancerDataDefinition screenedForCervicalCancerDataDefinition = new ScreenedForCervicalCancerDataDefinition();
+		screenedForCervicalCancerDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
 		TestedForHIVDataDefinition testedForHIVDataDefinition = new TestedForHIVDataDefinition();
 		testedForHIVDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		ReportedHIVExposureWithin72HRSDataDefinition reportedHIVExposureWithin72HRSDataDefinition = new ReportedHIVExposureWithin72HRSDataDefinition();
@@ -144,6 +149,10 @@ public class KPRegisterReportBuilder extends AbstractHybridReportBuilder {
 		startedTBTreatmentDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		CompletedTBTreatmentDataDefinition completedTBTreatmentDataDefinition = new CompletedTBTreatmentDataDefinition();
 		completedTBTreatmentDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		ReceivedVLResultsDataDateDefinition receivedVLResultsDataDateDefinition = new ReceivedVLResultsDataDateDefinition();
+		receivedVLResultsDataDateDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		ScreenedForMentalHealthDataDefinition screenedForMentalHealthDataDefinition = new ScreenedForMentalHealthDataDefinition();
+		screenedForMentalHealthDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
 		DataConverter nameFormatter = new ObjectFormatter("{familyName}, {givenName}");
 		DataDefinition nameDef = new ConvertedPersonDataDefinition("name", new PreferredNameDataDefinition(), nameFormatter);
@@ -181,8 +190,10 @@ public class KPRegisterReportBuilder extends AbstractHybridReportBuilder {
 		dsd.addColumn("VL Done", vLDoneDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Due date for VL", new VLDueDateDataDefinition(), "");
 		dsd.addColumn("Received VL results", receivedVLResultsDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Received VL results Date", receivedVLResultsDataDateDefinition, "endDate=${endDate}");
 		dsd.addColumn("Attained Viral Load Suppression", new VLSuppressedDataDefinition(), "");
 		dsd.addColumn("Screened for TB", screenedTBDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Screened for TB Results", screenedTBResultsDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Diagnosed with TB", diagnosedWithTBDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Started on TB Treatment", startedTBTreatmentDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Completed TB Treatment", completedTBTreatmentDataDefinition, "endDate=${endDate}");
@@ -213,6 +224,8 @@ public class KPRegisterReportBuilder extends AbstractHybridReportBuilder {
 		dsd.addColumn("Diagnosed with STIs", new DiagnosedWithSTIDataDefinition(), "");
 		dsd.addColumn("Treated for STIs", new TreatedForSTIDataDefinition(), "");
 		dsd.addColumn("Screened for Drug and Alcohol use", screenedForDrugsAndAlcoholDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Screened for mental health", screenedForMentalHealthDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Screened for Cervical Cancer", screenedForCervicalCancerDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Initiated PrEP", initiatedPrEPDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Currently on PrEP", currentlyOnPrEPDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Provided modern FP Methods", providedModernFPMethodsDataDefinition, "endDate=${endDate}");
