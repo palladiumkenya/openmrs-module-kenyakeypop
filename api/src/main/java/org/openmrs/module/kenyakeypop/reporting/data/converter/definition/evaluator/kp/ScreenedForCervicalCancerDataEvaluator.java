@@ -35,11 +35,12 @@ public class ScreenedForCervicalCancerDataEvaluator implements PersonDataEvaluat
 	public EvaluatedPersonData evaluate(PersonDataDefinition definition, EvaluationContext context)
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
-		String qry = "select f.patient_id \n"
-		        + "from kenyaemr_etl.etl_patient_hiv_followup f \n"
-		        + "join kenyaemr_etl.etl_patient_demographics p on p.patient_id=f.patient_id \n"
-		        + "where  date(f.visit_date) between date(:startDate) and date(:endDate) and if(f.cacx_screening in(703, 664, 1118),'Y','N') "
-		        + ";";
+		
+		String qry = "select v.client_id, (case mid(max(concat(v.visit_date,v.cerv_cancer_screened)),11)\n"
+		        + "                     when 1065 then 'Y' when 1066 then 'N' when 1175 then 'NA' else '' end) as cerv_cancer_screened\n"
+		        + "from kenyaemr_etl.etl_clinical_visit v where date(v.visit_date) between date(:startDate) and date(:endDate)\n"
+		        + "group by v.client_id;";
+
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");
 		Date endDate = (Date) context.getParameterValue("endDate");

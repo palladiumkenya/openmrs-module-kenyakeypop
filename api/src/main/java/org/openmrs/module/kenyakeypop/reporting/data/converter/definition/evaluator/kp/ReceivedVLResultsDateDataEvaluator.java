@@ -28,26 +28,26 @@ import java.util.Map;
  */
 @Handler(supports = ReceivedVLResultsDataDateDefinition.class, order = 50)
 public class ReceivedVLResultsDateDataEvaluator implements PersonDataEvaluator {
-	
-	@Autowired
-	private EvaluationService evaluationService;
-	
-	public EvaluatedPersonData evaluate(PersonDataDefinition definition, EvaluationContext context)
-	        throws EvaluationException {
-		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
-		
-		String qry = "select v.client_id, DATE_FORMAT(max(v.visit_date), '%d/%m/%Y') as date_of_received_vl_results\n"
-		        + "from kenyaemr_etl.etl_clinical_visit v\n"
-		        + "where v.received_vl_results = 'Y' and date(v.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "group by v.client_id;";
-		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
-		Date startDate = (Date) context.getParameterValue("startDate");
-		Date endDate = (Date) context.getParameterValue("endDate");
-		queryBuilder.addParameter("endDate", endDate);
-		queryBuilder.addParameter("startDate", startDate);
-		queryBuilder.append(qry);
-		Map<Integer, Object> data = evaluationService.evaluateToMap(queryBuilder, Integer.class, Object.class, context);
-		c.setData(data);
-		return c;
-	}
+
+    @Autowired
+    private EvaluationService evaluationService;
+
+    public EvaluatedPersonData evaluate(PersonDataDefinition definition, EvaluationContext context)
+            throws EvaluationException {
+        EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
+
+        String qry = "select o.patient_id, max(concat(DATE_FORMAT(o.date_activated, '%d/%m/%Y'))) vlResultDate from orders o \n"
+                + "  inner join (select order_type_id from order_type where uuid = '52a447d3-a64a-11e3-9aeb-50e549534c5e') ot on ot.order_type_id = o.order_type_id\n"
+                + "  where o.concept_id in (1305, 856) and o.voided=0 and o.order_action='NEW'\n"
+                + "  group by o.patient_id";
+        SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
+        Date startDate = (Date) context.getParameterValue("startDate");
+        Date endDate = (Date) context.getParameterValue("endDate");
+        queryBuilder.addParameter("endDate", endDate);
+        queryBuilder.addParameter("startDate", startDate);
+        queryBuilder.append(qry);
+        Map<Integer, Object> data = evaluationService.evaluateToMap(queryBuilder, Integer.class, Object.class, context);
+        c.setData(data);
+        return c;
+    }
 }
