@@ -36,12 +36,13 @@ public class ScreenedForAnalCancerResultsDataEvaluator implements PersonDataEval
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "SELECT v.client_id,\n" + "(CASE \n"
-		        + "    WHEN MID(MAX(CONCAT(v.visit_date, v.anal_cancer_screened)), 11) IN (1066, 1175) THEN 'NA'\n"
-		        + "    ELSE (CASE MID(MAX(CONCAT(v.visit_date, v.anal_cancer_results)), 11)\n"
-		        + "           WHEN 162743 THEN 'P'\n" + "           WHEN 1302 THEN 'N'\n" + "           ELSE ''\n"
-		        + "         END)\n" + "  END) AS anal_cancer_status\n" + "FROM kenyaemr_etl.etl_clinical_visit v\n"
-		        + "GROUP BY v.client_id;";
+				String qry = "SELECT v.client_id,\n" + "(CASE \n"
+				        + "    WHEN MID(MAX(CONCAT(v.visit_date, v.anal_cancer_screened)), 11) IN (1066, 1175) THEN 'NA'\n"
+				        + "    ELSE (CASE MID(MAX(CONCAT(v.visit_date, v.anal_cancer_results)), 11)\n"
+				        + "           WHEN 162743 THEN 'P'\n" + "           WHEN 1302 THEN 'N'\n" + "           ELSE ''\n"
+				        + "         END)\n" + "  END) AS anal_cancer_status\n" + "FROM kenyaemr_etl.etl_clinical_visit v\n"
+				        + "GROUP BY v.client_id;";
+
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");
