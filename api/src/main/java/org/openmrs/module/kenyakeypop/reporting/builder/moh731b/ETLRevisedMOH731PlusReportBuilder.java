@@ -17,7 +17,6 @@ import org.openmrs.module.kenyaemr.reporting.ColumnParameters;
 import org.openmrs.module.kenyaemr.reporting.EmrReportingUtils;
 import org.openmrs.module.kenyakeypop.reporting.library.ETLReports.moh731B.ETLMoh731PlusIndicatorLibrary;
 import org.openmrs.module.kenyakeypop.reporting.library.shared.common.CommonKpDimensionLibrary;
-import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.dataset.definition.CohortIndicatorDataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
@@ -35,7 +34,7 @@ import java.util.List;
  */
 @Component
 @Builds({ "kenyaemr.kenyakeypop.kenyakeypop.report.moh731b" })
-public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
+public class ETLRevisedMOH731PlusReportBuilder extends AbstractReportBuilder {
 	
 	@Autowired
 	private CommonKpDimensionLibrary commonDimensions;
@@ -85,12 +84,6 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 	
 	ColumnParameters colTotal = new ColumnParameters(null, "Total", "");
 	
-	ColumnParameters males = new ColumnParameters(null, "Male", "gender=M");
-	
-	ColumnParameters females = new ColumnParameters(null, "Female", "gender=F");
-	
-	List<ColumnParameters> genderDisaggregation = Arrays.asList(males, females);
-	
 	List<ColumnParameters> kpAgeDisaggregation = Arrays.asList(kp15_to_19, kp20_to_24, kp25_to_29, kp30_and_above, colTotal);
 	
 	List<ColumnParameters> kpAgeGenderDisaggregation = Arrays.asList(kpFemale15_to_19, kpMale15_to_19, kpFemale20_to_24,
@@ -116,206 +109,55 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 	 */
 	protected DataSetDefinition kpDataSet() {
 		CohortIndicatorDataSetDefinition cohortDsd = new CohortIndicatorDataSetDefinition();
-		cohortDsd.setName("4");
+		cohortDsd.setName("1");
 		cohortDsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cohortDsd.addParameter(new Parameter("location", "Sub-County", String.class));
 		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.moh731BAgeGroups(), "onDate=${endDate}"));
 		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
-		cohortDsd.addDimension("gender", ReportUtils.map(commonDimensions.gender()));
 		
 		String indParams = "startDate=${startDate},endDate=${endDate},location=${location}";
 		
-		// 1.0 Number of KP Reached
-		EmrReportingUtils.addRow(cohortDsd, "Number of FSW Reached", "",
+		/**
+		 * Receiving peer education: Number of people in each KP type who received peer education in
+		 * the reporting period.
+		 */
+		EmrReportingUtils.addRow(cohortDsd, "Number of KPs Reached", "FSW",
 		    ReportUtils.map(moh731bIndicators.kpsReachedWithinLastThreeMonths(FSW), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Number of MSM Reached", "",
+		EmrReportingUtils.addRow(cohortDsd, "Number of KPs Reached", "MSM",
 		    ReportUtils.map(moh731bIndicators.kpsReachedWithinLastThreeMonths(MSM), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Number of MSW Reached", "",
+		EmrReportingUtils.addRow(cohortDsd, "Number of KPs Reached", "MSW",
 		    ReportUtils.map(moh731bIndicators.kpsReachedWithinLastThreeMonths(MSW), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Number of PWID Reached", "",
+		EmrReportingUtils.addRow(cohortDsd, "Number of KPs Reached", "PWID",
 		    ReportUtils.map(moh731bIndicators.kpsReachedWithinLastThreeMonths(PWID), indParams), kpAgeGenderDisaggregation,
-		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
-		EmrReportingUtils.addRow(cohortDsd, "Number of PWUD Reached", "",
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "Number of KPs Reached", "PWUD",
 		    ReportUtils.map(moh731bIndicators.kpsReachedWithinLastThreeMonths(PWUD), indParams), kpAgeGenderDisaggregation,
-		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
-		EmrReportingUtils.addRow(cohortDsd, "Number of TRANSWOMAN Reached", "",
+		    Arrays.asList("01", "02", "03", "04", "05"));
+		EmrReportingUtils.addRow(cohortDsd, "Number of KPs Reached", "TRANSWOMAN",
 		    ReportUtils.map(moh731bIndicators.kpsReachedWithinLastThreeMonths(TRANSWOMAN), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Number of TRANSMAN Reached", "",
+		EmrReportingUtils.addRow(cohortDsd, "Number of KPs Reached", "TRANSMAN",
 		    ReportUtils.map(moh731bIndicators.kpsReachedWithinLastThreeMonths(TRANSMAN), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
-		// 2.0 Number KP Reached with Defined Package
-		EmrReportingUtils.addRow(cohortDsd, "Number of FSW Reached With Defined Package", "",
-		    ReportUtils.map(moh731bIndicators.kpsReachedWithinLastThreeMonthsDefinedPackage(FSW), indParams),
-		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Number of MSM Reached With Defined Package", "",
-		    ReportUtils.map(moh731bIndicators.kpsReachedWithinLastThreeMonthsDefinedPackage(MSM), indParams),
-		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Number of MSW Reached With Defined Package", "",
-		    ReportUtils.map(moh731bIndicators.kpsReachedWithinLastThreeMonthsDefinedPackage(MSW), indParams),
-		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Number of PWID Reached With Defined Package", "",
-		    ReportUtils.map(moh731bIndicators.kpsReachedWithinLastThreeMonthsDefinedPackage(PWID), indParams),
-		    kpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
-		EmrReportingUtils.addRow(cohortDsd, "Number of PWUD Reached With Defined Package", "",
-		    ReportUtils.map(moh731bIndicators.kpsReachedWithinLastThreeMonthsDefinedPackage(PWUD), indParams),
-		    kpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
-		EmrReportingUtils.addRow(cohortDsd, "Number of TRANSWOMAN Reached With Defined Package", "",
-		    ReportUtils.map(moh731bIndicators.kpsReachedWithinLastThreeMonthsDefinedPackage(TRANSWOMAN), indParams),
-		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Number of TRANSMAN Reached With Defined Package", "",
-		    ReportUtils.map(moh731bIndicators.kpsReachedWithinLastThreeMonthsDefinedPackage(TRANSMAN), indParams),
-		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
-		
-		// 2.1 Number KPS Receiving Peer Education
-		EmrReportingUtils.addRow(cohortDsd, "Number of FSW Receiving Peer Education", "",
-		    ReportUtils.map(moh731bIndicators.kpsReceivingPeerEducationWithinReportingPeriod(FSW), indParams),
-		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Number of MSM Receiving Peer Education", "",
-		    ReportUtils.map(moh731bIndicators.kpsReceivingPeerEducationWithinReportingPeriod(MSM), indParams),
-		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Number of MSW Receiving Peer Education", "",
-		    ReportUtils.map(moh731bIndicators.kpsReceivingPeerEducationWithinReportingPeriod(MSW), indParams),
-		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Number of PWID Receiving Peer Education", "",
-		    ReportUtils.map(moh731bIndicators.kpsReceivingPeerEducationWithinReportingPeriod(PWID), indParams),
-		    kpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
-		EmrReportingUtils.addRow(cohortDsd, "Number of PWUD Receiving Peer Education", "",
-		    ReportUtils.map(moh731bIndicators.kpsReceivingPeerEducationWithinReportingPeriod(PWUD), indParams),
-		    kpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
-		EmrReportingUtils.addRow(cohortDsd, "Number of TRANSWOMAN Receiving Peer Education", "",
-		    ReportUtils.map(moh731bIndicators.kpsReceivingPeerEducationWithinReportingPeriod(TRANSWOMAN), indParams),
-		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
-		EmrReportingUtils.addRow(cohortDsd, "Number of TRANSMAN Receiving Peer Education", "",
-		    ReportUtils.map(moh731bIndicators.kpsReceivingPeerEducationWithinReportingPeriod(TRANSMAN), indParams),
-		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
-		
-		// 2.2 Number of Receiving Commodities
-		// Number receiving Condoms
-		cohortDsd.addColumn("Number of FSW Receiving Condoms", "",
-		    ReportUtils.map(moh731bIndicators.receivingCondoms(FSW), indParams), "");
-		cohortDsd.addColumn("Number of MSM Receiving Condoms", "",
-		    ReportUtils.map(moh731bIndicators.receivingCondoms(MSM), indParams), "");
-		cohortDsd.addColumn("Number of MSW Receiving Condoms", "",
-		    ReportUtils.map(moh731bIndicators.receivingCondoms(MSW), indParams), "");
-		EmrReportingUtils.addRow(cohortDsd, "Number of PWID Receiving Condoms", "",
-		    ReportUtils.map(moh731bIndicators.receivingCondoms(PWID), indParams), genderDisaggregation,
-		    Arrays.asList("01", "02"));
-		EmrReportingUtils.addRow(cohortDsd, "Number of PWUD Receiving Condoms", "",
-		    ReportUtils.map(moh731bIndicators.receivingCondoms(PWUD), indParams), genderDisaggregation,
-		    Arrays.asList("01", "02"));
-		cohortDsd.addColumn("Number of TRANSWOMAN Receiving Condoms", "",
-		    ReportUtils.map(moh731bIndicators.receivingCondoms(TRANSWOMAN), indParams), "");
-		cohortDsd.addColumn("Number of TRANSMAN Receiving Condoms", "",
-		    ReportUtils.map(moh731bIndicators.receivingCondoms(TRANSMAN), indParams), "");
-		
-		// Receiving Condoms per need
-		cohortDsd.addColumn("Number of FSW Receiving Condoms Per need", "",
-		    ReportUtils.map(moh731bIndicators.receivingCondomsPerNeedPerNeed(FSW), indParams), "");
-		cohortDsd.addColumn("Number of MSM Receiving Condoms Per need", "",
-		    ReportUtils.map(moh731bIndicators.receivingCondomsPerNeedPerNeed(MSM), indParams), "");
-		cohortDsd.addColumn("Number of MSW Receiving Condoms Per need", "",
-		    ReportUtils.map(moh731bIndicators.receivingCondomsPerNeedPerNeed(MSW), indParams), "");
-		EmrReportingUtils.addRow(cohortDsd, "Number of PWID Receiving Condoms Per need", "",
-		    ReportUtils.map(moh731bIndicators.receivingCondomsPerNeedPerNeed(PWID), indParams), genderDisaggregation,
-		    Arrays.asList("01", "02"));
-		EmrReportingUtils.addRow(cohortDsd, "Number of PWUD Receiving Condoms Per need", "",
-		    ReportUtils.map(moh731bIndicators.receivingCondomsPerNeedPerNeed(PWUD), indParams), genderDisaggregation,
-		    Arrays.asList("01", "02"));
-		cohortDsd.addColumn("Number of TRANSMAN Receiving Condoms Per need", "",
-		    ReportUtils.map(moh731bIndicators.receivingCondomsPerNeedPerNeed(TRANSMAN), indParams), "");
-		cohortDsd.addColumn("Number of TRANSWOMAN Receiving Condoms Per need", "",
-		    ReportUtils.map(moh731bIndicators.receivingCondomsPerNeedPerNeed(TRANSWOMAN), indParams), "");
-		
-		/**
-		 * Number receiving needles & syringes: number of individuals in each KP type who received
-		 * at least one needle & syringe, irrespective of service provision point.
-		 */
-		cohortDsd.addColumn("Number of FSW Receiving Needles and Syringes", "",
-		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringes(FSW), indParams), "");
-		cohortDsd.addColumn("Number of MSM Receiving Needles and Syringes", "",
-		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringes(MSM), indParams), "");
-		cohortDsd.addColumn("Number of MSW Receiving Needles and Syringes", "",
-		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringes(MSW), indParams), "");
-		EmrReportingUtils.addRow(cohortDsd, "Number of PWID Receiving Needles and Syringes", "",
-		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringes(PWID), indParams), genderDisaggregation,
-		    Arrays.asList("01", "02"));
-		EmrReportingUtils.addRow(cohortDsd, "Number of PWUD Receiving Needles and Syringes", "",
-		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringes(PWUD), indParams), genderDisaggregation,
-		    Arrays.asList("01", "02"));
-		cohortDsd.addColumn("Number of TRANSMAN Receiving Needles and Syringes", "Receiving needles and syringes Transman",
-		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringes(TRANSMAN), indParams), "");
-		cohortDsd.addColumn("Number of TRANSWOMAN Receiving Needles and Syringes", "",
-		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringes(TRANSWOMAN), indParams), "");
-		
-		/**
-		 * Number receiving needles & syringes per need number of individuals in each KP type who
-		 * received needles & syringes based on their requirements derived from estimated number of
-		 * injecting episodes per month.
-		 */
-		cohortDsd.addColumn("Number of FSW Receiving Needles and Syringes Per Need", "",
-		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringesPerNeed(FSW), indParams), "");
-		cohortDsd.addColumn("Number of MSM Receiving Needles and Syringes Per Need", "",
-		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringesPerNeed(MSM), indParams), "");
-		cohortDsd.addColumn("Number of MSW Receiving Needles and Syringes Per Need", "",
-		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringesPerNeed(MSW), indParams), "");
-		EmrReportingUtils.addRow(cohortDsd, "Number of PWID Receiving Needles and Syringes Per Need", "",
-		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringesPerNeed(PWID), indParams), genderDisaggregation,
-		    Arrays.asList("01", "02"));
-		EmrReportingUtils.addRow(cohortDsd, "Number of PWUD Receiving Needles and Syringes Per Need", "",
-		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringesPerNeed(PWUD), indParams), genderDisaggregation,
-		    Arrays.asList("01", "02"));
-		cohortDsd.addColumn("Number of TRANSMAN Receiving Needles and Syringes Per Need", "",
-		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringesPerNeed(TRANSMAN), indParams), "");
-		cohortDsd.addColumn("Number of TRANSWOMAN Receiving Needles and Syringes Per Need", "",
-		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringesPerNeed(TRANSWOMAN), indParams), "");
-		
-		/**
-		 * Number receiving lubricants Number of individuals in each KP type who received lubricants
-		 * based on their requirements.
-		 */
-		cohortDsd.addColumn("Number of FSW Receiving Lubricants", "",
-		    ReportUtils.map(moh731bIndicators.receivingLubricants(FSW), indParams), "");
-		cohortDsd.addColumn("Number of MSM Receiving Lubricants", "",
-		    ReportUtils.map(moh731bIndicators.receivingLubricants(MSM), indParams), "");
-		cohortDsd.addColumn("Number of MSW Receiving Lubricants", "",
-		    ReportUtils.map(moh731bIndicators.receivingLubricants(MSW), indParams), "");
-		EmrReportingUtils.addRow(cohortDsd, "Number of PWID Receiving Lubricants", "",
-		    ReportUtils.map(moh731bIndicators.receivingLubricants(PWID), indParams), genderDisaggregation,
-		    Arrays.asList("01", "02"));
-		EmrReportingUtils.addRow(cohortDsd, "Number of PWUD Receiving Lubricants", "",
-		    ReportUtils.map(moh731bIndicators.receivingLubricants(PWUD), indParams), genderDisaggregation,
-		    Arrays.asList("01", "02"));
-		cohortDsd.addColumn("Number of TRANSMAN Receiving Lubricants", "",
-		    ReportUtils.map(moh731bIndicators.receivingLubricants(TRANSMAN), indParams), "");
-		cohortDsd.addColumn("Number of TRANSWOMAN Receiving Lubricants", "",
-		    ReportUtils.map(moh731bIndicators.receivingLubricants(TRANSWOMAN), indParams), "");
-		
-		/**
-		 * Number receiving lubricants per need Number of individuals in each KP type who received
-		 * lubricants based on their requirements
-		 */
-		cohortDsd.addColumn("Number of FSW Receiving Lubricants Per Need", "",
-		    ReportUtils.map(moh731bIndicators.receivingLubricantsPerNeed(FSW), indParams), "");
-		cohortDsd.addColumn("Number of MSM Receiving Lubricants Per Need", "",
-		    ReportUtils.map(moh731bIndicators.receivingLubricantsPerNeed(MSM), indParams), "");
-		cohortDsd.addColumn("Number of MSW Receiving Lubricants Per Need", "",
-		    ReportUtils.map(moh731bIndicators.receivingLubricantsPerNeed(MSW), indParams), "");
-		EmrReportingUtils.addRow(cohortDsd, "Number of PWID Receiving Lubricants Per Need", "",
-		    ReportUtils.map(moh731bIndicators.receivingLubricantsPerNeed(PWID), indParams), genderDisaggregation,
-		    Arrays.asList("01", "02"));
-		EmrReportingUtils.addRow(cohortDsd, "Number of PWUD Receiving Lubricants Per Need", "",
-		    ReportUtils.map(moh731bIndicators.receivingLubricantsPerNeed(PWUD), indParams), genderDisaggregation,
-		    Arrays.asList("01", "02"));
-		cohortDsd.addColumn("Number of TRANSMAN Receiving Lubricants Per Need", "",
-		    ReportUtils.map(moh731bIndicators.receivingLubricantsPerNeed(TRANSMAN), indParams), "");
-		cohortDsd.addColumn("Number of TRANSWOMAN Receiving Lubricants Per Need", "",
-		    ReportUtils.map(moh731bIndicators.receivingLubricantsPerNeed(TRANSWOMAN), indParams), "");
+		cohortDsd.addColumn("Number of KPs Reached", "Received peer education Fsw",
+		    ReportUtils.map(moh731bIndicators.receivedPeerEducation(FSW), indParams), "");
+		cohortDsd.addColumn("Received_Peer_education_MSM", "Received peer education Msm",
+		    ReportUtils.map(moh731bIndicators.receivedPeerEducation(MSM), indParams), "");
+		cohortDsd.addColumn("Received_Peer_education_MSW", "Received peer education Msw",
+		    ReportUtils.map(moh731bIndicators.receivedPeerEducation(MSW), indParams), "");
+		cohortDsd.addColumn("Received_Peer_education_PWID", "Received peer education Pwid",
+		    ReportUtils.map(moh731bIndicators.receivedPeerEducation(PWID), indParams), "");
+		cohortDsd.addColumn("Received_Peer_education_PWUD", "Received peer education Pwud",
+		    ReportUtils.map(moh731bIndicators.receivedPeerEducation(PWUD), indParams), "");
+		cohortDsd.addColumn("Received_Peer_education_Transman", "Received peer education Transman",
+		    ReportUtils.map(moh731bIndicators.receivedPeerEducation(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Received_Peer_education_Transwoman", "Received peer education Transwoman",
+		    ReportUtils.map(moh731bIndicators.receivedPeerEducation(TRANSWOMAN), indParams), "");
 		
 		/**
 		 * Active KPs disaggregated by KP type
@@ -500,7 +342,7 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
 		/**
-		 * 2.3 HIV positive 3 months ago linked to care/treatment. This set of data element Refers
+		 * 2.3 HIV positive 3 months ago linked to care/treatment. This set of data elements refers
 		 * to patients who were diagnosed HIV positive three months ago and have been linked to
 		 * care/ treatment.
 		 */
@@ -544,6 +386,122 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.positiveMonthsAgo(TRANSMAN), indParams), "");
 		cohortDsd.addColumn("Total_Positive_3_Months_Ago_Transwoman", "HIV+ 3 Months ago",
 		    ReportUtils.map(moh731bIndicators.positiveMonthsAgo(TRANSWOMAN), indParams), "");
+		
+		/**
+		 * Receiving condoms
+		 */
+		cohortDsd.addColumn("Receiving_Condoms_FSW", "Receiving Condoms Fsw",
+		    ReportUtils.map(moh731bIndicators.receivingCondoms(FSW), indParams), "");
+		cohortDsd.addColumn("Receiving_Condoms_MSM", "Receiving Condoms Msm",
+		    ReportUtils.map(moh731bIndicators.receivingCondoms(MSM), indParams), "");
+		cohortDsd.addColumn("Receiving_Condoms_MSW", "Receiving Condoms Msw",
+		    ReportUtils.map(moh731bIndicators.receivingCondoms(MSW), indParams), "");
+		cohortDsd.addColumn("Receiving_Condoms_PWID", "Receiving Condoms Pwid",
+		    ReportUtils.map(moh731bIndicators.receivingCondoms(PWID), indParams), "");
+		cohortDsd.addColumn("Receiving_Condoms_PWUD", "Receiving Condoms Pwud",
+		    ReportUtils.map(moh731bIndicators.receivingCondoms(PWUD), indParams), "");
+		cohortDsd.addColumn("Receiving_Condoms_Transman", "Receiving Condoms Transman",
+		    ReportUtils.map(moh731bIndicators.receivingCondoms(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Receiving_Condoms_Transwoman", "Receiving Condoms Transwoman",
+		    ReportUtils.map(moh731bIndicators.receivingCondoms(TRANSWOMAN), indParams), "");
+		
+		/**
+		 * Number receiving condoms per need: number of individuals in each KP type who received
+		 * condoms based on their requirements derived from estimated number of sex acts per month
+		 */
+		cohortDsd.addColumn("Receiving_Condoms_Per_Need_FSW", "Receiving Condoms Per need Fsw",
+		    ReportUtils.map(moh731bIndicators.receivingCondomsPerNeedPerNeed(FSW), indParams), "");
+		cohortDsd.addColumn("Receiving_Condoms_Per_Need_MSM", "Receiving Condoms Per need Msm",
+		    ReportUtils.map(moh731bIndicators.receivingCondomsPerNeedPerNeed(MSM), indParams), "");
+		cohortDsd.addColumn("Receiving_Condoms_Per_Need_MSW", "Receiving Condoms Per need Msw",
+		    ReportUtils.map(moh731bIndicators.receivingCondomsPerNeedPerNeed(MSW), indParams), "");
+		cohortDsd.addColumn("Receiving_Condoms_Per_Need_PWID", "Receiving Condoms Per need Pwid",
+		    ReportUtils.map(moh731bIndicators.receivingCondomsPerNeedPerNeed(PWID), indParams), "");
+		cohortDsd.addColumn("Receiving_Condoms_Per_Need_PWUD", "Receiving Condoms Per need Pwud",
+		    ReportUtils.map(moh731bIndicators.receivingCondomsPerNeedPerNeed(PWUD), indParams), "");
+		cohortDsd.addColumn("Receiving_Condoms_Per_Need_Transman", "Receiving Condoms Per need Transman",
+		    ReportUtils.map(moh731bIndicators.receivingCondomsPerNeedPerNeed(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Receiving_Condoms_Per_Need_Transwoman", "Receiving Condoms Per need Transwoman",
+		    ReportUtils.map(moh731bIndicators.receivingCondomsPerNeedPerNeed(TRANSWOMAN), indParams), "");
+		
+		/**
+		 * Number receiving needles & syringes: number of individuals in each KP type who received
+		 * at least one needle & syringe, irrespective of service provision point.
+		 */
+		cohortDsd.addColumn("Receiving_Needles_and_Syringes_FSW", "Receiving needles and syringes Fsw",
+		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringes(FSW), indParams), "");
+		cohortDsd.addColumn("Receiving_Needles_and_Syringes_MSM", "Receiving needles and syringes Msm",
+		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringes(MSM), indParams), "");
+		cohortDsd.addColumn("Receiving_Needles_and_Syringes_MSW", "Receiving needles and syringes Msw",
+		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringes(MSW), indParams), "");
+		cohortDsd.addColumn("Receiving_Needles_and_Syringes_PWID", "Receiving needles and syringes Pwid",
+		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringes(PWID), indParams), "");
+		cohortDsd.addColumn("Receiving_Needles_and_Syringes_PWUD", "Receiving needles and syringes Pwud",
+		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringes(PWUD), indParams), "");
+		cohortDsd.addColumn("Receiving_Needles_and_Syringes_Transman", "Receiving needles and syringes Transman",
+		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringes(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Receiving_Needles_and_Syringes_Transwoman", "Transwoman receiving needles and syringes",
+		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringes(TRANSWOMAN), indParams), "");
+		
+		/**
+		 * Number receiving needles & syringes per need number of individuals in each KP type who
+		 * received needles & syringes based on their requirements derived from estimated number of
+		 * injecting episodes per month.
+		 */
+		cohortDsd.addColumn("Receiving_Needles_and_Syringes_Per_Need_FSW", "Receiving needs & syringes per need Fsw",
+		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringesPerNeed(FSW), indParams), "");
+		cohortDsd.addColumn("Receiving_Needles_and_Syringes_Per_Need_MSM", "Receiving needs & syringes per need Msm",
+		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringesPerNeed(MSM), indParams), "");
+		cohortDsd.addColumn("Receiving_Needles_and_Syringes_Per_Need_MSW", "Receiving needs & syringes per need Msw",
+		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringesPerNeed(MSW), indParams), "");
+		cohortDsd.addColumn("Receiving_Needles_and_Syringes_Per_Need_PWID", "Receiving needs & syringes per need Pwid",
+		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringesPerNeed(PWID), indParams), "");
+		cohortDsd.addColumn("Receiving_Needles_and_Syringes_Per_Need_PWUD", "Receiving needs & syringes per need Pwud",
+		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringesPerNeed(PWUD), indParams), "");
+		cohortDsd.addColumn("Receiving_Needles_and_Syringes_Per_Need_Transman",
+		    "Receiving needs & syringes per need Transman",
+		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringesPerNeed(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Receiving_Needles_and_Syringes_Per_Need_Transwoman",
+		    "Transwoman receiving needs & syringes per need",
+		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringesPerNeed(TRANSWOMAN), indParams), "");
+		
+		/**
+		 * Number receiving lubricants Number of individuals in each KP type who received lubricants
+		 * based on their requirements.
+		 */
+		cohortDsd.addColumn("Receiving_Lubricants_FSW", "Receiving Lubricants Fsw",
+		    ReportUtils.map(moh731bIndicators.receivingLubricants(FSW), indParams), "");
+		cohortDsd.addColumn("Receiving_Lubricants_MSM", "Receiving Lubricants Msm",
+		    ReportUtils.map(moh731bIndicators.receivingLubricants(MSM), indParams), "");
+		cohortDsd.addColumn("Receiving_Lubricants_MSW", "Receiving Lubricants Msw",
+		    ReportUtils.map(moh731bIndicators.receivingLubricants(MSW), indParams), "");
+		cohortDsd.addColumn("Receiving_Lubricants_PWID", "Receiving Lubricants Pwid",
+		    ReportUtils.map(moh731bIndicators.receivingLubricants(PWID), indParams), "");
+		cohortDsd.addColumn("Receiving_Lubricants_PWUD", "Receiving Lubricants Pwud",
+		    ReportUtils.map(moh731bIndicators.receivingLubricants(PWUD), indParams), "");
+		cohortDsd.addColumn("Receiving_Lubricants_Transman", "Receiving Lubricants Transman",
+		    ReportUtils.map(moh731bIndicators.receivingLubricants(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Receiving_Lubricants_Transwoman", "Transwoman receiving Lubricants",
+		    ReportUtils.map(moh731bIndicators.receivingLubricants(TRANSWOMAN), indParams), "");
+		
+		/**
+		 * Number receiving lubricants per need Number of individuals in each KP type who received
+		 * lubricants based on their requirements
+		 */
+		cohortDsd.addColumn("Receiving_Lubricants_Per_Need_FSW", "Receiving Lubricants Per Need Fsw",
+		    ReportUtils.map(moh731bIndicators.receivingLubricantsPerNeed(FSW), indParams), "");
+		cohortDsd.addColumn("Receiving_Lubricants_Per_Need_MSM", "Receiving Lubricants Per Need Msm",
+		    ReportUtils.map(moh731bIndicators.receivingLubricantsPerNeed(MSM), indParams), "");
+		cohortDsd.addColumn("Receiving_Lubricants_Per_Need_MSW", "Receiving Lubricants Per Need Msw",
+		    ReportUtils.map(moh731bIndicators.receivingLubricantsPerNeed(MSW), indParams), "");
+		cohortDsd.addColumn("Receiving_Lubricants_Per_Need_PWID", "Receiving Lubricants Per Need Pwid",
+		    ReportUtils.map(moh731bIndicators.receivingLubricantsPerNeed(PWID), indParams), "");
+		cohortDsd.addColumn("Receiving_Lubricants_Per_Need_PWUD", "Receiving Lubricants Per Need Pwud",
+		    ReportUtils.map(moh731bIndicators.receivingLubricantsPerNeed(PWUD), indParams), "");
+		cohortDsd.addColumn("Receiving_Lubricants_Per_Need_Transman", "Receiving Lubricants Per Need Transman",
+		    ReportUtils.map(moh731bIndicators.receivingLubricantsPerNeed(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Receiving_Lubricants_Per_Need_Transwoman", "Transwoman receiving Lubricants per need",
+		    ReportUtils.map(moh731bIndicators.receivingLubricantsPerNeed(TRANSWOMAN), indParams), "");
 		
 		/**
 		 * Number receiving self-test kits: number of individuals in each KP type who received an
@@ -930,7 +888,7 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		cohortDsd.addColumn("Receiving_Violence_Support_Transman", "Receiving Violence Support Transman",
 		    ReportUtils.map(moh731bIndicators.receivingViolenceSupport(TRANSMAN), indParams), "");
 		cohortDsd.addColumn("Receiving_Violence_Support_Transwoman", "Transwoman receiving violence support",
-		    ReportUtils.map(moh731bIndicators.experiencingViolence(TRANSWOMAN), indParams), "");
+		    ReportUtils.map(moh731bIndicators.receivingViolenceSupport(TRANSWOMAN), indParams), "");
 		
 		//4.7 PEP
 		/**
