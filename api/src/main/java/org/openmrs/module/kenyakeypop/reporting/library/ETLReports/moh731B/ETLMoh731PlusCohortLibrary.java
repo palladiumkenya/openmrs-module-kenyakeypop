@@ -105,6 +105,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.setDescription("kpCurr");
 		
 		return cd;
@@ -410,31 +411,33 @@ public class ETLMoh731PlusCohortLibrary {
 	 */
 	public CohortDefinition knownPositiveKPs() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select a.kp_client\n" + "from (select c.client_id           as kp_client,\n"
+		String sqlQuery = "select a.kp_client\n"
+		        + "from (select c.client_id           as kp_client,\n"
 		        + "             max(c.visit_date)     as latest_kp_enrollment,\n"
 		        + "             e.client_id           as kp_known_pos,\n"
-		        + "             e.kp_enrollment_date  as kp_enrollment_date,\n"
 		        + "             h.patient_id          as hiv_enrolled,\n"
 		        + "             h.hiv_enrollment_date as hiv_enroll_date,\n"
 		        + "             t.patient_id          as hts_positive_patient,\n"
-		        + "             t.hts_date            as hts_date\n" + "      from kenyaemr_etl.etl_contact c\n"
+		        + "             t.hts_date            as hts_date\n"
+		        + "      from kenyaemr_etl.etl_contact c\n"
 		        + "               left join (select e.client_id, e.visit_date as kp_enrollment_date\n"
 		        + "                          from kenyaemr_etl.etl_client_enrollment e\n"
 		        + "                          where e.visit_date <= date(:endDate)\n"
 		        + "                            and e.share_test_results = 'Yes I tested positive') e\n"
 		        + "                         on c.client_id = e.client_id\n"
-		        + "               left join (select h.patient_id, h.visit_date as hiv_enrollment_date\n"
+		        + "               left join (select h.patient_id, coalesce(h.date_confirmed_hiv_positive,coalesce(h.date_first_enrolled_in_care,h.visit_date)) as hiv_enrollment_date\n"
 		        + "                          from kenyaemr_etl.etl_hiv_enrollment h\n"
 		        + "                          where h.visit_date <= date(:endDate)) h on c.client_id = h.patient_id\n"
 		        + "               left join (select t.patient_id, t.visit_date as hts_date\n"
 		        + "                          from kenyaemr_etl.etl_hts_test t\n"
-		        + "                          where t.population_type= 'Key Population'\n"
+		        + "                          where t.population_type = 'Key Population'\n"
 		        + "                            and t.visit_date <= date(:endDate)\n"
 		        + "                            and t.test_type = 1\n"
 		        + "                            and t.final_test_result = 'Positive') t on c.client_id = t.patient_id\n"
-		        + "      group by c.client_id\n" + "      having latest_kp_enrollment <= date(:endDate)\n"
-		        + "         and (kp_known_pos is not null or hiv_enrolled is not null\n"
-		        + "          or hts_positive_patient is not null)) a;";
+		        + "      group by c.client_id\n"
+		        + "      having latest_kp_enrollment <= date(:endDate)\n"
+		        + "         and (kp_known_pos is not null or (hiv_enrolled is not null and hiv_enroll_date <= latest_kp_enrollment)\n"
+		        + "          or (hts_positive_patient is not null and hts_date <= latest_kp_enrollment))) a;";
 		cd.setName("knownPositiveKPs");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -1882,15 +1885,38 @@ public class ETLMoh731PlusCohortLibrary {
 	 * 
 	 * @return
 	 */
-	public CohortDefinition receivedPeerEducationSQL() {
+	public CohortDefinition receivedPeerEducationWithinLastThreeMonths() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c inner join kenyaemr_etl.etl_peer_calendar p\n"
-		        + "on c.client_id = p.client_id where date(p.visit_date) between date(:startDate) and date(:endDate);";
-		cd.setName("receivedPeerEducationSQL");
+		String sqlQuery = "select c.client_id\n"
+		        + "from kenyaemr_etl.etl_contact c\n"
+		        + "         inner join kenyaemr_etl.etl_peer_calendar p\n"
+		        + "                    on c.client_id = p.client_id\n"
+		        + "where date(p.visit_date) between DATE_ADD( DATE_SUB(date(:endDate), INTERVAL 3 MONTH),INTERVAL 1 DAY) and date(:endDate);";
+		cd.setName("receivedPeerEducationWithinLastThreeMonths");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("receivedPeerEducationSQL");
+		cd.setDescription("receivedPeerEducationWithinLastThreeMonths");
+		
+		return cd;
+	}
+	
+	/**
+	 * KPs received peer education within reporting period
+	 * 
+	 * @return
+	 */
+	public CohortDefinition receivedPeerEducationWithinReportingPeriod() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select c.client_id\n" + "from kenyaemr_etl.etl_contact c\n"
+		        + "         inner join kenyaemr_etl.etl_peer_calendar p\n"
+		        + "                    on c.client_id = p.client_id\n"
+		        + "where date(p.visit_date) between date(:startDate) and date(:endDate);";
+		cd.setName("receivedPeerEducationWithinReportingPeriod");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("receivedPeerEducationWithinReportingPeriod");
 		
 		return cd;
 	}
@@ -1909,9 +1935,274 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.addSearch("kpType",
 		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
-		cd.addSearch("receivedPeerEducationSQL",
-		    ReportUtils.map(receivedPeerEducationSQL(), "startDate=${startDate},endDate=${endDate}"));
-		cd.setCompositionString("kpType AND receivedPeerEducationSQL");
+		cd.addSearch("receivedPeerEducationWithinLastThreeMonths",
+		    ReportUtils.map(receivedPeerEducationWithinLastThreeMonths(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpType AND receivedPeerEducationWithinLastThreeMonths");
+		
+		return cd;
+	}
+	
+	/**
+	 * KPs reached within the last 3 months
+	 * 
+	 * @param kpType
+	 * @return
+	 */
+	public CohortDefinition kpsReachedWithinLastThreeMonths(String kpType) {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Sub County", String.class));
+		cd.addSearch("kpType",
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("receivedPeerEducationWithinLastThreeMonths",
+		    ReportUtils.map(receivedPeerEducationWithinLastThreeMonths(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("receivedClinicalServicesSQL",
+		    ReportUtils.map(receivedClinicalServicesSQL(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpType AND (receivedPeerEducationWithinLastThreeMonths OR receivedClinicalServicesSQL)");
+		
+		return cd;
+	}
+	
+	/**
+	 * Screened for STI within last 3 months
+	 * 
+	 * @return
+	 */
+	public CohortDefinition screenedForSTIWithinLastThreeMonths() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v where v.sti_screened = 'Y' and v.visit_date\n"
+		        + "      between DATE_ADD(DATE_SUB(date(:endDate), INTERVAL 3 MONTH),INTERVAL 1 DAY) and date(:endDate);";
+		cd.setName("screenedForSTIWithinLastThreeMonths");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("screenedForSTIWithinLastThreeMonths");
+		
+		return cd;
+	}
+	
+	/**
+	 * KPs Tested for HIV within last 3 months
+	 * 
+	 * @return
+	 */
+	public CohortDefinition testedForHIVWithinLastThreeMonths() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select a.kp_client\n"
+		        + "from (select c.client_id  as kp_client,\n"
+		        + "             v.client_id  as kp_visit_client,\n"
+		        + "             t.patient_id as hts_client\n"
+		        + "      from kenyaemr_etl.etl_contact c\n"
+		        + "               left join (select t.patient_id\n"
+		        + "                          from kenyaemr_etl.etl_hts_test t\n"
+		        + "                          where t.population_type = 'Key Population'\n"
+		        + "                            and t.final_test_result in ('Positive', 'Negative')\n"
+		        + "                            and t.visit_date between DATE_ADD(DATE_SUB(date(:endDate), INTERVAL 3 MONTH), INTERVAL 1 DAY) and date(:endDate)) t\n"
+		        + "                         on c.client_id = t.patient_id\n"
+		        + "               left join (select v.client_id\n"
+		        + "                          from kenyaemr_etl.etl_clinical_visit v\n"
+		        + "                          where v.visit_date between DATE_ADD(DATE_SUB(date(:endDate), INTERVAL 3 MONTH), INTERVAL 1 DAY) and date(:endDate)\n"
+		        + "                            and v.hiv_tested = 'Yes') v on c.client_id = v.client_id\n"
+		        + "      where c.visit_date <= date(:endDate)) a\n"
+		        + "where (a.hts_client is not null or a.kp_visit_client is not null);";
+		cd.setName("testedForHIVWithinLastThreeMonths");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("testedForHIVWithinLastThreeMonths");
+		
+		return cd;
+	}
+	
+	/**
+	 * Screened for TB within last 3 months
+	 * 
+	 * @return
+	 */
+	public CohortDefinition screenedForTBWithinLastThreeMonths() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v where v.tb_screened = 'Y' and date(v.visit_date) between DATE_ADD(DATE_SUB(date(:endDate), INTERVAL 3 MONTH),INTERVAL 1 DAY) and date(:endDate);";
+		cd.setName("screenedForTBWithinLastThreeMonths");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("screenedForTBWithinLastThreeMonths");
+		
+		return cd;
+	}
+	
+	public CohortDefinition receivingCondomsFromClinicalVisitLastThreeMonths() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select v.client_id\n"
+		        + "from kenyaemr_etl.etl_clinical_visit v\n"
+		        + "where date(v.visit_date) between DATE_ADD(DATE_SUB(date(:endDate), INTERVAL 3 MONTH), INTERVAL 1 DAY) and date(:endDate)\n"
+		        + "group by v.client_id\n"
+		        + "having (coalesce(sum(v.female_condoms_no), 0) + coalesce(sum(v.male_condoms_no), 0)) > 0;";
+		cd.setName("receivingCondomsFromClinicalVisitLastThreeMonths");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Sub County", String.class));
+		cd.setDescription("receivingCondomsFromClinicalVisitLastThreeMonths");
+		
+		return cd;
+	}
+	
+	public CohortDefinition receivingCondomsFromSTITxLastThreeMonths() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select s.client_id\n"
+		        + "from kenyaemr_etl.etl_sti_treatment s\n"
+		        + "where s.visit_date between DATE_ADD(DATE_SUB(date(:endDate), INTERVAL 3 MONTH), INTERVAL 1 DAY) and date(:endDate)\n"
+		        + "group by s.client_id\n" + "having coalesce(sum(s.no_of_condoms), 0) > 0;";
+		cd.setName("receivingCondomsFromSTITxLastThreeMonths");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Sub County", String.class));
+		cd.setDescription("receivingCondomsFromSTITxLastThreeMonths");
+		
+		return cd;
+	}
+	
+	public CohortDefinition receivingCondomsFromPeerEduLastThreeMonths() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select p.client_id\n"
+		        + "from kenyaemr_etl.etl_peer_calendar p\n"
+		        + "where date(p.visit_date) between DATE_ADD(DATE_SUB(date(:endDate), INTERVAL 3 MONTH), INTERVAL 1 DAY) and date(:endDate)\n"
+		        + "group by p.client_id\n" + "having (coalesce(sum(p.monthly_male_condoms_distributed), 0) +\n"
+		        + "        coalesce(sum(p.monthly_female_condoms_distributed), 0)) > 0;";
+		cd.setName("receivingCondomsFromPeerEduLastThreeMonths");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Sub County", String.class));
+		cd.setDescription("receivingCondomsFromPeerEduLastThreeMonths");
+		
+		return cd;
+	}
+	
+	public CohortDefinition receivingCondomsWithinLastThreeMonths() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Sub County", String.class));
+		cd.addSearch("receivingCondomsFromClinicalVisitLastThreeMonths",
+		    ReportUtils.map(receivingCondomsFromClinicalVisitLastThreeMonths(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("receivingCondomsFromSTITxLastThreeMonths",
+		    ReportUtils.map(receivingCondomsFromSTITxLastThreeMonths(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("receivingCondomsFromPeerEduLastThreeMonths",
+		    ReportUtils.map(receivingCondomsFromPeerEduLastThreeMonths(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("receivingCondomsFromSTITxLastThreeMonths OR receivingCondomsFromPeerEduLastThreeMonths OR receivingCondomsFromClinicalVisitLastThreeMonths");
+		
+		return cd;
+	}
+	
+	public CohortDefinition receivingLubricantsWithinLastThreeMonths(String kpType) {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select k.client_id\n"
+		        + "from (select c.client_id, (coalesce(sum(v.lubes_no), 0) + p.monthly_lubes_distributed + t.no_of_lubes) as lubes_given\n"
+		        + "      from kenyaemr_etl.etl_contact c\n"
+		        + "               left outer join\n"
+		        + "           kenyaemr_etl.etl_peer_calendar p\n"
+		        + "           on c.client_id = p.client_id and\n"
+		        + "              date(p.visit_date) between DATE_ADD(DATE_SUB(date(:endDate), INTERVAL 3 MONTH), INTERVAL 1 DAY) and date(:endDate)\n"
+		        + "               left outer join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id and\n"
+		        + "                                                                    date(v.visit_date) between DATE_ADD(DATE_SUB(date(:endDate), INTERVAL 3 MONTH), INTERVAL 1 DAY) and date(:endDate)\n"
+		        + "               left outer join kenyaemr_etl.etl_sti_treatment t on c.client_id = t.client_id and\n"
+		        + "                                                                   date(v.visit_date) between DATE_ADD(DATE_SUB(date(:endDate), INTERVAL 3 MONTH), INTERVAL 1 DAY) and date(:endDate)\n"
+		        + "      where c.key_population_type = '" + kpType + "'\n"
+		        + "        and c.implementation_subcounty = :location group by c.client_id\n"
+		        + "      having lubes_given >= 1) k;";
+		cd.setName("receivingLubricantsWithinLastThreeMonths");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Sub County", String.class));
+		cd.setDescription("receivingLubricantsWithinLastThreeMonths");
+		
+		return cd;
+	}
+	
+	public CohortDefinition receivingNeedlesAndSyringesWithinLastThreeMonths(String kpType) {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select k.client_id\n"
+		        + "from (select c.client_id,\n"
+		        + "             (coalesce(sum(v.syringes_needles_no), 0) + p.monthly_n_and_s_distributed) as needles_and_syringes_given\n"
+		        + "      from kenyaemr_etl.etl_contact c\n"
+		        + "               left outer join\n"
+		        + "           kenyaemr_etl.etl_peer_calendar p\n"
+		        + "           on c.client_id = p.client_id and date(p.visit_date) between DATE_ADD(DATE_SUB(date(:endDate), INTERVAL 3 MONTH), INTERVAL 1 DAY) and date(:endDate)\n"
+		        + "               left outer join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id and\n"
+		        + "                                                                    date(v.visit_date) between DATE_ADD(DATE_SUB(date(:endDate), INTERVAL 3 MONTH), INTERVAL 1 DAY) and date(:endDate)\n"
+		        + "      where c.key_population_type = '" + kpType + "'\n"
+		        + "        and c.implementation_subcounty = :location group by c.client_id\n"
+		        + "      having needles_and_syringes_given >= 1) k;";
+		cd.setName("receivingNeedlesWithinLastThreeMonths");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Sub County", String.class));
+		cd.setDescription("receivingNeedlesWithinLastThreeMonths");
+		
+		return cd;
+	}
+	
+	/**
+	 * KPs reached within last three months with define package Defined package:Peer Education, STI
+	 * screening, Knowledge of HIV status, TB screening, distribution of Condoms, Lubricants or
+	 * Needle and Syringe.
+	 * 
+	 * @param kpType
+	 * @return
+	 */
+	public CohortDefinition kpsReachedWithinLastThreeMonthsDefinedPackage(String kpType) {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Sub County", String.class));
+		cd.addSearch("kpCurr", ReportUtils.map(kpCurr(), "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("kpType",
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("receivedPeerEducationWithinLastThreeMonths",
+		    ReportUtils.map(receivedPeerEducationWithinLastThreeMonths(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("receivingCondomsWithinLastThreeMonths",
+		    ReportUtils.map(receivingCondomsWithinLastThreeMonths(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("receivingLubricantsWithinLastThreeMonths", ReportUtils.map(
+		    receivingLubricantsWithinLastThreeMonths(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("receivingNeedlesAndSyringesWithinLastThreeMonths", ReportUtils.map(
+		    receivingNeedlesAndSyringesWithinLastThreeMonths(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("knownPositiveKPs", ReportUtils.map(knownPositiveKPs(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("testedForHIVWithinLastThreeMonths",
+		    ReportUtils.map(testedForHIVWithinLastThreeMonths(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("screenedForTBWithinLastThreeMonths",
+		    ReportUtils.map(screenedForTBWithinLastThreeMonths(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("screenedForSTIWithinLastThreeMonths",
+		    ReportUtils.map(screenedForSTIWithinLastThreeMonths(), "startDate=${startDate},endDate=${endDate}"));
+		
+		cd.setCompositionString("kpType AND kpCurr AND receivedPeerEducationWithinLastThreeMonths AND (receivingCondomsWithinLastThreeMonths OR receivingLubricantsWithinLastThreeMonths OR receivingNeedlesAndSyringesWithinLastThreeMonths) AND (testedForHIVWithinLastThreeMonths OR knownPositiveKPs) AND screenedForTBWithinLastThreeMonths AND screenedForSTIWithinLastThreeMonths");
+		
+		return cd;
+	}
+	
+	/**
+	 * KPs receiving peer education within the reporting period
+	 * 
+	 * @param kpType
+	 * @return
+	 */
+	public CohortDefinition kpsReceivingPeerEducationWithinReportingPeriod(String kpType) {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Sub County", String.class));
+		cd.addSearch("kpType",
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("receivedPeerEducationWithinReportingPeriod",
+		    ReportUtils.map(receivedPeerEducationWithinReportingPeriod(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpType AND receivedPeerEducationWithinReportingPeriod");
 		
 		return cd;
 	}
@@ -1925,7 +2216,7 @@ public class ETLMoh731PlusCohortLibrary {
 	public CohortDefinition receivedClinicalServicesSQL() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c inner join kenyaemr_etl.etl_clinical_visit v\n"
-		        + "on c.client_id = v.client_id where date(v.visit_date) between date(:startDate) and date(:endDate);";
+		        + "on c.client_id = v.client_id where date(v.visit_date) between DATE_ADD( DATE_SUB(date(:endDate), INTERVAL 3 MONTH),INTERVAL 1 DAY) and date(:endDate);";
 		cd.setName("receivedClinicalServicesSQL");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));

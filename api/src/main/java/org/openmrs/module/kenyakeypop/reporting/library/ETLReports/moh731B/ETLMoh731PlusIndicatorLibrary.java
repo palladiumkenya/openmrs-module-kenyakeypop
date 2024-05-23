@@ -231,6 +231,39 @@ public class ETLMoh731PlusIndicatorLibrary {
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 	}
 	
+	/**
+	 * KPs reached within the last 3 months
+	 * 
+	 * @param kpType
+	 * @return
+	 */
+	public CohortIndicator kpsReachedWithinLastThreeMonths(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.kpsReachedWithinLastThreeMonths(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	/**
+	 * KPs reached with the minimum package within the last 3 months
+	 * 
+	 * @param kpType
+	 * @return
+	 */
+	public CohortIndicator kpsReachedWithinLastThreeMonthsDefinedPackage(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.kpsReachedWithinLastThreeMonthsDefinedPackage(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	/**
+	 * KPs receiving peer education within reporting period
+	 * 
+	 * @param kpType
+	 * @return
+	 */
+	public CohortIndicator kpsReceivingPeerEducationWithinReportingPeriod(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.kpsReceivingPeerEducationWithinReportingPeriod(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
 	public CohortIndicator receivedPeerEducation(String kpType) {
 		return cohortIndicator("", ReportUtils.map(moh731BCohorts.receivedPeerEducation(kpType),
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
