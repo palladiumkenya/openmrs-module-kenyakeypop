@@ -62,7 +62,6 @@
                 <ref bean="kenyakeypop.form.kpDiagnosis" />
                 <ref bean="kenyakeypop.form.kpTreatmentVerification" />
                 <ref bean="kenyakeypop.form.prepTreatmentVerification" />
-                <ref bean="kenyakeypop.form.genderBasedViolence" />
                 <ref bean="kenyaemr.common.form.tbScreening" />
             </set>
         </property>
