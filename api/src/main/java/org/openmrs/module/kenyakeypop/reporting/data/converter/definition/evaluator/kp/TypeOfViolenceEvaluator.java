@@ -35,11 +35,9 @@ public class TypeOfViolenceEvaluator implements PersonDataEvaluator {
 	public EvaluatedPersonData evaluate(PersonDataDefinition definition, EvaluationContext context)
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
-		
-		String qry = "select v.patient_id, (case mid(max(concat(v.visit_date,v.form_of_incident)),11)\n"
-		        + " when 123007 then 'Verbal abuse' when 152292 then 'Assault/physical abuse' when 126312 then 'Discrimination' when 152370 then 'Rape/Sexual abuse' when 156761 then 'Illegal arrest' when 165161 then 'Harassment' when 5622 then 'Other' else '' end) as form_of_incident\n"
-		        + " from kenyaemr_etl.etl_violence_reporting v where date(v.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + " group by v.patient_id;";
+
+		String qry = "select v.patient_id, (case when 123007 then 'Verbal abuse' when 152292 then 'Assault/physical abuse' when 126312 then 'Discrimination' when 152370 then 'Rape/Sexual abuse' when 156761 then 'Illegal arrest' when 165161 then 'Harassment' when 5622 then 'Other' else '' end) as form_of_incident\n"
+		        + " from kenyaemr_etl.etl_violence_reporting v where date(v.visit_date) between date(:startDate) and date(:endDate) group by v.patient_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");
