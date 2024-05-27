@@ -157,7 +157,6 @@ public class KPRegisterReportBuilder extends AbstractHybridReportBuilder {
 		alcoholAndDrugAbuseDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		TypeOfViolenceDataDefinition typeOfViolenceDataDefinition = new TypeOfViolenceDataDefinition();
 		typeOfViolenceDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
-
 		DataConverter nameFormatter = new ObjectFormatter("{familyName}, {givenName}");
 		DataDefinition nameDef = new ConvertedPersonDataDefinition("name", new PreferredNameDataDefinition(), nameFormatter);
 		dsd.addColumn("id", new PersonIdDataDefinition(), "");
@@ -178,7 +177,6 @@ public class KPRegisterReportBuilder extends AbstractHybridReportBuilder {
 		dsd.addColumn("Date of Enrollment", new DateOfEnrollmentDataDefinition(), "");
 		dsd.addColumn("HIV Status at Enrollment", new HIVStatusAtEnrollmentDataDefinition(), "");
 		dsd.addColumn("Peer Educator Code", new PeerEducatorCodeDataDefinition(), "");
-
 		dsd.addColumn("Received Peer Education", receivedPeerEducationDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Provided with clinical services", providedWithClinicalServicesDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Tested for HIV", testedForHIVDataDefinition, "endDate=${endDate}");
@@ -242,7 +240,6 @@ public class KPRegisterReportBuilder extends AbstractHybridReportBuilder {
 		dsd.addColumn("Status in Program", new StatusInProgramDataDefinition(), "");
 		dsd.addColumn("Next appointment Date", appointmentDateDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Remarks", new RemarksDataDefinition(), "");
-
 		return dsd;
 	}
 }
