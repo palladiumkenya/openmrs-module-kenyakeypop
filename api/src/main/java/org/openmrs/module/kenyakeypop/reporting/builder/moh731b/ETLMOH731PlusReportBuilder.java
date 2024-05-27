@@ -17,7 +17,6 @@ import org.openmrs.module.kenyaemr.reporting.ColumnParameters;
 import org.openmrs.module.kenyaemr.reporting.EmrReportingUtils;
 import org.openmrs.module.kenyakeypop.reporting.library.ETLReports.moh731B.ETLMoh731PlusIndicatorLibrary;
 import org.openmrs.module.kenyakeypop.reporting.library.shared.common.CommonKpDimensionLibrary;
-import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.dataset.definition.CohortIndicatorDataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
@@ -317,6 +316,299 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		cohortDsd.addColumn("Number of TRANSWOMAN Receiving Lubricants Per Need", "",
 		    ReportUtils.map(moh731bIndicators.receivingLubricantsPerNeed(TRANSWOMAN), indParams), "");
 		
+		//4.6 Violence support
+		/**
+		 * Experience violence: number of people in each KP type who experienced sexual violence in
+		 * the reporting period.
+		 */
+		/*cohortDsd.addColumn("Number of FSW Experiencing Sexual Violence", "",
+				ReportUtils.map(moh731bIndicators.experiencingSexualViolence(FSW), indParams), "");
+		cohortDsd.addColumn("Number of MSM Experiencing Sexual Violence", "",
+				ReportUtils.map(moh731bIndicators.experiencingSexualViolence(MSM), indParams), "");
+		cohortDsd.addColumn("Number of MSW Experiencing Sexual Violence", "",
+				ReportUtils.map(moh731bIndicators.experiencingSexualViolence(MSW), indParams), "");
+		EmrReportingUtils.addRow(cohortDsd, "Number of PWID Experiencing Sexual Violence", "",
+				ReportUtils.map(moh731bIndicators.experiencingSexualViolence(PWID), indParams), genderDisaggregation,
+				Arrays.asList("01", "02"));
+		EmrReportingUtils.addRow(cohortDsd, "Number of PWUD Experiencing Sexual Violence", "",
+				ReportUtils.map(moh731bIndicators.experiencingSexualViolence(PWUD), indParams), genderDisaggregation,
+				Arrays.asList("01", "02"));
+		cohortDsd.addColumn("Number of TRANSMAN Experiencing Sexual Violence", "",
+				ReportUtils.map(moh731bIndicators.experiencingSexualViolence(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Number of TRANSWOMAN Experiencing Sexual Violence", "",
+				ReportUtils.map(moh731bIndicators.experiencingSexualViolence(TRANSWOMAN), indParams), "");*/
+		/**
+		 * programme when they experienced Physical violence in the reporting period by KP type
+		 */
+		/*cohortDsd.addColumn("Number of FSW Experiencing Physical Violence", "",
+				ReportUtils.map(moh731bIndicators.experiencingPhysicalViolence(FSW), indParams), "");
+		cohortDsd.addColumn("Number of MSM Experiencing Physical Violence", "",
+				ReportUtils.map(moh731bIndicators.experiencingPhysicalViolence(MSM), indParams), "");
+		cohortDsd.addColumn("Number of MSW Experiencing Physical Violence", "",
+				ReportUtils.map(moh731bIndicators.experiencingPhysicalViolence(MSW), indParams), "");
+		EmrReportingUtils.addRow(cohortDsd, "Number of PWID Experiencing Physical Violence", "",
+				ReportUtils.map(moh731bIndicators.experiencingPhysicalViolence(PWID), indParams), genderDisaggregation,
+				Arrays.asList("01", "02"));
+		EmrReportingUtils.addRow(cohortDsd, "Number of PWUD Experiencing Physical Violence", "",
+				ReportUtils.map(moh731bIndicators.experiencingPhysicalViolence(PWUD), indParams), genderDisaggregation,
+				Arrays.asList("01", "02"));
+		cohortDsd.addColumn("Number of TRANSMAN Experiencing Physical Violence", "",
+				ReportUtils.map(moh731bIndicators.experiencingPhysicalViolence(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Number of TRANSWOMAN Experiencing Physical Violence", "",
+				ReportUtils.map(moh731bIndicators.experiencingPhysicalViolence(TRANSWOMAN), indParams), "");*/
+		
+		/**
+		 * Number of KPs experiencing emotional or psychological violence
+		 */
+		/*
+				cohortDsd.addColumn("Number of FSW Experiencing Emotional/Psychological Violence", "",
+						ReportUtils.map(moh731bIndicators.experiencingEmotionalOrPsychologicalViolence(FSW), indParams), "");
+				cohortDsd.addColumn("Number of MSM Experiencing Emotional/Psychological Violence", "",
+						ReportUtils.map(moh731bIndicators.experiencingEmotionalOrPsychologicalViolence(MSM), indParams), "");
+				cohortDsd.addColumn("Number of MSW Experiencing Emotional/Psychological Violence", "",
+						ReportUtils.map(moh731bIndicators.experiencingEmotionalOrPsychologicalViolence(MSW), indParams), "");
+				EmrReportingUtils.addRow(cohortDsd, "Number of PWID Experiencing Emotional/Psychological Violence", "",
+						ReportUtils.map(moh731bIndicators.experiencingEmotionalOrPsychologicalViolence(PWID), indParams), genderDisaggregation,
+						Arrays.asList("01", "02"));
+				EmrReportingUtils.addRow(cohortDsd, "Number of PWUD Experiencing Emotional/Psychological Violence", "",
+						ReportUtils.map(moh731bIndicators.experiencingEmotionalOrPsychologicalViolence(PWUD), indParams), genderDisaggregation,
+						Arrays.asList("01", "02"));
+				cohortDsd.addColumn("Number of TRANSMAN Experiencing Emotional/Psychological Violence", "",
+						ReportUtils.map(moh731bIndicators.experiencingEmotionalOrPsychologicalViolence(TRANSMAN), indParams), "");
+				cohortDsd.addColumn("Number of TRANSWOMAN Experiencing Emotional/Psychological Violence", "",
+						ReportUtils.map(moh731bIndicators.experiencingEmotionalOrPsychologicalViolence(TRANSWOMAN), indParams), "");
+		*/
+		
+		/**
+		 * Number of KPs who received violence support
+		 */
+		/*	cohortDsd.addColumn("Number of FSW Received Violence Support", "",
+					ReportUtils.map(moh731bIndicators.receivedViolenceSupport(FSW), indParams), "");
+			cohortDsd.addColumn("Number of MSM Received Violence Support", "",
+					ReportUtils.map(moh731bIndicators.receivedViolenceSupport(MSM), indParams), "");
+			cohortDsd.addColumn("Number of MSW Received Violence Support", "",
+					ReportUtils.map(moh731bIndicators.receivedViolenceSupport(MSW), indParams), "");
+			EmrReportingUtils.addRow(cohortDsd, "Number of PWID Received Violence Support", "",
+					ReportUtils.map(moh731bIndicators.receivedViolenceSupport(PWID), indParams), genderDisaggregation,
+					Arrays.asList("01", "02"));
+			EmrReportingUtils.addRow(cohortDsd, "Number of PWUD Received Violence Support", "",
+					ReportUtils.map(moh731bIndicators.receivedViolenceSupport(PWUD), indParams), genderDisaggregation,
+					Arrays.asList("01", "02"));
+			cohortDsd.addColumn("Number of TRANSMAN Received Violence Support", "",
+					ReportUtils.map(moh731bIndicators.receivedViolenceSupport(TRANSMAN), indParams), "");
+			cohortDsd.addColumn("Number of TRANSWOMAN Received Violence Support", "",
+					ReportUtils.map(moh731bIndicators.receivedViolenceSupport(TRANSWOMAN), indParams), "");*/
+		// 4.1 STI screening
+		/**
+		 * Number screened_STI number of individuals in each KP type who were screened for STI in
+		 * the reporting period.
+		 */
+		cohortDsd.addColumn("Number of FSW Screened for STI", "",
+		    ReportUtils.map(moh731bIndicators.screenedForSTI(FSW), indParams), "");
+		cohortDsd.addColumn("Number of MSM Screened for STI", "",
+		    ReportUtils.map(moh731bIndicators.screenedForSTI(MSM), indParams), "");
+		cohortDsd.addColumn("Number of MSW Screened for STI", "",
+		    ReportUtils.map(moh731bIndicators.screenedForSTI(MSW), indParams), "");
+		EmrReportingUtils.addRow(cohortDsd, "Number of PWID Screened for STI", "",
+		    ReportUtils.map(moh731bIndicators.screenedForSTI(PWID), indParams), genderDisaggregation,
+		    Arrays.asList("01", "02"));
+		EmrReportingUtils.addRow(cohortDsd, "Number of PWUD Screened for STI", "",
+		    ReportUtils.map(moh731bIndicators.screenedForSTI(PWUD), indParams), genderDisaggregation,
+		    Arrays.asList("01", "02"));
+		cohortDsd.addColumn("Number of TRANSMAN Screened for STI", "",
+		    ReportUtils.map(moh731bIndicators.screenedForSTI(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Number of TRANSWOMAN Screened for STI", "",
+		    ReportUtils.map(moh731bIndicators.screenedForSTI(TRANSWOMAN), indParams), "");
+		
+		/**
+		 * Diagnosed_STI: number of individuals in each KP type who were diagnosed with STI in the
+		 * reporting period.
+		 */
+		cohortDsd.addColumn("Number of FSW Diagnosed With STI", "",
+		    ReportUtils.map(moh731bIndicators.diagnosedWithSTI(FSW), indParams), "");
+		cohortDsd.addColumn("Number of MSM Diagnosed With STI", "",
+		
+		ReportUtils.map(moh731bIndicators.diagnosedWithSTI(MSM), indParams), "");
+		cohortDsd.addColumn("Number of MSW Diagnosed With STI", "",
+		    ReportUtils.map(moh731bIndicators.diagnosedWithSTI(MSW), indParams), "");
+		EmrReportingUtils.addRow(cohortDsd, "Number of PWID Diagnosed With STI", "",
+		    ReportUtils.map(moh731bIndicators.diagnosedWithSTI(PWID), indParams), genderDisaggregation,
+		    Arrays.asList("01", "02"));
+		EmrReportingUtils.addRow(cohortDsd, "Number of PWUD Diagnosed With STI", "",
+		    ReportUtils.map(moh731bIndicators.diagnosedWithSTI(PWUD), indParams), genderDisaggregation,
+		    Arrays.asList("01", "02"));
+		cohortDsd.addColumn("Number of TRANSMAN Diagnosed With STI", "",
+		    ReportUtils.map(moh731bIndicators.diagnosedWithSTI(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Number of TRANSWOMAN Diagnosed With STI", "",
+		    ReportUtils.map(moh731bIndicators.diagnosedWithSTI(TRANSWOMAN), indParams), "");
+		
+		/**
+		 * Treated_STI: number of individuals in each KP type who were treated for STI in the
+		 * reporting period.
+		 */
+		cohortDsd.addColumn("Number of FSW Treated for STI", "",
+		    ReportUtils.map(moh731bIndicators.treatedForSTI(FSW), indParams), "");
+		cohortDsd.addColumn("Number of MSM Treated for STI", "",
+		    ReportUtils.map(moh731bIndicators.treatedForSTI(MSM), indParams), "");
+		cohortDsd.addColumn("Number of MSW Treated for STI", "",
+		    ReportUtils.map(moh731bIndicators.treatedForSTI(MSW), indParams), "");
+		EmrReportingUtils.addRow(cohortDsd, "Number of PWID Treated for STI", "",
+		    ReportUtils.map(moh731bIndicators.treatedForSTI(PWID), indParams), genderDisaggregation,
+		    Arrays.asList("01", "02"));
+		EmrReportingUtils.addRow(cohortDsd, "Number of PWUD Treated for STI", "",
+		    ReportUtils.map(moh731bIndicators.treatedForSTI(PWUD), indParams), genderDisaggregation,
+		    Arrays.asList("01", "02"));
+		cohortDsd.addColumn("Number of TRANSMAN Treated for STI", "",
+		    ReportUtils.map(moh731bIndicators.treatedForSTI(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Number of TRANSWOMAN Treated for STI", "",
+		    ReportUtils.map(moh731bIndicators.treatedForSTI(TRANSWOMAN), indParams), "");
+		
+		//Screened for HCV
+		/**
+		 * Number screened_HCV: number of individuals in each KP type who were screened for HCV in
+		 * the reporting period.
+		 */
+		cohortDsd.addColumn("Number of FSW Screened For HCV", "",
+		    ReportUtils.map(moh731bIndicators.screenedForHCV(FSW), indParams), "");
+		cohortDsd.addColumn("Number of MSM Screened For HCV", "",
+		    ReportUtils.map(moh731bIndicators.screenedForHCV(MSM), indParams), "");
+		cohortDsd.addColumn("Number of MSW Screened For HCV", "",
+		    ReportUtils.map(moh731bIndicators.screenedForHCV(MSW), indParams), "");
+		EmrReportingUtils.addRow(cohortDsd, "Number of PWID Screened For HCV", "",
+		    ReportUtils.map(moh731bIndicators.screenedForHCV(PWID), indParams), genderDisaggregation,
+		    Arrays.asList("01", "02"));
+		EmrReportingUtils.addRow(cohortDsd, "Number of PWUD Screened For HCV", "",
+		    ReportUtils.map(moh731bIndicators.screenedForHCV(PWUD), indParams), genderDisaggregation,
+		    Arrays.asList("01", "02"));
+		cohortDsd.addColumn("Number of TRANSMAN Screened For HCV", "",
+		    ReportUtils.map(moh731bIndicators.screenedForHCV(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Number of TRANSWOMAN Screened For HCV", "",
+		    ReportUtils.map(moh731bIndicators.screenedForHCV(TRANSWOMAN), indParams), "");
+		/**
+		 * Positive_HCV: number of individuals in each KP type who were diagnosed with HCV in the
+		 * reporting period.
+		 */
+		cohortDsd.addColumn("Number of FSW Diagnosed with HCV", "",
+		    ReportUtils.map(moh731bIndicators.diagnosedWithHCV(FSW), indParams), "");
+		cohortDsd.addColumn("Number of MSM Diagnosed with HCV", "",
+		    ReportUtils.map(moh731bIndicators.diagnosedWithHCV(MSM), indParams), "");
+		cohortDsd.addColumn("Number of MSW Diagnosed with HCV", "",
+		    ReportUtils.map(moh731bIndicators.diagnosedWithHCV(MSW), indParams), "");
+		EmrReportingUtils.addRow(cohortDsd, "Number of PWID Diagnosed with HCV", "",
+		    ReportUtils.map(moh731bIndicators.diagnosedWithHCV(PWID), indParams), genderDisaggregation,
+		    Arrays.asList("01", "02"));
+		EmrReportingUtils.addRow(cohortDsd, "Number of PWUD Diagnosed with HCV", "",
+		    ReportUtils.map(moh731bIndicators.diagnosedWithHCV(PWUD), indParams), genderDisaggregation,
+		    Arrays.asList("01", "02"));
+		cohortDsd.addColumn("Number of TRANSMAN Diagnosed with HCV", "",
+		    ReportUtils.map(moh731bIndicators.diagnosedWithHCV(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Number of TRANSWOMAN Diagnosed with HCV", "",
+		    ReportUtils.map(moh731bIndicators.diagnosedWithHCV(TRANSWOMAN), indParams), "");
+		
+		/**
+		 * Treated_HCV: number of individuals in each KP type who were treated for HCV in the
+		 * reporting period.
+		 */
+		cohortDsd.addColumn("Number of FSW Treated For HCV", "",
+		    ReportUtils.map(moh731bIndicators.treatedForHCV(FSW), indParams), "");
+		cohortDsd.addColumn("Number of MSM Treated For HCV", "",
+		    ReportUtils.map(moh731bIndicators.treatedForHCV(MSM), indParams), "");
+		cohortDsd.addColumn("Number of MSW Treated For HCV", "",
+		    ReportUtils.map(moh731bIndicators.treatedForHCV(MSW), indParams), "");
+		EmrReportingUtils.addRow(cohortDsd, "Number of PWID Treated For HCV", "",
+		    ReportUtils.map(moh731bIndicators.treatedForHCV(PWID), indParams), genderDisaggregation,
+		    Arrays.asList("01", "02"));
+		EmrReportingUtils.addRow(cohortDsd, "Number of PWUD Treated For HCV", "",
+		    ReportUtils.map(moh731bIndicators.treatedForHCV(PWUD), indParams), genderDisaggregation,
+		    Arrays.asList("01", "02"));
+		cohortDsd.addColumn("Number of TRANSMAN Treated For HCV", "",
+		    ReportUtils.map(moh731bIndicators.treatedForHCV(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Number of TRANSWOMAN Treated For HCV", "",
+		    ReportUtils.map(moh731bIndicators.treatedForHCV(TRANSWOMAN), indParams), "");
+		
+		//4.3 HBV (Hepatitis B)
+		/**
+		 * Number screened_HBV: number of individuals in each KP type who were screened for HBV in
+		 * the reporting period.
+		 */
+		cohortDsd.addColumn("Number of FSW Screened For HBV", "",
+		    ReportUtils.map(moh731bIndicators.screenedForHBV(FSW), indParams), "");
+		cohortDsd.addColumn("Number of MSM Screened For HBV", "",
+		    ReportUtils.map(moh731bIndicators.screenedForHBV(MSM), indParams), "");
+		cohortDsd.addColumn("Number of MSW Screened For HBV", "",
+		    ReportUtils.map(moh731bIndicators.screenedForHBV(MSW), indParams), "");
+		EmrReportingUtils.addRow(cohortDsd, "Number of PWID Screened For HBV", "",
+		    ReportUtils.map(moh731bIndicators.screenedForHBV(PWID), indParams), genderDisaggregation,
+		    Arrays.asList("01", "02"));
+		EmrReportingUtils.addRow(cohortDsd, "Number of PWUD Screened For HBV", "",
+		    ReportUtils.map(moh731bIndicators.screenedForHBV(PWUD), indParams), genderDisaggregation,
+		    Arrays.asList("01", "02"));
+		cohortDsd.addColumn("Number of TRANSMAN Screened For HBV", "",
+		    ReportUtils.map(moh731bIndicators.screenedForHBV(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Number of TRANSWOMAN Screened For HBV", "",
+		    ReportUtils.map(moh731bIndicators.screenedForHBV(TRANSWOMAN), indParams), "");
+		/**
+		 * Negative_HBV_vaccinated: number of individuals in each KP type who were vaccinated for
+		 * HBV in the reporting period
+		 */
+		cohortDsd.addColumn("Number of Negative FSW Vaccinated For HBV", "",
+		    ReportUtils.map(moh731bIndicators.vaccinatedAgainstHBV(FSW), indParams), "");
+		cohortDsd.addColumn("Number of Negative MSM Vaccinated For HBV", "",
+		    ReportUtils.map(moh731bIndicators.vaccinatedAgainstHBV(MSM), indParams), "");
+		cohortDsd.addColumn("Number of Negative MSW Vaccinated For HBV", "",
+		    ReportUtils.map(moh731bIndicators.vaccinatedAgainstHBV(MSW), indParams), "");
+		EmrReportingUtils.addRow(cohortDsd, "Number of Negative PWID Vaccinated For HBV", "",
+		    ReportUtils.map(moh731bIndicators.vaccinatedAgainstHBV(PWID), indParams), genderDisaggregation,
+		    Arrays.asList("01", "02"));
+		EmrReportingUtils.addRow(cohortDsd, "Number of Negative PWUD Vaccinated For HBV", "",
+		    ReportUtils.map(moh731bIndicators.vaccinatedAgainstHBV(PWUD), indParams), genderDisaggregation,
+		    Arrays.asList("01", "02"));
+		cohortDsd.addColumn("Number of Negative TRANSMAN Vaccinated For HBV", "",
+		    ReportUtils.map(moh731bIndicators.vaccinatedAgainstHBV(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Number of Negative TRANSWOMAN Vaccinated For HBV", "",
+		    ReportUtils.map(moh731bIndicators.vaccinatedAgainstHBV(TRANSWOMAN), indParams), "");
+		/**
+		 * Positive_HBV: number of individuals in each KP type who were diagnosed with HBV in the
+		 * reporting period
+		 */
+		cohortDsd.addColumn("Number of FSW Diagnosed with HBV", "",
+		    ReportUtils.map(moh731bIndicators.diagnosedWithHBV(FSW), indParams), "");
+		cohortDsd.addColumn("Number of MSM Diagnosed with HBV", "",
+		    ReportUtils.map(moh731bIndicators.diagnosedWithHBV(MSM), indParams), "");
+		cohortDsd.addColumn("Number of MSW Diagnosed with HBV", "",
+		    ReportUtils.map(moh731bIndicators.diagnosedWithHBV(MSW), indParams), "");
+		EmrReportingUtils.addRow(cohortDsd, "Number of PWID Diagnosed with HBV", "",
+		    ReportUtils.map(moh731bIndicators.diagnosedWithHBV(PWID), indParams), genderDisaggregation,
+		    Arrays.asList("01", "02"));
+		EmrReportingUtils.addRow(cohortDsd, "Number of PWUD Diagnosed with HBV", "",
+		    ReportUtils.map(moh731bIndicators.diagnosedWithHBV(PWUD), indParams), genderDisaggregation,
+		    Arrays.asList("01", "02"));
+		cohortDsd.addColumn("Number of TRANSMAN Diagnosed with HBV", "",
+		    ReportUtils.map(moh731bIndicators.diagnosedWithHBV(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Number of TRANSWOMAN Diagnosed with HBV", "",
+		    ReportUtils.map(moh731bIndicators.diagnosedWithHBV(TRANSWOMAN), indParams), "");
+		
+		/**
+		 * Treated_HBV: number of individuals in each KP type who were treated for HBV in the
+		 * reporting period.
+		 */
+		cohortDsd.addColumn("Number of FSW Treated For HBV", "",
+		    ReportUtils.map(moh731bIndicators.treatedForHBV(FSW), indParams), "");
+		cohortDsd.addColumn("Number of MSM Treated For HBV", "",
+		    ReportUtils.map(moh731bIndicators.treatedForHBV(MSM), indParams), "");
+		cohortDsd.addColumn("Number of MSW Treated For HBV", "",
+		    ReportUtils.map(moh731bIndicators.treatedForHBV(MSW), indParams), "");
+		EmrReportingUtils.addRow(cohortDsd, "Number of PWID Treated For HBV", "",
+		    ReportUtils.map(moh731bIndicators.treatedForHBV(PWID), indParams), genderDisaggregation,
+		    Arrays.asList("01", "02"));
+		EmrReportingUtils.addRow(cohortDsd, "Number of PWUD Treated For HBV", "",
+		    ReportUtils.map(moh731bIndicators.treatedForHBV(PWUD), indParams), genderDisaggregation,
+		    Arrays.asList("01", "02"));
+		cohortDsd.addColumn("Number of TRANSMAN Treated For HBV", "",
+		    ReportUtils.map(moh731bIndicators.treatedForHBV(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Number of TRANSWOMAN Treated For HBV", "",
+		    ReportUtils.map(moh731bIndicators.treatedForHBV(TRANSWOMAN), indParams), "");
+		
 		/**
 		 * Active KPs disaggregated by KP type
 		 */
@@ -564,198 +856,6 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		cohortDsd.addColumn("Receiving_Self_Test_Kits_Transwoman", "Transwoman receiving Self Test Kits",
 		    ReportUtils.map(moh731bIndicators.receivingSelfTestKits(TRANSWOMAN), indParams), "");
 		
-		// 4.1 STI screening
-		
-		/**
-		 * Number screened_STI number of individuals in each KP type who were screened for STI in
-		 * the reporting period.
-		 */
-		cohortDsd.addColumn("STI_Screening_FSW", "STI Screening Fsw",
-		    ReportUtils.map(moh731bIndicators.screenedForSTI(FSW), indParams), "");
-		cohortDsd.addColumn("STI_Screening_MSM", "STI Screening Msm",
-		    ReportUtils.map(moh731bIndicators.screenedForSTI(MSM), indParams), "");
-		cohortDsd.addColumn("STI_Screening_MSW", "STI Screening Msw",
-		    ReportUtils.map(moh731bIndicators.screenedForSTI(MSW), indParams), "");
-		cohortDsd.addColumn("STI_Screening_PWID", "STI Screening  Pwid",
-		    ReportUtils.map(moh731bIndicators.screenedForSTI(PWID), indParams), "");
-		cohortDsd.addColumn("STI_Screening_PWUD", "STI Screening Pwud",
-		    ReportUtils.map(moh731bIndicators.screenedForSTI(PWUD), indParams), "");
-		cohortDsd.addColumn("STI_Screening_Transman", "STI Screening Transman",
-		    ReportUtils.map(moh731bIndicators.screenedForSTI(TRANSMAN), indParams), "");
-		cohortDsd.addColumn("STI_Screening_Transwoman", "Transwoman screening for STI",
-		    ReportUtils.map(moh731bIndicators.screenedForSTI(TRANSWOMAN), indParams), "");
-		/**
-		 * Diagnosed_STI: number of individuals in each KP type who were diagnosed with STI in the
-		 * reporting period.
-		 */
-		cohortDsd.addColumn("STI_Diagnosed_FSW", "MSM diagnosed with STI",
-		    ReportUtils.map(moh731bIndicators.diagnosedWithSTI(FSW), indParams), "");
-		cohortDsd.addColumn("STI_Diagnosed_MSM", "Msm diagnosed with STI",
-		    ReportUtils.map(moh731bIndicators.diagnosedWithSTI(MSM), indParams), "");
-		cohortDsd.addColumn("STI_Diagnosed_MSW", "Msw diagnosed with STI",
-		    ReportUtils.map(moh731bIndicators.diagnosedWithSTI(MSW), indParams), "");
-		cohortDsd.addColumn("STI_Diagnosed_PWID", "Pwid diagnosed with STI",
-		    ReportUtils.map(moh731bIndicators.diagnosedWithSTI(PWID), indParams), "");
-		cohortDsd.addColumn("STI_Diagnosed_PWUD", "Pwud diagnosed with STI",
-		    ReportUtils.map(moh731bIndicators.diagnosedWithSTI(PWUD), indParams), "");
-		cohortDsd.addColumn("STI_Diagnosed_Transman", "Transmans diagnosed with STI",
-		    ReportUtils.map(moh731bIndicators.diagnosedWithSTI(TRANSMAN), indParams), "");
-		cohortDsd.addColumn("STI_Diagnosed_Transwoman", "Transwoman diagnosed with STI",
-		    ReportUtils.map(moh731bIndicators.diagnosedWithSTI(TRANSWOMAN), indParams), "");
-		
-		/**
-		 * Treated_STI: number of individuals in each KP type who were treated for STI in the
-		 * reporting period.
-		 */
-		cohortDsd.addColumn("STI_Treated_FSW", "FSW treated for STI",
-		    ReportUtils.map(moh731bIndicators.treatedForSTI(FSW), indParams), "");
-		cohortDsd.addColumn("STI_Treated_MSM", "MSM treated for STI",
-		    ReportUtils.map(moh731bIndicators.treatedForSTI(MSM), indParams), "");
-		cohortDsd.addColumn("STI_Treated_MSW", "MSW treated for STI",
-		    ReportUtils.map(moh731bIndicators.treatedForSTI(MSW), indParams), "");
-		cohortDsd.addColumn("STI_Treated_PWID", "PWID treated for STI",
-		    ReportUtils.map(moh731bIndicators.treatedForSTI(PWID), indParams), "");
-		cohortDsd.addColumn("STI_Treated_PWUD", "PWUD treated for STI",
-		    ReportUtils.map(moh731bIndicators.treatedForSTI(PWUD), indParams), "");
-		cohortDsd.addColumn("STI_Treated_Transman", "Transman treated for STI",
-		    ReportUtils.map(moh731bIndicators.treatedForSTI(TRANSMAN), indParams), "");
-		cohortDsd.addColumn("STI_Treated_Transwoman", "Transwoman Treated for STI",
-		    ReportUtils.map(moh731bIndicators.treatedForSTI(TRANSWOMAN), indParams), "");
-		
-		//Screened for HCV
-		/**
-		 * Number screened_HCV: number of individuals in each KP type who were screened for HCV in
-		 * the reporting period.
-		 */
-		cohortDsd.addColumn("Screened_HCV_FSW", "HCV Screening Fsw",
-		    ReportUtils.map(moh731bIndicators.screenedForHCV(FSW), indParams), "");
-		cohortDsd.addColumn("Screened_HCV_MSM", "HCV Screening Msm",
-		    ReportUtils.map(moh731bIndicators.screenedForHCV(MSM), indParams), "");
-		cohortDsd.addColumn("Screened_HCV_MSW", "HCV Screening Msw",
-		    ReportUtils.map(moh731bIndicators.screenedForHCV(MSW), indParams), "");
-		cohortDsd.addColumn("Screened_HCV_PWID", "HCV Screening Pwid",
-		    ReportUtils.map(moh731bIndicators.screenedForHCV(PWID), indParams), "");
-		cohortDsd.addColumn("Screened_HCV_PWUD", "HCV Screening Pwud",
-		    ReportUtils.map(moh731bIndicators.screenedForHCV(PWUD), indParams), "");
-		cohortDsd.addColumn("Screened_HCV_Transman", "HCV Screening Transman",
-		    ReportUtils.map(moh731bIndicators.screenedForHCV(TRANSMAN), indParams), "");
-		cohortDsd.addColumn("Screened_HCV_Transwoman", "HCV Screened Transwoman",
-		    ReportUtils.map(moh731bIndicators.screenedForHCV(TRANSWOMAN), indParams), "");
-		/**
-		 * Positive_HCV: number of individuals in each KP type who were diagnosed with HCV in the
-		 * reporting period.
-		 */
-		cohortDsd.addColumn("Positive_HCV_FSW", "HCV Positive Fsw",
-		    ReportUtils.map(moh731bIndicators.diagnosedWithHCV(FSW), indParams), "");
-		cohortDsd.addColumn("Positive_HCV_MSM", "HCV Positive Msm",
-		    ReportUtils.map(moh731bIndicators.diagnosedWithHCV(MSM), indParams), "");
-		cohortDsd.addColumn("Positive_HCV_MSW", "HCV Positive Msw",
-		    ReportUtils.map(moh731bIndicators.diagnosedWithHCV(MSW), indParams), "");
-		cohortDsd.addColumn("Positive_HCV_PWID", "HCV Positive Pwid",
-		    ReportUtils.map(moh731bIndicators.diagnosedWithHCV(PWID), indParams), "");
-		cohortDsd.addColumn("Positive_HCV_PWUD", "HCV Positive Pwud",
-		    ReportUtils.map(moh731bIndicators.diagnosedWithHCV(PWUD), indParams), "");
-		cohortDsd.addColumn("Positive_HCV_Transman", "HCV Positive Transman",
-		    ReportUtils.map(moh731bIndicators.diagnosedWithHCV(TRANSMAN), indParams), "");
-		cohortDsd.addColumn("Positive_HCV_Transwoman", "HCV Positive Transwoman",
-		    ReportUtils.map(moh731bIndicators.diagnosedWithHCV(TRANSWOMAN), indParams), "");
-		
-		/**
-		 * Treated_HCV: number of individuals in each KP type who were treated for HCV in the
-		 * reporting period.
-		 */
-		cohortDsd.addColumn("Treated_HCV_FSW", "HCV Treated Fsw",
-		    ReportUtils.map(moh731bIndicators.treatedForHCV(FSW), indParams), "");
-		cohortDsd.addColumn("Treated_HCV_MSM", "HCV Treated Msm",
-		    ReportUtils.map(moh731bIndicators.treatedForHCV(MSM), indParams), "");
-		cohortDsd.addColumn("Treated_HCV_MSW", "HCV Treated Msw",
-		    ReportUtils.map(moh731bIndicators.treatedForHCV(MSW), indParams), "");
-		cohortDsd.addColumn("Treated_HCV_PWID", "HCV Treated Pwid",
-		    ReportUtils.map(moh731bIndicators.treatedForHCV(PWID), indParams), "");
-		cohortDsd.addColumn("Treated_HCV_PWUD", "HCV Treated Pwud",
-		    ReportUtils.map(moh731bIndicators.treatedForHCV(PWUD), indParams), "");
-		cohortDsd.addColumn("Treated_HCV_Transman", "HCV Treated Transman",
-		    ReportUtils.map(moh731bIndicators.treatedForHCV(TRANSMAN), indParams), "");
-		cohortDsd.addColumn("Treated_HCV_Transwoman", "Transwoman HCV treated",
-		    ReportUtils.map(moh731bIndicators.treatedForHCV(TRANSWOMAN), indParams), "");
-		
-		//4.3 HBV (Hepatitis B)
-		/**
-		 * Number screened_HBV: number of individuals in each KP type who were screened for HBV in
-		 * the reporting period.
-		 */
-		cohortDsd.addColumn("Screened_HBV_FSW", "HBV Screened Fsw",
-		    ReportUtils.map(moh731bIndicators.screenedForHBV(FSW), indParams), "");
-		cohortDsd.addColumn("Screened_HBV_MSM", "HBV Screened Msm",
-		    ReportUtils.map(moh731bIndicators.screenedForHBV(MSM), indParams), "");
-		cohortDsd.addColumn("Screened_HBV_MSW", "HBV Screened Msw",
-		    ReportUtils.map(moh731bIndicators.screenedForHBV(MSW), indParams), "");
-		cohortDsd.addColumn("Screened_HBV_PWID", "HBV Screened Pwid",
-		    ReportUtils.map(moh731bIndicators.screenedForHBV(PWID), indParams), "");
-		cohortDsd.addColumn("Screened_HBV_PWUD", "HBV Screened Pwud",
-		    ReportUtils.map(moh731bIndicators.screenedForHBV(PWUD), indParams), "");
-		cohortDsd.addColumn("Screened_HBV_Transman", "HBV Screened Transman",
-		    ReportUtils.map(moh731bIndicators.screenedForHBV(TRANSMAN), indParams), "");
-		cohortDsd.addColumn("Screened_HBV_Transwoman", "HBV screened Transwoman",
-		    ReportUtils.map(moh731bIndicators.screenedForHBV(TRANSWOMAN), indParams), "");
-		
-		/**
-		 * Positive_HBV: number of individuals in each KP type who were diagnosed with HBV in the
-		 * reporting period
-		 */
-		cohortDsd.addColumn("Positive_HBV_FSW", "HBV Positive Fsw",
-		    ReportUtils.map(moh731bIndicators.diagnosedWithHBV(FSW), indParams), "");
-		cohortDsd.addColumn("Positive_HBV_MSM", "HBV Positive Msm",
-		    ReportUtils.map(moh731bIndicators.diagnosedWithHBV(MSM), indParams), "");
-		cohortDsd.addColumn("Positive_HBV_MSW", "HBV Positive Msw",
-		    ReportUtils.map(moh731bIndicators.diagnosedWithHBV(MSW), indParams), "");
-		cohortDsd.addColumn("Positive_HBV_PWID", "HBV Positive Pwid",
-		    ReportUtils.map(moh731bIndicators.diagnosedWithHBV(PWID), indParams), "");
-		cohortDsd.addColumn("Positive_HBV_PWUD", "HBV Positive Pwud",
-		    ReportUtils.map(moh731bIndicators.diagnosedWithHBV(PWUD), indParams), "");
-		cohortDsd.addColumn("Positive_HBV_Transman", "HBV Positive Transman",
-		    ReportUtils.map(moh731bIndicators.diagnosedWithHBV(TRANSMAN), indParams), "");
-		cohortDsd.addColumn("Positive_HBV_Transwoman", "HBV Positive Transwoman",
-		    ReportUtils.map(moh731bIndicators.diagnosedWithHBV(TRANSWOMAN), indParams), "");
-		
-		/**
-		 * Treated_HBV: number of individuals in each KP type who were treated for HBV in the
-		 * reporting period.
-		 */
-		cohortDsd.addColumn("Treated_HBV_FSW", "HBV Treated Fsw",
-		    ReportUtils.map(moh731bIndicators.treatedForHBV(FSW), indParams), "");
-		cohortDsd.addColumn("Treated_HBV_MSM", "HBV Treated Msm",
-		    ReportUtils.map(moh731bIndicators.treatedForHBV(MSM), indParams), "");
-		cohortDsd.addColumn("Treated_HBV_MSW", "HBV Treated Msw",
-		    ReportUtils.map(moh731bIndicators.treatedForHBV(MSW), indParams), "");
-		cohortDsd.addColumn("Treated_HBV_PWID", "HBV Treated Pwid",
-		    ReportUtils.map(moh731bIndicators.treatedForHBV(PWID), indParams), "");
-		cohortDsd.addColumn("Treated_HBV_PWUD", "HBV Treated Pwud",
-		    ReportUtils.map(moh731bIndicators.treatedForHBV(PWUD), indParams), "");
-		cohortDsd.addColumn("Treated_HBV_Transman", "HBV Treated Transman",
-		    ReportUtils.map(moh731bIndicators.treatedForHBV(TRANSMAN), indParams), "");
-		cohortDsd.addColumn("Treated_HBV_Transwoman", "HBV treated Transwoman",
-		    ReportUtils.map(moh731bIndicators.treatedForHBV(TRANSWOMAN), indParams), "");
-		
-		/**
-		 * Negative_HBV_vaccinated: number of individuals in each KP type who were vaccinated for
-		 * HBV in the reporting period
-		 */
-		cohortDsd.addColumn("NegativeHBV_Vaccinated_FSW", "Negative HBV Vaccinated Fsw",
-		    ReportUtils.map(moh731bIndicators.vaccinatedAgainstHBV(FSW), indParams), "");
-		cohortDsd.addColumn("NegativeHBV_Vaccinated_MSM", "Negative HBV Vaccinated Msm",
-		    ReportUtils.map(moh731bIndicators.vaccinatedAgainstHBV(MSM), indParams), "");
-		cohortDsd.addColumn("NegativeHBV_Vaccinated_MSW", "Negative HBV Vaccinated Msw",
-		    ReportUtils.map(moh731bIndicators.vaccinatedAgainstHBV(MSW), indParams), "");
-		cohortDsd.addColumn("NegativeHBV_Vaccinated_PWID", "Negative HBV Vaccinated Pwid",
-		    ReportUtils.map(moh731bIndicators.vaccinatedAgainstHBV(PWID), indParams), "");
-		cohortDsd.addColumn("NegativeHBV_Vaccinated_PWUD", "Negative HBV Vaccinated Pwud",
-		    ReportUtils.map(moh731bIndicators.vaccinatedAgainstHBV(PWUD), indParams), "");
-		cohortDsd.addColumn("NegativeHBV_Vaccinated_Transman", "Negative HBV Vaccinated Transman",
-		    ReportUtils.map(moh731bIndicators.vaccinatedAgainstHBV(TRANSMAN), indParams), "");
-		cohortDsd.addColumn("NegativeHBV_Vaccinated_Transwoman", "Negative HBV Vaccinated Transwoman",
-		    ReportUtils.map(moh731bIndicators.screenedForHCV(TRANSWOMAN), indParams), "");
-		
 		//4.4 TB screening
 		/**
 		 * Number screened: number of individuals in each KP type who were screened for TB in the
@@ -893,44 +993,6 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.turningPositiveWhileOnPrEP(TRANSMAN), indParams), "");
 		cohortDsd.addColumn("Turning_Positive_While_On_PrEP_Transwoman", "Transwoman turning Positive while on PrEP",
 		    ReportUtils.map(moh731bIndicators.turningPositiveWhileOnPrEP(TRANSWOMAN), indParams), "");
-		
-		//4.6 Violence support
-		/**
-		 * Experience violence: number of people in each KP type who experienced violence in the
-		 * reporting period.
-		 */
-		cohortDsd.addColumn("Experiencing_Violence_FSW", "Experiencing Violence Fsw",
-		    ReportUtils.map(moh731bIndicators.experiencingViolence(FSW), indParams), "");
-		cohortDsd.addColumn("Experiencing_Violence_MSM", "Experiencing Violence Msm",
-		    ReportUtils.map(moh731bIndicators.experiencingViolence(MSM), indParams), "");
-		cohortDsd.addColumn("Experiencing_Violence_MSW", "Experiencing Violence Msw",
-		    ReportUtils.map(moh731bIndicators.experiencingViolence(MSW), indParams), "");
-		cohortDsd.addColumn("Experiencing_Violence_PWID", "Experiencing Violence Pwid",
-		    ReportUtils.map(moh731bIndicators.experiencingViolence(PWID), indParams), "");
-		cohortDsd.addColumn("Experiencing_Violence_PWUD", "Experiencing Violence Pwud",
-		    ReportUtils.map(moh731bIndicators.experiencingViolence(PWUD), indParams), "");
-		cohortDsd.addColumn("Experiencing_Violence_Transman", "Experiencing Violence Transman",
-		    ReportUtils.map(moh731bIndicators.experiencingViolence(TRANSMAN), indParams), "");
-		cohortDsd.addColumn("Experiencing_Violence_Transwoman", "Transwoman turning Positive while on PrEP",
-		    ReportUtils.map(moh731bIndicators.experiencingViolence(TRANSWOMAN), indParams), "");
-		/**
-		 * Receiving violence support:Number of people in each KP type who were supported by the
-		 * programme when they experienced violence in the reporting period by KP type
-		 */
-		cohortDsd.addColumn("Receiving_Violence_Support_FSW", "Receiving Violence Support Fsw",
-		    ReportUtils.map(moh731bIndicators.receivingViolenceSupport(FSW), indParams), "");
-		cohortDsd.addColumn("Receiving_Violence_Support_MSM", "Receiving Violence Support Msm",
-		    ReportUtils.map(moh731bIndicators.receivingViolenceSupport(MSM), indParams), "");
-		cohortDsd.addColumn("Receiving_Violence_Support_MSW", "Receiving Violence Support Msw",
-		    ReportUtils.map(moh731bIndicators.receivingViolenceSupport(MSW), indParams), "");
-		cohortDsd.addColumn("Receiving_Violence_Support_PWID", "Receiving Violence Support Pwid",
-		    ReportUtils.map(moh731bIndicators.receivingViolenceSupport(PWID), indParams), "");
-		cohortDsd.addColumn("Receiving_Violence_Support_PWUD", "Receiving Violence Support Pwud",
-		    ReportUtils.map(moh731bIndicators.receivingViolenceSupport(PWUD), indParams), "");
-		cohortDsd.addColumn("Receiving_Violence_Support_Transman", "Receiving Violence Support Transman",
-		    ReportUtils.map(moh731bIndicators.receivingViolenceSupport(TRANSMAN), indParams), "");
-		cohortDsd.addColumn("Receiving_Violence_Support_Transwoman", "Transwoman receiving violence support",
-		    ReportUtils.map(moh731bIndicators.experiencingViolence(TRANSWOMAN), indParams), "");
 		
 		//4.7 PEP
 		/**
