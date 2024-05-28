@@ -116,8 +116,29 @@ public class ETLMoh731PlusIndicatorLibrary {
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 	}
 	
+	public CohortIndicator experiencingSexualViolence(String kpType) {
+		return cohortIndicator("Number of Kps Experiencing sexual violence",
+		    ReportUtils.map(moh731BCohorts.experiencingSexualViolence(kpType), "startDate=${startDate},endDate=${endDate}"));
+	}
+	
+	public CohortIndicator experiencingPhysicalViolence(String kpType) {
+		return cohortIndicator("Number of Kps Experiencing physical violence", ReportUtils.map(
+		    moh731BCohorts.experiencingPhysicalViolence(kpType), "startDate=${startDate},endDate=${endDate}"));
+	}
+	
+	public CohortIndicator experiencingEmotionalOrPsychologicalViolence(String kpType) {
+		return cohortIndicator("Number of Kps Experiencing emotional/psychological violence",
+		    ReportUtils.map(moh731BCohorts.experiencingEmotionalOrPsychologicalViolence(kpType),
+		        "startDate=${startDate},endDate=${endDate}"));
+	}
+	
 	public CohortIndicator receivingSelfTestKits(String kpType) {
 		return cohortIndicator("", ReportUtils.map(moh731BCohorts.receivingSelfTestKits(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator receivedViolenceSupport(String kpType) {
+		return cohortIndicator("Received violence support", ReportUtils.map(moh731BCohorts.receivedViolenceSupport(kpType),
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 	}
 	

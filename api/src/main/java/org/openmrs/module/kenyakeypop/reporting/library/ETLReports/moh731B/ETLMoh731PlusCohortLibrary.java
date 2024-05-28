@@ -872,6 +872,66 @@ public class ETLMoh731PlusCohortLibrary {
 	}
 	
 	/**
+	 * Number of KPs experiencing sexual Violence
+	 * 
+	 * @param kpType
+	 * @return
+	 */
+	public CohortDefinition experiencingSexualViolence(String kpType) {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Sub County", String.class));
+		cd.addSearch("kpType",
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("numberScreenedForSTISQL",
+		    ReportUtils.map(numberScreenedForSTISQL(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpType AND numberScreenedForSTISQL");
+		
+		return cd;
+	}
+	
+	/**
+	 * Number of KPs experiencing physical Violence
+	 * 
+	 * @param kpType
+	 * @return
+	 */
+	public CohortDefinition experiencingPhysicalViolence(String kpType) {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Sub County", String.class));
+		cd.addSearch("kpType",
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("numberScreenedForSTISQL",
+		    ReportUtils.map(numberScreenedForSTISQL(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpType AND numberScreenedForSTISQL");
+		
+		return cd;
+	}
+	
+	/**
+	 * Number of KPs experiencing emotional/psychological Violence
+	 * 
+	 * @param kpType
+	 * @return
+	 */
+	public CohortDefinition experiencingEmotionalOrPsychologicalViolence(String kpType) {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Sub County", String.class));
+		cd.addSearch("kpType",
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("numberScreenedForSTISQL",
+		    ReportUtils.map(numberScreenedForSTISQL(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpType AND numberScreenedForSTISQL");
+		
+		return cd;
+	}
+	
+	/**
 	 * Number receiving self-test kits
 	 * 
 	 * @param kpType
@@ -898,6 +958,26 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Sub County", String.class));
 		cd.setDescription("receivingSelfTestKits");
+		
+		return cd;
+	}
+	
+	/**
+	 * KPs Received violence support
+	 * 
+	 * @param kpType
+	 * @return
+	 */
+	public CohortDefinition receivedViolenceSupport(String kpType) {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Sub County", String.class));
+		cd.addSearch("kpType",
+		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("numberScreenedForSTISQL",
+		    ReportUtils.map(numberScreenedForSTISQL(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpType AND numberScreenedForSTISQL");
 		
 		return cd;
 	}
@@ -986,10 +1066,13 @@ public class ETLMoh731PlusCohortLibrary {
 	 */
 	public CohortDefinition treatedForSTISQL() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v\n"
-		        + "where v.sti_screened = 'Y' and v.sti_results = 'Positive'   and sti_treated = 'Yes'\n"
-		        + "  and v.visit_date between date(:startDate) and date(:endDate)\n"
-		        + "  and v.voided = 0 group by v.client_id;";
+		String sqlQuery = "select c.client_id\n"
+		        + "from kenyaemr_etl.etl_contact c\n"
+		        + "         left join kenyaemr_etl.etl_clinical_visit v on c.client_id = v.client_id\n"
+		        + "         left join kenyaemr_etl.etl_sti_treatment t on c.client_id = t.client_id\n"
+		        + "where (v.client_id is not null and v.sti_screened = 'Y' and v.sti_results = 'Positive' and sti_treated = 'Yes'\n"
+		        + "    and date(v.visit_date) between date(:startDate) and date(:endDate))\n"
+		        + "   or (t.client_id is not null and date(t.visit_date) between date(:startDate) and date(:endDate));";
 		cd.setName("treatedForSTISQL");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
