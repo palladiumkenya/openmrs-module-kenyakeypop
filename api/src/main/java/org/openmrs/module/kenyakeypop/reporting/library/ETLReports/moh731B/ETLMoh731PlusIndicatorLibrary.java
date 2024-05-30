@@ -207,6 +207,16 @@ public class ETLMoh731PlusIndicatorLibrary {
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 	}
 	
+	public CohortIndicator hivPosDiagnosedWithTB(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.hivPosDiagnosedWithTB(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator givenTPT(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.givenTPT(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
 	public CohortIndicator tbClientsOnHAART(String kpType) {
 		return cohortIndicator("", ReportUtils.map(moh731BCohorts.tbClientsOnHAART(kpType),
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
@@ -224,6 +234,46 @@ public class ETLMoh731PlusIndicatorLibrary {
 	
 	public CohortIndicator turningPositiveWhileOnPrEP(String kpType) {
 		return cohortIndicator("", ReportUtils.map(moh731BCohorts.turningPositiveWhileOnPrEP(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator onPrEPDiagnosedWithSTI(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.onPrEPDiagnosedWithSTI(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator screenedForMentalHealth(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.screenedForMentalHealth(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator diagnosedWithMentalHealth(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.diagnosedWithMentalHealth(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator treatedForMentalHealth(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.treatedForMentalHealth(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator kpsTestedForHIV(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.kpsTestedForHIV(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator kpsReceivingHIVPosTestResults(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.kpsReceivingHIVPosTestResults(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator kplhivReached(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.kplhivReached(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator kplhivStartingART(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.kplhivStartingART(kpType),
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 	}
 	
@@ -337,6 +387,21 @@ public class ETLMoh731PlusIndicatorLibrary {
 	
 	public CohortIndicator totalCurrentlyOnART(String kpType) {
 		return cohortIndicator("", ReportUtils.map(moh731BCohorts.totalCurrentlyOnART(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator viralLoadResultsWithinLast12Months(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.viralLoadResultsWithinLast12Months(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator suppressedVLUnder200CpsPerMlWithinLast12Months(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.suppressedVLUnder200CpsPerMlWithinLast12Months(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator suppressedVLUnder50CpsPerMlWithinLast12Months(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.suppressedVLUnder50CpsPerMlWithinLast12Months(kpType),
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 	}
 	
