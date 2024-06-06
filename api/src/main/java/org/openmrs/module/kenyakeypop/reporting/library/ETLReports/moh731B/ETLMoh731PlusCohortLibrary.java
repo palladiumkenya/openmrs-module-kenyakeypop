@@ -378,7 +378,7 @@ public class ETLMoh731PlusCohortLibrary {
 	public CohortDefinition selfHIVTestClinicalVisit() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v\n"
-		        + "where v.self_tested = 'Y' and v.self_test_date between date(:startDate) and date(:endDate);";
+		        + "where v.self_tested = 'Y' and v.hiv_test_date between date(:startDate) and date(:endDate);";
 		cd.setName("selfHIVTestClinicalVisit");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -895,7 +895,7 @@ public class ETLMoh731PlusCohortLibrary {
 		        + "                      and date(gbvs.visit_date) between date(:startDate) and date(:endDate)) gbvs\n"
 		        + "                   on d.patient_id = gbvs.patient_id\n" + "         left join (select v.client_id\n"
 		        + "                    from kenyaemr_etl.etl_clinical_visit v\n"
-		        + "                    where v.violence_results = 'Rape/Sexual assault'\n"
+		        + "                    where find_in_set('Rape/Sexual Assault',v.violence_results) > 0\n"
 		        + "                      and date(v.visit_date) between date(:startDate) and date(:endDate)) v\n"
 		        + "                   on d.patient_id = v.client_id where r.patient_id is not null\n"
 		        + "   or gbvs.patient_id is not null or v.client_id is not null;";
@@ -928,7 +928,7 @@ public class ETLMoh731PlusCohortLibrary {
 		        + "                      and date(gbvs.visit_date) between date(:startDate) and date(:endDate)) gbvs\n"
 		        + "                   on d.patient_id = gbvs.patient_id\n" + "         left join (select v.client_id\n"
 		        + "                    from kenyaemr_etl.etl_clinical_visit v\n"
-		        + "                    where v.violence_results = 'Physical'\n"
+		        + "                    where find_in_set('Physical',v.violence_results) > 0\n"
 		        + "                      and date(v.visit_date) between date(:startDate) and date(:endDate)) v\n"
 		        + "                   on d.patient_id = v.client_id where r.patient_id is not null\n"
 		        + "   or gbvs.patient_id is not null or v.client_id is not null;";
@@ -964,7 +964,7 @@ public class ETLMoh731PlusCohortLibrary {
 		        + "                      and date(gbvs.visit_date) between date(:startDate) and date(:endDate)) gbvs\n"
 		        + "                   on d.patient_id = gbvs.patient_id\n" + "         left join (select v.client_id\n"
 		        + "                    from kenyaemr_etl.etl_clinical_visit v\n"
-		        + "                    where v.violence_results = 'Emotional & Psychological'\n"
+		        + "                    where find_in_set('Emotional & Psychological',v.violence_results) > 0\n"
 		        + "                      and date(v.visit_date) between date(:startDate) and date(:endDate)) v\n"
 		        + "                   on d.patient_id = v.client_id where r.patient_id is not null\n"
 		        + "   or gbvs.patient_id is not null or v.client_id is not null;";
@@ -1320,10 +1320,11 @@ public class ETLMoh731PlusCohortLibrary {
 	 */
 	public CohortDefinition diagnosedWithHCVSQL() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v\n"
-		        + "    where v.hepatitisC_screened = 'Y' and v.hepatitisC_results = 'P'\n"
-		        + "      and v.visit_date between date(:startDate) and date(:endDate)\n"
-		        + "      and v.voided = 0 group by v.client_id;";
+		String sqlQuery = "select v.client_id\n" + "from kenyaemr_etl.etl_clinical_visit v\n"
+		        + "where v.hepatitisC_screened = 'Y'\n" + "  and v.hepatitisC_results = 'P'\n"
+		        + "  and v.hepatitisC_confirmatory_results = 'Positive'\n"
+		        + "  and v.visit_date between date(:startDate) and date(:endDate)\n" + "  and v.voided = 0\n"
+		        + "group by v.client_id;";
 		cd.setName("diagnosedWithHCVSQL");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -1360,11 +1361,11 @@ public class ETLMoh731PlusCohortLibrary {
 	 */
 	public CohortDefinition treatedForHCVSQL() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v\n"
-		        + "    where v.hepatitisC_screened = 'Y' and v.hepatitisC_results = 'N'\n"
-		        + "      and v.hepatitisC_treated = 'Y'\n"
-		        + "      and v.visit_date between date(:startDate) and date(:endDate)\n"
-		        + "      and v.voided = 0 group by v.client_id;";
+		String sqlQuery = "select v.client_id\n" + "from kenyaemr_etl.etl_clinical_visit v\n"
+		        + "where v.hepatitisC_screened = 'Y'\n" + "  and v.hepatitisC_results = 'P'\n"
+		        + "  and v.hepatitisC_confirmatory_results = 'Positive'\n" + "  and v.hepatitisC_treated = 'Y'\n"
+		        + "  and v.visit_date between date(:startDate) and date(:endDate)\n" + "  and v.voided = 0\n"
+		        + "group by v.client_id;";
 		cd.setName("treatedForHCVSQL");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -1439,10 +1440,11 @@ public class ETLMoh731PlusCohortLibrary {
 	 */
 	public CohortDefinition diagnosedWithHBVSQL() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v\n"
-		        + "    where v.hepatitisB_screened = 'Y' and v.hepatitisB_results = 'P'\n"
-		        + "      and v.visit_date between date(:startDate) and date(:endDate)\n"
-		        + "      and v.voided = 0 group by v.client_id;";
+		String sqlQuery = "select v.client_id\n" + "from kenyaemr_etl.etl_clinical_visit v\n"
+		        + "where v.hepatitisB_screened = 'Y'\n" + "  and v.hepatitisB_results = 'P'\n"
+		        + "  and v.hepatitisB_confirmatory_results = 'Positive'\n"
+		        + "  and v.visit_date between date(:startDate) and date(:endDate)\n" + "  and v.voided = 0\n"
+		        + "group by v.client_id;";
 		cd.setName("diagnosedWithHBVSQL");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -1479,11 +1481,11 @@ public class ETLMoh731PlusCohortLibrary {
 	 */
 	public CohortDefinition treatedForHBVSQL() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v\n"
-		        + "    where v.hepatitisB_screened = 'Y' and v.hepatitisB_results = 'P'\n"
-		        + "      and v.hepatitisB_treated = 'Y'\n"
-		        + "      and v.visit_date between date(:startDate) and date(:endDate)\n"
-		        + "      and v.voided = 0 group by v.client_id;";
+		String sqlQuery = "select v.client_id\n" + "from kenyaemr_etl.etl_clinical_visit v\n"
+		        + "where v.hepatitisB_screened = 'Y'\n" + "  and v.hepatitisB_results = 'P'\n"
+		        + "  and v.hepatitisB_confirmatory_results = 'Positive'\n" + "  and v.hepatitisB_treated = 'Y'\n"
+		        + "  and v.visit_date between date(:startDate) and date(:endDate)\n" + "  and v.voided = 0\n"
+		        + "group by v.client_id;";
 		cd.setName("treatedForHBVSQL");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -1982,8 +1984,8 @@ public class ETLMoh731PlusCohortLibrary {
 	public CohortDefinition testedHIVPositiveWithinPeriodClinicalVisit() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v\n"
-		        + "where date(coalesce(v.self_test_date, v.visit_date)) between date(:startDate) and date(:endDate)\n"
-		        + "  and v.test_confirmatory_results = 'Positive'   and v.voided = 0;";
+		        + "where date(coalesce(v.hiv_test_date, v.visit_date)) between date(:startDate) and date(:endDate)\n"
+		        + "  and v.test_results = 'Positive' and v.voided = 0;";
 		cd.setName("testedHIVPositiveWithinPeriodClinicalVisit");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -2034,7 +2036,7 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addSearch("currentOnPrEP", ReportUtils.map(currentOnPrEP(kpType), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("testedHIVPositiveWithinPeriodClinicalVisit",
 		    ReportUtils.map(testedHIVPositiveWithinPeriodClinicalVisit(), "startDate=${startDate},endDate=${endDate}"));
-		cd.setCompositionString("kpType AND ((currentOnPrEP AND htsPositives) OR testedHIVPositiveWithinPeriodClinicalVisit)");
+		cd.setCompositionString("kpType AND (currentOnPrEP AND (testedHIVPositiveWithinPeriodClinicalVisit OR htsPositives))");
 		
 		return cd;
 	}
@@ -2186,6 +2188,19 @@ public class ETLMoh731PlusCohortLibrary {
 		return cd;
 	}
 	
+	public CohortDefinition numberTestedInKVPVisit() {
+		String sqlQuery = "select v.client_id\n" + "from kenyaemr_etl.etl_clinical_visit v\n"
+		        + "where date(coalesce(v.hiv_test_date, v.visit_date)) between date(:startDate) and date(:endDate)\n"
+		        + "  and v.test_results in ('Positive', 'Negative');";
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("numberTestedInKVPVisit");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("Hiv Number Tested in KVP");
+		return cd;
+	}
+	
 	public CohortDefinition kpsTestedForHIV(String kpType) {
 		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -2195,7 +2210,9 @@ public class ETLMoh731PlusCohortLibrary {
 		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("htsAllNumberTested",
 		    ReportUtils.map(htsAllNumberTested(), "startDate=${startDate},endDate=${endDate}"));
-		cd.setCompositionString("kpType AND htsAllNumberTested");
+		cd.addSearch("numberTestedInKVPVisit",
+		    ReportUtils.map(numberTestedInKVPVisit(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kpType AND (htsAllNumberTested OR numberTestedInKVPVisit)");
 		
 		return cd;
 	}
@@ -2210,6 +2227,19 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.setDescription("Hiv Number Tested and received +ve HIV results");
+		return cd;
+	}
+	
+	public CohortDefinition numberTestedPositiveInKVPVisit() {
+		String sqlQuery = "select v.client_id\n" + "from kenyaemr_etl.etl_clinical_visit v\n"
+		        + "where date(coalesce(v.hiv_test_date, v.visit_date)) between date(:startDate) and date(:endDate)\n"
+		        + "  and v.test_results ='Positive';";
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("numberTestedPositiveInKVPVisit");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("Hiv Number Tested Positive in KVP");
 		return cd;
 	}
 	
@@ -2228,7 +2258,10 @@ public class ETLMoh731PlusCohortLibrary {
 		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("htsReceivingHIVPosResults",
 		    ReportUtils.map(htsReceivingHIVPosResults(), "startDate=${startDate},endDate=${endDate}"));
-		cd.setCompositionString("kpType AND htsReceivingHIVPosResults");
+		cd.addSearch("numberTestedPositiveInKVPVisit",
+		    ReportUtils.map(numberTestedPositiveInKVPVisit(), "startDate=${startDate},endDate=${endDate}"));
+		
+		cd.setCompositionString("kpType AND (htsReceivingHIVPosResults OR numberTestedPositiveInKVPVisit)");
 		
 		return cd;
 	}
@@ -2307,53 +2340,9 @@ public class ETLMoh731PlusCohortLibrary {
 		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("hadClinicalVisitReportingPeriodAndStartingARTOffSite", ReportUtils.map(
 		    hadClinicalVisitReportingPeriodAndStartingARTOffSite(), "startDate=${startDate},endDate=${endDate}"));
-		cd.addSearch("hadClinicalVisitReportingPeriodAndStartingARTOnSite", ReportUtils.map(
-		    hadClinicalVisitReportingPeriodAndStartingARTOnSite(), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("startedARTReportingPeriod",
 		    ReportUtils.map(datimCohorts.startedOnART(), "startDate=${startDate},endDate=${endDate}"));
-		cd.setCompositionString("kpType AND (hadClinicalVisitReportingPeriodAndStartingARTOffSite OR hadClinicalVisitReportingPeriodAndStartingARTOnSite OR startedARTReportingPeriod)");
-		
-		return cd;
-	}
-	
-	/**
-	 * Number of people, who experienced violence in the reporting period
-	 * 
-	 * @return
-	 */
-	public CohortDefinition experiencingViolenceSQL() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select v.client_id\n"
-		        + "from kenyaemr_etl.etl_clinical_visit v\n"
-		        + "where v.violence_screened = 'Yes'\n"
-		        + "  and v.violence_results in\n"
-		        + "      ('Harrasment', 'Assault', 'Illegal arrest', 'Verbal Abuse', 'Rape/Sexual assault', 'Discrimination')\n"
-		        + "  and date(v.visit_date) between date(:startDate) and date(:endDate);";
-		cd.setName("experiencingViolenceSQL");
-		cd.setQuery(sqlQuery);
-		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
-		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("experiencingViolenceSQL");
-		
-		return cd;
-	}
-	
-	/**
-	 * Number of people, who experienced violence in the reporting period by KP type
-	 * 
-	 * @param kpType
-	 * @return
-	 */
-	public CohortDefinition experiencingViolence(String kpType) {
-		CompositionCohortDefinition cd = new CompositionCohortDefinition();
-		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
-		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.addParameter(new Parameter("location", "Sub County", String.class));
-		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
-		cd.addSearch("experiencingViolenceSQL",
-		    ReportUtils.map(experiencingViolenceSQL(), "startDate=${startDate},endDate=${endDate}"));
-		cd.setCompositionString("kpType AND experiencingViolenceSQL");
+		cd.setCompositionString("kpType AND (hadClinicalVisitReportingPeriodAndStartingARTOffSite OR startedARTReportingPeriod)");
 		
 		return cd;
 	}
@@ -2374,26 +2363,6 @@ public class ETLMoh731PlusCohortLibrary {
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.setDescription("receivingViolenceSupportSQL");
-		
-		return cd;
-	}
-	
-	/**
-	 * Receiving violence support:Number of people in each KP type who were supported by the
-	 * programme when they experienced violence in the reporting period by KP type
-	 * 
-	 * @return
-	 */
-	public CohortDefinition receivingViolenceSupport(String kpType) {
-		CompositionCohortDefinition cd = new CompositionCohortDefinition();
-		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
-		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.addParameter(new Parameter("location", "Sub County", String.class));
-		cd.addSearch("kpType",
-		    ReportUtils.map(kpType(kpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
-		cd.addSearch("receivingViolenceSupportSQL",
-		    ReportUtils.map(experiencingViolenceSQL(), "startDate=${startDate},endDate=${endDate}"));
-		cd.setCompositionString("kpType AND receivingViolenceSupportSQL");
 		
 		return cd;
 	}
@@ -2640,7 +2609,7 @@ public class ETLMoh731PlusCohortLibrary {
 		        + "               left join (select v.client_id\n"
 		        + "                          from kenyaemr_etl.etl_clinical_visit v\n"
 		        + "                          where v.visit_date between DATE_ADD(DATE_SUB(date(:endDate), INTERVAL 3 MONTH), INTERVAL 1 DAY) and date(:endDate)\n"
-		        + "                            and v.hiv_tested = 'Yes') v on c.client_id = v.client_id\n"
+		        + "                            and v.test_results in ('Positive','Negative')) v on c.client_id = v.client_id\n"
 		        + "      where c.visit_date <= date(:endDate)) a\n"
 		        + "where (a.hts_client is not null or a.kp_visit_client is not null);";
 		cd.setName("testedForHIVWithinLastThreeMonths");
@@ -3083,9 +3052,7 @@ public class ETLMoh731PlusCohortLibrary {
 	 */
 	public CohortDefinition hadClinicalVisitReportingPeriodAndStartingARTOffSite() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v\n"
-		        + "where date(v.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "      and v.initiated_art_this_month = 'Yes' and hiv_care_facility = 'Provided elsewhere';";
+		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v where date(v.date_started_art) between date(:startDate) and date(:endDate);";
 		cd.setName("hadClinicalVisitReportingPeriodAndStartingARTOffSite");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -3197,7 +3164,7 @@ public class ETLMoh731PlusCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v\n"
 		        + "where date(v.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "      and hiv_care_facility = 'Provided elsewhere' and (v.initiated_art_this_month = 'Yes' or v.active_art = 'Yes');";
+		        + " and (v.initiated_art_this_month = 'Yes' or v.active_art = 'Yes');";
 		cd.setName("reportedCurrentOnARTElsewhereClinicalVisit");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -3834,21 +3801,20 @@ public class ETLMoh731PlusCohortLibrary {
 	}
 	
 	/**
-	 * Tested +ve and 3 months later, no VL test
+	 * Started ART offsite
 	 * 
 	 * @return
 	 */
-	public CohortDefinition testedHIVPositiveEligibleForVl() {
+	public CohortDefinition startedARTOffsiteEligibleForVl() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select t.patient_id\n" + "from kenyaemr_etl.etl_hts_test t\n"
-		        + "where t.final_test_result = 'Positive'\n" + "  and t.test_type = 1\n"
-		        + "  and date(t.visit_date) <= date(:endDate)\n"
-		        + "  and date(t.visit_date) >= date_add(date_sub(date(:endDate), INTERVAL 12 + 3 MONTH), INTERVAL 1 DAY);";
-		cd.setName("testedHIVPositiveEligibleForVl");
+		String sqlQuery = "select v.client_id\n" + "from kenyaemr_etl.etl_clinical_visit v\n"
+		        + "where v.date_started_art between date_add(date_sub(date(:endDate), INTERVAL 12 MONTH), INTERVAL 1\n"
+		        + " DAY) and date_sub(date(:endDate), INTERVAL 90 DAY);";
+		cd.setName("startedARTOffsiteEligibleForVl");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("testedHIVPositiveEligibleForVl");
+		cd.setDescription("startedARTOffsiteEligibleForVl");
 		
 		return cd;
 	}
@@ -3901,10 +3867,10 @@ public class ETLMoh731PlusCohortLibrary {
 		    ReportUtils.map(lastVLUnsuppressedEligibleForVl(), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("lastVLSuppressedAged25AndAboveEligibleForVl",
 		    ReportUtils.map(lastVLSuppressedAged25AndAboveEligibleForVl(), "startDate=${startDate},endDate=${endDate}"));
-		cd.addSearch("testedHIVPositiveEligibleForVl",
-		    ReportUtils.map(testedHIVPositiveEligibleForVl(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("startedARTOffsiteEligibleForVl",
+		    ReportUtils.map(startedARTOffsiteEligibleForVl(), "startDate=${startDate},endDate=${endDate}"));
 		cd.setCompositionString("kpType AND (currentlyOnArtOnSite AND currentOnArtOffsite) AND (eligibleForVLLast12MonthsOffsite OR eligibleForVLPregnantOrBreastfeeding OR startedARTEligibleForVl "
-		        + "OR lastVLSuppressed0To24YearsOldsEligibleForVl OR lastVLUnsuppressedEligibleForVl OR lastVLSuppressedAged25AndAboveEligibleForVl OR testedHIVPositiveEligibleForVl)");
+		        + "OR lastVLSuppressed0To24YearsOldsEligibleForVl OR lastVLUnsuppressedEligibleForVl OR lastVLSuppressedAged25AndAboveEligibleForVl OR startedARTOffsiteEligibleForVl)");
 		
 		return cd;
 	}
