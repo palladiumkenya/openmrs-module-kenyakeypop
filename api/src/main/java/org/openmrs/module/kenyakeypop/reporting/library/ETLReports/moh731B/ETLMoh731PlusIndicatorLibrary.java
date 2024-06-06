@@ -23,7 +23,7 @@ import static org.openmrs.module.kenyaemr.reporting.EmrReportingUtils.cohortIndi
 
 /**
  * Library of KP related indicator definitions. All indicators require parameters ${startDate} and
- * ${endDate}
+ * ${endDate}String kpType
  */
 @Component
 public class ETLMoh731PlusIndicatorLibrary {
@@ -117,19 +117,21 @@ public class ETLMoh731PlusIndicatorLibrary {
 	}
 	
 	public CohortIndicator experiencingSexualViolence(String kpType) {
-		return cohortIndicator("Number of Kps Experiencing sexual violence",
-		    ReportUtils.map(moh731BCohorts.experiencingSexualViolence(kpType), "startDate=${startDate},endDate=${endDate}"));
+		return cohortIndicator("Number of Kps Experiencing sexual violence", ReportUtils.map(
+		    moh731BCohorts.experiencingSexualViolence(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 	}
 	
 	public CohortIndicator experiencingPhysicalViolence(String kpType) {
 		return cohortIndicator("Number of Kps Experiencing physical violence", ReportUtils.map(
-		    moh731BCohorts.experiencingPhysicalViolence(kpType), "startDate=${startDate},endDate=${endDate}"));
+		    moh731BCohorts.experiencingPhysicalViolence(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 	}
 	
 	public CohortIndicator experiencingEmotionalOrPsychologicalViolence(String kpType) {
-		return cohortIndicator("Number of Kps Experiencing emotional/psychological violence",
-		    ReportUtils.map(moh731BCohorts.experiencingEmotionalOrPsychologicalViolence(kpType),
-		        "startDate=${startDate},endDate=${endDate}"));
+		return cohortIndicator("Number of Kps Experiencing emotional/psychological violence", ReportUtils.map(
+		    moh731BCohorts.experiencingEmotionalOrPsychologicalViolence(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 	}
 	
 	public CohortIndicator receivingSelfTestKits(String kpType) {
@@ -207,6 +209,16 @@ public class ETLMoh731PlusIndicatorLibrary {
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 	}
 	
+	public CohortIndicator hivPosDiagnosedWithTB(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.hivPosDiagnosedWithTB(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator givenTPT(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.givenTPT(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
 	public CohortIndicator tbClientsOnHAART(String kpType) {
 		return cohortIndicator("", ReportUtils.map(moh731BCohorts.tbClientsOnHAART(kpType),
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
@@ -224,6 +236,46 @@ public class ETLMoh731PlusIndicatorLibrary {
 	
 	public CohortIndicator turningPositiveWhileOnPrEP(String kpType) {
 		return cohortIndicator("", ReportUtils.map(moh731BCohorts.turningPositiveWhileOnPrEP(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator onPrEPDiagnosedWithSTI(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.onPrEPDiagnosedWithSTI(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator screenedForMentalHealth(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.screenedForMentalHealth(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator diagnosedWithMentalHealth(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.diagnosedWithMentalHealth(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator treatedForMentalHealth(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.treatedForMentalHealth(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator kpsTestedForHIV(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.kpsTestedForHIV(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator kpsReceivingHIVPosTestResults(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.kpsReceivingHIVPosTestResults(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator kplhivReached(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.kplhivReached(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator kplhivStartingART(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.kplhivStartingART(kpType),
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 	}
 	
@@ -340,6 +392,21 @@ public class ETLMoh731PlusIndicatorLibrary {
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 	}
 	
+	public CohortIndicator viralLoadResultsWithinLast12Months(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.viralLoadResultsWithinLast12Months(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator suppressedVLUnder200CpsPerMlWithinLast12Months(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.suppressedVLUnder200CpsPerMlWithinLast12Months(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator suppressedVLUnder50CpsPerMlWithinLast12Months(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.suppressedVLUnder50CpsPerMlWithinLast12Months(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
 	public CohortIndicator onARTAt12MonthsOnsite(String kpType) {
 		return cohortIndicator("", ReportUtils.map(moh731BCohorts.onARTAt12MonthsOnsite(kpType),
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
@@ -362,6 +429,16 @@ public class ETLMoh731PlusIndicatorLibrary {
 	
 	public CohortIndicator viralLoad12MonthsOffsite(String kpType) {
 		return cohortIndicator("", ReportUtils.map(moh731BCohorts.viralLoad12MonthsOffsite(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator eligibleForVLWithinLast12Months(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.eligibleForVLWithinLast12Months(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator viralLoadTestDoneWithinLast12Months(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.viralLoadTestDoneWithinLast12Months(kpType),
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 	}
 	
