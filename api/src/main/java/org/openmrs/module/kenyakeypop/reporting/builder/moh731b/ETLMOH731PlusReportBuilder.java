@@ -33,7 +33,7 @@ import java.util.List;
  * Report builder for ETL MOH 731B for Key Population
  */
 @Component
-@Builds({ "kenyaemr.kenyakeypop.kenyakeypop.report.moh731b" })
+@Builds({ "kenyaemr.kenyakeypop.kenyakeypop.report.moh731PlusKP" })
 public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 	
 	@Autowired
@@ -321,83 +321,81 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		 * Experience violence: number of people in each KP type who experienced sexual violence in
 		 * the reporting period.
 		 */
-		/*cohortDsd.addColumn("Number of FSW Experiencing Sexual Violence", "",
-				ReportUtils.map(moh731bIndicators.experiencingSexualViolence(FSW), indParams), "");
+		cohortDsd.addColumn("Number of FSW Experiencing Sexual Violence", "",
+		    ReportUtils.map(moh731bIndicators.experiencingSexualViolence(FSW), indParams), "");
 		cohortDsd.addColumn("Number of MSM Experiencing Sexual Violence", "",
-				ReportUtils.map(moh731bIndicators.experiencingSexualViolence(MSM), indParams), "");
+		    ReportUtils.map(moh731bIndicators.experiencingSexualViolence(MSM), indParams), "");
 		cohortDsd.addColumn("Number of MSW Experiencing Sexual Violence", "",
-				ReportUtils.map(moh731bIndicators.experiencingSexualViolence(MSW), indParams), "");
+		    ReportUtils.map(moh731bIndicators.experiencingSexualViolence(MSW), indParams), "");
 		EmrReportingUtils.addRow(cohortDsd, "Number of PWID Experiencing Sexual Violence", "",
-				ReportUtils.map(moh731bIndicators.experiencingSexualViolence(PWID), indParams), genderDisaggregation,
-				Arrays.asList("01", "02"));
+		    ReportUtils.map(moh731bIndicators.experiencingSexualViolence(PWID), indParams), genderDisaggregation,
+		    Arrays.asList("01", "02"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of PWUD Experiencing Sexual Violence", "",
-				ReportUtils.map(moh731bIndicators.experiencingSexualViolence(PWUD), indParams), genderDisaggregation,
-				Arrays.asList("01", "02"));
+		    ReportUtils.map(moh731bIndicators.experiencingSexualViolence(PWUD), indParams), genderDisaggregation,
+		    Arrays.asList("01", "02"));
 		cohortDsd.addColumn("Number of TRANSMAN Experiencing Sexual Violence", "",
-				ReportUtils.map(moh731bIndicators.experiencingSexualViolence(TRANSMAN), indParams), "");
+		    ReportUtils.map(moh731bIndicators.experiencingSexualViolence(TRANSMAN), indParams), "");
 		cohortDsd.addColumn("Number of TRANSWOMAN Experiencing Sexual Violence", "",
-				ReportUtils.map(moh731bIndicators.experiencingSexualViolence(TRANSWOMAN), indParams), "");*/
+		    ReportUtils.map(moh731bIndicators.experiencingSexualViolence(TRANSWOMAN), indParams), "");
 		/**
 		 * programme when they experienced Physical violence in the reporting period by KP type
 		 */
-		/*cohortDsd.addColumn("Number of FSW Experiencing Physical Violence", "",
-				ReportUtils.map(moh731bIndicators.experiencingPhysicalViolence(FSW), indParams), "");
+		cohortDsd.addColumn("Number of FSW Experiencing Physical Violence", "",
+		    ReportUtils.map(moh731bIndicators.experiencingPhysicalViolence(FSW), indParams), "");
 		cohortDsd.addColumn("Number of MSM Experiencing Physical Violence", "",
-				ReportUtils.map(moh731bIndicators.experiencingPhysicalViolence(MSM), indParams), "");
+		    ReportUtils.map(moh731bIndicators.experiencingPhysicalViolence(MSM), indParams), "");
 		cohortDsd.addColumn("Number of MSW Experiencing Physical Violence", "",
-				ReportUtils.map(moh731bIndicators.experiencingPhysicalViolence(MSW), indParams), "");
+		    ReportUtils.map(moh731bIndicators.experiencingPhysicalViolence(MSW), indParams), "");
 		EmrReportingUtils.addRow(cohortDsd, "Number of PWID Experiencing Physical Violence", "",
-				ReportUtils.map(moh731bIndicators.experiencingPhysicalViolence(PWID), indParams), genderDisaggregation,
-				Arrays.asList("01", "02"));
+		    ReportUtils.map(moh731bIndicators.experiencingPhysicalViolence(PWID), indParams), genderDisaggregation,
+		    Arrays.asList("01", "02"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of PWUD Experiencing Physical Violence", "",
-				ReportUtils.map(moh731bIndicators.experiencingPhysicalViolence(PWUD), indParams), genderDisaggregation,
-				Arrays.asList("01", "02"));
+		    ReportUtils.map(moh731bIndicators.experiencingPhysicalViolence(PWUD), indParams), genderDisaggregation,
+		    Arrays.asList("01", "02"));
 		cohortDsd.addColumn("Number of TRANSMAN Experiencing Physical Violence", "",
-				ReportUtils.map(moh731bIndicators.experiencingPhysicalViolence(TRANSMAN), indParams), "");
+		    ReportUtils.map(moh731bIndicators.experiencingPhysicalViolence(TRANSMAN), indParams), "");
 		cohortDsd.addColumn("Number of TRANSWOMAN Experiencing Physical Violence", "",
-				ReportUtils.map(moh731bIndicators.experiencingPhysicalViolence(TRANSWOMAN), indParams), "");*/
+		    ReportUtils.map(moh731bIndicators.experiencingPhysicalViolence(TRANSWOMAN), indParams), "");
 		
 		/**
 		 * Number of KPs experiencing emotional or psychological violence
 		 */
-		/*
-				cohortDsd.addColumn("Number of FSW Experiencing Emotional/Psychological Violence", "",
-						ReportUtils.map(moh731bIndicators.experiencingEmotionalOrPsychologicalViolence(FSW), indParams), "");
-				cohortDsd.addColumn("Number of MSM Experiencing Emotional/Psychological Violence", "",
-						ReportUtils.map(moh731bIndicators.experiencingEmotionalOrPsychologicalViolence(MSM), indParams), "");
-				cohortDsd.addColumn("Number of MSW Experiencing Emotional/Psychological Violence", "",
-						ReportUtils.map(moh731bIndicators.experiencingEmotionalOrPsychologicalViolence(MSW), indParams), "");
-				EmrReportingUtils.addRow(cohortDsd, "Number of PWID Experiencing Emotional/Psychological Violence", "",
-						ReportUtils.map(moh731bIndicators.experiencingEmotionalOrPsychologicalViolence(PWID), indParams), genderDisaggregation,
-						Arrays.asList("01", "02"));
-				EmrReportingUtils.addRow(cohortDsd, "Number of PWUD Experiencing Emotional/Psychological Violence", "",
-						ReportUtils.map(moh731bIndicators.experiencingEmotionalOrPsychologicalViolence(PWUD), indParams), genderDisaggregation,
-						Arrays.asList("01", "02"));
-				cohortDsd.addColumn("Number of TRANSMAN Experiencing Emotional/Psychological Violence", "",
-						ReportUtils.map(moh731bIndicators.experiencingEmotionalOrPsychologicalViolence(TRANSMAN), indParams), "");
-				cohortDsd.addColumn("Number of TRANSWOMAN Experiencing Emotional/Psychological Violence", "",
-						ReportUtils.map(moh731bIndicators.experiencingEmotionalOrPsychologicalViolence(TRANSWOMAN), indParams), "");
-		*/
+		cohortDsd.addColumn("Number of FSW Experiencing Emotional/Psychological Violence", "",
+		    ReportUtils.map(moh731bIndicators.experiencingEmotionalOrPsychologicalViolence(FSW), indParams), "");
+		cohortDsd.addColumn("Number of MSM Experiencing Emotional/Psychological Violence", "",
+		    ReportUtils.map(moh731bIndicators.experiencingEmotionalOrPsychologicalViolence(MSM), indParams), "");
+		cohortDsd.addColumn("Number of MSW Experiencing Emotional/Psychological Violence", "",
+		    ReportUtils.map(moh731bIndicators.experiencingEmotionalOrPsychologicalViolence(MSW), indParams), "");
+		EmrReportingUtils.addRow(cohortDsd, "Number of PWID Experiencing Emotional/Psychological Violence", "",
+		    ReportUtils.map(moh731bIndicators.experiencingEmotionalOrPsychologicalViolence(PWID), indParams),
+		    genderDisaggregation, Arrays.asList("01", "02"));
+		EmrReportingUtils.addRow(cohortDsd, "Number of PWUD Experiencing Emotional/Psychological Violence", "",
+		    ReportUtils.map(moh731bIndicators.experiencingEmotionalOrPsychologicalViolence(PWUD), indParams),
+		    genderDisaggregation, Arrays.asList("01", "02"));
+		cohortDsd.addColumn("Number of TRANSMAN Experiencing Emotional/Psychological Violence", "",
+		    ReportUtils.map(moh731bIndicators.experiencingEmotionalOrPsychologicalViolence(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Number of TRANSWOMAN Experiencing Emotional/Psychological Violence", "",
+		    ReportUtils.map(moh731bIndicators.experiencingEmotionalOrPsychologicalViolence(TRANSWOMAN), indParams), "");
 		
 		/**
 		 * Number of KPs who received violence support
 		 */
-		/*	cohortDsd.addColumn("Number of FSW Received Violence Support", "",
-					ReportUtils.map(moh731bIndicators.receivedViolenceSupport(FSW), indParams), "");
-			cohortDsd.addColumn("Number of MSM Received Violence Support", "",
-					ReportUtils.map(moh731bIndicators.receivedViolenceSupport(MSM), indParams), "");
-			cohortDsd.addColumn("Number of MSW Received Violence Support", "",
-					ReportUtils.map(moh731bIndicators.receivedViolenceSupport(MSW), indParams), "");
-			EmrReportingUtils.addRow(cohortDsd, "Number of PWID Received Violence Support", "",
-					ReportUtils.map(moh731bIndicators.receivedViolenceSupport(PWID), indParams), genderDisaggregation,
-					Arrays.asList("01", "02"));
-			EmrReportingUtils.addRow(cohortDsd, "Number of PWUD Received Violence Support", "",
-					ReportUtils.map(moh731bIndicators.receivedViolenceSupport(PWUD), indParams), genderDisaggregation,
-					Arrays.asList("01", "02"));
-			cohortDsd.addColumn("Number of TRANSMAN Received Violence Support", "",
-					ReportUtils.map(moh731bIndicators.receivedViolenceSupport(TRANSMAN), indParams), "");
-			cohortDsd.addColumn("Number of TRANSWOMAN Received Violence Support", "",
-					ReportUtils.map(moh731bIndicators.receivedViolenceSupport(TRANSWOMAN), indParams), "");*/
+		cohortDsd.addColumn("Number of FSW Received Violence Support", "",
+		    ReportUtils.map(moh731bIndicators.receivedViolenceSupport(FSW), indParams), "");
+		cohortDsd.addColumn("Number of MSM Received Violence Support", "",
+		    ReportUtils.map(moh731bIndicators.receivedViolenceSupport(MSM), indParams), "");
+		cohortDsd.addColumn("Number of MSW Received Violence Support", "",
+		    ReportUtils.map(moh731bIndicators.receivedViolenceSupport(MSW), indParams), "");
+		EmrReportingUtils.addRow(cohortDsd, "Number of PWID Received Violence Support", "",
+		    ReportUtils.map(moh731bIndicators.receivedViolenceSupport(PWID), indParams), genderDisaggregation,
+		    Arrays.asList("01", "02"));
+		EmrReportingUtils.addRow(cohortDsd, "Number of PWUD Received Violence Support", "",
+		    ReportUtils.map(moh731bIndicators.receivedViolenceSupport(PWUD), indParams), genderDisaggregation,
+		    Arrays.asList("01", "02"));
+		cohortDsd.addColumn("Number of TRANSMAN Received Violence Support", "",
+		    ReportUtils.map(moh731bIndicators.receivedViolenceSupport(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Number of TRANSWOMAN Received Violence Support", "",
+		    ReportUtils.map(moh731bIndicators.receivedViolenceSupport(TRANSWOMAN), indParams), "");
 		
 		// 2.4 STI screening
 		/**
@@ -1033,7 +1031,7 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		EmrReportingUtils.addRow(cohortDsd, "Number of PWID Experienced Overdose", "",
 		    ReportUtils.map(moh731bIndicators.experiencedOverdose(PWID), indParams), genderDisaggregation,
 		    Arrays.asList("01", "02"));
-		EmrReportingUtils.addRow(cohortDsd, "Number OF PWUD Experienced Overdose", "",
+		EmrReportingUtils.addRow(cohortDsd, "Number of PWUD Experienced Overdose", "",
 		    ReportUtils.map(moh731bIndicators.experiencedOverdose(PWUD), indParams), genderDisaggregation,
 		    Arrays.asList("01", "02"));
 		/**

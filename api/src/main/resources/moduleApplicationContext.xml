@@ -62,7 +62,7 @@
                 <ref bean="kenyakeypop.form.kpDiagnosis" />
                 <ref bean="kenyakeypop.form.kpTreatmentVerification" />
                 <ref bean="kenyakeypop.form.prepTreatmentVerification" />
-                <ref bean="kenyakeypop.form.genderBasedViolence" />
+                <!--<ref bean="kenyakeypop.form.genderBasedViolence" />-->
                 <ref bean="kenyaemr.common.form.tbScreening" />
             </set>
         </property>
@@ -77,7 +77,8 @@
         <property name="order" value="590" />
         <property name="reports">
             <set>
-                <ref bean="kenyaemr.kenyakeypop.kenyakeypop.report.moh731b" />
+                <ref bean="kenyaemr.kenyakeypop.kenyakeypop.report.moh731PlusKP" />
+                <ref bean="kenyaemr.kenyakeypop.kenyakeypop.report.moh731PlusVP" />
                 <ref bean="kenyaemr.kenyakeypop.kenyakeypop.report.outreachWorkerSummary" />
                 <ref bean="kenyaemr.kenyakeypop.kenyakeypop.report.cohort.analysis.kpRegister" />
                 <ref bean="kenyaemr.kenyakeypop.kenyakeypop.report.cohort.analysis.kpPeerTrackingRegister" />
@@ -134,7 +135,7 @@
     <!--  <bean id="kenyaemr.config.report" class="org.openmrs.module.kenyacore.report.ReportConfiguration">
           <property name="reports">
               <set>
-                  <ref bean="kenyaemr.kenyakeypop.kenyakeypop.report.moh731b" />
+                  <ref bean="kenyaemr.kenyakeypop.kenyakeypop.report.moh731PlusKP" />
                   <ref bean="kenyaemr.kenyakeypop.kenyakeypop.report.outreachWorkerSummary" />
                   <ref bean="kenyaemr.kenyakeypop.kenyakeypop.report.cohort.analysis.kpRegister" />
               </set>
@@ -193,15 +194,25 @@
         <property name="repeatingSection" value="sheet:1,row:8,dataset:OutreachWorkerSummary" />
     </bean>
 
-    <bean id="kenyaemr.kenyakeypop.kenyakeypop.report.moh731b" class="org.openmrs.module.kenyacore.report.IndicatorReportDescriptor">
+    <bean id="kenyaemr.kenyakeypop.kenyakeypop.report.moh731PlusKP" class="org.openmrs.module.kenyacore.report.IndicatorReportDescriptor">
         <property name="targetUuid" value="f8109c53-93bb-4561-b397-bb22ea317577" />
-        <property name="name" value="MOH 731B Report" />
-        <property name="description" value="MOH 731B Report based" />
+        <property name="name" value="MOH 731 Plus Report for KP" />
+        <property name="description" value="MOH 731 Report for Key Populations" />
         <property name="apps">
             <set>
                 <ref bean="kenyaemr.app.reports" />
             </set></property>
-        <property name="template" value="kenyakeypop:MOH_731Plus_Template.xls" />
+        <property name="template" value="kenyakeypop:MOH_731Plus_KP_Template.xls" />
+    </bean>
+    <bean id="kenyaemr.kenyakeypop.kenyakeypop.report.moh731PlusVP" class="org.openmrs.module.kenyacore.report.IndicatorReportDescriptor">
+        <property name="targetUuid" value="3578e536-c080-4eb4-9420-e43b752be5b5" />
+        <property name="name" value="MOH 731 Plus Report for VP" />
+        <property name="description" value="MOH 731 Report for Vulnerable Populations" />
+        <property name="apps">
+            <set>
+                <ref bean="kenyaemr.app.reports" />
+            </set></property>
+        <property name="template" value="kenyakeypop:MOH_731Plus_VP_Template.xls" />
     </bean>
 
     <bean id="kenyaemr.kenyakeypop.kenyakeypop.report.monthlyReport" class="org.openmrs.module.kenyacore.report.IndicatorReportDescriptor">

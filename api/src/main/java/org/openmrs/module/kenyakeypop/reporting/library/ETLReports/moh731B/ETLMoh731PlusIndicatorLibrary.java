@@ -23,7 +23,7 @@ import static org.openmrs.module.kenyaemr.reporting.EmrReportingUtils.cohortIndi
 
 /**
  * Library of KP related indicator definitions. All indicators require parameters ${startDate} and
- * ${endDate}
+ * ${endDate}String kpType
  */
 @Component
 public class ETLMoh731PlusIndicatorLibrary {
@@ -117,19 +117,21 @@ public class ETLMoh731PlusIndicatorLibrary {
 	}
 	
 	public CohortIndicator experiencingSexualViolence(String kpType) {
-		return cohortIndicator("Number of Kps Experiencing sexual violence",
-		    ReportUtils.map(moh731BCohorts.experiencingSexualViolence(kpType), "startDate=${startDate},endDate=${endDate}"));
+		return cohortIndicator("Number of Kps Experiencing sexual violence", ReportUtils.map(
+		    moh731BCohorts.experiencingSexualViolence(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 	}
 	
 	public CohortIndicator experiencingPhysicalViolence(String kpType) {
 		return cohortIndicator("Number of Kps Experiencing physical violence", ReportUtils.map(
-		    moh731BCohorts.experiencingPhysicalViolence(kpType), "startDate=${startDate},endDate=${endDate}"));
+		    moh731BCohorts.experiencingPhysicalViolence(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 	}
 	
 	public CohortIndicator experiencingEmotionalOrPsychologicalViolence(String kpType) {
-		return cohortIndicator("Number of Kps Experiencing emotional/psychological violence",
-		    ReportUtils.map(moh731BCohorts.experiencingEmotionalOrPsychologicalViolence(kpType),
-		        "startDate=${startDate},endDate=${endDate}"));
+		return cohortIndicator("Number of Kps Experiencing emotional/psychological violence", ReportUtils.map(
+		    moh731BCohorts.experiencingEmotionalOrPsychologicalViolence(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 	}
 	
 	public CohortIndicator receivingSelfTestKits(String kpType) {
@@ -427,6 +429,16 @@ public class ETLMoh731PlusIndicatorLibrary {
 	
 	public CohortIndicator viralLoad12MonthsOffsite(String kpType) {
 		return cohortIndicator("", ReportUtils.map(moh731BCohorts.viralLoad12MonthsOffsite(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator eligibleForVLWithinLast12Months(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.eligibleForVLWithinLast12Months(kpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator viralLoadTestDoneWithinLast12Months(String kpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.viralLoadTestDoneWithinLast12Months(kpType),
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 	}
 	
