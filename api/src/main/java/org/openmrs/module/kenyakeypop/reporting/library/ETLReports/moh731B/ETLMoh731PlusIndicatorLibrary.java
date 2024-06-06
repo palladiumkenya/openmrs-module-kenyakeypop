@@ -279,16 +279,6 @@ public class ETLMoh731PlusIndicatorLibrary {
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 	}
 	
-	public CohortIndicator experiencingViolence(String kpType) {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.experiencingViolence(kpType),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-	}
-	
-	public CohortIndicator receivingViolenceSupport(String kpType) {
-		return cohortIndicator("", ReportUtils.map(moh731BCohorts.receivingViolenceSupport(kpType),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-	}
-	
 	public CohortIndicator numberExposed(String kpType) {
 		return cohortIndicator("", ReportUtils.map(moh731BCohorts.numberExposed(kpType),
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
