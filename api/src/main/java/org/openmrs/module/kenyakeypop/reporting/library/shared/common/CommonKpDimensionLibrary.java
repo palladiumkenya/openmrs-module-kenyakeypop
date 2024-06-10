@@ -61,9 +61,9 @@ public class CommonKpDimensionLibrary {
 	 * 
 	 * @return the dimension
 	 */
-	public CohortDefinitionDimension kpType() {
+	public CohortDefinitionDimension kvpType() {
 		CohortDefinitionDimension dim = new CohortDefinitionDimension();
-		dim.setName("kpType");
+		dim.setName("kvpType");
 		dim.addCohortDefinition("fsw", map(commonCohortLibrary.males()));
 		dim.addCohortDefinition("msm", map(commonCohortLibrary.females()));
 		dim.addCohortDefinition("msw", map(commonCohortLibrary.females()));

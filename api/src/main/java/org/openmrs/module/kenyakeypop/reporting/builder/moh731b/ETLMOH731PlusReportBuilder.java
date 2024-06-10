@@ -109,7 +109,7 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 	}
 	
 	/**
-	 * KP Dataset
+	 * kps Dataset
 	 * 
 	 * @return the dataset
 	 */
@@ -120,78 +120,78 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cohortDsd.addParameter(new Parameter("location", "Sub-County", String.class));
 		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.moh731BAgeGroups(), "onDate=${endDate}"));
-		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		cohortDsd.addDimension("kvpType", ReportUtils.map(commonDimensions.kvpType()));
 		cohortDsd.addDimension("gender", ReportUtils.map(commonDimensions.gender()));
 		
 		String indParams = "startDate=${startDate},endDate=${endDate},location=${location}";
 		
-		// 1.0 Number of KP Reached
+		// 1.0 Number of kps Reached
 		EmrReportingUtils.addRow(cohortDsd, "Number of FSW Reached", "",
-		    ReportUtils.map(moh731bIndicators.kpsReachedWithinLastThreeMonths(FSW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(moh731bIndicators.kvpsReachedWithinLastThreeMonths(FSW), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of MSM Reached", "",
-		    ReportUtils.map(moh731bIndicators.kpsReachedWithinLastThreeMonths(MSM), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(moh731bIndicators.kvpsReachedWithinLastThreeMonths(MSM), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of MSW Reached", "",
-		    ReportUtils.map(moh731bIndicators.kpsReachedWithinLastThreeMonths(MSW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(moh731bIndicators.kvpsReachedWithinLastThreeMonths(MSW), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of PWID Reached", "",
-		    ReportUtils.map(moh731bIndicators.kpsReachedWithinLastThreeMonths(PWID), indParams), kpAgeGenderDisaggregation,
+		    ReportUtils.map(moh731bIndicators.kvpsReachedWithinLastThreeMonths(PWID), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of PWUD Reached", "",
-		    ReportUtils.map(moh731bIndicators.kpsReachedWithinLastThreeMonths(PWUD), indParams), kpAgeGenderDisaggregation,
+		    ReportUtils.map(moh731bIndicators.kvpsReachedWithinLastThreeMonths(PWUD), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of TRANSWOMAN Reached", "",
-		    ReportUtils.map(moh731bIndicators.kpsReachedWithinLastThreeMonths(TRANSWOMAN), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(moh731bIndicators.kvpsReachedWithinLastThreeMonths(TRANSWOMAN), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of TRANSMAN Reached", "",
-		    ReportUtils.map(moh731bIndicators.kpsReachedWithinLastThreeMonths(TRANSMAN), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(moh731bIndicators.kvpsReachedWithinLastThreeMonths(TRANSMAN), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
-		// 2.0 Number KP Reached with Defined Package
+		// 2.0 Number kps Reached with Defined Package
 		EmrReportingUtils.addRow(cohortDsd, "Number of FSW Reached With Defined Package", "",
-		    ReportUtils.map(moh731bIndicators.kpsReachedWithinLastThreeMonthsDefinedPackage(FSW), indParams),
+		    ReportUtils.map(moh731bIndicators.kvpsReachedWithinLastThreeMonthsDefinedPackage(FSW), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of MSM Reached With Defined Package", "",
-		    ReportUtils.map(moh731bIndicators.kpsReachedWithinLastThreeMonthsDefinedPackage(MSM), indParams),
+		    ReportUtils.map(moh731bIndicators.kvpsReachedWithinLastThreeMonthsDefinedPackage(MSM), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of MSW Reached With Defined Package", "",
-		    ReportUtils.map(moh731bIndicators.kpsReachedWithinLastThreeMonthsDefinedPackage(MSW), indParams),
+		    ReportUtils.map(moh731bIndicators.kvpsReachedWithinLastThreeMonthsDefinedPackage(MSW), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of PWID Reached With Defined Package", "",
-		    ReportUtils.map(moh731bIndicators.kpsReachedWithinLastThreeMonthsDefinedPackage(PWID), indParams),
+		    ReportUtils.map(moh731bIndicators.kvpsReachedWithinLastThreeMonthsDefinedPackage(PWID), indParams),
 		    kpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of PWUD Reached With Defined Package", "",
-		    ReportUtils.map(moh731bIndicators.kpsReachedWithinLastThreeMonthsDefinedPackage(PWUD), indParams),
+		    ReportUtils.map(moh731bIndicators.kvpsReachedWithinLastThreeMonthsDefinedPackage(PWUD), indParams),
 		    kpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of TRANSWOMAN Reached With Defined Package", "",
-		    ReportUtils.map(moh731bIndicators.kpsReachedWithinLastThreeMonthsDefinedPackage(TRANSWOMAN), indParams),
+		    ReportUtils.map(moh731bIndicators.kvpsReachedWithinLastThreeMonthsDefinedPackage(TRANSWOMAN), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of TRANSMAN Reached With Defined Package", "",
-		    ReportUtils.map(moh731bIndicators.kpsReachedWithinLastThreeMonthsDefinedPackage(TRANSMAN), indParams),
+		    ReportUtils.map(moh731bIndicators.kvpsReachedWithinLastThreeMonthsDefinedPackage(TRANSMAN), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
 		
-		// 2.1 Number KPS Receiving Peer Education
+		// 2.1 Number kps Receiving Peer Education
 		EmrReportingUtils.addRow(cohortDsd, "Number of FSW Receiving Peer Education", "",
-		    ReportUtils.map(moh731bIndicators.kpsReceivingPeerEducationWithinReportingPeriod(FSW), indParams),
+		    ReportUtils.map(moh731bIndicators.kvpsReceivingPeerEducationWithinReportingPeriod(FSW), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of MSM Receiving Peer Education", "",
-		    ReportUtils.map(moh731bIndicators.kpsReceivingPeerEducationWithinReportingPeriod(MSM), indParams),
+		    ReportUtils.map(moh731bIndicators.kvpsReceivingPeerEducationWithinReportingPeriod(MSM), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of MSW Receiving Peer Education", "",
-		    ReportUtils.map(moh731bIndicators.kpsReceivingPeerEducationWithinReportingPeriod(MSW), indParams),
+		    ReportUtils.map(moh731bIndicators.kvpsReceivingPeerEducationWithinReportingPeriod(MSW), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of PWID Receiving Peer Education", "",
-		    ReportUtils.map(moh731bIndicators.kpsReceivingPeerEducationWithinReportingPeriod(PWID), indParams),
+		    ReportUtils.map(moh731bIndicators.kvpsReceivingPeerEducationWithinReportingPeriod(PWID), indParams),
 		    kpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of PWUD Receiving Peer Education", "",
-		    ReportUtils.map(moh731bIndicators.kpsReceivingPeerEducationWithinReportingPeriod(PWUD), indParams),
+		    ReportUtils.map(moh731bIndicators.kvpsReceivingPeerEducationWithinReportingPeriod(PWUD), indParams),
 		    kpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of TRANSWOMAN Receiving Peer Education", "",
-		    ReportUtils.map(moh731bIndicators.kpsReceivingPeerEducationWithinReportingPeriod(TRANSWOMAN), indParams),
+		    ReportUtils.map(moh731bIndicators.kvpsReceivingPeerEducationWithinReportingPeriod(TRANSWOMAN), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of TRANSMAN Receiving Peer Education", "",
-		    ReportUtils.map(moh731bIndicators.kpsReceivingPeerEducationWithinReportingPeriod(TRANSMAN), indParams),
+		    ReportUtils.map(moh731bIndicators.kvpsReceivingPeerEducationWithinReportingPeriod(TRANSMAN), indParams),
 		    kpAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05"));
 		
 		// 2.2 Number of Receiving Commodities
@@ -232,7 +232,7 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.receivingCondomsPerNeedPerNeed(TRANSWOMAN), indParams), "");
 		
 		/**
-		 * Number receiving needles & syringes: number of individuals in each KP type who received
+		 * Number receiving needles & syringes: number of individuals in each kps type who received
 		 * at least one needle & syringe, irrespective of service provision point.
 		 */
 		cohortDsd.addColumn("Number of FSW Receiving Needles and Syringes", "",
@@ -247,13 +247,13 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		EmrReportingUtils.addRow(cohortDsd, "Number of PWUD Receiving Needles and Syringes", "",
 		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringes(PWUD), indParams), genderDisaggregation,
 		    Arrays.asList("01", "02"));
-		cohortDsd.addColumn("Number of TRANSMAN Receiving Needles and Syringes", "Receiving needles and syringes Transman",
+		cohortDsd.addColumn("Number of TRANSMAN Receiving Needles and Syringes", "",
 		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringes(TRANSMAN), indParams), "");
 		cohortDsd.addColumn("Number of TRANSWOMAN Receiving Needles and Syringes", "",
 		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringes(TRANSWOMAN), indParams), "");
 		
 		/**
-		 * Number receiving needles & syringes per need number of individuals in each KP type who
+		 * Number receiving needles & syringes per need number of individuals in each kps type who
 		 * received needles & syringes based on their requirements derived from estimated number of
 		 * injecting episodes per month.
 		 */
@@ -275,8 +275,8 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.receivingNeedlesAndSyringesPerNeed(TRANSWOMAN), indParams), "");
 		
 		/**
-		 * Number receiving lubricants Number of individuals in each KP type who received lubricants
-		 * based on their requirements.
+		 * Number receiving lubricants Number of individuals in each kps type who received
+		 * lubricants based on their requirements.
 		 */
 		cohortDsd.addColumn("Number of FSW Receiving Lubricants", "",
 		    ReportUtils.map(moh731bIndicators.receivingLubricants(FSW), indParams), "");
@@ -296,7 +296,7 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.receivingLubricants(TRANSWOMAN), indParams), "");
 		
 		/**
-		 * Number receiving lubricants per need Number of individuals in each KP type who received
+		 * Number receiving lubricants per need Number of individuals in each kps type who received
 		 * lubricants based on their requirements
 		 */
 		cohortDsd.addColumn("Number of FSW Receiving Lubricants Per Need", "",
@@ -318,7 +318,7 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		
 		//4.6 Violence support
 		/**
-		 * Experience violence: number of people in each KP type who experienced sexual violence in
+		 * Experience violence: number of people in each kps type who experienced sexual violence in
 		 * the reporting period.
 		 */
 		cohortDsd.addColumn("Number of FSW Experiencing Sexual Violence", "",
@@ -338,7 +338,7 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		cohortDsd.addColumn("Number of TRANSWOMAN Experiencing Sexual Violence", "",
 		    ReportUtils.map(moh731bIndicators.experiencingSexualViolence(TRANSWOMAN), indParams), "");
 		/**
-		 * programme when they experienced Physical violence in the reporting period by KP type
+		 * programme when they experienced Physical violence in the reporting period by kps type
 		 */
 		cohortDsd.addColumn("Number of FSW Experiencing Physical Violence", "",
 		    ReportUtils.map(moh731bIndicators.experiencingPhysicalViolence(FSW), indParams), "");
@@ -399,7 +399,7 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		
 		// 2.4 STI screening
 		/**
-		 * Number screened_STI number of individuals in each KP type who were screened for STI in
+		 * Number screened_STI number of individuals in each kps type who were screened for STI in
 		 * the reporting period.
 		 */
 		cohortDsd.addColumn("Number of FSW Screened for STI", "",
@@ -420,7 +420,7 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.screenedForSTI(TRANSWOMAN), indParams), "");
 		
 		/**
-		 * Diagnosed_STI: number of individuals in each KP type who were diagnosed with STI in the
+		 * Diagnosed_STI: number of individuals in each kps type who were diagnosed with STI in the
 		 * reporting period.
 		 */
 		cohortDsd.addColumn("Number of FSW Diagnosed With STI", "",
@@ -442,7 +442,7 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.diagnosedWithSTI(TRANSWOMAN), indParams), "");
 		
 		/**
-		 * Treated_STI: number of individuals in each KP type who were treated for STI in the
+		 * Treated_STI: number of individuals in each kps type who were treated for STI in the
 		 * reporting period.
 		 */
 		cohortDsd.addColumn("Number of FSW Treated for STI", "",
@@ -464,7 +464,7 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		
 		// 2.5 HCV
 		/**
-		 * Number screened_HCV: number of individuals in each KP type who were screened for HCV in
+		 * Number screened_HCV: number of individuals in each kps type who were screened for HCV in
 		 * the reporting period.
 		 */
 		cohortDsd.addColumn("Number of FSW Screened For HCV", "",
@@ -484,7 +484,7 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		cohortDsd.addColumn("Number of TRANSWOMAN Screened For HCV", "",
 		    ReportUtils.map(moh731bIndicators.screenedForHCV(TRANSWOMAN), indParams), "");
 		/**
-		 * Positive_HCV: number of individuals in each KP type who were diagnosed with HCV in the
+		 * Positive_HCV: number of individuals in each kps type who were diagnosed with HCV in the
 		 * reporting period.
 		 */
 		cohortDsd.addColumn("Number of FSW Diagnosed with HCV", "",
@@ -505,7 +505,7 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.diagnosedWithHCV(TRANSWOMAN), indParams), "");
 		
 		/**
-		 * Treated_HCV: number of individuals in each KP type who were treated for HCV in the
+		 * Treated_HCV: number of individuals in each kps type who were treated for HCV in the
 		 * reporting period.
 		 */
 		cohortDsd.addColumn("Number of FSW Treated For HCV", "",
@@ -527,7 +527,7 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		
 		//2.6 HBV (Hepatitis B)
 		/**
-		 * Number screened_HBV: number of individuals in each KP type who were screened for HBV in
+		 * Number screened_HBV: number of individuals in each kps type who were screened for HBV in
 		 * the reporting period.
 		 */
 		cohortDsd.addColumn("Number of FSW Screened For HBV", "",
@@ -547,7 +547,7 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		cohortDsd.addColumn("Number of TRANSWOMAN Screened For HBV", "",
 		    ReportUtils.map(moh731bIndicators.screenedForHBV(TRANSWOMAN), indParams), "");
 		/**
-		 * Negative_HBV_vaccinated: number of individuals in each KP type who were vaccinated for
+		 * Negative_HBV_vaccinated: number of individuals in each kps type who were vaccinated for
 		 * HBV in the reporting period
 		 */
 		cohortDsd.addColumn("Number of Negative FSW Vaccinated For HBV", "",
@@ -567,7 +567,7 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		cohortDsd.addColumn("Number of Negative TRANSWOMAN Vaccinated For HBV", "",
 		    ReportUtils.map(moh731bIndicators.vaccinatedAgainstHBV(TRANSWOMAN), indParams), "");
 		/**
-		 * Positive_HBV: number of individuals in each KP type who were diagnosed with HBV in the
+		 * Positive_HBV: number of individuals in each kps type who were diagnosed with HBV in the
 		 * reporting period
 		 */
 		cohortDsd.addColumn("Number of FSW Diagnosed with HBV", "",
@@ -588,7 +588,7 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.diagnosedWithHBV(TRANSWOMAN), indParams), "");
 		
 		/**
-		 * Treated_HBV: number of individuals in each KP type who were treated for HBV in the
+		 * Treated_HBV: number of individuals in each kps type who were treated for HBV in the
 		 * reporting period.
 		 */
 		cohortDsd.addColumn("Number of FSW Treated For HBV", "",
@@ -610,7 +610,7 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		
 		// 2.7 TB KEY POPULATIONS
 		/**
-		 * Number screened: number of individuals in each KP type who were screened for TB in the
+		 * Number screened: number of individuals in each kps type who were screened for TB in the
 		 * reporting period.
 		 */
 		cohortDsd.addColumn("Number of FSW Screened For TB", "",
@@ -629,7 +629,7 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.screenedTB(TRANSWOMAN), indParams), "");
 		
 		/**
-		 * Number diagnosed: number of individuals in each KP type who were diagnose with TB in the
+		 * Number diagnosed: number of individuals in each kps type who were diagnose with TB in the
 		 * reporting period.
 		 */
 		cohortDsd.addColumn("Number of FSW Diagnosed With TB", "",
@@ -652,7 +652,7 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.diagnosedTB(TRANSWOMAN), indParams), "");
 		
 		/**
-		 * Number Started on TB TX: number of individuals in each KP type who were found positive
+		 * Number Started on TB TX: number of individuals in each kps type who were found positive
 		 * with TB and started on treatment in the reporting period
 		 */
 		cohortDsd.addColumn("Number of FSW Started on TB Tx", "",
@@ -675,7 +675,7 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.startedTBTX(TRANSWOMAN), indParams), "");
 		
 		/**
-		 * This is the count of TB patients who are HIV Postive in each active KP type. Calculate
+		 * This is the count of TB patients who are HIV Postive in each active kps type. Calculate
 		 * and enter the sum of all those TB patients who were already HIV Postive at the time of TB
 		 * diagnosis and TB patients diagnosed with HIV during the reporting month
 		 */
@@ -697,7 +697,7 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.hivPosDiagnosedWithTB(TRANSWOMAN), indParams), "");
 		
 		/**
-		 * Number of individuals in each KP type who were issued with TPT in the reporting period.
+		 * Number of individuals in each kps type who were issued with TPT in the reporting period.
 		 */
 		cohortDsd.addColumn("Number of FSW Given TPT", "", ReportUtils.map(moh731bIndicators.givenTPT(FSW), indParams), "");
 		cohortDsd.addColumn("Number of MSM Given TPT", "", ReportUtils.map(moh731bIndicators.givenTPT(MSM), indParams), "");
@@ -711,7 +711,7 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		cohortDsd.addColumn("Number of TRANSWOMAN Given TPT", "",
 		    ReportUtils.map(moh731bIndicators.givenTPT(TRANSWOMAN), indParams), "");
 		/**
-		 * TB clients on HAART: This is the count of TB patients who are receiving ART in each KP
+		 * TB clients on HAART: This is the count of TB patients who are receiving ART in each kps
 		 * type. Calculate and enter the sum of all those TB patients who were already on HAART at
 		 * the time of TB diagnosis and TB patients diagnosed with HIV who are started on HAART
 		 * during the reporting month.
@@ -735,7 +735,7 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		
 		//2.8 PrEP
 		/**
-		 * Initiated PrEP: number of HIV negative persons in each KP type who have been started on
+		 * Initiated PrEP: number of HIV negative persons in each kps type who have been started on
 		 * PrEP during the reporting month after meeting the eligibility criteria for PrEP.
 		 */
 		cohortDsd.addColumn("Number of FSW Initiated on PrEP", "",
@@ -756,7 +756,7 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.initiatedPrEP(TRANSWOMAN), indParams), "");
 		
 		/**
-		 * Turning HIV positive while on PrEP: number of people on PrEP in each KP type who tested
+		 * Turning HIV positive while on PrEP: number of people on PrEP in each kps type who tested
 		 * positive for HIV in the reporting period.
 		 */
 		cohortDsd.addColumn("Number of FSW Turning Positive While on PrEP", "",
@@ -777,8 +777,8 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731bIndicators.turningPositiveWhileOnPrEP(TRANSWOMAN), indParams), "");
 		
 		/**
-		 * Number of people on PrEP in each KP type who were diagonised with an STI in the reporting
-		 * period
+		 * Number of people on PrEP in each kps type who were diagonised with an STI in the
+		 * reporting period
 		 */
 		cohortDsd.addColumn("Number of FSW on PrEP Diagnosed With STI", "",
 		    ReportUtils.map(moh731bIndicators.onPrEPDiagnosedWithSTI(FSW), indParams), "");
@@ -855,94 +855,94 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		
 		// 3.1 HIV Testing KEY POPULATIONS
 		EmrReportingUtils.addRow(cohortDsd, "Number of FSW Tested For HIV", "",
-		    ReportUtils.map(moh731bIndicators.kpsTestedForHIV(FSW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(moh731bIndicators.kvpsTestedForHIV(FSW), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of MSM Tested For HIV", "",
-		    ReportUtils.map(moh731bIndicators.kpsTestedForHIV(MSM), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(moh731bIndicators.kvpsTestedForHIV(MSM), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of MSW Tested For HIV", "",
-		    ReportUtils.map(moh731bIndicators.kpsTestedForHIV(MSW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(moh731bIndicators.kvpsTestedForHIV(MSW), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of PWID Tested For HIV", "",
-		    ReportUtils.map(moh731bIndicators.kpsTestedForHIV(PWID), indParams), kpAgeGenderDisaggregation,
+		    ReportUtils.map(moh731bIndicators.kvpsTestedForHIV(PWID), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of PWUD Tested For HIV", "",
-		    ReportUtils.map(moh731bIndicators.kpsTestedForHIV(PWUD), indParams), kpAgeGenderDisaggregation,
+		    ReportUtils.map(moh731bIndicators.kvpsTestedForHIV(PWUD), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of TRANSWOMAN Tested For HIV", "",
-		    ReportUtils.map(moh731bIndicators.kpsTestedForHIV(TRANSWOMAN), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(moh731bIndicators.kvpsTestedForHIV(TRANSWOMAN), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of TRANSMAN Tested For HIV", "",
-		    ReportUtils.map(moh731bIndicators.kpsTestedForHIV(TRANSMAN), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(moh731bIndicators.kvpsTestedForHIV(TRANSMAN), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
 		//3.2 Receiving HIV Positive Results KEY POPULATIONS
 		EmrReportingUtils.addRow(cohortDsd, "Number of FSW Receiving HIV+ Test Results", "",
-		    ReportUtils.map(moh731bIndicators.kpsReceivingHIVPosTestResults(FSW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(moh731bIndicators.kvpsReceivingHIVPosTestResults(FSW), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of MSM Receiving HIV+ Test Results", "",
-		    ReportUtils.map(moh731bIndicators.kpsReceivingHIVPosTestResults(MSM), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(moh731bIndicators.kvpsReceivingHIVPosTestResults(MSM), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of MSW Receiving HIV+ Test Results", "",
-		    ReportUtils.map(moh731bIndicators.kpsReceivingHIVPosTestResults(MSW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(moh731bIndicators.kvpsReceivingHIVPosTestResults(MSW), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of PWID Receiving HIV+ Test Results", "",
-		    ReportUtils.map(moh731bIndicators.kpsReceivingHIVPosTestResults(PWID), indParams), kpAgeGenderDisaggregation,
+		    ReportUtils.map(moh731bIndicators.kvpsReceivingHIVPosTestResults(PWID), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of PWUD Receiving HIV+ Test Results", "",
-		    ReportUtils.map(moh731bIndicators.kpsReceivingHIVPosTestResults(PWUD), indParams), kpAgeGenderDisaggregation,
+		    ReportUtils.map(moh731bIndicators.kvpsReceivingHIVPosTestResults(PWUD), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of TRANSWOMAN Receiving HIV+ Test Results", "",
-		    ReportUtils.map(moh731bIndicators.kpsReceivingHIVPosTestResults(TRANSWOMAN), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(moh731bIndicators.kvpsReceivingHIVPosTestResults(TRANSWOMAN), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of TRANSMAN Receiving HIV+ Test Results", "",
-		    ReportUtils.map(moh731bIndicators.kpsReceivingHIVPosTestResults(TRANSMAN), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(moh731bIndicators.kvpsReceivingHIVPosTestResults(TRANSMAN), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
 		// 3.3 Total Number Reached Living with HIV (Onsite & Offsite)
 		EmrReportingUtils.addRow(cohortDsd, "Number of FSW KPLHIV Reached", "",
-		    ReportUtils.map(moh731bIndicators.kplhivReached(FSW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(moh731bIndicators.kvplhivReached(FSW), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of MSM KPLHIV Reached", "",
-		    ReportUtils.map(moh731bIndicators.kplhivReached(MSM), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(moh731bIndicators.kvplhivReached(MSM), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of MSW KPLHIV Reached", "",
-		    ReportUtils.map(moh731bIndicators.kplhivReached(MSW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(moh731bIndicators.kvplhivReached(MSW), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of PWID KPLHIV Reached", "",
-		    ReportUtils.map(moh731bIndicators.kplhivReached(PWID), indParams), kpAgeGenderDisaggregation,
+		    ReportUtils.map(moh731bIndicators.kvplhivReached(PWID), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of PWUD KPLHIV Reached", "",
-		    ReportUtils.map(moh731bIndicators.kplhivReached(PWUD), indParams), kpAgeGenderDisaggregation,
+		    ReportUtils.map(moh731bIndicators.kvplhivReached(PWUD), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of TRANSWOMAN KPLHIV Reached", "",
-		    ReportUtils.map(moh731bIndicators.kplhivReached(TRANSWOMAN), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(moh731bIndicators.kvplhivReached(TRANSWOMAN), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of TRANSMAN KPLHIV Reached", "",
-		    ReportUtils.map(moh731bIndicators.kplhivReached(TRANSMAN), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(moh731bIndicators.kvplhivReached(TRANSMAN), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
 		// 3.4 Starting_ART KEY   (Both onsite & Offsite)
 		EmrReportingUtils.addRow(cohortDsd, "Number of FSW KPLHIV Starting ART", "",
-		    ReportUtils.map(moh731bIndicators.kplhivStartingART(FSW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(moh731bIndicators.totalKPLHIVStartingART(FSW), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of MSM KPLHIV Starting ART", "",
-		    ReportUtils.map(moh731bIndicators.kplhivStartingART(MSM), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(moh731bIndicators.totalKPLHIVStartingART(MSM), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of MSW KPLHIV Starting ART", "",
-		    ReportUtils.map(moh731bIndicators.kplhivStartingART(MSW), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(moh731bIndicators.totalKPLHIVStartingART(MSW), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of PWID KPLHIV Starting ART", "",
-		    ReportUtils.map(moh731bIndicators.kplhivStartingART(PWID), indParams), kpAgeGenderDisaggregation,
+		    ReportUtils.map(moh731bIndicators.totalKPLHIVStartingART(PWID), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of PWUD KPLHIV Starting ART", "",
-		    ReportUtils.map(moh731bIndicators.kplhivStartingART(PWUD), indParams), kpAgeGenderDisaggregation,
+		    ReportUtils.map(moh731bIndicators.totalKPLHIVStartingART(PWUD), indParams), kpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of TRANSWOMAN KPLHIV Starting ART", "",
-		    ReportUtils.map(moh731bIndicators.kplhivStartingART(TRANSWOMAN), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(moh731bIndicators.totalKPLHIVStartingART(TRANSWOMAN), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of TRANSMAN KPLHIV Starting ART", "",
-		    ReportUtils.map(moh731bIndicators.kplhivStartingART(TRANSMAN), indParams), kpAgeDisaggregation,
+		    ReportUtils.map(moh731bIndicators.totalKPLHIVStartingART(TRANSMAN), indParams), kpAgeDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05"));
 		
 		// 3.5 Current_ART (BOTH ONSITE & offsite)
