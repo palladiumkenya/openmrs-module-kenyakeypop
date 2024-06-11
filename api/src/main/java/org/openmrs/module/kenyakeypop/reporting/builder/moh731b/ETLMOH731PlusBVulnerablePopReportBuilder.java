@@ -93,7 +93,7 @@ public class ETLMOH731PlusBVulnerablePopReportBuilder extends AbstractReportBuil
 	}
 	
 	/**
-	 * KP Dataset
+	 * VP Dataset
 	 * 
 	 * @return the dataset
 	 */
@@ -104,51 +104,52 @@ public class ETLMOH731PlusBVulnerablePopReportBuilder extends AbstractReportBuil
 		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cohortDsd.addParameter(new Parameter("location", "Sub-County", String.class));
 		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.moh731BAgeGroups(), "onDate=${endDate}"));
-		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		cohortDsd.addDimension("kvpType", ReportUtils.map(commonDimensions.kvpType()));
 		cohortDsd.addDimension("gender", ReportUtils.map(commonDimensions.gender()));
 		
 		String indParams = "startDate=${startDate},endDate=${endDate},location=${location}";
 		
 		// 4.0 Number of VP Reached
 		EmrReportingUtils.addRow(cohortDsd, "Number of FISHER FOLK Reached", "",
-		    ReportUtils.map(moh731bIndicators.kpsReachedWithinLastThreeMonths(FISHER_FOLK), indParams),
+		    ReportUtils.map(moh731bIndicators.kvpsReachedWithinLastThreeMonths(FISHER_FOLK), indParams),
 		    vpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of INMATE Reached", "",
-		    ReportUtils.map(moh731bIndicators.kpsReachedWithinLastThreeMonths(INMATE), indParams),
+		    ReportUtils.map(moh731bIndicators.kvpsReachedWithinLastThreeMonths(INMATE), indParams),
 		    vpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of DISCORDANT COUPLE Reached", "",
-		    ReportUtils.map(moh731bIndicators.kpsReachedWithinLastThreeMonths(DISCORDANT_COUPLE), indParams),
+		    ReportUtils.map(moh731bIndicators.kvpsReachedWithinLastThreeMonths(DISCORDANT_COUPLE), indParams),
 		    vpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of TRUCK DRIVER Reached", "",
-		    ReportUtils.map(moh731bIndicators.kpsReachedWithinLastThreeMonths(TRUCK_DRIVER), indParams),
+		    ReportUtils.map(moh731bIndicators.kvpsReachedWithinLastThreeMonths(TRUCK_DRIVER), indParams),
 		    vpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		
-		// 4.1 Number KP Reached with Defined Package
+		// 4.1 Number KVP Reached with Defined Package
 		EmrReportingUtils.addRow(cohortDsd, "Number of FISHER FOLK Reached With Defined Package", "",
-		    ReportUtils.map(moh731bIndicators.kpsReachedWithinLastThreeMonthsDefinedPackage(FISHER_FOLK), indParams),
+		    ReportUtils.map(moh731bIndicators.kvpsReachedWithinLastThreeMonthsDefinedPackage(FISHER_FOLK), indParams),
 		    vpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of INMATE Reached With Defined Package", "",
-		    ReportUtils.map(moh731bIndicators.kpsReachedWithinLastThreeMonthsDefinedPackage(INMATE), indParams),
+		    ReportUtils.map(moh731bIndicators.kvpsReachedWithinLastThreeMonthsDefinedPackage(INMATE), indParams),
 		    vpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of DISCORDANT COUPLE Reached With Defined Package", "",
-		    ReportUtils.map(moh731bIndicators.kpsReachedWithinLastThreeMonthsDefinedPackage(DISCORDANT_COUPLE), indParams),
+		    ReportUtils.map(moh731bIndicators.kvpsReachedWithinLastThreeMonthsDefinedPackage(DISCORDANT_COUPLE), indParams),
 		    vpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of TRUCK DRIVER Reached With Defined Package", "",
-		    ReportUtils.map(moh731bIndicators.kpsReachedWithinLastThreeMonthsDefinedPackage(TRUCK_DRIVER), indParams),
+		    ReportUtils.map(moh731bIndicators.kvpsReachedWithinLastThreeMonthsDefinedPackage(TRUCK_DRIVER), indParams),
 		    vpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		
-		// 4.2 Number KPS Receiving Peer Education
+		// 4.2 Number VkvpS Receiving Peer Education
 		EmrReportingUtils.addRow(cohortDsd, "Number of FISHER FOLK Receiving Peer Education", "",
-		    ReportUtils.map(moh731bIndicators.kpsReceivingPeerEducationWithinReportingPeriod(FISHER_FOLK), indParams),
+		    ReportUtils.map(moh731bIndicators.kvpsReceivingPeerEducationWithinReportingPeriod(FISHER_FOLK), indParams),
 		    vpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of INMATE Receiving Peer Education", "",
-		    ReportUtils.map(moh731bIndicators.kpsReceivingPeerEducationWithinReportingPeriod(INMATE), indParams),
+		    ReportUtils.map(moh731bIndicators.kvpsReceivingPeerEducationWithinReportingPeriod(INMATE), indParams),
 		    vpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
-		EmrReportingUtils.addRow(cohortDsd, "Number of DISCORDANT COUPLE Receiving Peer Education", "",
-		    ReportUtils.map(moh731bIndicators.kpsReceivingPeerEducationWithinReportingPeriod(DISCORDANT_COUPLE), indParams),
-		    vpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
+		EmrReportingUtils
+		        .addRow(cohortDsd, "Number of DISCORDANT COUPLE Receiving Peer Education", "", ReportUtils.map(
+		            moh731bIndicators.kvpsReceivingPeerEducationWithinReportingPeriod(DISCORDANT_COUPLE), indParams),
+		            vpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of TRUCK DRIVER Receiving Peer Education", "",
-		    ReportUtils.map(moh731bIndicators.kpsReceivingPeerEducationWithinReportingPeriod(TRUCK_DRIVER), indParams),
+		    ReportUtils.map(moh731bIndicators.kvpsReceivingPeerEducationWithinReportingPeriod(TRUCK_DRIVER), indParams),
 		    vpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		
 		// 4.3 Number of Receiving Commodities
@@ -181,7 +182,7 @@ public class ETLMOH731PlusBVulnerablePopReportBuilder extends AbstractReportBuil
 		    genderDisaggregation, Arrays.asList("01", "02"));
 		
 		/**
-		 * Number receiving needles & syringes: number of individuals in each KP type who received
+		 * Number receiving needles & syringes: number of individuals in each VP type who received
 		 * at least one needle & syringe, irrespective of service provision point.
 		 */
 		EmrReportingUtils.addRow(cohortDsd, "Number of FISHER FOLK Receiving Needles and Syringes", "",
@@ -198,7 +199,7 @@ public class ETLMOH731PlusBVulnerablePopReportBuilder extends AbstractReportBuil
 		    Arrays.asList("01", "02"));
 		
 		/**
-		 * Number receiving needles & syringes per need number of individuals in each KP type who
+		 * Number receiving needles & syringes per need number of individuals in each VP type who
 		 * received needles & syringes based on their requirements derived from estimated number of
 		 * injecting episodes per month.
 		 */
@@ -216,7 +217,7 @@ public class ETLMOH731PlusBVulnerablePopReportBuilder extends AbstractReportBuil
 		    genderDisaggregation, Arrays.asList("01", "02"));
 		
 		/**
-		 * Number receiving lubricants Number of individuals in each KP type who received lubricants
+		 * Number receiving lubricants Number of individuals in each VP type who received lubricants
 		 * based on their requirements.
 		 */
 		EmrReportingUtils.addRow(cohortDsd, "Number of FISHER FOLK Receiving Lubricants", "",
@@ -233,7 +234,7 @@ public class ETLMOH731PlusBVulnerablePopReportBuilder extends AbstractReportBuil
 		    Arrays.asList("01", "02"));
 		
 		/**
-		 * Number receiving lubricants per need Number of individuals in each KP type who received
+		 * Number receiving lubricants per need Number of individuals in each VP type who received
 		 * lubricants based on their requirements
 		 */
 		EmrReportingUtils.addRow(cohortDsd, "Number of FISHER FOLK Receiving Lubricants Per Need", "",
@@ -251,7 +252,7 @@ public class ETLMOH731PlusBVulnerablePopReportBuilder extends AbstractReportBuil
 		
 		//4.4 Violence Prevention and support
 		/**
-		 * Experience violence: number of people in each KP type who experienced sexual violence in
+		 * Experience violence: number of people in each VP type who experienced sexual violence in
 		 * the reporting period.
 		 */
 		EmrReportingUtils.addRow(cohortDsd, "Number of FISHER FOLK Experiencing Sexual Violence", "",
@@ -267,7 +268,7 @@ public class ETLMOH731PlusBVulnerablePopReportBuilder extends AbstractReportBuil
 		    ReportUtils.map(moh731bIndicators.experiencingSexualViolence(TRUCK_DRIVER), indParams), genderDisaggregation,
 		    Arrays.asList("01", "02"));
 		/**
-		 * programme when they experienced Physical violence in the reporting period by KP type
+		 * programme when they experienced Physical violence in the reporting period by VP type
 		 */
 		EmrReportingUtils.addRow(cohortDsd, "Number of FISHER FOLK Experiencing Physical Violence", "",
 		    ReportUtils.map(moh731bIndicators.experiencingPhysicalViolence(FISHER_FOLK), indParams), genderDisaggregation,
@@ -283,7 +284,7 @@ public class ETLMOH731PlusBVulnerablePopReportBuilder extends AbstractReportBuil
 		    Arrays.asList("01", "02"));
 		
 		/**
-		 * Number of KPs experiencing emotional or psychological violence
+		 * Number of VPs experiencing emotional or psychological violence
 		 */
 		EmrReportingUtils.addRow(cohortDsd, "Number of FISHER FOLK Experiencing Emotional/Psychological Violence", "",
 		    ReportUtils.map(moh731bIndicators.experiencingEmotionalOrPsychologicalViolence(FISHER_FOLK), indParams),
@@ -299,7 +300,7 @@ public class ETLMOH731PlusBVulnerablePopReportBuilder extends AbstractReportBuil
 		    genderDisaggregation, Arrays.asList("01", "02"));
 		
 		/**
-		 * Number of KPs who received violence support
+		 * Number of VPs who received violence support
 		 */
 		EmrReportingUtils.addRow(cohortDsd, "Number of FISHER FOLK Received Violence Support", "",
 		    ReportUtils.map(moh731bIndicators.receivedViolenceSupport(FISHER_FOLK), indParams), genderDisaggregation,
@@ -316,7 +317,7 @@ public class ETLMOH731PlusBVulnerablePopReportBuilder extends AbstractReportBuil
 		
 		// 4.5 STI screening
 		/**
-		 * Number screened_STI number of individuals in each KP type who were screened for STI in
+		 * Number screened_STI number of individuals in each VP type who were screened for STI in
 		 * the reporting period.
 		 */
 		EmrReportingUtils.addRow(cohortDsd, "Number of FISHER FOLK Screened for STI", "",
@@ -333,7 +334,7 @@ public class ETLMOH731PlusBVulnerablePopReportBuilder extends AbstractReportBuil
 		    Arrays.asList("01", "02"));
 		
 		/**
-		 * Diagnosed_STI: number of individuals in each KP type who were diagnosed with STI in the
+		 * Diagnosed_STI: number of individuals in each VP type who were diagnosed with STI in the
 		 * reporting period.
 		 */
 		EmrReportingUtils.addRow(cohortDsd, "Number of FISHER FOLK Diagnosed With STI", "",
@@ -351,7 +352,7 @@ public class ETLMOH731PlusBVulnerablePopReportBuilder extends AbstractReportBuil
 		    Arrays.asList("01", "02"));
 		
 		/**
-		 * Treated_STI: number of individuals in each KP type who were treated for STI in the
+		 * Treated_STI: number of individuals in each VP type who were treated for STI in the
 		 * reporting period.
 		 */
 		EmrReportingUtils.addRow(cohortDsd, "Number of FISHER FOLK Treated for STI", "",
@@ -369,7 +370,7 @@ public class ETLMOH731PlusBVulnerablePopReportBuilder extends AbstractReportBuil
 		
 		// 4.6 HCV
 		/**
-		 * Number screened_HCV: number of individuals in each KP type who were screened for HCV in
+		 * Number screened_HCV: number of individuals in each VP type who were screened for HCV in
 		 * the reporting period.
 		 */
 		EmrReportingUtils.addRow(cohortDsd, "Number of FISHER FOLK Screened For HCV", "",
@@ -386,7 +387,7 @@ public class ETLMOH731PlusBVulnerablePopReportBuilder extends AbstractReportBuil
 		    Arrays.asList("01", "02"));
 		
 		/**
-		 * Positive_HCV: number of individuals in each KP type who were diagnosed with HCV in the
+		 * Positive_HCV: number of individuals in each VP type who were diagnosed with HCV in the
 		 * reporting period.
 		 */
 		EmrReportingUtils.addRow(cohortDsd, "Number of FISHER FOLK Diagnosed with HCV", "",
@@ -403,7 +404,7 @@ public class ETLMOH731PlusBVulnerablePopReportBuilder extends AbstractReportBuil
 		    Arrays.asList("01", "02"));
 		
 		/**
-		 * Treated_HCV: number of individuals in each KP type who were treated for HCV in the
+		 * Treated_HCV: number of individuals in each VP type who were treated for HCV in the
 		 * reporting period.
 		 */
 		EmrReportingUtils.addRow(cohortDsd, "Number of FISHER FOLK Treated For HCV", "",
@@ -421,7 +422,7 @@ public class ETLMOH731PlusBVulnerablePopReportBuilder extends AbstractReportBuil
 		
 		//4.7 HBV (Hepatitis B)
 		/**
-		 * Number screened_HBV: number of individuals in each KP type who were screened for HBV in
+		 * Number screened_HBV: number of individuals in each VP type who were screened for HBV in
 		 * the reporting period.
 		 */
 		EmrReportingUtils.addRow(cohortDsd, "Number of FISHER FOLK Screened For HBV", "",
@@ -438,7 +439,7 @@ public class ETLMOH731PlusBVulnerablePopReportBuilder extends AbstractReportBuil
 		    Arrays.asList("01", "02"));
 		
 		/**
-		 * Negative_HBV_vaccinated: number of individuals in each KP type who were vaccinated for
+		 * Negative_HBV_vaccinated: number of individuals in each VP type who were vaccinated for
 		 * HBV in the reporting period
 		 */
 		EmrReportingUtils.addRow(cohortDsd, "Number of FISHER FOLK Vaccinated For HBV", "",
@@ -455,7 +456,7 @@ public class ETLMOH731PlusBVulnerablePopReportBuilder extends AbstractReportBuil
 		    Arrays.asList("01", "02"));
 		
 		/**
-		 * Positive_HBV: number of individuals in each KP type who were diagnosed with HBV in the
+		 * Positive_HBV: number of individuals in each VP type who were diagnosed with HBV in the
 		 * reporting period
 		 */
 		EmrReportingUtils.addRow(cohortDsd, "Number of FISHER FOLK Diagnosed with HBV", "",
@@ -472,7 +473,7 @@ public class ETLMOH731PlusBVulnerablePopReportBuilder extends AbstractReportBuil
 		    Arrays.asList("01", "02"));
 		
 		/**
-		 * Treated_HBV: number of individuals in each KP type who were treated for HBV in the
+		 * Treated_HBV: number of individuals in each VP type who were treated for HBV in the
 		 * reporting period.
 		 */
 		EmrReportingUtils.addRow(cohortDsd, "Number of FISHER FOLK Treated For HBV", "",
@@ -490,7 +491,7 @@ public class ETLMOH731PlusBVulnerablePopReportBuilder extends AbstractReportBuil
 		
 		// 4.8 TB KEY POPULATIONS
 		/**
-		 * Number screened: number of individuals in each KP type who were screened for TB in the
+		 * Number screened: number of individuals in each VP type who were screened for TB in the
 		 * reporting period.
 		 */
 		EmrReportingUtils.addRow(cohortDsd, "Number of FISHER FOLK Screened For TB", "",
@@ -507,7 +508,7 @@ public class ETLMOH731PlusBVulnerablePopReportBuilder extends AbstractReportBuil
 		    Arrays.asList("01", "02"));
 		
 		/**
-		 * Number diagnosed: number of individuals in each KP type who were diagnose with TB in the
+		 * Number diagnosed: number of individuals in each VP type who were diagnose with TB in the
 		 * reporting period.
 		 */
 		EmrReportingUtils.addRow(cohortDsd, "Number of HIV+ FISHER FOLK Diagnosed With TB", "",
@@ -524,7 +525,7 @@ public class ETLMOH731PlusBVulnerablePopReportBuilder extends AbstractReportBuil
 		    Arrays.asList("01", "02"));
 		
 		/**
-		 * Number Started on TB TX: number of individuals in each KP type who were found positive
+		 * Number Started on TB TX: number of individuals in each VP type who were found positive
 		 * with TB and started on treatment in the reporting period
 		 */
 		EmrReportingUtils.addRow(cohortDsd, "Number of FISHER FOLK Started on TB Tx", "",
@@ -541,7 +542,7 @@ public class ETLMOH731PlusBVulnerablePopReportBuilder extends AbstractReportBuil
 		    Arrays.asList("01", "02"));
 		
 		/**
-		 * Number of individuals in each KP type who were issued with TPT in the reporting period.
+		 * Number of individuals in each VP type who were issued with TPT in the reporting period.
 		 */
 		EmrReportingUtils.addRow(cohortDsd, "Number of FISHER FOLK Given TPT", "",
 		    ReportUtils.map(moh731bIndicators.givenTPT(FISHER_FOLK), indParams), genderDisaggregation,
@@ -556,7 +557,7 @@ public class ETLMOH731PlusBVulnerablePopReportBuilder extends AbstractReportBuil
 		    Arrays.asList("01", "02"));
 		
 		/**
-		 * This is the count of TB patients who are HIV Postive in each active KP type. Calculate
+		 * This is the count of TB patients who are HIV Postive in each active VP type. Calculate
 		 * and enter the sum of all those TB patients who were already HIV Postive at the time of TB
 		 * diagnosis and TB patients diagnosed with HIV during the reporting month
 		 */
@@ -574,7 +575,7 @@ public class ETLMOH731PlusBVulnerablePopReportBuilder extends AbstractReportBuil
 		    Arrays.asList("01", "02"));
 		
 		/**
-		 * TB clients on HAART: This is the count of TB patients who are receiving ART in each KP
+		 * TB clients on HAART: This is the count of TB patients who are receiving ART in each VP
 		 * type. Calculate and enter the sum of all those TB patients who were already on HAART at
 		 * the time of TB diagnosis and TB patients diagnosed with HIV who are started on HAART
 		 * during the reporting month.
@@ -594,7 +595,7 @@ public class ETLMOH731PlusBVulnerablePopReportBuilder extends AbstractReportBuil
 		
 		//4.9 PrEP
 		/**
-		 * Initiated PrEP: number of HIV negative persons in each KP type who have been started on
+		 * Initiated PrEP: number of HIV negative persons in each VP type who have been started on
 		 * PrEP during the reporting month after meeting the eligibility criteria for PrEP.
 		 */
 		EmrReportingUtils.addRow(cohortDsd, "Number of FISHER FOLK Initiated on PrEP", "",
@@ -611,7 +612,7 @@ public class ETLMOH731PlusBVulnerablePopReportBuilder extends AbstractReportBuil
 		    Arrays.asList("01", "02"));
 		
 		/**
-		 * Turning HIV positive while on PrEP: number of people on PrEP in each KP type who tested
+		 * Turning HIV positive while on PrEP: number of people on PrEP in each VP type who tested
 		 * positive for HIV in the reporting period.
 		 */
 		EmrReportingUtils.addRow(cohortDsd, "Number of FISHER FOLK Turning Positive While on PrEP", "",
@@ -628,7 +629,7 @@ public class ETLMOH731PlusBVulnerablePopReportBuilder extends AbstractReportBuil
 		    Arrays.asList("01", "02"));
 		
 		/**
-		 * Number of people on PrEP in each KP type who were diagonised with an STI in the reporting
+		 * Number of people on PrEP in each VP type who were diagonised with an STI in the reporting
 		 * period
 		 */
 		EmrReportingUtils.addRow(cohortDsd, "Number of FISHER FOLK on PrEP Diagnosed With STI", "",
@@ -690,58 +691,58 @@ public class ETLMOH731PlusBVulnerablePopReportBuilder extends AbstractReportBuil
 		// 5.1 PEP
 		// 5.2 HIV Testing KEY POPULATIONS
 		EmrReportingUtils.addRow(cohortDsd, "Number of FISHER FOLK Tested For HIV", "",
-		    ReportUtils.map(moh731bIndicators.kpsTestedForHIV(FISHER_FOLK), indParams), vpAgeGenderDisaggregation,
+		    ReportUtils.map(moh731bIndicators.kvpsTestedForHIV(FISHER_FOLK), indParams), vpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of INMATE Tested For HIV", "",
-		    ReportUtils.map(moh731bIndicators.kpsTestedForHIV(INMATE), indParams), vpAgeGenderDisaggregation,
+		    ReportUtils.map(moh731bIndicators.kvpsTestedForHIV(INMATE), indParams), vpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of DISCORDANT COUPLE Tested For HIV", "",
-		    ReportUtils.map(moh731bIndicators.kpsTestedForHIV(DISCORDANT_COUPLE), indParams), vpAgeGenderDisaggregation,
+		    ReportUtils.map(moh731bIndicators.kvpsTestedForHIV(DISCORDANT_COUPLE), indParams), vpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of TRUCK DRIVER Tested For HIV", "",
-		    ReportUtils.map(moh731bIndicators.kpsTestedForHIV(TRUCK_DRIVER), indParams), vpAgeGenderDisaggregation,
+		    ReportUtils.map(moh731bIndicators.kvpsTestedForHIV(TRUCK_DRIVER), indParams), vpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		
 		//5.3 Receiving HIV Positive Results Vulnerable Populations
 		EmrReportingUtils.addRow(cohortDsd, "Number of FISHER FOLK Receiving HIV+ Test Results", "",
-		    ReportUtils.map(moh731bIndicators.kpsReceivingHIVPosTestResults(FISHER_FOLK), indParams),
+		    ReportUtils.map(moh731bIndicators.kvpsReceivingHIVPosTestResults(FISHER_FOLK), indParams),
 		    vpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of INMATE Receiving HIV+ Test Results", "",
-		    ReportUtils.map(moh731bIndicators.kpsReceivingHIVPosTestResults(INMATE), indParams), vpAgeGenderDisaggregation,
+		    ReportUtils.map(moh731bIndicators.kvpsReceivingHIVPosTestResults(INMATE), indParams), vpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of DISCORDANT COUPLE Receiving HIV+ Test Results", "",
-		    ReportUtils.map(moh731bIndicators.kpsReceivingHIVPosTestResults(DISCORDANT_COUPLE), indParams),
+		    ReportUtils.map(moh731bIndicators.kvpsReceivingHIVPosTestResults(DISCORDANT_COUPLE), indParams),
 		    vpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of TRUCK DRIVER Receiving HIV+ Test Results", "",
-		    ReportUtils.map(moh731bIndicators.kpsReceivingHIVPosTestResults(TRUCK_DRIVER), indParams),
+		    ReportUtils.map(moh731bIndicators.kvpsReceivingHIVPosTestResults(TRUCK_DRIVER), indParams),
 		    vpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		
 		// 5.4 Total Number Reached Living with HIV (Onsite & Offsite)
 		EmrReportingUtils.addRow(cohortDsd, "Number of FISHER FOLK VPLHIV Reached", "",
-		    ReportUtils.map(moh731bIndicators.kplhivReached(FISHER_FOLK), indParams), vpAgeGenderDisaggregation,
+		    ReportUtils.map(moh731bIndicators.kvplhivReached(FISHER_FOLK), indParams), vpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of INMATE VPLHIV Reached", "",
-		    ReportUtils.map(moh731bIndicators.kplhivReached(INMATE), indParams), vpAgeGenderDisaggregation,
+		    ReportUtils.map(moh731bIndicators.kvplhivReached(INMATE), indParams), vpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of DISCORDANT COUPLE VPLHIV Reached", "",
-		    ReportUtils.map(moh731bIndicators.kplhivReached(DISCORDANT_COUPLE), indParams), vpAgeGenderDisaggregation,
+		    ReportUtils.map(moh731bIndicators.kvplhivReached(DISCORDANT_COUPLE), indParams), vpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of TRUCK DRIVER VPLHIV Reached", "",
-		    ReportUtils.map(moh731bIndicators.kplhivReached(TRUCK_DRIVER), indParams), vpAgeGenderDisaggregation,
+		    ReportUtils.map(moh731bIndicators.kvplhivReached(TRUCK_DRIVER), indParams), vpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		
 		// 5.5 Starting_ART KEY   (Both onsite & Offsite)
 		EmrReportingUtils.addRow(cohortDsd, "Number of FISHER FOLK VPLHIV Starting ART", "",
-		    ReportUtils.map(moh731bIndicators.kplhivStartingART(FISHER_FOLK), indParams), vpAgeGenderDisaggregation,
+		    ReportUtils.map(moh731bIndicators.totalKPLHIVStartingART(FISHER_FOLK), indParams), vpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of INMATE VPLHIV Starting ART", "",
-		    ReportUtils.map(moh731bIndicators.kplhivStartingART(INMATE), indParams), vpAgeGenderDisaggregation,
+		    ReportUtils.map(moh731bIndicators.totalKPLHIVStartingART(INMATE), indParams), vpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of DISCORDANT COUPLE VPLHIV Starting ART", "",
-		    ReportUtils.map(moh731bIndicators.kplhivStartingART(DISCORDANT_COUPLE), indParams), vpAgeGenderDisaggregation,
-		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
+		    ReportUtils.map(moh731bIndicators.totalKPLHIVStartingART(DISCORDANT_COUPLE), indParams),
+		    vpAgeGenderDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		EmrReportingUtils.addRow(cohortDsd, "Number of TRUCK DRIVER VPLHIV Starting ART", "",
-		    ReportUtils.map(moh731bIndicators.kplhivStartingART(TRUCK_DRIVER), indParams), vpAgeGenderDisaggregation,
+		    ReportUtils.map(moh731bIndicators.totalKPLHIVStartingART(TRUCK_DRIVER), indParams), vpAgeGenderDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		
 		// 5.6 Current_ART (BOTH ONSITE & offsite)
