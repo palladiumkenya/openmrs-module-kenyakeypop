@@ -35,16 +35,13 @@ public class ScreenedForAnalCancerResultsDataEvaluator implements PersonDataEval
 	public EvaluatedPersonData evaluate(PersonDataDefinition definition, EvaluationContext context)
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
-
-		String qry = "SELECT v.client_id,\n" +
-				"  IF(MID(MAX(CONCAT(v.visit_date, v.anal_cancer_screened)), 11) IN (1066, 1175), 'NA',\n" +
-				"     IF(MID(MAX(CONCAT(v.visit_date, v.anal_cancer_results)), 11) IN (162743, 1302),\n" +
-				"       IF(MID(MAX(CONCAT(v.visit_date, v.anal_cancer_results)), 11) = 162743, 'P', 'N'),\n" +
-				"       ''\n" +
-				"     )\n" +
-				"  ) AS anal_cancer_status\n" +
-				"FROM kenyaemr_etl.etl_clinical_visit v\n" +
-				"GROUP BY v.client_id;\n";
+		
+		String qry = "SELECT v.client_id,\n"
+		        + "  IF(MID(MAX(CONCAT(v.visit_date, v.anal_cancer_screened)), 11) IN (1066, 1175), 'NA',\n"
+		        + "     IF(MID(MAX(CONCAT(v.visit_date, v.anal_cancer_results)), 11) IN (162743, 1302),\n"
+		        + "       IF(MID(MAX(CONCAT(v.visit_date, v.anal_cancer_results)), 11) = 162743, 'P', 'N'),\n"
+		        + "       ''\n" + "     )\n" + "  ) AS anal_cancer_status\n" + "FROM kenyaemr_etl.etl_clinical_visit v\n"
+		        + "GROUP BY v.client_id;\n";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");
