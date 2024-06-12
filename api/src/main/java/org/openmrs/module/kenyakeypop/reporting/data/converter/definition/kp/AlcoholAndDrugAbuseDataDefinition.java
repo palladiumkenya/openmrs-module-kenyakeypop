@@ -18,21 +18,21 @@ import org.openmrs.module.reporting.evaluation.caching.Caching;
  * Serial No. Column
  */
 @Caching(strategy = ConfigurationPropertyCachingStrategy.class)
-public class ScreenedForAnalCancerResultsDataDefinition extends BaseDataDefinition implements PersonDataDefinition {
+public class AlcoholAndDrugAbuseDataDefinition extends BaseDataDefinition implements PersonDataDefinition {
 	
 	public static final long serialVersionUID = 1L;
 	
 	/**
 	 * Default Constructor
 	 */
-	public ScreenedForAnalCancerResultsDataDefinition() {
+	public AlcoholAndDrugAbuseDataDefinition() {
 		super();
 	}
 	
 	/**
 	 * Constructor to populate name only
 	 */
-	public ScreenedForAnalCancerResultsDataDefinition(String name) {
+	public AlcoholAndDrugAbuseDataDefinition(String name) {
 		super(name);
 	}
 	
