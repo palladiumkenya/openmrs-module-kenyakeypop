@@ -18,6 +18,7 @@ import org.openmrs.module.kenyacore.report.builder.Builds;
 //import org.openmrs.module.kenyakeypop.metadata.CommonMetadata;
 import org.openmrs.module.kenyacore.report.data.patient.definition.CalculationDataDefinition;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.art.InitialArtStartDateCalculation;
+import org.openmrs.module.kenyaemr.metadata.CommonMetadata;
 import org.openmrs.module.kenyaemr.reporting.calculation.converter.DateArtStartDateConverter;
 import org.openmrs.module.kenyakeypop.metadata.KpMetadata;
 import org.openmrs.module.kenyakeypop.reporting.cohort.definition.KPRegisterCohortDefinition;
@@ -82,13 +83,16 @@ public class KPRegisterReportBuilder extends AbstractHybridReportBuilder {
 	}
 	
 	protected PatientDataSetDefinition kpDataSetDefinition() {
-		
+		PatientIdentifierType nupi = MetadataUtils.existing(PatientIdentifierType.class,
+		    CommonMetadata._PatientIdentifierType.NATIONAL_UNIQUE_PATIENT_IDENTIFIER);
 		PatientDataSetDefinition dsd = new PatientDataSetDefinition("KPRegister");
 		PatientIdentifierType upn = MetadataUtils.existing(PatientIdentifierType.class,
 		    KpMetadata._PatientIdentifierType.KP_UNIQUE_PATIENT_NUMBER);
 		DataConverter identifierFormatter = new ObjectFormatter("{identifier}");
 		DataDefinition identifierDef = new ConvertedPatientDataDefinition("identifier", new PatientIdentifierDataDefinition(
 		        upn.getName(), upn), identifierFormatter);
+		DataDefinition nupiDef = new ConvertedPatientDataDefinition("identifier", new PatientIdentifierDataDefinition(
+		        nupi.getName(), nupi), identifierFormatter);
 		dsd.addSortCriteria("DOBAndAge", SortCriteria.SortDirection.DESC);
 		dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
@@ -148,6 +152,10 @@ public class KPRegisterReportBuilder extends AbstractHybridReportBuilder {
 		CompletedTBTreatmentDataDefinition completedTBTreatmentDataDefinition = new CompletedTBTreatmentDataDefinition();
 		completedTBTreatmentDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		ReceivedVLResultsDateDataDefinition receivedVLResultsDateDataDefinition = new ReceivedVLResultsDateDataDefinition();
+		AlcoholAndDrugAbuseDataDefinition alcoholAndDrugAbuseDataDefinition = new AlcoholAndDrugAbuseDataDefinition();
+		alcoholAndDrugAbuseDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		TypeOfViolenceDataDefinition typeOfViolenceDataDefinition = new TypeOfViolenceDataDefinition();
+		typeOfViolenceDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		receivedVLResultsDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		ScreenedForAnalCancerDataDefinition screenedForAnalCancerDataDefinition = new ScreenedForAnalCancerDataDefinition();
 		screenedForAnalCancerDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
@@ -159,6 +167,10 @@ public class KPRegisterReportBuilder extends AbstractHybridReportBuilder {
 		screenedForMentalHealthDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		ScreenedTBResultsDataDefinition screenedTBResultsDataDefinition = new ScreenedTBResultsDataDefinition();
 		screenedTBResultsDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		ScreenedForHepCConfirmatoryPCRDataDefinition screenedForHepCConfirmatoryPCRDataDefinition = new ScreenedForHepCConfirmatoryPCRDataDefinition();
+		screenedForHepCConfirmatoryPCRDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		ScreenedForHepBConfirmatoryResultsDataDefinition screenedForHepBConfirmatoryResultsDataDefinition = new ScreenedForHepBConfirmatoryResultsDataDefinition();
+		screenedForHepBConfirmatoryResultsDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		DataConverter nameFormatter = new ObjectFormatter("{familyName}, {givenName}");
 		DataDefinition nameDef = new ConvertedPersonDataDefinition("name", new PreferredNameDataDefinition(), nameFormatter);
 		dsd.addColumn("id", new PersonIdDataDefinition(), "");
@@ -170,6 +182,7 @@ public class KPRegisterReportBuilder extends AbstractHybridReportBuilder {
 		dsd.addColumn("Ward", new WardDataDefinition(), "");
 		dsd.addColumn("Phone Number", new KpPhoneNumberDataDefinition(), "");
 		dsd.addColumn("UIC number", identifierDef, "");
+		dsd.addColumn("NUPi", nupiDef, "");
 		dsd.addColumn("Key Population Type", new KeyPopTypeDataDefinition(), "");
 		dsd.addColumn("Date of Birth", new BirthdateDataDefinition(), "", new BirthdateConverter(DATE_FORMAT));
 		dsd.addColumn("Age", new AgeDataDefinition(), "");
@@ -201,6 +214,7 @@ public class KPRegisterReportBuilder extends AbstractHybridReportBuilder {
 		dsd.addColumn("Started on TB Treatment", startedTBTreatmentDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Completed TB Treatment", completedTBTreatmentDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("On IPT", new OnIPTDataDefinition(), "");
+		dsd.addColumn("Screened for Alcohol and Drug Abuse Results", alcoholAndDrugAbuseDataDefinition, "endDate=${endDate}");
 		
 		dsd.addColumn("Reported HIV Exposure within 72 Hours", reportedHIVExposureWithin72HRSDataDefinition,
 		    "endDate=${endDate}");
@@ -216,17 +230,22 @@ public class KPRegisterReportBuilder extends AbstractHybridReportBuilder {
 		dsd.addColumn("Needles And Syringes Distributed", new NeedlesAndSyringesDistributedDataDefinition(), "");
 		dsd.addColumn("Received Needles And Syringes as per Need", new ReceivedNeedlesAndSyringessAsPerNeedDataDefinition(),
 		    "");
+		dsd.addColumn("Type of Violence", typeOfViolenceDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Screened for HEP C", screenedForHepCDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Screened for HEP C Confirmatory PCR", screenedForHepCConfirmatoryPCRDataDefinition,
+		    "endDate=${endDate}");
 		dsd.addColumn("HEP C status", hEPCStatusDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Treated for HEP C", hEPCTreatedDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Screened for HEP B", screenedForHepBDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("HEP B status", hEPBStatusDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("On HEP B Treatment", onHEPBTreatmentDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("HEP B Vaccination", hEPBVaccinationDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Screened for HEP B Confirmatory Results", screenedForHepBConfirmatoryResultsDataDefinition,
+		    "endDate=${endDate}");
 		dsd.addColumn("Screened for STIs", screenedForSTIDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("ART Start Date",
-				new CalculationDataDefinition("ART Start Date", new InitialArtStartDateCalculation()), "",
-				new DateArtStartDateConverter());
+		    new CalculationDataDefinition("ART Start Date", new InitialArtStartDateCalculation()), "",
+		    new DateArtStartDateConverter());
 		dsd.addColumn("Screened for Anal Cancer", screenedForAnalCancerDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Screened for Anal Cancer Results", screenedForAnalCancerResultsDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Screened for Cervical Cancer", screenedForCervicalCancerDataDefinition, "endDate=${endDate}");

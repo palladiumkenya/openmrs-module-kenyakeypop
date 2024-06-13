@@ -10,7 +10,7 @@
 package org.openmrs.module.kenyakeypop.reporting.data.converter.definition.evaluator.kp;
 
 import org.openmrs.annotation.Handler;
-import org.openmrs.module.kenyakeypop.reporting.data.converter.definition.kp.ScreenedForCervicalCancerDataDefinition;
+import org.openmrs.module.kenyakeypop.reporting.data.converter.definition.kp.ScreenedForHepBConfirmatoryResultsDataDefinition;
 import org.openmrs.module.reporting.data.person.EvaluatedPersonData;
 import org.openmrs.module.reporting.data.person.definition.PersonDataDefinition;
 import org.openmrs.module.reporting.data.person.evaluator.PersonDataEvaluator;
@@ -26,8 +26,8 @@ import java.util.Map;
 /**
  * Evaluates a PersonDataDefinition
  */
-@Handler(supports = ScreenedForCervicalCancerDataDefinition.class, order = 50)
-public class ScreenedForCervicalCancerDataEvaluator implements PersonDataEvaluator {
+@Handler(supports = ScreenedForHepBConfirmatoryResultsDataDefinition.class, order = 50)
+public class ScreenedForHepBConfirmatoryResultsDataEvaluator implements PersonDataEvaluator {
 	
 	@Autowired
 	private EvaluationService evaluationService;
@@ -36,10 +36,8 @@ public class ScreenedForCervicalCancerDataEvaluator implements PersonDataEvaluat
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select v.client_id, (case mid(max(concat(v.visit_date,v.cerv_cancer_screened)),11)\n"
-		        + "                     when 1065 then 'Y' when 1066 then 'N' when 1175 then 'NA' else '' end) as cerv_cancer_screened\n"
-		        + "from kenyaemr_etl.etl_clinical_visit v where date(v.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "group by v.client_id;";
+		String qry = "select v.client_id,mid(max(concat(v.visit_date,v.hepatitisC_confirmatory_results)),11) as hepatitisC_confirmatory_results from kenyaemr_etl.etl_clinical_visit v\n"
+		        + "where date(v.visit_date) between date(:startDate) and date(:endDate)\n" + "group by v.client_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");
