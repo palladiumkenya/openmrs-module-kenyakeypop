@@ -175,8 +175,8 @@
     <!-- KP register-->
     <bean id="kenyaemr.kenyakeypop.kenyakeypop.report.cohort.analysis.kpRegister" class="org.openmrs.module.kenyacore.report.HybridReportDescriptor">
         <property name="targetUuid" value="601fb262-ec35-48bb-a1e8-44e0274a06d0" />
-        <property name="name" value="KVP Activity Register" />
-        <property name="description" value="KVP Activity Register" />
+        <property name="name" value="KP Cohort Register" />
+        <property name="description" value="KP Cohort Register" />
         <property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
         <property name="template" value="kenyakeypop:KP_Cohort_Register.xls" />
         <property name="repeatingSection" value="sheet:1,row:6,dataset:KPRegister" />
