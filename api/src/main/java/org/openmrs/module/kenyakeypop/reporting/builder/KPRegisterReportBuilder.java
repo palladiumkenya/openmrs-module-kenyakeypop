@@ -171,6 +171,10 @@ public class KPRegisterReportBuilder extends AbstractHybridReportBuilder {
 		screenedForHepCConfirmatoryPCRDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		ScreenedForHepBConfirmatoryResultsDataDefinition screenedForHepBConfirmatoryResultsDataDefinition = new ScreenedForHepBConfirmatoryResultsDataDefinition();
 		screenedForHepBConfirmatoryResultsDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		PrepStatusDataDefinition prepStatusDataDefinition = new PrepStatusDataDefinition();
+		prepStatusDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		TreatmentForCervicalCancerDataDefinition treatmentForCervicalCancerDataDefinition = new TreatmentForCervicalCancerDataDefinition();
+		treatmentForCervicalCancerDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		DataConverter nameFormatter = new ObjectFormatter("{familyName}, {givenName}");
 		DataDefinition nameDef = new ConvertedPersonDataDefinition("name", new PreferredNameDataDefinition(), nameFormatter);
 		dsd.addColumn("id", new PersonIdDataDefinition(), "");
@@ -215,6 +219,7 @@ public class KPRegisterReportBuilder extends AbstractHybridReportBuilder {
 		dsd.addColumn("Completed TB Treatment", completedTBTreatmentDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("On IPT", new OnIPTDataDefinition(), "");
 		dsd.addColumn("Screened for Alcohol and Drug Abuse Results", alcoholAndDrugAbuseDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("PreP Status", prepStatusDataDefinition, "endDate=${endDate}");
 		
 		dsd.addColumn("Reported HIV Exposure within 72 Hours", reportedHIVExposureWithin72HRSDataDefinition,
 		    "endDate=${endDate}");
@@ -249,6 +254,8 @@ public class KPRegisterReportBuilder extends AbstractHybridReportBuilder {
 		dsd.addColumn("Screened for Anal Cancer", screenedForAnalCancerDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Screened for Anal Cancer Results", screenedForAnalCancerResultsDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Screened for Cervical Cancer", screenedForCervicalCancerDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Cervical Cancer Treatment", treatmentForCervicalCancerDataDefinition,
+		    "endDate=${endDate}");
 		dsd.addColumn("Screened for Mental Health", screenedForMentalHealthDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Screened for TB Results", screenedTBResultsDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Received VL Results Date", receivedVLResultsDateDataDefinition, "endDate=${endDate}");
