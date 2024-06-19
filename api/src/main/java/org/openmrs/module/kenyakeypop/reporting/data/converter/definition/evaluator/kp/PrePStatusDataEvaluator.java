@@ -37,8 +37,8 @@ public class PrePStatusDataEvaluator implements PersonDataEvaluator {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
 		String qry = "select v.patient_id, (case mid(max(concat(v.visit_date,v.treatment_plan)),11)\n"
-		        + "  when 'Start' then 'I' when 'Discontinue' then 'D' when 'Restart' then 'RS' " +
-				"  when 'Switch' then 'RF'  when 'Continue' then 'RF' else 'NA' end) as treatment_plan\n"
+		        + "  when 'Start' then 'I' when 'Discontinue' then 'D' when 'Restart' then 'RS' "
+		        + "  when 'Switch' then 'RF'  when 'Continue' then 'RF' else 'NA' end) as treatment_plan\n"
 		        + "from kenyaemr_etl.etl_prep_followup v where date(v.visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "group by v.patient_id;";
 		
