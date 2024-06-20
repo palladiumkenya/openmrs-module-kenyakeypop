@@ -689,6 +689,34 @@ public class ETLMOH731PlusBVulnerablePopReportBuilder extends AbstractReportBuil
 		    Arrays.asList("01", "02"));
 		
 		// 5.1 PEP
+		// Number Exposed to HIV
+		EmrReportingUtils.addRow(cohortDsd, "Number of FISHER FOLK Exposed to HIV", "",
+		    ReportUtils.map(moh731bIndicators.kvpsExposedToHIV(FISHER_FOLK), indParams), genderDisaggregation,
+		    Arrays.asList("01", "02"));
+		EmrReportingUtils.addRow(cohortDsd, "Number of INMATE Exposed to HIV", "",
+		    ReportUtils.map(moh731bIndicators.kvpsExposedToHIV(INMATE), indParams), genderDisaggregation,
+		    Arrays.asList("01", "02"));
+		EmrReportingUtils.addRow(cohortDsd, "Number of DISCORDANT COUPLE Exposed to HIV", "",
+		    ReportUtils.map(moh731bIndicators.kvpsExposedToHIV(DISCORDANT_COUPLE), indParams), genderDisaggregation,
+		    Arrays.asList("01", "02"));
+		EmrReportingUtils.addRow(cohortDsd, "Number of TRUCK DRIVER Exposed to HIV", "",
+		    ReportUtils.map(moh731bIndicators.kvpsExposedToHIV(TRUCK_DRIVER), indParams), genderDisaggregation,
+		    Arrays.asList("01", "02"));
+		
+		//Number Receive PEP <72hrs
+		EmrReportingUtils.addRow(cohortDsd, "Number of FISHER FOLK Received PEP In Under 72 hrs", "",
+		    ReportUtils.map(moh731bIndicators.kvpsReceivedPEPWithin72hrs(FISHER_FOLK), indParams), genderDisaggregation,
+		    Arrays.asList("01", "02"));
+		EmrReportingUtils.addRow(cohortDsd, "Number of INMATE Received PEP In Under 72 hrs", "",
+		    ReportUtils.map(moh731bIndicators.kvpsReceivedPEPWithin72hrs(INMATE), indParams), genderDisaggregation,
+		    Arrays.asList("01", "02"));
+		EmrReportingUtils.addRow(cohortDsd, "Number of DISCORDANT COUPLE Received PEP In Under 72 hrs", "",
+		    ReportUtils.map(moh731bIndicators.kvpsReceivedPEPWithin72hrs(DISCORDANT_COUPLE), indParams),
+		    genderDisaggregation, Arrays.asList("01", "02"));
+		EmrReportingUtils.addRow(cohortDsd, "Number of TRUCK DRIVER Received PEP In Under 72 hrs", "",
+		    ReportUtils.map(moh731bIndicators.kvpsReceivedPEPWithin72hrs(TRUCK_DRIVER), indParams), genderDisaggregation,
+		    Arrays.asList("01", "02"));
+		
 		// 5.2 HIV Testing KEY POPULATIONS
 		EmrReportingUtils.addRow(cohortDsd, "Number of FISHER FOLK Tested For HIV", "",
 		    ReportUtils.map(moh731bIndicators.kvpsTestedForHIV(FISHER_FOLK), indParams), vpAgeGenderDisaggregation,

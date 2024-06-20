@@ -2316,6 +2316,55 @@ public class ETLMoh731PlusCohortLibrary {
 		return cd;
 	}
 	
+	public CohortDefinition exposedToHIV() {
+		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v where (find_in_set('Rape',v.exposure_type) > 0 or find_in_set('Condom burst',v.exposure_type) > 0) and date(v.visit_date) between date(:startDate) and date(:endDate);";
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("exposedToHIV");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("Number exposed to HIV");
+		return cd;
+	}
+	
+	public CohortDefinition kvpsExposedToHIV(String kvpType) {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Sub County", String.class));
+		cd.addSearch("kvpType",
+		    ReportUtils.map(kvpType(kvpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("exposedToHIV", ReportUtils.map(exposedToHIV(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kvpType AND exposedToHIV");
+		
+		return cd;
+	}
+	
+	public CohortDefinition receivedPEPWithin72Hrs() {
+		String sqlQuery = "select v.client_id from kenyaemr_etl.etl_clinical_visit v where v.initiated_pep_within_72hrs = 1065 and date(v.visit_date) between date(:startDate) and date(:endDate);";
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("receivedPEPWithin72Hrs");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("Received PEP within 72 hrs");
+		return cd;
+	}
+	
+	public CohortDefinition kvpsReceivedPEPWithin72hrs(String kvpType) {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Sub County", String.class));
+		cd.addSearch("kvpType",
+		    ReportUtils.map(kvpType(kvpType), "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("receivedPEPWithin72Hrs",
+		    ReportUtils.map(receivedPEPWithin72Hrs(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("kvpType AND receivedPEPWithin72Hrs");
+		
+		return cd;
+	}
+	
 	public CohortDefinition numberTestedPositiveInKVPVisit() {
 		String sqlQuery = "select v.client_id\n" + "from kenyaemr_etl.etl_clinical_visit v\n"
 		        + "where date(coalesce(v.hiv_test_date, v.visit_date)) between date(:startDate) and date(:endDate)\n"

@@ -853,6 +853,43 @@ public class ETLMOH731PlusReportBuilder extends AbstractReportBuilder {
 		cohortDsd.addColumn("Number of TRANSWOMAN Treated For Mental Health", "",
 		    ReportUtils.map(moh731bIndicators.treatedForMentalHealth(TRANSWOMAN), indParams), "");
 		
+		// 3.0 PEP KEY POPULATIONS
+		// Number Exposed to HIV
+		cohortDsd.addColumn("Number of FSW Exposed to HIV", "",
+		    ReportUtils.map(moh731bIndicators.kvpsExposedToHIV(FSW), indParams), "");
+		cohortDsd.addColumn("Number of MSM Exposed to HIV", "",
+		    ReportUtils.map(moh731bIndicators.kvpsExposedToHIV(MSM), indParams), "");
+		cohortDsd.addColumn("Number of MSW Exposed to HIV", "",
+		    ReportUtils.map(moh731bIndicators.kvpsExposedToHIV(MSW), indParams), "");
+		EmrReportingUtils.addRow(cohortDsd, "Number of PWID Exposed to HIV", "",
+		    ReportUtils.map(moh731bIndicators.kvpsExposedToHIV(PWID), indParams), genderDisaggregation,
+		    Arrays.asList("01", "02"));
+		EmrReportingUtils.addRow(cohortDsd, "Number of PWUD Exposed to HIV", "",
+		    ReportUtils.map(moh731bIndicators.kvpsExposedToHIV(PWUD), indParams), genderDisaggregation,
+		    Arrays.asList("01", "02"));
+		cohortDsd.addColumn("Number of TRANSMAN Exposed to HIV", "",
+		    ReportUtils.map(moh731bIndicators.kvpsExposedToHIV(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Number of TRANSWOMAN Exposed to HIV", "",
+		    ReportUtils.map(moh731bIndicators.kvpsExposedToHIV(TRANSWOMAN), indParams), "");
+		
+		//Number Receive PEP <72hrs
+		cohortDsd.addColumn("Number of FSW Received PEP In Under 72 hrs", "",
+		    ReportUtils.map(moh731bIndicators.kvpsReceivedPEPWithin72hrs(FSW), indParams), "");
+		cohortDsd.addColumn("Number of MSM Received PEP In Under 72 hrs", "",
+		    ReportUtils.map(moh731bIndicators.kvpsReceivedPEPWithin72hrs(MSM), indParams), "");
+		cohortDsd.addColumn("Number of MSW Received PEP In Under 72 hrs", "",
+		    ReportUtils.map(moh731bIndicators.kvpsReceivedPEPWithin72hrs(MSW), indParams), "");
+		EmrReportingUtils.addRow(cohortDsd, "Number of PWID Received PEP In Under 72 hrs", "",
+		    ReportUtils.map(moh731bIndicators.kvpsReceivedPEPWithin72hrs(PWID), indParams), genderDisaggregation,
+		    Arrays.asList("01", "02"));
+		EmrReportingUtils.addRow(cohortDsd, "Number of PWUD Received PEP In Under 72 hrs", "",
+		    ReportUtils.map(moh731bIndicators.kvpsReceivedPEPWithin72hrs(PWUD), indParams), genderDisaggregation,
+		    Arrays.asList("01", "02"));
+		cohortDsd.addColumn("Number of TRANSMAN Received PEP In Under 72 hrs", "",
+		    ReportUtils.map(moh731bIndicators.kvpsReceivedPEPWithin72hrs(TRANSMAN), indParams), "");
+		cohortDsd.addColumn("Number of TRANSWOMAN Received PEP In Under 72 hrs", "",
+		    ReportUtils.map(moh731bIndicators.kvpsReceivedPEPWithin72hrs(TRANSWOMAN), indParams), "");
+		
 		// 3.1 HIV Testing KEY POPULATIONS
 		EmrReportingUtils.addRow(cohortDsd, "Number of FSW Tested For HIV", "",
 		    ReportUtils.map(moh731bIndicators.kvpsTestedForHIV(FSW), indParams), kpAgeDisaggregation,
