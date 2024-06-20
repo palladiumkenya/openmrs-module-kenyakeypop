@@ -203,6 +203,16 @@ public class ETLMoh731PlusIndicatorLibrary {
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 	}
 	
+	public CohortIndicator kvpsExposedToHIV(String kvpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.kvpsExposedToHIV(kvpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
+	public CohortIndicator kvpsReceivedPEPWithin72hrs(String kvpType) {
+		return cohortIndicator("", ReportUtils.map(moh731BCohorts.kvpsReceivedPEPWithin72hrs(kvpType),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+	}
+	
 	public CohortIndicator kvpsReceivingHIVPosTestResults(String kvpType) {
 		return cohortIndicator("", ReportUtils.map(moh731BCohorts.kvpsReceivingHIVPosTestResults(kvpType),
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
