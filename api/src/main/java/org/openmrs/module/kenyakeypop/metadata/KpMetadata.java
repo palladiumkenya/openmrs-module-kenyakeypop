@@ -81,6 +81,8 @@ public class KpMetadata extends AbstractMetadataBundle {
 		
 		public static final String KP_IDENTIFIER = "b046eb36-7bd0-40cf-bdcb-c662bc0f00c3";
 		
+		public static final String LHIV_TRACKER_OFFSITE = "999792ec-8854-11e9-bc42-526af7764f64";
+		
 	}
 	
 	public static final class _Form {
@@ -122,6 +124,8 @@ public class KpMetadata extends AbstractMetadataBundle {
 		public static final String KP_PREP_TREATMENT_VERIFICATION_FORM = "5c64e61a-7fdc-11ea-bc55-0242ac130003";
 		
 		public static final String KP_GENDER_BASED_VIOLENCE_FORM = "94eec122-83a1-11ea-bc55-0242ac130003";
+		
+		public static final String LHIV_TRACKER_OFFSITE_FORM = "195b87e0-2b8a-45f1-8b1b-7c6a30a06691";
 		
 	}
 	
@@ -198,6 +202,7 @@ public class KpMetadata extends AbstractMetadataBundle {
 		    KpMetadata._EncounterType.KP_PREP_TREATMENT_VERIFICATION));
 		install(encounterType("KP Gender Based Violence", "Gender based violence", _EncounterType.KP_GENDER_BASED_VIOLENCE));
 		install(encounterType("KP Idenitfier", "Identifier", _EncounterType.KP_IDENTIFIER));
+		install(encounterType("KVP LHIV TRACKER OFFSITE", "KVP LHIV TRACKER OFFSITE ", _EncounterType.LHIV_TRACKER_OFFSITE));
 		// Installing forms
 		
 		install(form("Clinical Enrollment", null, KpMetadata._EncounterType.KP_CLIENT_ENROLLMENT, "1",
@@ -247,6 +252,10 @@ public class KpMetadata extends AbstractMetadataBundle {
 		
 		install(form("PrEP Treatment Verification", "prep treatment verification form",
 		    KpMetadata._EncounterType.KP_PREP_TREATMENT_VERIFICATION, "1", _Form.KP_PREP_TREATMENT_VERIFICATION_FORM));
+		
+		install(form("KVP LHIV TRACKER OFFSITE",
+		    "A form collecting data for KVP clients receiving ART status in a separate facility other than the DICE.",
+		    _EncounterType.LHIV_TRACKER_OFFSITE, "1", _Form.LHIV_TRACKER_OFFSITE_FORM));
 		
 		/*install(form("Gender Based Violence", "Gender Based Violence form", _EncounterType.KP_GENDER_BASED_VIOLENCE, "1",
 		    _Form.KP_GENDER_BASED_VIOLENCE_FORM));*/
