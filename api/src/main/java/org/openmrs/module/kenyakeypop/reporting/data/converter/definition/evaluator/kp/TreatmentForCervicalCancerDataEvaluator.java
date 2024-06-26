@@ -36,27 +36,25 @@ public class TreatmentForCervicalCancerDataEvaluator implements PersonDataEvalua
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "  SELECT patient_id,\n"
-		        + "  CASE\n"
-		        + "    WHEN cervical_cancer = 'Yes'\n"
-		        + "      AND hpv_screening_method = 'HPV'\n"
-		        + "      AND via_vili_screening_method = 'VIA'\n"
-		        + "      AND hpv_screening_result = 'Positive'\n"
-		        + "      AND via_vili_screening_result = 'Positive'\n"
-		        + "      AND colposcopy_treatment_method IS NOT NULL AND colposcopy_treatment_method <> ''\n"
-		        + "      THEN 'Y'\n"
-		        + "    WHEN cervical_cancer = 'Yes'\n"
-		        + "      AND hpv_screening_method = 'HPV'\n"
-		        + "      AND via_vili_screening_method = 'VIA'\n"
-		        + "      AND hpv_screening_result IN ('Positive', 'Negative')\n"
-		        + "      AND (colposcopy_treatment_method IS NULL OR colposcopy_treatment_method = '')\n"
-		        + "      THEN 'N'\n"
-		        + "    WHEN cervical_cancer = 'Yes'\n"
-		        + "      AND hpv_screening_method = 'HPV'\n"
-		        + "      AND via_vili_screening_method = 'VIA'\n"
-		        + "      THEN 'NA'\n"
-		        + "    ELSE 'NA'\n"
-		        + "  END AS result\n"
+		String qry = "  SELECT patient_id,\n"+
+				"CASE\n" +
+						"WHEN cervical_cancer = 'Yes'\n" +
+						"AND hpv_screening_method = 'HPV'\n" +
+						"AND via_vili_screening_method = 'VIA' THEN\n" +
+						"CASE\n" +
+						"WHEN hpv_screening_result = 'Positive'\n" +
+						"AND via_vili_screening_result = 'Positive'\n" +
+						"AND colposcopy_treatment_method IS NOT NULL\n" +
+						"AND colposcopy_treatment_method <> ''\n" +
+						"THEN 'Y'\n" +
+						"WHEN hpv_screening_result IN ('Positive', 'Negative')\n" +
+						"AND (colposcopy_treatment_method IS NULL\n" +
+						"OR colposcopy_treatment_method = '')\n" +
+						"THEN 'N'\n" +
+						"ELSE 'NA'\n" +
+						"END\n" +
+						"ELSE 'NA'\n" +
+						"END AS result"
 		        + "FROM kenyaemr_etl.etl_cervical_cancer_screening where date(visit_date) between date(:startDate) and date(:endDate)\n"
 		        + "group by patient_id;";
 		
