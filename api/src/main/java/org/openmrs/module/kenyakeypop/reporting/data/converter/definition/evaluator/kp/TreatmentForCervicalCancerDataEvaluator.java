@@ -10,7 +10,7 @@
 package org.openmrs.module.kenyakeypop.reporting.data.converter.definition.evaluator.kp;
 
 import org.openmrs.annotation.Handler;
-import org.openmrs.module.kenyakeypop.reporting.data.converter.definition.kp.ScreenedForHepCDataDefinition;
+import org.openmrs.module.kenyakeypop.reporting.data.converter.definition.kp.TreatmentForCervicalCancerDataDefinition;
 import org.openmrs.module.reporting.data.person.EvaluatedPersonData;
 import org.openmrs.module.reporting.data.person.definition.PersonDataDefinition;
 import org.openmrs.module.reporting.data.person.evaluator.PersonDataEvaluator;
@@ -26,8 +26,8 @@ import java.util.Map;
 /**
  * Evaluates a PersonDataDefinition
  */
-@Handler(supports = ScreenedForHepCDataDefinition.class, order = 50)
-public class ScreenedForHepCDataEvaluator implements PersonDataEvaluator {
+@Handler(supports = TreatmentForCervicalCancerDataDefinition.class, order = 50)
+public class TreatmentForCervicalCancerDataEvaluator implements PersonDataEvaluator {
 	
 	@Autowired
 	private EvaluationService evaluationService;
@@ -36,8 +36,27 @@ public class ScreenedForHepCDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select v.client_id,mid(max(concat(v.visit_date,v.hepatitisC_screened)),11) as hepatitisC_screened from kenyaemr_etl.etl_clinical_visit v\n"
-		        + "where date(v.visit_date) between date(:startDate) and date(:endDate)\n" + "group by v.client_id;";
+		String qry = "  SELECT patient_id,\n"+
+				"CASE\n" +
+						"WHEN cervical_cancer = 'Yes'\n" +
+						"AND hpv_screening_method = 'HPV'\n" +
+						"AND via_vili_screening_method = 'VIA' THEN\n" +
+						"CASE\n" +
+						"WHEN hpv_screening_result = 'Positive'\n" +
+						"AND via_vili_screening_result = 'Positive'\n" +
+						"AND colposcopy_treatment_method IS NOT NULL\n" +
+						"AND colposcopy_treatment_method <> ''\n" +
+						"THEN 'Y'\n" +
+						"WHEN hpv_screening_result IN ('Positive', 'Negative')\n" +
+						"AND (colposcopy_treatment_method IS NULL\n" +
+						"OR colposcopy_treatment_method = '')\n" +
+						"THEN 'N'\n" +
+						"ELSE 'NA'\n" +
+						"END\n" +
+						"ELSE 'NA'\n" +
+						"END AS result"
+		        + "FROM kenyaemr_etl.etl_cervical_cancer_screening where date(visit_date) between date(:startDate) and date(:endDate)\n"
+		        + "group by patient_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");
