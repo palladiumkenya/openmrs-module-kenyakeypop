@@ -81,6 +81,8 @@ public class KpMetadata extends AbstractMetadataBundle {
 		
 		public static final String KP_IDENTIFIER = "b046eb36-7bd0-40cf-bdcb-c662bc0f00c3";
 		
+		public static final String PLHIV_LINK_FACILITY_DOCUMENTATION_TRACKING = "b93ae0fc-9b57-4c79-936b-596553aab8b0";
+		
 	}
 	
 	public static final class _Form {
@@ -122,6 +124,8 @@ public class KpMetadata extends AbstractMetadataBundle {
 		public static final String KP_PREP_TREATMENT_VERIFICATION_FORM = "5c64e61a-7fdc-11ea-bc55-0242ac130003";
 		
 		public static final String KP_GENDER_BASED_VIOLENCE_FORM = "94eec122-83a1-11ea-bc55-0242ac130003";
+		
+		public static final String PLHIV_LINK_FACILITY_DOCUMENTATION_TRACKING_FORM = "052ede51-ddda-4f04-aa25-754ff40abf37";
 		
 	}
 	
@@ -198,6 +202,8 @@ public class KpMetadata extends AbstractMetadataBundle {
 		    KpMetadata._EncounterType.KP_PREP_TREATMENT_VERIFICATION));
 		install(encounterType("KP Gender Based Violence", "Gender based violence", _EncounterType.KP_GENDER_BASED_VIOLENCE));
 		install(encounterType("KP Idenitfier", "Identifier", _EncounterType.KP_IDENTIFIER));
+		install(encounterType("PLHIV Link Facility Documentation Tracking", "PLHIV Link Facility Documentation Tracking",
+		    _EncounterType.PLHIV_LINK_FACILITY_DOCUMENTATION_TRACKING));
 		// Installing forms
 		
 		install(form("Clinical Enrollment", null, KpMetadata._EncounterType.KP_CLIENT_ENROLLMENT, "1",
@@ -247,6 +253,9 @@ public class KpMetadata extends AbstractMetadataBundle {
 		
 		install(form("PrEP Treatment Verification", "prep treatment verification form",
 		    KpMetadata._EncounterType.KP_PREP_TREATMENT_VERIFICATION, "1", _Form.KP_PREP_TREATMENT_VERIFICATION_FORM));
+		install(form("PLHIV Link Facility Documentation Tracking", "PLHIV Link Facility Documentation Tracking",
+		    _EncounterType.PLHIV_LINK_FACILITY_DOCUMENTATION_TRACKING, "1",
+		    _Form.PLHIV_LINK_FACILITY_DOCUMENTATION_TRACKING_FORM));
 		
 		/*install(form("Gender Based Violence", "Gender Based Violence form", _EncounterType.KP_GENDER_BASED_VIOLENCE, "1",
 		    _Form.KP_GENDER_BASED_VIOLENCE_FORM));*/

@@ -63,6 +63,7 @@
                 <ref bean="kenyakeypop.form.kpTreatmentVerification" />
                 <ref bean="kenyakeypop.form.prepTreatmentVerification" />
                 <ref bean="kenyaemr.common.form.tbScreening" />
+                <ref bean="kenyakeypop.form.PLHIVLinkFacilityDocTracking" />
             </set>
         </property>
 
@@ -459,6 +460,21 @@
         <property name="htmlform" value="kenyakeypop:kpPrepVerificationForm.html" />
         <property name="order" value="201023" />
     </bean>
+    <!-- PLHIV Link Facility Documentation Tracking-->
+	<bean id="kenyakeypop.form.PLHIVLinkFacilityDocTracking" class="org.openmrs.module.kenyacore.form.FormDescriptor">
+		<property name="targetUuid" value="052ede51-ddda-4f04-aa25-754ff40abf37" />
+		<property name="apps">
+			<set>
+				<ref bean="kenyaemr.app.clinician" />
+				<ref bean="kenyaemr.app.chart" />
+                 <ref bean="kenyakeypop.app.keypopulation.provider" />
+			</set>
+		</property>
+        <property name="showIfCalculation" value="org.openmrs.module.kenyakeypop.calculation.library.kp.EligibleForKPPLHIVLinkTrackingForm" />
+		<property name="icon" value="kenyaui:forms/generic.png" />
+		<property name="htmlform" value="kenyakeypop:formDoesNotExistOn2x.html" />
+		<property name="order" value="201024" />
+	</bean>
 
     <!--  Gender Based Violence Form-->
     <!-- <bean id="kenyakeypop.form.genderBasedViolence" class="org.openmrs.module.kenyacore.form.FormDescriptor">
