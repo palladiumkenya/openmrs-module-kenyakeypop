@@ -10,7 +10,7 @@
 package org.openmrs.module.kenyakeypop.reporting.data.converter.definition.evaluator.kp;
 
 import org.openmrs.annotation.Handler;
-import org.openmrs.module.kenyakeypop.reporting.data.converter.definition.kp.ScreenedForHepCDataDefinition;
+import org.openmrs.module.kenyakeypop.reporting.data.converter.definition.kp.ScreenedTBResultsDataDefinition;
 import org.openmrs.module.reporting.data.person.EvaluatedPersonData;
 import org.openmrs.module.reporting.data.person.definition.PersonDataDefinition;
 import org.openmrs.module.reporting.data.person.evaluator.PersonDataEvaluator;
@@ -26,8 +26,8 @@ import java.util.Map;
 /**
  * Evaluates a PersonDataDefinition
  */
-@Handler(supports = ScreenedForHepCDataDefinition.class, order = 50)
-public class ScreenedForHepCDataEvaluator implements PersonDataEvaluator {
+@Handler(supports = ScreenedTBResultsDataDefinition.class, order = 50)
+public class ScreenedTBResultsDataEvaluator implements PersonDataEvaluator {
 	
 	@Autowired
 	private EvaluationService evaluationService;
@@ -36,8 +36,7 @@ public class ScreenedForHepCDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select v.client_id,mid(max(concat(v.visit_date,v.hepatitisC_screened)),11) as hepatitisC_screened from kenyaemr_etl.etl_clinical_visit v\n"
-		        + "where date(v.visit_date) between date(:startDate) and date(:endDate)\n" + "group by v.client_id;";
+		String qry = "select v.patient_id,(case when 1660 then 'No TB signs' when 142177 then 'Presumed TB' when 1662 then 'TB Confirmed' when 160737 then 'Not done' when 1111 then 'On TB Treatment' else '' end) as tb_screening from kenyaemr_etl.etl_hts_test v group by v.patient_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");

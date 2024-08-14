@@ -723,7 +723,7 @@ public class MonthlyReportCohortLibrary {
 		String sqlQuery = "select c.client_id from kenyaemr_etl.etl_contact c\n"
 		        + " left join (select b.patient_id,b.visit_date from kenyaemr_etl.etl_gbv_screening b where b.voided = 0\n"
 		        + " and b.ipv in (1065,158358,118688,152370,1582) group by b.patient_id having max(b.visit_date) between date(:startDate) and date(:endDate)) gb on c.client_id=gb.patient_id\n"
-		        + "  left join (select v.client_id,v.visit_date from kenyaemr_etl.etl_clinical_visit v where v.voided = 0 and v.violence_results in ('Harrasment','Assault','Illegal arrest','Verbal Abuse','Rape/Sexual assault','Discrimination')\n"
+		        + "  left join (select v.client_id,v.visit_date from kenyaemr_etl.etl_clinical_visit v where v.voided = 0 and (find_in_set('Rape/Sexual Assault',v.violence_results) > 0 or find_in_set('Physical',v.violence_results) > 0 or find_in_set('Emotional & Psychological',v.violence_results) > 0)\n"
 		        + "  group by v.client_id having max(v.visit_date) between date(:startDate) and date(:endDate)) vg on c.client_id=vg.client_id\n"
 		        + "where c.voided = 0 and c.key_population_type =  '" + kpType
 		        + "' and (gb.patient_id is not null or vg.client_id is not null)\n" + "group by c.client_id;";

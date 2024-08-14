@@ -10,7 +10,7 @@
 package org.openmrs.module.kenyakeypop.reporting.data.converter.definition.evaluator.kp;
 
 import org.openmrs.annotation.Handler;
-import org.openmrs.module.kenyakeypop.reporting.data.converter.definition.kp.ScreenedForHepCDataDefinition;
+import org.openmrs.module.kenyakeypop.reporting.data.converter.definition.kp.ScreenedForHepBConfirmatoryResultsDataDefinition;
 import org.openmrs.module.reporting.data.person.EvaluatedPersonData;
 import org.openmrs.module.reporting.data.person.definition.PersonDataDefinition;
 import org.openmrs.module.reporting.data.person.evaluator.PersonDataEvaluator;
@@ -26,8 +26,8 @@ import java.util.Map;
 /**
  * Evaluates a PersonDataDefinition
  */
-@Handler(supports = ScreenedForHepCDataDefinition.class, order = 50)
-public class ScreenedForHepCDataEvaluator implements PersonDataEvaluator {
+@Handler(supports = ScreenedForHepBConfirmatoryResultsDataDefinition.class, order = 50)
+public class ScreenedForHepBConfirmatoryResultsDataEvaluator implements PersonDataEvaluator {
 	
 	@Autowired
 	private EvaluationService evaluationService;
@@ -36,7 +36,7 @@ public class ScreenedForHepCDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select v.client_id,mid(max(concat(v.visit_date,v.hepatitisC_screened)),11) as hepatitisC_screened from kenyaemr_etl.etl_clinical_visit v\n"
+		String qry = "select v.client_id,mid(max(concat(v.visit_date,v.hepatitisC_confirmatory_results)),11) as hepatitisC_confirmatory_results from kenyaemr_etl.etl_clinical_visit v\n"
 		        + "where date(v.visit_date) between date(:startDate) and date(:endDate)\n" + "group by v.client_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();

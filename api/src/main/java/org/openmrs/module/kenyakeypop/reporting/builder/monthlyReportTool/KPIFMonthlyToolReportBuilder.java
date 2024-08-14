@@ -110,7 +110,7 @@ public class KPIFMonthlyToolReportBuilder extends AbstractReportBuilder {
 		cohortDsd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cohortDsd.addDimension("age", ReportUtils.map(commonDimensions.monthlyReportAgeGroups(), "onDate=${endDate}"));
 		cohortDsd.addDimension("gender", ReportUtils.map(commonDimensions.gender()));
-		cohortDsd.addDimension("KPType", ReportUtils.map(commonDimensions.kpType()));
+		cohortDsd.addDimension("kvpType", ReportUtils.map(commonDimensions.kvpType()));
 		
 		String indParams = "startDate=${startDate},endDate=${endDate}";
 		

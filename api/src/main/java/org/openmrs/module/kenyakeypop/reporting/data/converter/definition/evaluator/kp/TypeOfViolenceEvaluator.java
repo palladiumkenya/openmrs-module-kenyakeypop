@@ -10,7 +10,7 @@
 package org.openmrs.module.kenyakeypop.reporting.data.converter.definition.evaluator.kp;
 
 import org.openmrs.annotation.Handler;
-import org.openmrs.module.kenyakeypop.reporting.data.converter.definition.kp.ScreenedForHepCDataDefinition;
+import org.openmrs.module.kenyakeypop.reporting.data.converter.definition.kp.TypeOfViolenceDataDefinition;
 import org.openmrs.module.reporting.data.person.EvaluatedPersonData;
 import org.openmrs.module.reporting.data.person.definition.PersonDataDefinition;
 import org.openmrs.module.reporting.data.person.evaluator.PersonDataEvaluator;
@@ -26,8 +26,8 @@ import java.util.Map;
 /**
  * Evaluates a PersonDataDefinition
  */
-@Handler(supports = ScreenedForHepCDataDefinition.class, order = 50)
-public class ScreenedForHepCDataEvaluator implements PersonDataEvaluator {
+@Handler(supports = TypeOfViolenceDataDefinition.class, order = 50)
+public class TypeOfViolenceEvaluator implements PersonDataEvaluator {
 	
 	@Autowired
 	private EvaluationService evaluationService;
@@ -36,8 +36,8 @@ public class ScreenedForHepCDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select v.client_id,mid(max(concat(v.visit_date,v.hepatitisC_screened)),11) as hepatitisC_screened from kenyaemr_etl.etl_clinical_visit v\n"
-		        + "where date(v.visit_date) between date(:startDate) and date(:endDate)\n" + "group by v.client_id;";
+		String qry = "select v.patient_id, (case when 123007 then 'Verbal abuse' when 152292 then 'Assault/physical abuse' when 126312 then 'Discrimination' when 152370 then 'Rape/Sexual abuse' when 156761 then 'Illegal arrest' when 165161 then 'Harassment' when 5622 then 'Other' else '' end) as form_of_incident\n"
+		        + " from kenyaemr_etl.etl_violence_reporting v where date(v.visit_date) between date(:startDate) and date(:endDate) group by v.patient_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");

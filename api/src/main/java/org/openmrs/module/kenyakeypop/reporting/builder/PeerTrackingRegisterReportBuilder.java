@@ -58,7 +58,7 @@ public class PeerTrackingRegisterReportBuilder extends AbstractHybridReportBuild
 		CohortDefinition cd = new PeerTrackingRegisterCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setName("KP Peer Tracking Register");
+		cd.setName("KP Peer Tracking Register(Key and vulnerable population)");
 		return ReportUtils.map(cd, "startDate=${startDate},endDate=${endDate}");
 	}
 	
@@ -100,7 +100,7 @@ public class PeerTrackingRegisterReportBuilder extends AbstractHybridReportBuild
 		dsd.addColumn("Unique Identifier Code", identifierDef, "");
 		dsd.addColumn("Name", nameDef, "");
 		dsd.addColumn("Sex", new GenderDataDefinition(), "");
-		dsd.addColumn("Key Population Type", new KeyPopTypeDataDefinition(), "");
+		/*dsd.addColumn("Key Population Type", new KeyPopTypeDataDefinition(), "");*/
 		dsd.addColumn("Phone Number", new KpPhoneNumberDataDefinition(), "");
 		dsd.addColumn("Hotspot", new HotspotDataDefinition(), "");
 		dsd.addColumn("Hotspot Typology", new HotspotTypologyDataDefinition(), "");

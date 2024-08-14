@@ -10,7 +10,7 @@
 package org.openmrs.module.kenyakeypop.reporting.data.converter.definition.evaluator.kp;
 
 import org.openmrs.annotation.Handler;
-import org.openmrs.module.kenyakeypop.reporting.data.converter.definition.kp.ScreenedForHepCDataDefinition;
+import org.openmrs.module.kenyakeypop.reporting.data.converter.definition.kp.ScreenedForAnalCancerResultsDataDefinition;
 import org.openmrs.module.reporting.data.person.EvaluatedPersonData;
 import org.openmrs.module.reporting.data.person.definition.PersonDataDefinition;
 import org.openmrs.module.reporting.data.person.evaluator.PersonDataEvaluator;
@@ -26,8 +26,8 @@ import java.util.Map;
 /**
  * Evaluates a PersonDataDefinition
  */
-@Handler(supports = ScreenedForHepCDataDefinition.class, order = 50)
-public class ScreenedForHepCDataEvaluator implements PersonDataEvaluator {
+@Handler(supports = ScreenedForAnalCancerResultsDataDefinition.class, order = 50)
+public class ScreenedForAnalCancerResultsDataEvaluator implements PersonDataEvaluator {
 	
 	@Autowired
 	private EvaluationService evaluationService;
@@ -36,8 +36,12 @@ public class ScreenedForHepCDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select v.client_id,mid(max(concat(v.visit_date,v.hepatitisC_screened)),11) as hepatitisC_screened from kenyaemr_etl.etl_clinical_visit v\n"
-		        + "where date(v.visit_date) between date(:startDate) and date(:endDate)\n" + "group by v.client_id;";
+		String qry = "SELECT v.client_id,\n"
+		        + "  IF(MID(MAX(CONCAT(v.visit_date, v.anal_cancer_screened)), 11) IN (1066, 1175), 'NA',\n"
+		        + "     IF(MID(MAX(CONCAT(v.visit_date, v.anal_cancer_results)), 11) IN (162743, 1302),\n"
+		        + "       IF(MID(MAX(CONCAT(v.visit_date, v.anal_cancer_results)), 11) = 162743, 'P', 'N'),\n"
+		        + "       ''\n" + "     )\n" + "  ) AS anal_cancer_status\n" + "FROM kenyaemr_etl.etl_clinical_visit v\n"
+		        + "GROUP BY v.client_id;\n";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");

@@ -10,7 +10,6 @@
 package org.openmrs.module.kenyakeypop.reporting.data.converter.definition.evaluator.kp;
 
 import org.openmrs.annotation.Handler;
-import org.openmrs.module.kenyakeypop.reporting.data.converter.definition.kp.ProvidedWithClinicalServicesDataDefinition;
 import org.openmrs.module.kenyakeypop.reporting.data.converter.definition.kp.TestedForHIVDataDefinition;
 import org.openmrs.module.reporting.data.person.EvaluatedPersonData;
 import org.openmrs.module.reporting.data.person.definition.PersonDataDefinition;
