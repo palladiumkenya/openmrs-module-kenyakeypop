@@ -35,7 +35,7 @@ public class TreatmentForCervicalCancerDataEvaluator implements PersonDataEvalua
 	public EvaluatedPersonData evaluate(PersonDataDefinition definition, EvaluationContext context)
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
-
+		
 		String qry = "SELECT patient_id,\n" + "CASE\n" + "  WHEN cervical_cancer = 'Yes'\n"
 		        + "  AND hpv_screening_method = 'HPV'\n" + "  AND via_vili_screening_method = 'VIA' THEN\n" + "    CASE\n"
 		        + "      WHEN hpv_screening_result = 'Positive'\n" + "      AND via_vili_screening_result = 'Positive'\n"
