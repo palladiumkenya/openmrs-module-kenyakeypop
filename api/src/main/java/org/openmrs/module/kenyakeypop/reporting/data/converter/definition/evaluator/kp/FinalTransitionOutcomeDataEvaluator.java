@@ -36,19 +36,19 @@ public class FinalTransitionOutcomeDataEvaluator implements PersonDataEvaluator 
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select fup.encounter_id,\n"
-		        + "       case tr.true_status\n"
-		        + "           when 160432 then 'Dead'\n"
-		        + "           when 1693 then 'Receiving ART from another clinic'\n"
-		        + "           when 160037 then 'Still in care at CCC'\n"
-		        + "           when 5240 then 'Lost to follow up'\n"
-		        + "           when 164435 then 'Stopped treatment'\n"
-		        + "           when 142917 then 'Other'\n"
-		        + "       else '' end\n"
-		        + "               final_outcome\n"
+		String qry = "select fup.patient_id,\n"
+		        + "case tr.true_status\n"
+		        + "when 160432 then 'Dead'\n"
+		        + "when 1693 then 'Receiving ART from another clinic'\n"
+		        + "when 160037 then 'Still in care at CCC'\n"
+		        + "when 5240 then 'Lost to follow up'\n"
+		        + "when 164435 then 'Stopped treatment'\n"
+		        + "when 142917 then 'Other'\n"
+		        + "else '' end\n"
+		        + "final_outcome\n"
 		        + "from kenyaemr_etl.etl_patient_hiv_followup fup\n"
-		        + "         join kenyaemr_etl.etl_ccc_defaulter_tracing tr on tr.patient_id = fup.patient_id and fup.next_appointment_date = tr.missed_appointment_date and tr.true_status is not null and tr.true_status > 0\n"
-		        + "where next_appointment_date between date(:startDate) and date(:endDate)\n" + "group by fup.encounter_id;";
+		        + "join kenyaemr_etl.etl_ccc_defaulter_tracing tr on tr.patient_id = fup.patient_id and fup.next_appointment_date = tr.missed_appointment_date and tr.true_status is not null and tr.true_status > 0\n"
+		        + "where next_appointment_date between date(:startDate) and date(:endDate) group by fup.patient_id;";
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");
 		Date endDate = (Date) context.getParameterValue("endDate");

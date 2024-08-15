@@ -36,8 +36,15 @@ public class OppotunisticInfectiousDiagnosedDateDataEvaluator implements PersonD
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select v.client_id,mid(max(concat(v.visit_date,v.oi_diagnosis_date)),11) as oi_diagnosis_date  from kenyaemr_etl.etl_treatment_verification v\n"
-		        + "where date(v.visit_date) between date(:startDate) and date(:endDate) group by v.client_id;";
+		String qry = "SELECT  t1.client_id, COALESCE(t1.oi_diagnosis_date, t2.date_diagnosed) AS oi_diagnosis_date\n"
+		        + "FROM (\n"
+		        + "SELECT v.client_id, MID(MAX(CONCAT(v.visit_date, v.oi_diagnosis_date)), 11) AS oi_diagnosis_date\n"
+		        + "FROM kenyaemr_etl.etl_treatment_verification v\n"
+		        + "WHERE DATE(v.visit_date) between date(:startDate) and date(:endDate)) AS t1 LEFT JOIN (\n"
+		        + "SELECT d.patient_id, MID(MAX(CONCAT(d.visit_date, d.date_diagnosed)), 11) AS date_diagnosed\n"
+		        + "FROM kenyaemr_etl.etl_link_facility_tracking d\n"
+		        + "WHERE DATE(d.visit_date) between date(:startDate) and date(:endDate)\n"
+		        + ") AS t2 ON t1.client_id = t2.patient_id;";
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		Date startDate = (Date) context.getParameterValue("startDate");
 		Date endDate = (Date) context.getParameterValue("endDate");
