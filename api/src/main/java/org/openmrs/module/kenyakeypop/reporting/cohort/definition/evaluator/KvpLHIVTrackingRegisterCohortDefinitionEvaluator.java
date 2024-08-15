@@ -51,10 +51,22 @@ public class KvpLHIVTrackingRegisterCohortDefinitionEvaluator implements CohortD
 		
 		context = ObjectUtil.nvl(context, new EvaluationContext());
 		
-		String qry = "select v.client_id from kenyaemr_etl.etl_clinical_visit v\n"
-		        + "             inner join kenyaemr_etl.etl_contact c on c.client_id = v.client_id\n"
-		        + "  where c.voided = 0 and date(v.visit_date) BETWEEN DATE(:startDate) AND DATE(:endDate)\n"
-		        + "  group by c.client_id;\n";
+		String qry = "select \n" + "    v.client_id, \n"
+		        + "    mid(max(concat(tv.visit_date, tv.date_diagnosed_with_hiv)), 11) as date_diagnosed_with_hiv,\n"
+		        + "    mid(max(concat(lft.visit_date, lft.date_diagnosed)), 11) as date_diagnosed\n" + "from \n"
+		        + "    kenyaemr_etl.etl_clinical_visit v\n"
+		        + "    inner join kenyaemr_etl.etl_contact c on c.client_id = v.client_id\n" + "    left join (\n"
+		        + "        select \n" + "            v.client_id, \n" + "            v.visit_date, \n"
+		        + "            v.date_diagnosed_with_hiv \n" + "        from \n"
+		        + "            kenyaemr_etl.etl_treatment_verification v\n" + "        where \n"
+		        + "            date(v.visit_date) BETWEEN DATE(:startDate) AND DATE(:endDate)\n"
+		        + "    ) tv on v.client_id = tv.client_id\n" + "    left join (\n" + "        select \n"
+		        + "            v.patient_id as client_id, \n" + "            v.visit_date, \n"
+		        + "            v.date_diagnosed \n" + "        from \n"
+		        + "            kenyaemr_etl.etl_link_facility_tracking v\n" + "        where  \n"
+		        + "            date(v.visit_date) BETWEEN DATE(:startDate) AND DATE(:endDate)\n"
+		        + "    ) lft on v.client_id = lft.client_id\n" + "where  \n" + "    c.voided = 0 \n"
+		        + "    and (lft.client_id is not null or tv.client_id is not null)\n" + "group by \n" + "    v.client_id;";
 		SqlQueryBuilder builder = new SqlQueryBuilder();
 		builder.append(qry);
 		Date startDate = (Date) context.getParameterValue("startDate");

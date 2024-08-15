@@ -36,7 +36,7 @@ public class NameOfPeerEducatorDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = " select distinct r.person_a, (concat(d.given_name,' ',d.family_name))\n"
+		String qry = " select distinct r.person_a, (concat(d.given_name,' ',d.family_name)) as name \n"
 		        + "from kenyaemr_etl.etl_patient_demographics d\n"
 		        + " inner join openmrs.relationship r on d.patient_id = r.person_b\n"
 		        + "inner join openmrs.relationship_type t on r.relationship = t.relationship_type_id where r.relationship = 11  AND date(r.start_date) between date(:startDate) and date(:endDate) \n"
