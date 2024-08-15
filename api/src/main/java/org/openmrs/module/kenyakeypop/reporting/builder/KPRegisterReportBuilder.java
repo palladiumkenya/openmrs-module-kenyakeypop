@@ -61,7 +61,7 @@ public class KPRegisterReportBuilder extends AbstractHybridReportBuilder {
 		CohortDefinition cd = new KPRegisterCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setName("KP Cohort Register");
+		cd.setName("KVP Activity Register");
 		return ReportUtils.map(cd, "startDate=${startDate},endDate=${endDate}");
 	}
 	
