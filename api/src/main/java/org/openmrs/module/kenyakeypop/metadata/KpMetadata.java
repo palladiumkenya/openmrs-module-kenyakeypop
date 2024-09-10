@@ -287,7 +287,7 @@ public class KpMetadata extends AbstractMetadataBundle {
 		install(globalProperty(KpConstant.GP_IMPLEMENTING_PARTNER_CODE, "KP implementing partner code", partnerCodeValue));
 		install(globalProperty(KpConstant.GP_WARD_CODE, "KP ward code", wardCodeValue));
 		
-		install(program("Key Population", "Treatment for Key Population clients", kp_concept, _Program.KEY_POPULATION));
+		install(program("KVP", "Treatment for Key and Vulnerable Population clients", kp_concept, _Program.KEY_POPULATION));
 		
 	}
 }
