@@ -208,7 +208,7 @@ public class KpMetadata extends AbstractMetadataBundle {
 		
 		install(form("Clinical Enrollment", null, KpMetadata._EncounterType.KP_CLIENT_ENROLLMENT, "1",
 		    KpMetadata._Form.KP_CLIENT_ENROLLMENT));
-		install(form("Discontinuation", null, KpMetadata._EncounterType.KP_CLIENT_DISCONTINUATION, "1",
+		install(form("KVP Client Discontinuation", null, KpMetadata._EncounterType.KP_CLIENT_DISCONTINUATION, "1",
 		    KpMetadata._Form.KP_CLIENT_DISCONTINUATION));
 		install(form("Peer Tracking Form", null, KpMetadata._EncounterType.KP_CLIENT_TRACING, "1",
 		    KpMetadata._Form.KP_CLIENT_TRACING_FORM));
@@ -233,16 +233,16 @@ public class KpMetadata extends AbstractMetadataBundle {
 		install(form("Peer Overdose Reporting Tool", "Peer Overdose Reporting Tool",
 		    KpMetadata._EncounterType.KP_PEER_OVERDOSE_REPORTING, "1", KpMetadata._Form.KP_PEER_OVERDOSE_REPORTING_FORM));
 		
-		install(form("HCW Overdose Reporting Tool", "HCW Overdose Reporting Tool",
+		install(form("Opioid Overdose Encounter", "Opioid Overdose Reporting Tool",
 		    KpMetadata._EncounterType.KP_HCW_OVERDOSE_REPORTING, "1", KpMetadata._Form.KP_HCW_OVERDOSE_REPORTING_FORM));
 		
 		install(form("Contact form", null, KpMetadata._EncounterType.KP_CONTACT, "1", KpMetadata._Form.KP_CONTACT_FORM));
 		
-		install(form("Clinic visit form", "Form for adding referrals", KpMetadata._EncounterType.KP_CLINICAL_VISIT_FORM,
+		install(form("KVP Clinical Encounter form", "Form for adding referrals", KpMetadata._EncounterType.KP_CLINICAL_VISIT_FORM,
 		    "1", KpMetadata._Form.KP_CLINICAL_VISIT_FORM));
 		install(form("Peer Calendar", "Form for updating peer calendar", KpMetadata._EncounterType.KP_PEER_CALENDAR, "1",
 		    KpMetadata._Form.KP_PEER_CALENDAR_FORM));
-		install(form("KP Diagnosis", "Form for updating diagnosis", KpMetadata._EncounterType.KP_DIAGNOSIS, "1",
+		install(form("KVP Diagnosis", "Form for updating diagnosis", KpMetadata._EncounterType.KP_DIAGNOSIS, "1",
 		    KpMetadata._Form.KP_DIAGNOSIS_FORM));
 		
 		install(form("Referral", "Form for adding referrals", KpMetadata._EncounterType.KP_REFERRAL, "1",
