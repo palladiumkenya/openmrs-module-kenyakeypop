@@ -15,15 +15,7 @@ import org.openmrs.module.kenyacore.report.ReportDescriptor;
 import org.openmrs.module.kenyacore.report.ReportUtils;
 import org.openmrs.module.kenyacore.report.builder.AbstractHybridReportBuilder;
 import org.openmrs.module.kenyacore.report.builder.Builds;
-import org.openmrs.module.kenyacore.report.data.patient.definition.CalculationDataDefinition;
-import org.openmrs.module.kenyaemr.Dictionary;
-import org.openmrs.module.kenyaemr.calculation.library.hiv.art.ViralLoadResultCalculation;
-import org.openmrs.module.kenyaemr.reporting.calculation.converter.ObsDatetimeConverter;
-import org.openmrs.module.kenyaemr.reporting.calculation.converter.ObsValueNumericConverter;
-import org.openmrs.module.kenyaemr.reporting.calculation.converter.RDQASimpleObjectRegimenConverter;
 import org.openmrs.module.kenyaemr.reporting.data.converter.IdentifierConverter;
-import org.openmrs.module.kenyaemr.reporting.data.converter.definition.otz.ARTStartDateRegimenDataDefinition;
-import org.openmrs.module.kenyaemr.reporting.data.converter.definition.otz.CurrentARTRegimenDataDefinition;
 import org.openmrs.module.kenyaemr.reporting.library.ETLReports.MOH731Greencard.ETLMoh731GreenCardIndicatorLibrary;
 import org.openmrs.module.kenyakeypop.metadata.KpMetadata;
 import org.openmrs.module.kenyakeypop.reporting.cohort.definition.KvpLHIVTrackingRegisterCohortDefinition;
@@ -31,7 +23,6 @@ import org.openmrs.module.kenyakeypop.reporting.data.converter.definition.kp.*;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.common.SortCriteria;
-import org.openmrs.module.reporting.common.TimeQualifier;
 import org.openmrs.module.reporting.data.DataDefinition;
 import org.openmrs.module.reporting.data.converter.DataConverter;
 import org.openmrs.module.reporting.data.converter.DateConverter;
@@ -46,13 +37,9 @@ import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-
-//import org.openmrs.module.kenyakeypop.metadata.CommonMetadata;
-;
 
 @Component
 @Builds({ "kenyaemr.kenyakeypop.kenyakeypop.report.cohort.analysis.lhivTrackerOffsite" })
@@ -61,9 +48,6 @@ public class KvpLHIVTrackingRegisterReportBuilder extends AbstractHybridReportBu
 	public static final String DATE_FORMAT = "dd/MM/yyyy";
 	
 	public static final String DATE_FORMAT_YYMM = "MM/yyyy";
-	
-	@Autowired
-	private ETLMoh731GreenCardIndicatorLibrary moh731GreenCardIndicators;
 	
 	@Override
 	protected Mapped<CohortDefinition> buildCohort(HybridReportDescriptor descriptor, PatientDataSetDefinition dsd) {
@@ -110,9 +94,7 @@ public class KvpLHIVTrackingRegisterReportBuilder extends AbstractHybridReportBu
 		KeyPopTypeDataDefinition kpType = new KeyPopTypeDataDefinition();
 		kpType.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		kpType.addParameter(new Parameter("endDate", "End Date", Date.class));
-		FinalTransitionOutcomeDataDefinition finalTransitionOutcomeDataDefinition = new FinalTransitionOutcomeDataDefinition();
-		finalTransitionOutcomeDataDefinition.addParameter(new Parameter("startDate", "Start Date", Date.class));
-		finalTransitionOutcomeDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
 		CD4DateDataDefinition cd4DateDataDefinition = new CD4DateDataDefinition();
 		cd4DateDataDefinition.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd4DateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
@@ -164,9 +146,6 @@ public class KvpLHIVTrackingRegisterReportBuilder extends AbstractHybridReportBu
 		CommentDataDefinition commentDataDefinition = new CommentDataDefinition();
 		commentDataDefinition.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		commentDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
-		FinalTransitionOutcomeDateDataDefinition finalTransitionOutcomeDateDataDefinition = new FinalTransitionOutcomeDateDataDefinition();
-		finalTransitionOutcomeDateDataDefinition.addParameter(new Parameter("startDate", "Start Date", Date.class));
-		finalTransitionOutcomeDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		DataConverter identifierFormatter = new ObjectFormatter("{identifier}");
 		DataDefinition identifierDef = new ConvertedPatientDataDefinition("identifier", new PatientIdentifierDataDefinition(
 		        upn.getName(), upn), identifierFormatter);
@@ -181,8 +160,6 @@ public class KvpLHIVTrackingRegisterReportBuilder extends AbstractHybridReportBu
 		dsd.addColumn("CCC Number", CCCidentifierDef, "");
 		dsd.addColumn("Age", ageDef, "");
 		dsd.addColumn("Key Population Type", kpType, paramMapping);
-		dsd.addColumn("Client Status", finalTransitionOutcomeDataDefinition, paramMapping);
-		dsd.addColumn("Client Status Start Date", finalTransitionOutcomeDateDataDefinition, paramMapping);
 		dsd.addColumn("HIV Diagnosed Date", hivDiagnosedDateDataDefinition, paramMapping,
 		    new DateConverter(DATE_FORMAT_YYMM));
 		dsd.addColumn("Disclosed Status", disclosedStatusDataDefinition, paramMapping);
