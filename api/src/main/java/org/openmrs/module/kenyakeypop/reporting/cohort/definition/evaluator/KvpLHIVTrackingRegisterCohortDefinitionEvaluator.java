@@ -51,22 +51,18 @@ public class KvpLHIVTrackingRegisterCohortDefinitionEvaluator implements CohortD
 		
 		context = ObjectUtil.nvl(context, new EvaluationContext());
 		
-		String qry = "select \n" + "    v.client_id, \n"
-		        + "    mid(max(concat(tv.visit_date, tv.date_diagnosed_with_hiv)), 11) as date_diagnosed_with_hiv,\n"
-		        + "    mid(max(concat(lft.visit_date, lft.date_diagnosed)), 11) as date_diagnosed\n" + "from \n"
-		        + "    kenyaemr_etl.etl_clinical_visit v\n"
-		        + "    inner join kenyaemr_etl.etl_contact c on c.client_id = v.client_id\n" + "    left join (\n"
-		        + "        select \n" + "            v.client_id, \n" + "            v.visit_date, \n"
-		        + "            v.date_diagnosed_with_hiv \n" + "        from \n"
-		        + "            kenyaemr_etl.etl_treatment_verification v\n" + "        where \n"
-		        + "            date(v.visit_date) BETWEEN DATE(:startDate) AND DATE(:endDate)\n"
-		        + "    ) tv on v.client_id = tv.client_id\n" + "    left join (\n" + "        select \n"
-		        + "            v.patient_id as client_id, \n" + "            v.visit_date, \n"
-		        + "            v.date_diagnosed \n" + "        from \n"
-		        + "            kenyaemr_etl.etl_link_facility_tracking v\n" + "        where  \n"
-		        + "            date(v.visit_date) BETWEEN DATE(:startDate) AND DATE(:endDate)\n"
-		        + "    ) lft on v.client_id = lft.client_id\n" + "where  \n" + "    c.voided = 0 \n"
-		        + "    and (lft.client_id is not null or tv.client_id is not null)\n" + "group by \n" + "    v.client_id;";
+		String qry = "SELECT v.client_id,\n"
+		        + "COALESCE(MIN(tv.date_diagnosed_with_hiv), MIN(lft.date_diagnosed)) AS date_diagnosed\n"
+		        + "FROM kenyaemr_etl.etl_clinical_visit v\n"
+		        + "INNER JOIN kenyaemr_etl.etl_contact c ON c.client_id = v.client_id\n" + "LEFT JOIN (\n"
+		        + "  SELECT v.client_id, v.date_diagnosed_with_hiv\n" + "  FROM kenyaemr_etl.etl_treatment_verification v\n"
+		        + "  WHERE date(v.visit_date) BETWEEN DATE(:startDate) AND DATE(:endDate)\n"
+		        + ") tv ON v.client_id = tv.client_id\n" + "LEFT JOIN (\n"
+		        + "  SELECT v.patient_id AS client_id, v.date_diagnosed\n"
+		        + "  FROM kenyaemr_etl.etl_link_facility_tracking v\n"
+		        + "  WHERE date(v.visit_date) BETWEEN DATE(:startDate) AND DATE(:endDate)\n"
+		        + ") lft ON v.client_id = lft.client_id\n" + "WHERE c.voided = 0\n"
+		        + "  AND (lft.client_id IS NOT NULL OR tv.client_id IS NOT NULL)\n" + "GROUP BY v.client_id;";
 		SqlQueryBuilder builder = new SqlQueryBuilder();
 		builder.append(qry);
 		Date startDate = (Date) context.getParameterValue("startDate");
