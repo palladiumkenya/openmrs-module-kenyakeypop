@@ -82,7 +82,9 @@ public class KpMetadata extends AbstractMetadataBundle {
 		public static final String KP_IDENTIFIER = "b046eb36-7bd0-40cf-bdcb-c662bc0f00c3";
 		
 		public static final String PLHIV_LINK_FACILITY_DOCUMENTATION_TRACKING = "b93ae0fc-9b57-4c79-936b-596553aab8b0";
-		
+
+		public static final String LHIV_TRACKER_OFFSITE = "999792ec-8854-11e9-bc42-526af7764f64";
+
 	}
 	
 	public static final class _Form {
@@ -126,7 +128,9 @@ public class KpMetadata extends AbstractMetadataBundle {
 		public static final String KP_GENDER_BASED_VIOLENCE_FORM = "94eec122-83a1-11ea-bc55-0242ac130003";
 		
 		public static final String PLHIV_LINK_FACILITY_DOCUMENTATION_TRACKING_FORM = "052ede51-ddda-4f04-aa25-754ff40abf37";
-		
+
+		public static final String LHIV_TRACKER_OFFSITE_FORM = "195b87e0-2b8a-45f1-8b1b-7c6a30a06691";
+
 	}
 	
 	public static final class _PatientIdentifierType {
@@ -202,6 +206,7 @@ public class KpMetadata extends AbstractMetadataBundle {
 		    KpMetadata._EncounterType.KP_PREP_TREATMENT_VERIFICATION));
 		install(encounterType("KP Gender Based Violence", "Gender based violence", _EncounterType.KP_GENDER_BASED_VIOLENCE));
 		install(encounterType("KP Idenitfier", "Identifier", _EncounterType.KP_IDENTIFIER));
+		install(encounterType("KVP LHIV TRACKER OFFSITE", "KVP LHIV TRACKER OFFSITE ", _EncounterType.LHIV_TRACKER_OFFSITE));
 		install(encounterType("PLHIV Link Facility Documentation Tracking", "PLHIV Link Facility Documentation Tracking",
 		    _EncounterType.PLHIV_LINK_FACILITY_DOCUMENTATION_TRACKING));
 		// Installing forms
@@ -256,7 +261,11 @@ public class KpMetadata extends AbstractMetadataBundle {
 		install(form("PLHIV Link Facility Documentation Tracking", "PLHIV Link Facility Documentation Tracking",
 		    _EncounterType.PLHIV_LINK_FACILITY_DOCUMENTATION_TRACKING, "1",
 		    _Form.PLHIV_LINK_FACILITY_DOCUMENTATION_TRACKING_FORM));
-		
+
+		install(form("KVP LHIV TRACKER OFFSITE",
+		    "A form collecting data for KVP clients receiving ART status in a separate facility other than the DICE.",
+		    _EncounterType.LHIV_TRACKER_OFFSITE, "1", _Form.LHIV_TRACKER_OFFSITE_FORM));
+
 		/*install(form("Gender Based Violence", "Gender Based Violence form", _EncounterType.KP_GENDER_BASED_VIOLENCE, "1",
 		    _Form.KP_GENDER_BASED_VIOLENCE_FORM));*/
 		

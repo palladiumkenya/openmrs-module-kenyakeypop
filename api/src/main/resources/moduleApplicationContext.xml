@@ -62,7 +62,7 @@
                 <ref bean="kenyakeypop.form.kpDiagnosis" />
                 <ref bean="kenyakeypop.form.kpTreatmentVerification" />
                 <ref bean="kenyakeypop.form.prepTreatmentVerification" />
-                <!--<ref bean="kenyakeypop.form.genderBasedViolence" />-->
+                <!--                <ref bean="kenyakeypop.form.genderBasedViolence" />-->
                 <ref bean="kenyaemr.common.form.tbScreening" />
                 <ref bean="kenyakeypop.form.PLHIVLinkFacilityDocTracking" />
             </set>
@@ -85,6 +85,7 @@
                 <ref bean="kenyaemr.kenyakeypop.kenyakeypop.report.cohort.analysis.kpPeerTrackingRegister" />
                 <ref bean="kenyaemr.kenyakeypop.kenyakeypop.report.monthlyReport" />
                 <ref bean="kenyaemr.kenyakeypop.kenyakeypop.report.CurrentlyOnKpLineList" />
+                <ref bean="kenyaemr.kenyakeypop.kenyakeypop.report.cohort.analysis.lhivTrackerOffsite" />
             </set>
         </property>
 
@@ -136,7 +137,7 @@
     <!--  <bean id="kenyaemr.config.report" class="org.openmrs.module.kenyacore.report.ReportConfiguration">
           <property name="reports">
               <set>
-                  <ref bean="kenyaemr.kenyakeypop.kenyakeypop.report.moh731PlusKP" />
+                  <ref bean="kenyaemr.kenyakeypop.kenyakeypop.report.moh731b" />
                   <ref bean="kenyaemr.kenyakeypop.kenyakeypop.report.outreachWorkerSummary" />
                   <ref bean="kenyaemr.kenyakeypop.kenyakeypop.report.cohort.analysis.kpRegister" />
               </set>
@@ -225,6 +226,18 @@
                 <ref bean="kenyaemr.app.reports" />
             </set></property>
         <property name="template" value="kenyakeypop:KP-Monthly-Reporting-Tool.xls" />
+    </bean>
+
+    <bean id="kenyaemr.kenyakeypop.kenyakeypop.report.cohort.analysis.lhivTrackerOffsite" class="org.openmrs.module.kenyacore.report.HybridReportDescriptor">
+        <property name="targetUuid" value="195b87e0-2b8a-45f1-8b1b-7c6a30a06691" />
+        <property name="name" value="KVP LHIV Tracker Offsite Register" />
+        <property name="description" value="KVP LHIV Tracker Offsite Register" />
+        <property name="apps">
+            <set>
+                <ref bean="kenyaemr.app.reports" />
+            </set></property>
+        <property name="template" value="kenyakeypop:KVP_LHIV_Tracker_Offsite_Register.xls" />
+        <property name="repeatingSection" value="sheet:1,row:11,dataset:lHIVTrackerOffsite" />
     </bean>
 
     <bean id="kenyaemr.kenyakeypop.kenyakeypop.report.cohort.analysis.kpPeerTrackingRegister" class="org.openmrs.module.kenyacore.report.HybridReportDescriptor">
@@ -447,9 +460,9 @@
                 <ref bean="kenyakeypop.app.keypopulation.provider" />
             </set>
         </property>
-<!--
-        <property name="showIfCalculation" value="org.openmrs.module.kenyakeypop.calculation.library.kp.EligibleForClinicalServices" />
--->
+        <!--
+                <property name="showIfCalculation" value="org.openmrs.module.kenyakeypop.calculation.library.kp.EligibleForClinicalServices" />
+        -->
         <property name="showIfCalculation" value="org.openmrs.module.kenyakeypop.calculation.library.kp.EligibleForHivTreatmentForm" />
 
         <property name="icon" value="kenyaui:forms/generic.png" />
