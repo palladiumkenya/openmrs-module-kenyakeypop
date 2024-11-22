@@ -211,7 +211,7 @@ public class KpMetadata extends AbstractMetadataBundle {
 		    _EncounterType.PLHIV_LINK_FACILITY_DOCUMENTATION_TRACKING));
 		// Installing forms
 		
-		install(form("Clinical Enrollment", null, KpMetadata._EncounterType.KP_CLIENT_ENROLLMENT, "1",
+		install(form("KVP Clinical Enrollment", null, KpMetadata._EncounterType.KP_CLIENT_ENROLLMENT, "1",
 		    KpMetadata._Form.KP_CLIENT_ENROLLMENT));
 		install(form("Discontinuation", null, KpMetadata._EncounterType.KP_CLIENT_DISCONTINUATION, "1",
 		    KpMetadata._Form.KP_CLIENT_DISCONTINUATION));
@@ -247,13 +247,13 @@ public class KpMetadata extends AbstractMetadataBundle {
 		    "1", KpMetadata._Form.KP_CLINICAL_VISIT_FORM));
 		install(form("Peer Calendar", "Form for updating peer calendar", KpMetadata._EncounterType.KP_PEER_CALENDAR, "1",
 		    KpMetadata._Form.KP_PEER_CALENDAR_FORM));
-		install(form("KP Diagnosis", "Form for updating diagnosis", KpMetadata._EncounterType.KP_DIAGNOSIS, "1",
+		install(form("KVP Diagnosis", "Form for updating diagnosis", KpMetadata._EncounterType.KP_DIAGNOSIS, "1",
 		    KpMetadata._Form.KP_DIAGNOSIS_FORM));
 		
 		install(form("Referral", "Form for adding referrals", KpMetadata._EncounterType.KP_REFERRAL, "1",
 		    KpMetadata._Form.KP_REFERRAL_FORM));
 		
-		install(form("KP HIV Treatment Verification", "treatment verification form",
+		install(form("KVP HIV Treatment Verification", "treatment verification form",
 		    KpMetadata._EncounterType.KP_TREATMENT_VERIFICATION, "1", _Form.KP_TREATMENT_VERIFICATION_FORM));
 		
 		install(form("PrEP Treatment Verification", "prep treatment verification form",
