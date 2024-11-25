@@ -53,7 +53,7 @@
                 <ref bean="kenyakeypop.form.kpClientEnrollment" />
                 <ref bean="kenyakeypop.form.kpClientTracing"/>
                 <ref bean="kenyakeypop.form.kpSTITreatment"/>
-                <ref bean="kenyakeypop.form.kpPeerOverdoseReporting"/>
+                <!-- <ref bean="kenyakeypop.form.kpPeerOverdoseReporting"/> -->
                 <ref bean="kenyakeypop.form.kpHealthWorkerOverdoseReporting"/>
                 <ref bean="kenyakeypop.form.kpViolenceScreening"/>
                 <ref bean="kenyakeypop.form.kpReferral"/>

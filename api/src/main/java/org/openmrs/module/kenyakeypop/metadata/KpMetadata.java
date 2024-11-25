@@ -238,7 +238,7 @@ public class KpMetadata extends AbstractMetadataBundle {
 		install(form("Peer Overdose Reporting Tool", "Peer Overdose Reporting Tool",
 		    KpMetadata._EncounterType.KP_PEER_OVERDOSE_REPORTING, "1", KpMetadata._Form.KP_PEER_OVERDOSE_REPORTING_FORM));
 		
-		install(form("HCW Overdose Reporting Tool", "HCW Overdose Reporting Tool",
+		install(form("Opioid Overdose Reporting", "Opioid Overdose Reporting Tool",
 		    KpMetadata._EncounterType.KP_HCW_OVERDOSE_REPORTING, "1", KpMetadata._Form.KP_HCW_OVERDOSE_REPORTING_FORM));
 		
 		install(form("Contact form", null, KpMetadata._EncounterType.KP_CONTACT, "1", KpMetadata._Form.KP_CONTACT_FORM));
