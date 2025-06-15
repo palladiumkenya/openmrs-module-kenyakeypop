@@ -53,20 +53,18 @@ public class EligibleForClinicalServices extends BaseEmrCalculation {
 		PatientService patientService = Context.getPatientService();
 		FormService formService = Context.getFormService();
 		
-		StringBuilder sb = new StringBuilder();
 		boolean eligible = false;
 		
 		for (Integer ptId : cohort) {
 			Patient patient = patientService.getPatient(ptId);
-			Date lastKpenrollmentDate = null;
+			Date lastKpEnrollmentDate = null;
 			int priorityPopQuestionConcept = 138643;
 			
 			if (activeInKpProgram.contains(ptId)) {
 				List<PatientProgram> programs = service.getPatientPrograms(Context.getPatientService().getPatient(ptId),
 				    kPProgram, null, null, null, null, true);
 				if (programs.size() > 0) {
-					lastKpenrollmentDate = programs.get(programs.size() - 1).getDateEnrolled();
-					
+					lastKpEnrollmentDate = programs.get(programs.size() - 1).getDateEnrolled();					
 					Encounter lastClinicalContactEnc = EmrUtils.lastEncounter(patient,
 					    encounterService.getEncounterTypeByUuid(KpMetadata._EncounterType.KP_CONTACT),
 					    formService.getFormByUuid(KpMetadata._Form.KP_CONTACT_FORM));
@@ -83,9 +81,12 @@ public class EligibleForClinicalServices extends BaseEmrCalculation {
 					    encounterService.getEncounterTypeByUuid(KpMetadata._EncounterType.KP_CLIENT_ENROLLMENT),
 					    formService.getFormByUuid(KpMetadata._Form.KP_CLIENT_ENROLLMENT));
 					
-					if (lastClinicalEnrolmentEnc != null
-					        && lastKpenrollmentDate.before(lastClinicalEnrolmentEnc.getEncounterDatetime())) {
-						eligible = true;
+					if (lastClinicalEnrolmentEnc != null && lastKpEnrollmentDate != null) {
+						Date lastClinicalEnrolmentDate = lastClinicalEnrolmentEnc.getEncounterDatetime();
+						
+						if (lastKpEnrollmentDate.compareTo(lastClinicalEnrolmentDate) <= 0) {
+							eligible = true;
+						}
 					}
 				}
 			}
