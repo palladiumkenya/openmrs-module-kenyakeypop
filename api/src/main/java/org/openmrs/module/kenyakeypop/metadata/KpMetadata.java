@@ -30,8 +30,11 @@ import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.globalPr
 public class KpMetadata extends AbstractMetadataBundle {
 	
 	public static String kp_concept = "bf850dd4-309b-4cbd-9470-9d8110ea5550";
+	public static final String GP_ENABLE_FORMS = "kenyaemr.enable.forms";
 	
 	private AdministrationService administrationService;
+		
+
 	
 	public static final class _EncounterType {
 		
@@ -82,9 +85,9 @@ public class KpMetadata extends AbstractMetadataBundle {
 		public static final String KP_IDENTIFIER = "b046eb36-7bd0-40cf-bdcb-c662bc0f00c3";
 		
 		public static final String PLHIV_LINK_FACILITY_DOCUMENTATION_TRACKING = "b93ae0fc-9b57-4c79-936b-596553aab8b0";
-
+		
 		public static final String LHIV_TRACKER_OFFSITE = "999792ec-8854-11e9-bc42-526af7764f64";
-
+		
 	}
 	
 	public static final class _Form {
@@ -128,9 +131,9 @@ public class KpMetadata extends AbstractMetadataBundle {
 		public static final String KP_GENDER_BASED_VIOLENCE_FORM = "94eec122-83a1-11ea-bc55-0242ac130003";
 		
 		public static final String PLHIV_LINK_FACILITY_DOCUMENTATION_TRACKING_FORM = "052ede51-ddda-4f04-aa25-754ff40abf37";
-
+		
 		public static final String LHIV_TRACKER_OFFSITE_FORM = "195b87e0-2b8a-45f1-8b1b-7c6a30a06691";
-
+		
 	}
 	
 	public static final class _PatientIdentifierType {
@@ -209,65 +212,69 @@ public class KpMetadata extends AbstractMetadataBundle {
 		install(encounterType("KVP LHIV TRACKER OFFSITE", "KVP LHIV TRACKER OFFSITE ", _EncounterType.LHIV_TRACKER_OFFSITE));
 		install(encounterType("PLHIV Link Facility Documentation Tracking", "PLHIV Link Facility Documentation Tracking",
 		    _EncounterType.PLHIV_LINK_FACILITY_DOCUMENTATION_TRACKING));
-		// Installing forms
 		
-		install(form("KVP Clinical Enrollment", null, KpMetadata._EncounterType.KP_CLIENT_ENROLLMENT, "1",
-		    KpMetadata._Form.KP_CLIENT_ENROLLMENT));
-		install(form("Discontinuation", null, KpMetadata._EncounterType.KP_CLIENT_DISCONTINUATION, "1",
-		    KpMetadata._Form.KP_CLIENT_DISCONTINUATION));
-		install(form("Peer Tracking Form", null, KpMetadata._EncounterType.KP_CLIENT_TRACING, "1",
-		    KpMetadata._Form.KP_CLIENT_TRACING_FORM));
+		boolean installForms = shouldInstallForms();
 		
-		install(form("Alcohol Abuse Screening Tool(AUDIT)", null, KpMetadata._EncounterType.KP_ALCOHOL_SCREENING, "1",
-		    KpMetadata._Form.KP_ALCOHOL_SCREENING_FORM));
-		install(form("Appointment Creation", null, KpMetadata._EncounterType.KP_APPOINTMENT_CREATION, "1",
-		    KpMetadata._Form.KP_APPOINTMENT_CREATION_FORM));
-		
-		install(form("Diagnosis and Treatment Plan", null, KpMetadata._EncounterType.KP_DIAGNOSIS_TREATMENT, "1",
-		    KpMetadata._Form.KP_DIAGNOSIS_TREATMENT_FORM));
-		
-		install(form("STI Treatment", "Form for adding STI treatment details",
-		    KpMetadata._EncounterType.KP_STI_DETAILED_TREATMENT, "1", KpMetadata._Form.KP_STI_TREATMENT_FORM));
-		
-		install(form("Violence Reporting Form", "Violence Reporting tool", KpMetadata._EncounterType.KP_VIOLENCE_SCREENING,
-		    "1", KpMetadata._Form.KP_VIOLENCE_SCREENING_FORM));
-		
-		install(form("Depression Screening PHQ-9", null, KpMetadata._EncounterType.KP_DEPRESSION_SCREENING, "1",
-		    KpMetadata._Form.KP_DEPRESSION_SCREENING_FORM));
-		
-		install(form("Peer Overdose Reporting Tool", "Peer Overdose Reporting Tool",
-		    KpMetadata._EncounterType.KP_PEER_OVERDOSE_REPORTING, "1", KpMetadata._Form.KP_PEER_OVERDOSE_REPORTING_FORM));
-		
-		install(form("Opioid Overdose Reporting", "Opioid Overdose Reporting Tool",
-		    KpMetadata._EncounterType.KP_HCW_OVERDOSE_REPORTING, "1", KpMetadata._Form.KP_HCW_OVERDOSE_REPORTING_FORM));
-		
-		install(form("Contact form", null, KpMetadata._EncounterType.KP_CONTACT, "1", KpMetadata._Form.KP_CONTACT_FORM));
-		
-		install(form("Clinic visit form", "Form for adding referrals", KpMetadata._EncounterType.KP_CLINICAL_VISIT_FORM,
-		    "1", KpMetadata._Form.KP_CLINICAL_VISIT_FORM));
-		install(form("Peer Calendar", "Form for updating peer calendar", KpMetadata._EncounterType.KP_PEER_CALENDAR, "1",
-		    KpMetadata._Form.KP_PEER_CALENDAR_FORM));
-		install(form("KVP Diagnosis", "Form for updating diagnosis", KpMetadata._EncounterType.KP_DIAGNOSIS, "1",
-		    KpMetadata._Form.KP_DIAGNOSIS_FORM));
-		
-		install(form("Referral", "Form for adding referrals", KpMetadata._EncounterType.KP_REFERRAL, "1",
-		    KpMetadata._Form.KP_REFERRAL_FORM));
-		
-		install(form("KVP HIV Treatment Verification", "treatment verification form",
-		    KpMetadata._EncounterType.KP_TREATMENT_VERIFICATION, "1", _Form.KP_TREATMENT_VERIFICATION_FORM));
-		
-		install(form("PrEP Treatment Verification", "prep treatment verification form",
-		    KpMetadata._EncounterType.KP_PREP_TREATMENT_VERIFICATION, "1", _Form.KP_PREP_TREATMENT_VERIFICATION_FORM));
-		install(form("PLHIV Link Facility Documentation Tracking", "PLHIV Link Facility Documentation Tracking",
-		    _EncounterType.PLHIV_LINK_FACILITY_DOCUMENTATION_TRACKING, "1",
-		    _Form.PLHIV_LINK_FACILITY_DOCUMENTATION_TRACKING_FORM));
+		if (installForms) {
 
-		install(form("KVP LHIV TRACKER OFFSITE",
-		    "A form collecting data for KVP clients receiving ART status in a separate facility other than the DICE.",
-		    _EncounterType.LHIV_TRACKER_OFFSITE, "1", _Form.LHIV_TRACKER_OFFSITE_FORM));
-
-		/*install(form("Gender Based Violence", "Gender Based Violence form", _EncounterType.KP_GENDER_BASED_VIOLENCE, "1",
-		    _Form.KP_GENDER_BASED_VIOLENCE_FORM));*/
+			install(form("KVP Clinical Enrollment", null, KpMetadata._EncounterType.KP_CLIENT_ENROLLMENT, "1",
+				KpMetadata._Form.KP_CLIENT_ENROLLMENT));
+			install(form("Discontinuation", null, KpMetadata._EncounterType.KP_CLIENT_DISCONTINUATION, "1",
+				KpMetadata._Form.KP_CLIENT_DISCONTINUATION));
+			install(form("Peer Tracking Form", null, KpMetadata._EncounterType.KP_CLIENT_TRACING, "1",
+				KpMetadata._Form.KP_CLIENT_TRACING_FORM));
+			
+			install(form("Alcohol Abuse Screening Tool(AUDIT)", null, KpMetadata._EncounterType.KP_ALCOHOL_SCREENING, "1",
+				KpMetadata._Form.KP_ALCOHOL_SCREENING_FORM));
+			install(form("Appointment Creation", null, KpMetadata._EncounterType.KP_APPOINTMENT_CREATION, "1",
+				KpMetadata._Form.KP_APPOINTMENT_CREATION_FORM));
+			
+			install(form("Diagnosis and Treatment Plan", null, KpMetadata._EncounterType.KP_DIAGNOSIS_TREATMENT, "1",
+				KpMetadata._Form.KP_DIAGNOSIS_TREATMENT_FORM));
+			
+			install(form("STI Treatment", "Form for adding STI treatment details",
+				KpMetadata._EncounterType.KP_STI_DETAILED_TREATMENT, "1", KpMetadata._Form.KP_STI_TREATMENT_FORM));
+			
+			install(form("Violence Reporting Form", "Violence Reporting tool", KpMetadata._EncounterType.KP_VIOLENCE_SCREENING,
+				"1", KpMetadata._Form.KP_VIOLENCE_SCREENING_FORM));
+			
+			install(form("Depression Screening PHQ-9", null, KpMetadata._EncounterType.KP_DEPRESSION_SCREENING, "1",
+				KpMetadata._Form.KP_DEPRESSION_SCREENING_FORM));
+			
+			install(form("Peer Overdose Reporting Tool", "Peer Overdose Reporting Tool",
+				KpMetadata._EncounterType.KP_PEER_OVERDOSE_REPORTING, "1", KpMetadata._Form.KP_PEER_OVERDOSE_REPORTING_FORM));
+			
+			install(form("Opioid Overdose Reporting", "Opioid Overdose Reporting Tool",
+				KpMetadata._EncounterType.KP_HCW_OVERDOSE_REPORTING, "1", KpMetadata._Form.KP_HCW_OVERDOSE_REPORTING_FORM));
+			
+			install(form("Contact form", null, KpMetadata._EncounterType.KP_CONTACT, "1", KpMetadata._Form.KP_CONTACT_FORM));
+			
+			install(form("Clinic visit form", "Form for adding referrals", KpMetadata._EncounterType.KP_CLINICAL_VISIT_FORM,
+				"1", KpMetadata._Form.KP_CLINICAL_VISIT_FORM));
+			install(form("Peer Calendar", "Form for updating peer calendar", KpMetadata._EncounterType.KP_PEER_CALENDAR, "1",
+				KpMetadata._Form.KP_PEER_CALENDAR_FORM));
+			install(form("KVP Diagnosis", "Form for updating diagnosis", KpMetadata._EncounterType.KP_DIAGNOSIS, "1",
+				KpMetadata._Form.KP_DIAGNOSIS_FORM));
+			
+			install(form("Referral", "Form for adding referrals", KpMetadata._EncounterType.KP_REFERRAL, "1",
+				KpMetadata._Form.KP_REFERRAL_FORM));
+			
+			install(form("KVP HIV Treatment Verification", "treatment verification form",
+				KpMetadata._EncounterType.KP_TREATMENT_VERIFICATION, "1", _Form.KP_TREATMENT_VERIFICATION_FORM));
+			
+			install(form("PrEP Treatment Verification", "prep treatment verification form",
+				KpMetadata._EncounterType.KP_PREP_TREATMENT_VERIFICATION, "1", _Form.KP_PREP_TREATMENT_VERIFICATION_FORM));
+			install(form("PLHIV Link Facility Documentation Tracking", "PLHIV Link Facility Documentation Tracking",
+				_EncounterType.PLHIV_LINK_FACILITY_DOCUMENTATION_TRACKING, "1",
+				_Form.PLHIV_LINK_FACILITY_DOCUMENTATION_TRACKING_FORM));
+			
+			install(form("KVP LHIV TRACKER OFFSITE",
+				"A form collecting data for KVP clients receiving ART status in a separate facility other than the DICE.",
+				_EncounterType.LHIV_TRACKER_OFFSITE, "1", _Form.LHIV_TRACKER_OFFSITE_FORM));
+			
+			/*install(form("Gender Based Violence", "Gender Based Violence form", _EncounterType.KP_GENDER_BASED_VIOLENCE, "1",
+				_Form.KP_GENDER_BASED_VIOLENCE_FORM));*/
+		}
 		
 		install(relationshipType("Peer-educator", "Peer", "One that follows up peers",
 		    KpMetadata._RelationshipType.PEER_EDUCATOR));
@@ -299,4 +306,15 @@ public class KpMetadata extends AbstractMetadataBundle {
 		install(program("KVP", "Treatment for Key and Vulnerable Population clients", kp_concept, _Program.KEY_POPULATION));
 		
 	}
+	private boolean shouldInstallForms() {
+		AdministrationService administrationService = Context.getAdministrationService();
+		org.openmrs.GlobalProperty gp = administrationService.getGlobalPropertyObject(GP_ENABLE_FORMS);
+		if (gp == null || gp.getPropertyValue() == null) {
+			// Default to true if property doesn't exist (backward compatibility)
+			return true;
+		}
+		return gp.getPropertyValue().trim().equalsIgnoreCase("true");
+	}
+
+
 }
