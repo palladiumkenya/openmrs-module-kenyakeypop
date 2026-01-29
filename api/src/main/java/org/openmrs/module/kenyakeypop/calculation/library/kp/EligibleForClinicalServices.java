@@ -64,7 +64,7 @@ public class EligibleForClinicalServices extends BaseEmrCalculation {
 				List<PatientProgram> programs = service.getPatientPrograms(Context.getPatientService().getPatient(ptId),
 				    kPProgram, null, null, null, null, true);
 				if (programs.size() > 0) {
-					lastKpEnrollmentDate = programs.get(programs.size() - 1).getDateEnrolled();					
+					lastKpEnrollmentDate = programs.get(programs.size() - 1).getDateEnrolled();
 					Encounter lastClinicalContactEnc = EmrUtils.lastEncounter(patient,
 					    encounterService.getEncounterTypeByUuid(KpMetadata._EncounterType.KP_CONTACT),
 					    formService.getFormByUuid(KpMetadata._Form.KP_CONTACT_FORM));
